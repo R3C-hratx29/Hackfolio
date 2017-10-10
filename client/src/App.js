@@ -15,11 +15,14 @@ class App extends Component {
       .then(result => {
         this.setState({
           name: result.name
-        });
+        })
       });
   }
 
-  render() {
+  render() 
+  
+  
+  {
     return (
       <div className="App">
         <div className="App-header">
