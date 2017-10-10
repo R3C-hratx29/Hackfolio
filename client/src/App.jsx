@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { Component } from 'react';
 import './App.scss';
 
@@ -12,17 +13,14 @@ class App extends Component {
   componentWillMount() {
     fetch('/api/hello')
       .then(res => res.json())
-      .then(result => {
+      .then((result) => {
         this.setState({
-          name: result.name
-        })
+          name: result.name,
+        });
       });
   }
 
-  render() 
-  
-  
-  {
+  render() {
     return (
       <div className="App">
         <div className="App-header">
