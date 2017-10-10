@@ -1,8 +1,18 @@
 /* eslint-disable no-undef */
 import React, { Component } from 'react';
-import './App.scss';
+import App from 'grommet/components/App';
+import Heading from 'grommet/components/Heading';
+import Header from 'grommet/components/Header';
+import Title from 'grommet/components/Title';
+import Box from 'grommet/components/Box';
+import Menu from 'grommet/components/Menu';
+import Anchor from 'grommet/components/Anchor';
+import Search from 'grommet/components/Search';
+import MenuIcon from 'grommet/components/icons/base/Menu';
 
-class App extends Component {
+import 'grommet/grommet.min.css';
+
+class Hackfolio extends Component {
   constructor() {
     super();
     this.state = {
@@ -22,18 +32,43 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          Hello {this.state.name}!
-        </div>
-        <h2>Server</h2>
-        <p>Edit <code>server/api/index.js</code> to return your name and reload this page.</p>
-        <br />
-        <h2>Client</h2>
-        <p>This page lives at <code>client/src/App.js</code></p>
-      </div>
+      <App className="App">
+        <Header fixed={false}
+          float={false}
+          splash={false}>
+          <Title>
+            Hackfolio
+          </Title>
+          <Box flex={true}
+            justify='end'
+            direction='row'
+            responsive={false}>
+            <Search inline={true}
+              fill={true}
+              size='medium'
+              placeHolder='Search'
+              dropAlign={{"right": "right"}} />
+            <Menu icon={<MenuIcon />}
+              dropAlign={{"right": "right"}}>
+              <Anchor href='#'
+              className='active'>
+                First
+              </Anchor>
+              <Anchor href='#'>
+                Second
+              </Anchor>
+              <Anchor href='#'>
+                Third
+              </Anchor>
+            </Menu>
+          </Box>
+        </Header>
+        <Heading>
+          Hello World
+        </Heading>
+      </App>
     );
   }
 }
 
-export default App;
+export default Hackfolio;
