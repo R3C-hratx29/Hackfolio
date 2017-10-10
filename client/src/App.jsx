@@ -10,8 +10,6 @@ import Anchor from 'grommet/components/Anchor';
 import Search from 'grommet/components/Search';
 import MenuIcon from 'grommet/components/icons/base/Menu';
 
-import 'grommet/grommet.min.css';
-
 class Hackfolio extends Component {
   constructor() {
     super();
