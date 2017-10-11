@@ -35,8 +35,7 @@ do
     PASS=false
   fi
 done
-
-if  ! [[ "$PASS" ]]; then
+if [ "$PASS" = 'false' ]; then
   exit 1
 fi
 
