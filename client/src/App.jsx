@@ -62,7 +62,7 @@ class Hackfolio extends Component {
           </Box>
         </Header>
         <Heading>
-          Hello World
+          Hello World!
         </Heading>
       </App>
     );
