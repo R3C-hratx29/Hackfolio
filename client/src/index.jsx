@@ -1,4 +1,4 @@
-/* eslint-disable no-undef, no-underscore-dangle */
+/* eslint-disable no-undef, no-underscore-dangle, object-shorthand */
 import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
