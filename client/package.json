@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "custom-react-scripts": "0.2.0",
+    "grommet": "^1.8.3",
     "react": "^15.6.1",
     "react-dom": "^15.6.1"
   },
