@@ -70,6 +70,12 @@ class Hackfolio extends Component {
       </App>
     );
   }
-}
 
-export default Hackfolio;
+  function mapStateToProps(state) {
+    console.log('my state: ', state);
+    return {
+      initialState: state.initialState
+    }
+  }
+}
+export default connect(mapStateToProps)(Hackfolio);
