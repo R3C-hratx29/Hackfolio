@@ -8,8 +8,8 @@ import Box from 'grommet/components/Box';
 import Menu from 'grommet/components/Menu';
 import Anchor from 'grommet/components/Anchor';
 import Search from 'grommet/components/Search';
-import MenuIcon from 'grommet/components/icons/base/Menu'
-import { connect } from 'react-redux';
+import MenuIcon from 'grommet/components/icons/base/Menu';
+import { connect } from 'react-redux'
 
 class Hackfolio extends Component {
   constructor(props) {
