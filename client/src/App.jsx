@@ -9,10 +9,11 @@ import Menu from 'grommet/components/Menu';
 import Anchor from 'grommet/components/Anchor';
 import Search from 'grommet/components/Search';
 import MenuIcon from 'grommet/components/icons/base/Menu';
+import { connect } from 'react-redux';
 
 class Hackfolio extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       test: false
     };
@@ -70,12 +71,13 @@ class Hackfolio extends Component {
       </App>
     );
   }
-
-  function mapStateToProps(state) {
-    console.log('my state: ', state);
-    return {
-      initialState: state.initialState
-    }
-  }
 }
+
+function mapStateToProps(state) {
+  console.log('my state: ', state);
+  return {
+    initialState: state.initialState
+  };
+}
+
 export default connect(mapStateToProps)(Hackfolio);
