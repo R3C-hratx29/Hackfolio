@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import ReactDOM from 'react-dom';
 import './index.scss';
-import App from './App';
+import Hackfolio from './App';
 
 const initialState = (state = [], action) => {
   switch (action.type) {
@@ -14,7 +14,7 @@ const initialState = (state = [], action) => {
       return state;
   }
 };
-const reducers = combineReducers({ initialState: initialState() });
+const reducers = combineReducers({ initialState: initialState });
 
 /* eslint-disable no-underscore-dangle */
 const store = createStore(
@@ -26,5 +26,5 @@ store.dispatch({ type: 'TEST_REDUX', payload: { initialState: 1 } });
 
 ReactDOM.render((
   <Provider store={store}>
-    <App />
+    <Hackfolio />
   </Provider>), document.getElementById('root'));
