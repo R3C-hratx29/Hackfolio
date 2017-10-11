@@ -21,7 +21,7 @@ class Hackfolio extends Component {
 
   render() {
     if (this.state.test) {
-      console.log('test');
+      console.log('blah');
     }
     return (
       <App className="App">
