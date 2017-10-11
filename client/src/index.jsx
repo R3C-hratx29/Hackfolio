@@ -1,9 +1,9 @@
-/* eslint-disable no-undef, no-underscore-dangle */
+/* eslint-disable no-undef, no-underscore-dangle, object-shorthand */
 import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import ReactDOM from 'react-dom';
-import App from './App';
+import Hackfolio from './App';
 import './index.scss';
 
 const initialState = (state = [], action) => {
@@ -14,7 +14,7 @@ const initialState = (state = [], action) => {
       return state;
   }
 };
-const reducers = combineReducers({ initialState: initialState() });
+const reducers = combineReducers({ initialState: initialState });
 
 /* eslint-disable no-underscore-dangle */
 const store = createStore(
@@ -26,5 +26,5 @@ store.dispatch({ type: 'TEST_REDUX', payload: { initialState: 1 } });
 
 ReactDOM.render((
   <Provider store={store}>
-    <App />
+    <Hackfolio />
   </Provider>), document.getElementById('root'));
