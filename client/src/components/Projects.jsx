@@ -14,7 +14,7 @@ import LinkNextIcon from 'grommet/components/icons/base/LinkNext';
 import GithubIcon from 'grommet/components/icons/base/SocialGithub';
 
 // Component Styles
-import './Projects.scss';
+import './../styles/Projects.scss';
 
 class Projects extends React.Component {
 
