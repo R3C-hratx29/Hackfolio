@@ -9,13 +9,11 @@ import NavBar from './NavBar';
 import Profile from './Profile';
 import HomePage from './HomePage';
 import LandingPage from './LandingPage';
+import exampleData from './../data/example-data';
 
 const history = createBrowserHistory();
 
-import exampleData from './example-data';
-
 class Hackfolio extends Component {
-
   componentWillMount() {
     const obj = {
       type: 'SET_USER_PROFILE',
