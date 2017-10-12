@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import ReactDOM from 'react-dom';
 import Hackfolio from './App';
-import './index.scss';
+import '../node_modules/grommet-css';
 
 const initialState = (state = [], action) => {
   switch (action.type) {
