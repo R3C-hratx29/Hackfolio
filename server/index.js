@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
-const http = require('http');
+require('dotenv').config({
+  path: '../env.env'
+});
 const api = require('./api');
 const bodyParser = require('body-parser');
 
