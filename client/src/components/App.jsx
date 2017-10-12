@@ -9,32 +9,20 @@ import NavBar from './NavBar';
 import Profile from './Profile';
 import HomePage from './HomePage';
 import LandingPage from './LandingPage';
+import exampleData from './../data/example-data';
 
 const history = createBrowserHistory();
 
 class Hackfolio extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      test: true
+  componentWillMount() {
+    const obj = {
+      type: 'SET_USER_PROFILE',
+      payload: exampleData.profileOfOtherUser
     };
+    this.props.dispatch(obj);
   }
 
   render() {
-    if (this.state.test) {
-      console.log('ignore me');
-    }
-    const obj = {
-      type: 'cat',
-      payload: {
-        blah: 'blahblah'
-      }
-    };
-    if (this.state.test) {
-      this.props.dispatch(obj);
-      this.setState({ test: false });
-    }
-    console.log('actual blah', this.props.blah);
     return (
       <App className="App">
         <NavBar />
@@ -55,8 +43,10 @@ class Hackfolio extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log('my state: ', state);
-  return { initialState: state.initialState };
+  return {
+    currentUser: state.currentUser,
+    userProfile: state.userProfile
+  };
 }
 
 export default connect(mapStateToProps)(Hackfolio);
