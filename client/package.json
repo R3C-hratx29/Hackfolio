@@ -6,10 +6,12 @@
     "custom-react-scripts": "0.2.0",
     "grommet": "^1.8.3",
     "grommet-css": "git+https://github.com/R3C-hratx29/grommet-css.git",
+    "history": "^4.7.2",
     "prop-types": "^15.6.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",
+    "react-router": "^4.2.0",
     "redux": "^3.7.2"
   },
   "scripts": {
