@@ -1,5 +1,4 @@
 const path = require('path');
-const favicon = require('serve-favicon');
 const compress = require('compression');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -30,7 +29,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Host the public folder
-app.use(feathers.static(path.join(__dirname, '../client/build')));
+app.use(feathers.static(app.get('public')));
+
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+if (!process.env.DEV) {
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build/index.html'));
+  });
+}
 
 // Set up Plugins and providers
 app.configure(hooks());
