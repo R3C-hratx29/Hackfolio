@@ -16,15 +16,8 @@ import GithubIcon from 'grommet/components/icons/base/SocialGithub';
 import './Projects.scss';
 
 class Projects extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      test: false
-    };
-  }
+
   render() {
-    console.log(this.state.test);
-    this.setState({ test: true });
     return (
       <div className="Projects">
         <Tiles
@@ -37,7 +30,11 @@ class Projects extends React.Component {
               heading="Read Books"
               description="Sample description providing more details."
               link={
-                <Box direction="row" justify="between">
+                <Box
+                  direction="row"
+                  justify="between"
+                  responsive={false}
+                >
                   <Anchor
                     icon={<GithubIcon />}
                     label="GitHub"
