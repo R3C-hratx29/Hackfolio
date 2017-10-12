@@ -6,13 +6,10 @@ import ReactDOM from 'react-dom';
 import Hackfolio from './App';
 import '../node_modules/grommet-css';
 
-const initialState = (state = [], action) => {
+const currentUserReducer = (state = {}, action) => {
   switch (action.type) {
-    case 'TEST_REDUX': {
-      return [...state, action.payload];
-    }
-    case 'cat': {
-      return [...state, action.payload];
+    case 'SET_CURRENT_USER': {
+      return Object.assign({}, action.payload);
     }
     default: {
       return state;
@@ -20,13 +17,10 @@ const initialState = (state = [], action) => {
   }
 };
 
-const testReduce = (state = [], action) => {
+const userProfileReducer = (state = {}, action) => {
   switch (action.type) {
-    case 'TEST_REDUX': {
-      return action.payload;
-    }
-    case 'cat': {
-      return action.payload;
+    case 'SET_USER_PROFILE': {
+      return Object.assign({}, action.payload);
     }
     default: {
       return state;
@@ -35,8 +29,8 @@ const testReduce = (state = [], action) => {
 };
 
 const reducers = combineReducers({
-  initialState: initialState,
-  test: testReduce
+  currentUser: currentUserReducer,
+  userProfile: userProfileReducer
 });
 
 /* eslint-disable no-underscore-dangle */
@@ -45,10 +39,7 @@ const store = createStore(
   +typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
-store.dispatch({ type: 'cat', payload: { initialState: 1 } });
-store.dispatch({ type: 'TEST_REDUX', payload: { initialState: 1 } });
-
 ReactDOM.render((
   <Provider store={store}>
-    <Hackfolio store={store} />
+    <Hackfolio />
   </Provider>), document.getElementById('root'));
