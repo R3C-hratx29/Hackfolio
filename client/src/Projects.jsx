@@ -1,15 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+//Grommet Components
 import Tiles from 'grommet/components/Tiles';
 import Tile from 'grommet/components/Tile';
 import Card from 'grommet/components/Card';
 import Anchor from 'grommet/components/Anchor';
 import Box from 'grommet/components/Box';
 
+//Grommet Icons
 import LinkNextIcon from 'grommet/components/icons/base/LinkNext';
 import GithubIcon from 'grommet/components/icons/base/SocialGithub';
 
+//Component Styles
 import './Projects.scss';
 
 class Projects extends React.Component {
