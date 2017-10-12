@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 /* eslint-disable react/jsx-boolean-value */
 // Grommet Components
 import Tiles from 'grommet/components/Tiles';
@@ -17,10 +17,46 @@ import GithubIcon from 'grommet/components/icons/base/SocialGithub';
 import './../styles/Projects.scss';
 
 class Projects extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {};
+  }
 
   render() {
-
-    console.log('PROPS', this.props);
+    const projects = this.props.userProfile.projects.map((project) => (
+      <Tile key={project.id}>
+        <Card
+          thumbnail="//cdn.dribbble.com/users/33073/screenshots/2425824/800.png"
+          heading={project.title}
+          description="Sample description providing more details."
+          link={
+            <Box
+              direction="row"
+              justify="between"
+              responsive={false}
+            >
+              <Anchor
+                icon={<GithubIcon />}
+                label="GitHub"
+                href="#"
+                primary={true}
+                reverse={false}
+                target="blank"
+              />
+              <Anchor
+                icon={<LinkNextIcon />}
+                label="Visit Site"
+                href="#"
+                primary={true}
+                reverse={false}
+                target="blank"
+              />
+            </Box>
+          }
+        />
+      </Tile>
+    ));
 
     return (
       <div className="Projects">
@@ -28,46 +64,24 @@ class Projects extends React.Component {
           fill={true}
           flush={false}
         >
-          <Tile>
-            <Card
-              thumbnail="//cdn.dribbble.com/users/33073/screenshots/2425824/800.png"
-              heading="Read Books"
-              description="Sample description providing more details."
-              link={
-                <Box
-                  direction="row"
-                  justify="between"
-                  responsive={false}
-                >
-                  <Anchor
-                    icon={<GithubIcon />}
-                    label="GitHub"
-                    href="#"
-                    primary={true}
-                    reverse={false}
-                    target="blank"
-                  />
-                  <Anchor
-                    icon={<LinkNextIcon />}
-                    label="Visit Site"
-                    href="#"
-                    primary={true}
-                    reverse={false}
-                    target="blank"
-                  />
-                </Box>
-              }
-            />
-          </Tile>
+          {projects}
         </Tiles>
       </div>
     );
   }
 }
 
+Projects.defaultProps = {
+  userProfile: {}
+};
+
+Projects.propTypes = {
+  userProfile: PropTypes.shape({ projects: PropTypes.array })
+};
+
+
 function mapStateToProps(state) {
   return {
-    currentUser: state.currentUser,
     userProfile: state.userProfile
   };
 }
