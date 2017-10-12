@@ -5,7 +5,8 @@ import Card from 'grommet/components/Card';
 import Box from 'grommet/components/Box';
 import Heading from 'grommet/components/Heading';
 import Label from 'grommet/components/Label';
-/* import Tiles from 'grommet/Listing/Tiles'*/
+import Tiles from 'grommet/components/Tiles';
+import Tile from 'grommet/components/Tile';
 
 const ProfileBox = () => (
   <Box
@@ -13,6 +14,13 @@ const ProfileBox = () => (
     pad="large"
     colorIndex="light-2"
   >
+    <Tiles>
+        <Tile>
+            
+        </Tile>
+        <Tile>tile1</Tile>
+        <Tile>tile1</Tile>
+    </Tiles>
     <Heading>
         Rhiannon Le Parmentier
     </Heading>
