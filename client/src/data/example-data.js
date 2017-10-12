@@ -15,7 +15,7 @@ const data = {
         title: 'Moon',
         description: 'A minimal, blazing fast user interface library.',
         github_link: 'https://github.com/kbrsh/moon',
-        website_url: 'http://moonjs.ga/',
+        website_link: 'http://moonjs.ga/',
         images: [
           'https://sj.uploads.im/l9IXF.png'
         ],
@@ -32,7 +32,7 @@ const data = {
         title: 'Wing',
         description: 'A beautiful CSS framework designed for minimalists.',
         github_link: 'https://github.com/kbrsh/wing',
-        website_url: 'http://usewing.ml/',
+        website_link: 'http://usewing.ml/',
         images: [
           'https://sj.uploads.im/omSs2.png',
           'https://sl.uploads.im/94Bmq.png',

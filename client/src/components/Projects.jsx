@@ -27,9 +27,9 @@ class Projects extends React.Component {
     const projects = this.props.userProfile.projects.map((project) => (
       <Tile key={project.id}>
         <Card
-          thumbnail="//cdn.dribbble.com/users/33073/screenshots/2425824/800.png"
+          thumbnail={project.images[0]}
           heading={project.title}
-          description="Sample description providing more details."
+          description={project.description}
           link={
             <Box
               direction="row"
@@ -39,7 +39,7 @@ class Projects extends React.Component {
               <Anchor
                 icon={<GithubIcon />}
                 label="GitHub"
-                href="#"
+                href={project.github_link}
                 primary={true}
                 reverse={false}
                 target="blank"
@@ -47,7 +47,7 @@ class Projects extends React.Component {
               <Anchor
                 icon={<LinkNextIcon />}
                 label="Visit Site"
-                href="#"
+                href={project.website_link}
                 primary={true}
                 reverse={false}
                 target="blank"
