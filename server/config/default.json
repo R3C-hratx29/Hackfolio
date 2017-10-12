@@ -1,7 +1,7 @@
 {
   "host": "localhost",
-  "port": 3001,
-  "public": "../client/",
+  "port": 3000,
+  "public": "../../client/build",
   "paginate": {
     "default": 10,
     "max": 50

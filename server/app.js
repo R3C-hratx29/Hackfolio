@@ -4,6 +4,7 @@ const compress = require('compression');
 const cors = require('cors');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
+const docserver = require('docserver');
 
 const feathers = require('feathers');
 const configuration = require('feathers-configuration');
@@ -28,9 +29,15 @@ app.use(helmet());
 app.use(compress());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+// app.use(favicon(path.join(app.get('public'), '/public/favicon.ico')));
 // Host the public folder
-app.use(feathers.static(path.join(__dirname, '../client/build')));
+app.use(feathers.static(app.get('public')));
+
+if (!process.env.DEV) {
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build/index.html'));
+  });
+}
 
 // Set up Plugins and providers
 app.configure(hooks());
