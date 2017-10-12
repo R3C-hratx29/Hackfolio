@@ -15,18 +15,16 @@ const ProfileBox = () => (
     colorIndex="light-2"
   >
     <Tiles>
-        <Tile>
-            
-        </Tile>
-        <Tile>tile1</Tile>
-        <Tile>tile1</Tile>
+      <Tile></Tile>
+      <Tile>tile1</Tile>
+      <Tile>tile1</Tile>
     </Tiles>
     <Heading>
         Rhiannon Le Parmentier
     </Heading>
-        <Label>
-            Software Engineer
-        </Label>
+    <Label>
+        Software Engineer
+    </Label>
     <Card
       margin="medium"
       separator="all"
