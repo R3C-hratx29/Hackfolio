@@ -25,6 +25,8 @@
     "express": "^4.15.4",
     "feathers": "^2.2.2",
     "knex": "^0.13.0",
+    "koa": "^2.3.0",
+    "koa-route": "^3.2.0",
     "react": "^16.0.0"
   },
   "devDependencies": {
