@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 // import PropTypes from 'prop-types';
 /* eslint-disable react/jsx-boolean-value */
 // Grommet Components
@@ -13,18 +14,14 @@ import LinkNextIcon from 'grommet/components/icons/base/LinkNext';
 import GithubIcon from 'grommet/components/icons/base/SocialGithub';
 
 // Component Styles
-import './Projects.scss';
+import './../styles/Projects.scss';
 
 class Projects extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      test: false
-    };
-  }
+
   render() {
-    console.log(this.state.test);
-    this.setState({ test: true });
+
+    console.log('PROPS', this.props);
+
     return (
       <div className="Projects">
         <Tiles
@@ -37,7 +34,11 @@ class Projects extends React.Component {
               heading="Read Books"
               description="Sample description providing more details."
               link={
-                <Box direction="row" justify="between">
+                <Box
+                  direction="row"
+                  justify="between"
+                  responsive={false}
+                >
                   <Anchor
                     icon={<GithubIcon />}
                     label="GitHub"
@@ -64,4 +65,11 @@ class Projects extends React.Component {
   }
 }
 
-export default Projects;
+function mapStateToProps(state) {
+  return {
+    currentUser: state.currentUser,
+    userProfile: state.userProfile
+  };
+}
+
+export default connect(mapStateToProps)(Projects);
