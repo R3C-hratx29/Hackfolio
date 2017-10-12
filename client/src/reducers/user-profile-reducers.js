@@ -1,29 +1,29 @@
 import { combineReducers } from 'redux';
 
 export const currentUserReducer = (state = {}, action) => {
-    switch (action.type) {
+  switch (action.type) {
     case 'SET_CURRENT_USER': {
-        return Object.assign({}, action.payload);
+      return Object.assign({}, action.payload);
     }
     default: {
-        return state;
+      return state;
     }
-    }
+  }
 };
 
 const userProfileReducer = (state = {}, action) => {
-    switch (action.type) {
+  switch (action.type) {
     case 'SET_USER_PROFILE': {
-        return Object.assign({}, action.payload);
+      return Object.assign({}, action.payload);
     }
     default: {
-        return state;
+      return state;
     }
-    }
+  }
 };
 
 export const reducers = combineReducers({
-    currentUser: currentUserReducer,
-    userProfile: userProfileReducer
+  currentUser: currentUserReducer,
+  userProfile: userProfileReducer
 });
 
