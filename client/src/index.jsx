@@ -5,8 +5,8 @@ import { createStore } from 'redux';
 import ReactDOM from 'react-dom';
 import Hackfolio from './components/App';
 import '../node_modules/grommet-css';
-import { reducers } from './reducers/user-profile-reducers';
-/* eslint-disable no-underscore-dangle */
+import reducers from './reducers/combReducers';
+
 const store = createStore(
   reducers,
   +typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
