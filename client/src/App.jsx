@@ -1,18 +1,10 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import App from 'grommet/components/App';
 import ProfileBox from './ProfileBox.jsx';
 import Heading from 'grommet/components/Heading';
-
-import Header from 'grommet/components/Header';
-import Title from 'grommet/components/Title';
-import Box from 'grommet/components/Box';
-import Menu from 'grommet/components/Menu';
-import Anchor from 'grommet/components/Anchor';
-import Search from 'grommet/components/Search';
-import MenuIcon from 'grommet/components/icons/base/Menu';
-import Label from 'grommet/components/Label';
-
+import ProfileBox from './ProfileBox';
 import { connect } from 'react-redux';
 import NavBar from './NavBar';
 // import { Router, Route, Switch} from 'react-router';
@@ -44,13 +36,10 @@ class Hackfolio extends Component {
       <App className="App">
         <NavBar />
         <Heading>
-            Rhiannon Le Parmentier
+            Hackfolio
         </Heading>
-        <Label>
-            Software Engineer & Austrian Beer Maid
-        </Label>
         <div>
-            <ProfileBox />
+          <ProfileBox />
         </div>
       </App>
     );
