@@ -3,14 +3,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import App from 'grommet/components/App';
 import Heading from 'grommet/components/Heading';
+import { Router, Route, Switch } from 'react-router';
+import createBrowserHistory from 'history/createBrowserHistory';
 import NavBar from './NavBar';
 import Profile from './Profile';
-// import { Router, Route, Switch} from 'react-router';
+import HomePage from './HomePage';
+import LandingPage from './LandingPage';
+import exampleData from './../data/example-data';
 
-import exampleData from './example-data';
+const history = createBrowserHistory();
 
 class Hackfolio extends Component {
-
   componentWillMount() {
     const obj = {
       type: 'SET_USER_PROFILE',
@@ -26,7 +29,14 @@ class Hackfolio extends Component {
         <Heading>
           Hackfolio
         </Heading>
-        <Profile />
+        <Router history={history}>
+          <Switch>
+            <Route exact path="/" component={LandingPage} />
+            <Route path="/Home" component={HomePage} />
+            <Route path="/Profile" component={Profile} />
+            <Route component={LandingPage} />
+          </Switch>
+        </Router>
       </App>
     );
   }
