@@ -7,7 +7,7 @@ import NavBar from './NavBar';
 import Profile from './Profile';
 // import { Router, Route, Switch} from 'react-router';
 
-import exampleData from './example-data';
+import exampleData from './../data/example-data';
 
 class Hackfolio extends Component {
 
