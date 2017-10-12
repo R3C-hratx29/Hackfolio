@@ -2,10 +2,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import App from 'grommet/components/App';
-import ProfileBox from './ProfileBox.jsx';
 import Heading from 'grommet/components/Heading';
 import ProfileBox from './ProfileBox';
-import { connect } from 'react-redux';
 import NavBar from './NavBar';
 // import { Router, Route, Switch} from 'react-router';
 
