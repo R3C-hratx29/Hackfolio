@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 // import PropTypes from 'prop-types';
 /* eslint-disable react/jsx-boolean-value */
 // Grommet Components
@@ -18,6 +19,9 @@ import './Projects.scss';
 class Projects extends React.Component {
 
   render() {
+
+    console.log('PROPS', this.props);
+
     return (
       <div className="Projects">
         <Tiles
@@ -61,4 +65,11 @@ class Projects extends React.Component {
   }
 }
 
-export default Projects;
+function mapStateToProps(state) {
+  return {
+    currentUser: state.currentUser,
+    userProfile: state.userProfile
+  };
+}
+
+export default connect(mapStateToProps)(Projects);
