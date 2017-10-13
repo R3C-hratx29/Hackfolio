@@ -9,7 +9,7 @@ import reducers from './reducers/combReducers';
 
 const store = createStore(
   reducers,
-  +typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  +typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 );
 
 store.dispatch({ type: 'SET_CURRENT_USER', payload: { user: null } });
