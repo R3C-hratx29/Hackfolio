@@ -33,7 +33,7 @@ class NavBar extends React.Component {
     this.setState({ searchText: '' });
   }
   render() {
-    const home = this.props.user === null ? '/LandingPage' : '/Home';
+    const home = this.props.user === null ? '/' : '/Home';
     return (
       <div>
         <Header>
