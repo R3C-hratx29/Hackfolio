@@ -1,4 +1,4 @@
 {
   "host": "hackfolio.herokuapp.com",
-  "port": 3001
+  "port": "PORT"
 }
