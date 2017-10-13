@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "engines": {
-  "node": ">= 6.0.0",
-  "npm": ">= 3.0.0"
+    "node": ">= 6.0.0",
+    "npm": ">= 3.0.0"
   },
   "directories": {
-  "lib": "server",
-  "test": "test/"
+    "lib": "server",
+    "test": "test/"
   },
   "scripts": {
     "start": "concurrently \"cd server && nodemon index.js\" \"cd client && npm start\"",
@@ -43,6 +43,7 @@
     "feathers-socketio": "^2.0.0",
     "helmet": "^3.8.2",
     "knex": "^0.13.0",
+    "pg": "^7.3.0",
     "react": "^16.0.0",
     "serve-favicon": "^2.4.5",
     "winston": "^2.4.0"
