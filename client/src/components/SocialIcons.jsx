@@ -1,28 +1,26 @@
-// react and redux
-import { connect } from 'react-redux';
 import React from 'react';
 
 // grommet components
 import Box from 'grommet/components/Box';
 import Anchor from 'grommet/components/Anchor';
 
-// grommet icons
-
-const SocialIcons = () => (
+const SocialIcons = (props) => (
   <Box>
     <Anchor
-      icon={this.props.userProfile.socialLinks.icon}
-      href={this.props.userProfile.socialLinks.link}
+      icon={props.icon}
+      href={props.link}
     />
   </Box>
 );
 
-function mapStateToProps(state) {
-  return {
-    currentUser: state.currentUser,
-    userProfile: state.userProfile,
-    /* socialIcons: state.socialIcons */
-  };
-}
+SocialIcons.defaultProps = {
+  icon: 'Function',
+  link: 'String'
+};
 
-export default connect(mapStateToProps)(SocialIcons);
+SocialIcons.propTypes = {
+  icon: 'Function',
+  link: 'String'
+};
+
+export default SocialIcons;

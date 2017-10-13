@@ -2,7 +2,6 @@
 /* eslint-disable react/self-closing-comp */
 
 // react and redux
-import { connect } from 'react-redux';
 import React from 'react';
 
 // grommet components
@@ -15,16 +14,16 @@ import Tile from 'grommet/components/Tile';
 
 import SocialIcons from './SocialIcons';
 
-const ProfileBox = () => (
+const ProfileBox = (props) => (
   <Box
     pad="large"
     align="center"
   >
     <Heading>
-      {this.props.userProfile.name}
+      {props.userProfile.name}
     </Heading>
     <Label>
-      {this.props.userProfile.profession}
+      {props.userProfile.profession}
     </Label>
     <Tiles>
       <Tile>
@@ -32,28 +31,38 @@ const ProfileBox = () => (
           margin="medium"
           separator="all"
           pad="small"
-          thumbnail={this.props.userProfile.profile_pic}
+          thumbnail={props.userProfile.profile_pic}
           full="false"
           size="small"
           label="bio"
           textSize="small"
           flex={true}
         >
-          {this.props.userProfile.bio}
+          {props.userProfile.bio}
         </Card>
       </Tile>
     </Tiles>
     <Box>
-      {this.props.userProfile.socialLinks.map((social) => <SocialIcons key={social.id} />)}
+      {props.userProfile.socialLinks.map((social) =>
+        <SocialIcons icon={social.icon} link={social.link} key={social.id} />)}
     </Box>
   </Box>
 );
 
-function mapStateToProps(state) {
-  return {
-    currentUser: state.currentUser,
-    userProfile: state.userProfile
-  };
-}
+ProfileBox.defaultProps = {
+  userProfile: {},
+  name: 'String',
+  profession: 'String',
+  profile_pic: 'String',
+  bio: 'String'
+};
 
-export default connect(mapStateToProps)(ProfileBox);
+ProfileBox.propTypes = {
+  userProfile: {},
+  name: 'String',
+  profession: 'String',
+  profile_pic: 'String',
+  bio: 'String'
+};
+
+export default ProfileBox;
