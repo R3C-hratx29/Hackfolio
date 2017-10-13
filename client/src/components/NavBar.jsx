@@ -33,6 +33,7 @@ class NavBar extends React.Component {
     this.setState({ searchText: '' });
   }
   render() {
+    const home = this.props.user === null ? '/LandingPage' : '/Home';
     return (
       <div>
         <Header>
@@ -55,7 +56,7 @@ class NavBar extends React.Component {
                 icon={<HomeIcon />}
                 label="Home Page"
                 plain={true}
-                href="/Home"
+                href={home}
               />
               <Button
                 icon={<UserIcon />}
