@@ -12,6 +12,8 @@ const store = createStore(
   +typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
+store.dispatch({ type: 'SET_CURRENT_USER', payload: { user: null } });
+
 ReactDOM.render((
   <Provider store={store}>
     <Hackfolio />
