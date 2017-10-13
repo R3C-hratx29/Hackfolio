@@ -86,17 +86,17 @@ class Projects extends React.Component {
 }
 
 Projects.defaultProps = {
-  userProfile: {}
+  userProfile: {},
 };
 
 Projects.propTypes = {
-  userProfile: PropTypes.shape({ projects: PropTypes.array })
+  userProfile: PropTypes.shape({ projects: PropTypes.array }),
 };
 
 
 function mapStateToProps(state) {
   return {
-    userProfile: state.userProfile
+    userProfile: state.userProfile,
   };
 }
 

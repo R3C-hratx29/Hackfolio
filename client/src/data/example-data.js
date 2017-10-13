@@ -17,15 +17,15 @@ const data = {
         github_link: 'https://github.com/kbrsh/moon',
         website_link: 'http://moonjs.ga/',
         images: [
-          'https://sj.uploads.im/l9IXF.png'
+          'https://sj.uploads.im/l9IXF.png',
         ],
         stack: [
           'javascript',
           'gulp',
           'karma',
           'mocha',
-          'chai'
-        ]
+          'chai',
+        ],
       },
       {
         id: 2,
@@ -36,15 +36,15 @@ const data = {
         images: [
           'https://sj.uploads.im/omSs2.png',
           'https://sl.uploads.im/94Bmq.png',
-          'https://sm.uploads.im/EMAsF.png'
+          'https://sm.uploads.im/EMAsF.png',
         ],
         stack: [
           'css',
-          'gulp'
-        ]
-      }
-    ]
-  }
+          'gulp',
+        ],
+      },
+    ],
+  },
 };
 
 export default data;
