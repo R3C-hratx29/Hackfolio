@@ -27,15 +27,34 @@ class Projects extends React.Component {
 
   render() {
     const projects = this.props.userProfile.projects.map((project) => (
-      <Tile key={project.id}>
+      <Tile
+        key={project.id}
+        full={false}
+      >
         {
           project.images.length <= 1 ? (
-            <Image size="medium" src={project.images[0]} />
+            <Image
+              size="medium"
+              style={{ maxWidth: 384, maxHeight: 280 }}
+              src={project.images[0]}
+            />
           ) : (
-            <Box size="medium" full={false}>
-              <Carousel>
+            <Box
+              size="medium"
+            >
+              <Carousel
+                autoplay={false}
+                style={{ maxWidth: 390, maxHeight: 284 }}
+              >
                 {
-                  project.images.map((image) => <Image full={false} fit="cover" src={image} />)
+                  project.images.map((image) => (
+                    <Image
+                      key={image}
+                      size="medium"
+                      fit="cover"
+                      src={image}
+                    />
+                  ))
                 }
               </Carousel>
             </Box>

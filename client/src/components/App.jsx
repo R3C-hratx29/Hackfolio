@@ -17,7 +17,7 @@ class Hackfolio extends Component {
   componentWillMount() {
     const obj = {
       type: 'SET_USER_PROFILE',
-      payload: exampleData.profileOfOtherUser
+      payload: exampleData.profileOfOtherUser,
     };
     this.props.dispatch(obj);
   }
@@ -45,7 +45,7 @@ class Hackfolio extends Component {
 function mapStateToProps(state) {
   return {
     currentUser: state.currentUser,
-    userProfile: state.userProfile
+    userProfile: state.userProfile,
   };
 }
 
