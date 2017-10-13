@@ -8,6 +8,8 @@ import Tile from 'grommet/components/Tile';
 import Card from 'grommet/components/Card';
 import Anchor from 'grommet/components/Anchor';
 import Box from 'grommet/components/Box';
+import Carousel from 'grommet/components/Carousel';
+import Image from 'grommet/components/Image';
 
 // Grommet Icons
 import LinkNextIcon from 'grommet/components/icons/base/LinkNext';
@@ -26,8 +28,20 @@ class Projects extends React.Component {
   render() {
     const projects = this.props.userProfile.projects.map((project) => (
       <Tile key={project.id}>
+        {
+          project.images.length <= 1 ? (
+            <Image size="medium" src={project.images[0]} />
+          ) : (
+            <Box size="medium" full={false}>
+              <Carousel>
+                {
+                  project.images.map((image) => <Image full={false} fit="cover" src={image} />)
+                }
+              </Carousel>
+            </Box>
+          )
+        }
         <Card
-          thumbnail={project.images[0]}
           heading={project.title}
           description={project.description}
           link={
