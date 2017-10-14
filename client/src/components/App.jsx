@@ -1,27 +1,19 @@
-/* eslint-disable react/prop-types */
+/* eslint-disable react/prop-types,react/prefer-stateless-function */
 import React, { Component } from 'react';
+import { Route, Switch } from 'react-router';
 import { connect } from 'react-redux';
+import { ConnectedRouter } from 'react-router-redux';
 import App from 'grommet/components/App';
 import Heading from 'grommet/components/Heading';
-import { Router, Route, Switch } from 'react-router';
-import createBrowserHistory from 'history/createBrowserHistory';
+import createHistory from 'history/createBrowserHistory';
 import NavBar from './NavBar';
 import Profile from './Profile';
 import HomePage from './HomePage';
 import LandingPage from './LandingPage';
-import exampleData from './../data/example-data';
 
-const history = createBrowserHistory();
+export const history = createHistory();
 
 class Hackfolio extends Component {
-  componentWillMount() {
-    const obj = {
-      type: 'SET_USER_PROFILE',
-      payload: exampleData.profileOfOtherUser,
-    };
-    this.props.dispatch(obj);
-  }
-
   render() {
     return (
       <App className="App">
@@ -29,14 +21,14 @@ class Hackfolio extends Component {
         <Heading>
           Hackfolio
         </Heading>
-        <Router history={history}>
+        <ConnectedRouter history={history}>
           <Switch>
             <Route exact path="/" component={LandingPage} />
-            <Route path="/user/:username" component={Profile} />
+            <Route path="/user/:id" component={Profile} />
             <Route path="/Home" component={HomePage} />
             <Route component={LandingPage} />
           </Switch>
-        </Router>
+        </ConnectedRouter>
       </App>
     );
   }
@@ -46,6 +38,7 @@ function mapStateToProps(state) {
   return {
     currentUser: state.currentUser,
     userProfile: state.userProfile,
+    location: state.location
   };
 }
 

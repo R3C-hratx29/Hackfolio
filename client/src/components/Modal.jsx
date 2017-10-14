@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types, react/jsx-boolean-value */
+/* eslint-disable react/prop-types */
 import React from 'react';
 import Layer from 'grommet/components/Layer';
 import Anchor from 'grommet/components/Anchor';
@@ -9,7 +9,7 @@ import Box from 'grommet/components/Box';
 import BriefcaseIcon from 'grommet/components/icons/base/Briefcase';
 import Heading from 'grommet/components/Heading';
 import { connect } from 'react-redux';
-import modalAction from '../actions/user-profile-actions';
+import modalAction from '../actions/ModalActions';
 import * as UserAction from '../actions/UserActions';
 
 class Modal extends React.Component {
@@ -46,7 +46,7 @@ class Modal extends React.Component {
     const text = this.state.page ? 'Login' : 'Signup';
     const welcome = this.state.page ? 'Welcome Back' : 'Welcome';
     return (
-      <Layer closer={true} onClose={this.props.closeModal}>
+      <Layer closer onClose={this.props.closeModal}>
         <Box
           size={{ height: 'medium', width: 'medium' }}
           justify="center"
@@ -81,10 +81,10 @@ class Modal extends React.Component {
             />
           </FormField>
           <Button
-            box={true}
+            box
             margin="small"
             size={{ width: 'small' }}
-            primary={true}
+            primary
             type="button"
             label={text}
             onClick={this.sendSignup}
