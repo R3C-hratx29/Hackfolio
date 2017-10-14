@@ -3,7 +3,6 @@ import exampleData from './../data/example-data';
 
 const getProfile = (id) => {
   // get data from database
-  // if no user redirect??
   if (id === 'randomperson') {
     return push('/LandingPage');
   }

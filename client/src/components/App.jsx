@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types,react/prefer-stateless-function */
+/* eslint-disable react/prefer-stateless-function */
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router';
 import { connect } from 'react-redux';

@@ -2,8 +2,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import Box from 'grommet/components/Box';
 import Header from 'grommet/components/Header';
+import Box from 'grommet/components/Box';
 import TextInput from 'grommet/components/TextInput';
 // import Title from 'grommet/components/Title';
 import UserIcon from 'grommet/components/icons/base/User';

@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { connect } from 'react-redux';
-import ProfileBox from './ProfileBox';
 import Projects from './Projects';
+import ProfileBox from './ProfileBox';
 import profileAction from '../actions/ProfileActions';
 
 class Profile extends React.Component {

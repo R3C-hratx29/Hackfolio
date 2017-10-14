@@ -17,6 +17,16 @@ export const signup = (userdata) => {
   };
 };
 
+export const logout = () => {
+  console.log('logged out');
+  return {
+    type: 'SET_CURRENT_USER',
+    payload: {
+      user: null
+    }
+  };
+};
+
 export const search = (string) => {
   console.log('search', string);
   return {
@@ -27,12 +37,3 @@ export const search = (string) => {
   };
 };
 
-export const logout = () => {
-  console.log('logged out');
-  return {
-    type: 'SET_CURRENT_USER',
-    payload: {
-      user: null
-    }
-  };
-};

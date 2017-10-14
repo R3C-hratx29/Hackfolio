@@ -1,8 +1,8 @@
 /* eslint-disable no-undef, no-underscore-dangle, object-shorthand */
 import React from 'react';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
+import { createStore, applyMiddleware } from 'redux';
 import ReactDOM from 'react-dom';
 import Hackfolio, { history } from './components/App';
 import '../node_modules/grommet-css';

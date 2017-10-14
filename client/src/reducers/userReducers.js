@@ -1,3 +1,4 @@
+
 export const currentUserReducer = (state = {}, action) => {
   switch (action.type) {
     case 'SET_CURRENT_USER': {
