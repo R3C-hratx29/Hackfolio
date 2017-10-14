@@ -18,7 +18,6 @@ class Profile extends React.Component {
             No user found
           </div> :
           <div>
-            <ProfileBox />
             <Projects />
           </div>
         }
