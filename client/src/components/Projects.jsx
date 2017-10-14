@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 // Grommet Components
 import Tiles from 'grommet/components/Tiles';
 import Tile from 'grommet/components/Tile';
