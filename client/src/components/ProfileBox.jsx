@@ -1,10 +1,11 @@
 /* eslint-disable react/jsx-boolean-value */
 /* eslint-disable react/self-closing-comp */
-
-// react and redux
+/* eslint-disable react/require-default-props */
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-// grommet components
+// Grommet Components
 import Card from 'grommet/components/Card';
 import Box from 'grommet/components/Box';
 import Heading from 'grommet/components/Heading';
@@ -43,26 +44,33 @@ const ProfileBox = (props) => (
       </Tile>
     </Tiles>
     <Box>
-      {props.userProfile.socialLinks.map((social) =>
-        <SocialIcons icon={social.icon} link={social.link} key={social.id} />)}
+      {props.userProfile.socialLinks.map((social) => (
+        <SocialIcons
+          icon={social.icon}
+          link={social.link}
+          key={social.id}
+        />))
+      }
     </Box>
   </Box>
 );
 
 ProfileBox.defaultProps = {
-  userProfile: {},
-  name: 'String',
-  profession: 'String',
-  profile_pic: 'String',
-  bio: 'String'
+  userProfile: {}
 };
 
 ProfileBox.propTypes = {
   userProfile: {},
-  name: 'String',
-  profession: 'String',
-  profile_pic: 'String',
-  bio: 'String'
+  name: PropTypes.string,
+  profession: PropTypes.string,
+  profile_pic: PropTypes.string,
+  bio: PropTypes.string
 };
 
-export default ProfileBox;
+const mapStateToProps = (state) => {
+  return {
+    userProfile: state.userProfile
+  };
+};
+
+export default connect(mapStateToProps)(ProfileBox);
