@@ -7,4 +7,4 @@ module.exports = {
     ssl: true,
     database: 'd7qklm1psmuo68'
   }
-};
+}
