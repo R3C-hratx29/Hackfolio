@@ -30,7 +30,7 @@ const data = {
       },
       {
         id: 'twitter',
-        twitter_link: 'https://twitter.com/kbrshah',
+        link: 'https://twitter.com/kbrshah',
         icon: <SocialTwitterIcon />
       }
     ],
