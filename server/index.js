@@ -1,14 +1,28 @@
-/* eslint-disable no-console */
-const logger = require('winston');
-const app = require('./app');
+const express = require('express');
+const path = require('path');
+const http = require('http');
+const api = require('./api');
+const bodyParser = require('body-parser');
+const db = require('./models/db');
+
+const app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(express.static(path.join(__dirname, '../client/build')));
+
+app.use('/api', api);
+
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+if (!process.env.DEV) {
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build/index.html'));
+  });
+}
 
 const port = process.env.PORT || 3001;
-const server = app.listen(port);
+app.listen(port);
 
-process.on('unhandledRejection', (reason, p) => {
-  logger.error('Unhandled Rejection at: Promise ', p, reason);
-});
-
-server.on('listening', () => {
-  logger.info('Hackfolio application started on http://%s:%d', app.get('host'), port);
-});
+console.log(`Server listening on ${port}`);
