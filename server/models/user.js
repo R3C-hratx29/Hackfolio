@@ -1,3 +1,4 @@
+/* eslint-disable object-shorthand */
 const db = require('./db');
 
 const User = {};

@@ -1,9 +1,10 @@
+/* eslint-disable prefer-destructuring */
 const router = require('express').Router();
 const User = require('./models/user.js');
 
 router.post('/signup', (req, res) => {
-  let username = req.body.username;
-  let password = req.body.password;
+  const username = req.body.username;
+  const password = req.body.password;
 
   User.findByUsername(username)
     .then(user => {
@@ -21,8 +22,8 @@ router.post('/signup', (req, res) => {
 });
 
 router.get('/signin', (req, res) => {
-  let username = req.body.username;
-  let password = req.body.password;
+  const username = req.body.username;
+  // const password = req.body.password;
 
   User.findByUsername(username)
     .then(user => {
@@ -36,8 +37,8 @@ router.get('/signin', (req, res) => {
       }
 
       if (!res) {
-        response.status(401);
-        response.send('Incorrect password.');
+        res.status(401);
+        res.send('Incorrect password.');
       }
     });
 });
