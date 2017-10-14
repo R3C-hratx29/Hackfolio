@@ -44,7 +44,7 @@ class Projects extends React.Component {
               size="medium"
             >
               <Carousel
-                autoplay={false}
+                autoPlay={false}
                 style={{ maxWidth: 390, maxHeight: 284 }}
               >
                 {
