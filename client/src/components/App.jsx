@@ -32,8 +32,8 @@ class Hackfolio extends Component {
         <Router history={history}>
           <Switch>
             <Route exact path="/" component={LandingPage} />
+            <Route path="/user/:username" component={Profile} />
             <Route path="/Home" component={HomePage} />
-            <Route path="/Profile" component={Profile} />
             <Route component={LandingPage} />
           </Switch>
         </Router>

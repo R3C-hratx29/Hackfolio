@@ -1,8 +1,13 @@
 /* eslint-disable react/prop-types, react/jsx-boolean-value */
 import React from 'react';
 import Layer from 'grommet/components/Layer';
-import LoginForm from 'grommet/components/LoginForm';
 import Anchor from 'grommet/components/Anchor';
+import FormField from 'grommet/components/FormField';
+import Button from 'grommet/components/Button';
+import TextInput from 'grommet/components/TextInput';
+import Box from 'grommet/components/Box';
+import BriefcaseIcon from 'grommet/components/icons/base/Briefcase';
+import Heading from 'grommet/components/Heading';
 import { connect } from 'react-redux';
 import modalAction from '../actions/user-profile-actions';
 import * as UserAction from '../actions/UserActions';
@@ -11,41 +16,85 @@ class Modal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: true
+      page: true,
+      username: '',
+      password: ''
     };
     this.toggle = this.toggle.bind(this);
+    this.addUsername = this.addUsername.bind(this);
+    this.addPassword = this.addPassword.bind(this);
+    this.sendSignup = this.sendSignup.bind(this);
   }
   toggle() {
     this.setState({ page: !this.state.page });
   }
+  addUsername(e) {
+    this.setState({ username: e.target.value });
+  }
+  addPassword(e) {
+    this.setState({ password: e.target.value });
+  }
+  sendSignup() {
+    this.props.signup({ username: this.state.username, password: this.state.password });
+    this.setState({
+      username: '',
+      password: ''
+    });
+    this.toggle();
+  }
   render() {
+    const text = this.state.page ? 'Login' : 'Signup';
+    const welcome = this.state.page ? 'Welcome Back' : 'Welcome';
     return (
-      <div>
-        {this.state.page ?
-          <Layer closer={true} onClose={this.props.closeModal}>
-            <LoginForm
-              onSubmit={this.props.login}
-              forgotPassword={
-                <Anchor
-                  onClick={this.toggle}
-                  label="Not a user? Signup!"
-                />}
-              usernameType="text"
+      <Layer closer={true} onClose={this.props.closeModal}>
+        <Box
+          size={{ height: 'medium', width: 'medium' }}
+          justify="center"
+          align="center"
+        >
+          <Box
+            margin={{ bottom: 'medium' }}
+            alignContent="end"
+            direction="row"
+          >
+            <Box margin={{ right: 'medium' }} >
+              <BriefcaseIcon type="icon" size="large" />
+            </Box>
+            <Box alignSelf="end">
+              <Heading style={{ marginBottom: 0 }} tag="h2">
+                {welcome}
+              </Heading>
+            </Box>
+          </Box>
+          <FormField label="Username">
+            <TextInput
+              type="text"
+              value={this.state.username}
+              onDOMChange={this.addUsername}
             />
-          </Layer> :
-          <Layer closer={true} onClose={this.props.closeModal}>
-            <LoginForm
-              onSubmit={this.props.signup}
-              forgotPassword={
-                <Anchor
-                  onClick={this.toggle}
-                  label="Already have an account"
-                />}
-              usernameType="text"
+          </FormField>
+          <FormField label="Password">
+            <TextInput
+              type="password"
+              value={this.state.password}
+              onDOMChange={this.addPassword}
             />
-          </Layer>
-        }
-      </div>
+          </FormField>
+          <Button
+            box={true}
+            margin="small"
+            size={{ width: 'small' }}
+            primary={true}
+            type="button"
+            label={text}
+            onClick={this.sendSignup}
+          />
+          <Anchor
+            onClick={this.toggle}
+            label="Not a user? Signup!"
+          />
+        </Box>
+      </Layer>
     );
   }
 }

@@ -21,6 +21,7 @@ class NavBar extends React.Component {
     this.state = {
       searchText: ''
     };
+    // this.match.params.username
     this.searchHandler = this.searchHandler.bind(this);
     this.sendSearch = this.sendSearch.bind(this);
   }
@@ -32,8 +33,12 @@ class NavBar extends React.Component {
     this.props.search(temp);
     this.setState({ searchText: '' });
   }
+  test() {
+    console.log('blah');
+  }
   render() {
     const home = this.props.user === null ? '/' : '/Home';
+    console.log(this.props.history);
     return (
       <div>
         <Header>
@@ -56,13 +61,15 @@ class NavBar extends React.Component {
                 icon={<HomeIcon />}
                 label="Home Page"
                 plain={true}
-                href={home}
+                path="/Home"
+                onClick={this.test}
               />
               <Button
                 icon={<UserIcon />}
                 label="Profile"
                 plain={true}
-                href="/Profile"
+                path="/Profile"
+                onClick={this.test}
               />
             </Box>
             <Box
