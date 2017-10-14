@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-/* eslint-disable react/jsx-boolean-value */
 // Grommet Components
 import Tiles from 'grommet/components/Tiles';
 import Tile from 'grommet/components/Tile';
@@ -88,7 +87,7 @@ class Projects extends React.Component {
                 icon={<GithubIcon />}
                 label="GitHub"
                 href={project.github_link}
-                primary={true}
+                primary
                 reverse={false}
                 target="blank"
               />
@@ -96,7 +95,7 @@ class Projects extends React.Component {
                 icon={<LinkNextIcon />}
                 label="Visit Site"
                 href={project.website_link}
-                primary={true}
+                primary
                 reverse={false}
                 target="blank"
               />
@@ -109,7 +108,7 @@ class Projects extends React.Component {
     return (
       <div className="Projects">
         <Tiles
-          fill={true}
+          fill
           flush={false}
         >
           {projects}
