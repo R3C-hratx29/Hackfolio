@@ -25,6 +25,9 @@ const data = {
           'karma',
           'mocha',
           'chai',
+          'node',
+          'react',
+          'angularjs'
         ],
       },
       {

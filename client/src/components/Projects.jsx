@@ -10,6 +10,7 @@ import Anchor from 'grommet/components/Anchor';
 import Box from 'grommet/components/Box';
 import Carousel from 'grommet/components/Carousel';
 import Image from 'grommet/components/Image';
+import Heading from 'grommet/components/Heading';
 
 // Grommet Icons
 import LinkNextIcon from 'grommet/components/icons/base/LinkNext';
@@ -61,8 +62,22 @@ class Projects extends React.Component {
           )
         }
         <Card
+          contentPad="medium"
           heading={project.title}
-          description={project.description}
+          description={
+            <div>
+              <Heading tag="h3" className="description">
+                {project.description}
+              </Heading>
+              <div className="stack">
+                {
+                  project.stack.map((el) => {
+                    return <div key={el}>{el}</div>;
+                  })
+                }
+              </div>
+            </div>
+          }
           link={
             <Box
               direction="row"
