@@ -6,9 +6,9 @@ import { ConnectedRouter } from 'react-router-redux';
 import App from 'grommet/components/App';
 import Heading from 'grommet/components/Heading';
 import createHistory from 'history/createBrowserHistory';
-import NavBar from './NavBar';
 import Profile from './Profile';
 import HomePage from './HomePage';
+import NavBar from './NavBar';
 import LandingPage from './LandingPage';
 
 export const history = createHistory();
