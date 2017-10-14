@@ -1,8 +1,9 @@
-/* eslint-disable react/jsx-boolean-value,react/prop-types,max-len */
+/* eslint-disable react/prop-types,max-len */
 import React from 'react';
 import { connect } from 'react-redux';
-import Box from 'grommet/components/Box';
+import { push } from 'react-router-redux';
 import Header from 'grommet/components/Header';
+import Box from 'grommet/components/Box';
 import TextInput from 'grommet/components/TextInput';
 // import Title from 'grommet/components/Title';
 import UserIcon from 'grommet/components/icons/base/User';
@@ -12,7 +13,7 @@ import LogoutIcon from 'grommet/components/icons/base/Logout';
 import Button from 'grommet/components/Button';
 import HomeIcon from 'grommet/components/icons/base/Home';
 import Modal from './Modal';
-import modalAction from '../actions/user-profile-actions';
+import modalAction from '../actions/ModalActions';
 import * as userAction from '../actions/UserActions';
 
 class NavBar extends React.Component {
@@ -21,8 +22,11 @@ class NavBar extends React.Component {
     this.state = {
       searchText: ''
     };
+    // this.match.params.username
     this.searchHandler = this.searchHandler.bind(this);
     this.sendSearch = this.sendSearch.bind(this);
+    this.goProfile = this.goProfile.bind(this);
+    this.goHome = this.goHome.bind(this);
   }
   searchHandler(e) {
     this.setState({ searchText: e.target.value });
@@ -32,22 +36,29 @@ class NavBar extends React.Component {
     this.props.search(temp);
     this.setState({ searchText: '' });
   }
-  render() {
+  goProfile() {
+    const user = `/user/: ${this.props.userProfile}`; // need to change to current user
+    this.props.goTo(user);
+  }
+  goHome() {
     const home = this.props.user === null ? '/' : '/Home';
+    this.props.goTo(home);
+  }
+  render() {
     return (
       <div>
         <Header>
           <Box
-            flex={true}
+            flex
             justify="between"
             align="center"
             direction="row"
-            responsive={true}
+            responsive
             colorIndex="brand"
             pad={{ vertical: 'medium', horizontal: 'small' }}
           >
             <Box
-              flex={true}
+              flex
               justify="start"
               align="center"
               direction="row"
@@ -55,14 +66,16 @@ class NavBar extends React.Component {
               <Button
                 icon={<HomeIcon />}
                 label="Home Page"
-                plain={true}
-                href={home}
+                plain
+                path="/Home"
+                onClick={this.goHome}
               />
               <Button
                 icon={<UserIcon />}
                 label="Profile"
-                plain={true}
-                href="/Profile"
+                plain
+                path="/Profile"
+                onClick={this.goProfile}
               />
             </Box>
             <Box
@@ -79,13 +92,13 @@ class NavBar extends React.Component {
               <Button
                 icon={<SearchIcon />}
                 onClick={this.sendSearch}
-                plain={true}
+                plain
               />
             </Box>
             <Box>
               { this.props.user === null ?
-                <Button label="Login" plain={true} icon={<LoginIcon />} onClick={this.props.openModal} /> :
-                <Button label="Logout" plain={true} icon={<LogoutIcon />} onClick={this.props.logout} />
+                <Button label="Login" plain icon={<LoginIcon />} onClick={this.props.openModal} /> :
+                <Button label="Logout" plain icon={<LogoutIcon />} onClick={this.props.logout} />
               }
             </Box>
           </Box>
@@ -99,6 +112,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     openModal: () => dispatch(modalAction('open')),
     search: (text) => dispatch(userAction.search(text)),
+    goTo: (path) => dispatch(push(path)),
     logout: () => dispatch(userAction.logout())
   };
 };
@@ -106,7 +120,8 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     user: state.currentUser.user,
-    modalState: state.modalState
+    modalState: state.modalState,
+    userProfile: state.userProfile.username
   };
 };
 

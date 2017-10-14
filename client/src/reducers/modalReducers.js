@@ -1,3 +1,4 @@
+
 export const modalStateReducer = (state = {}, action) => {
   switch (action.type) {
     case 'MODAL_STATE': {
