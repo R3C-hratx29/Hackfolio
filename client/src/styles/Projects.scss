@@ -19,6 +19,24 @@
       margin-top: 10px;
     }
   }
+
+  .grommetux-carousel {
+    .grommetux-button__icon, .grommetux-carousel__controls .grommetux-button {
+      transform: scale(0.5);
+    }
+
+    .grommetux-carousel__controls {
+      display: none;
+    }
+
+    .grommetux-control-icon {
+      stroke: $brand;
+    }
+
+    .grommetux-button:hover .grommetux-control-icon polyline {
+      stroke: black;
+    }
+  }
 }
 
 #SearchBar {
