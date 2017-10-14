@@ -1,3 +1,5 @@
+@import './variables.scss';
+
 .Projects {
   .grommetux-card__thumbnail {
     max-height: 300px;
@@ -9,7 +11,7 @@
 
     &>div {
       display: inline-block;
-      background-color: rgb(0,144,217);
+      background-color: $brand;
       color: white;
       margin-right: 10px;
       padding: 0px 8px 3px;
