@@ -26,8 +26,12 @@ const ProfileBox = (props) => (
     <Label>
       {props.userProfile.profession}
     </Label>
-    <Tiles>
-      <Tile>
+    <Tiles
+      align="center"
+    >
+      <Tile
+        justify="center"
+      >
         <Card
           margin="medium"
           separator="all"
@@ -44,13 +48,7 @@ const ProfileBox = (props) => (
       </Tile>
     </Tiles>
     <Box>
-      {props.userProfile.socialLinks.map((social) => (
-        <SocialIcons
-          icon={social.icon}
-          link={social.link}
-          key={social.id}
-        />))
-      }
+      <SocialIcons />
     </Box>
   </Box>
 );
