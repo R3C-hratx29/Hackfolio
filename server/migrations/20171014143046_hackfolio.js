@@ -9,8 +9,8 @@ exports.up = (knex, Promise) => {
     knex.schema.createTable('profiles', (table) => {
       table.increments('id').primary();
       table.integer('user_id')
-           .references('uid')
-           .inTable('users');
+        .references('uid')
+        .inTable('users');
       table.string('bio');
       table.string('profile_pic');
       table.string('profession');
@@ -20,8 +20,8 @@ exports.up = (knex, Promise) => {
     knex.schema.createTable('projects', (table) => {
       table.increments('id').primary();
       table.integer('user_id')
-           .references('uid')
-           .inTable('users');
+        .references('uid')
+        .inTable('users');
       table.string('title');
       table.string('description');
       table.string('github_link');
