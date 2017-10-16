@@ -14,22 +14,22 @@ const data = {
     bio: 'I make things.',
     socialLinks: [
       {
-        id: 'github',
+        title: 'github',
         link: 'https://github.com/kbrsh',
         icon: <SocialGithubIcon />
       },
       {
-        id: 'facebook',
+        title: 'facebook',
         link: null,
         icon: <SocialFacebookOptionIcon />
       },
       {
-        id: 'linkedin',
+        title: 'linkedin',
         link: null,
         icon: <SocialLinkedinIcon />
       },
       {
-        id: 'twitter',
+        title: 'twitter',
         link: 'https://twitter.com/kbrshah',
         icon: <SocialTwitterIcon />
       }
