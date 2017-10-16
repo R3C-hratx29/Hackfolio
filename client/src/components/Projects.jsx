@@ -20,7 +20,7 @@ class Projects extends React.Component {
     super(props);
 
     this.state = {
-      hideProjectModal: false
+      hideProjectModal: true
     };
 
     this.toggleProjectModal = this.toggleProjectModal.bind(this);
@@ -33,9 +33,12 @@ class Projects extends React.Component {
   }
 
   render() {
-    const projects = this.props.userProfile.projects.map((project) => (
-      <ProjectCard project={project} />
-    ));
+    const projects = this.props.userProfile.projects.map((project, index) => {
+      const i = index;
+      return (
+        <ProjectCard key={i} project={project} />
+      );
+    });
 
     return (
       <div className="Projects">

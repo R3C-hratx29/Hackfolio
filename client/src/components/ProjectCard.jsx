@@ -14,6 +14,8 @@ import Heading from 'grommet/components/Heading';
 import LinkNextIcon from 'grommet/components/icons/base/LinkNext';
 import GithubIcon from 'grommet/components/icons/base/SocialGithub';
 
+import placeHolderImage from '../images/placeholder.png';
+
 const ProjectCard = (props) => (
   <Tile
     key={props.project.id}
@@ -36,14 +38,21 @@ const ProjectCard = (props) => (
             style={{ maxWidth: 390, maxHeight: 284 }}
           >
             {
-              props.project.images.map((image) => (
-                <Image
-                  key={image}
-                  size="medium"
-                  fit="cover"
-                  src={image}
-                />
-              ))
+              props.project.images.map((image, index) => {
+                const i = index;
+                let imageURL = image;
+                if (image === '') {
+                  imageURL = placeHolderImage;
+                }
+                return (
+                  <Image
+                    key={i}
+                    size="medium"
+                    fit="cover"
+                    src={imageURL}
+                  />
+                );
+              })
             }
           </Carousel>
         </Box>
@@ -59,8 +68,9 @@ const ProjectCard = (props) => (
           </Heading>
           <div className="stack">
             {
-              props.project.stack.map((el) => {
-                return <div key={el}>{el}</div>;
+              props.project.stack.map((el, index) => {
+                const i = index;
+                return el && <div key={i}>{el}</div>;
               })
             }
           </div>
@@ -102,7 +112,7 @@ const ProjectCard = (props) => (
 
 ProjectCard.propTypes = {
   project: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     images: PropTypes.array,
     title: PropTypes.string,
     description: PropTypes.string,
