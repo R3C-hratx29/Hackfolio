@@ -1,4 +1,4 @@
-/* eslint-disable prefer-destructuring */
+/* eslint-disable */
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jwt-simple');
@@ -23,16 +23,15 @@ router.post('/signup', (req, res) => {
       if (!user.length) {
         bcrypt.hash(password, 10, (err, hash) => {
           User.createNewUser(username, hash, email)
-            .then(user => {
-              const payload = { user_id: user[0].uid };
+            .then(data => {
+              const payload = { user_id: data[0].uid };
               const token = jwt.encode(payload, secret);
 
               res.status(201);
-              res.set({ User_Id: user[0].uid, Jwt: token });
-              res.send({ User_Id: user[0].uid, Jwt: token });
-            })
+              res.set({ User_Id: data[0].uid, Jwt: token });
+              res.send({ User_Id: data[0].uid, Jwt: token });
+            });
         });
-
       }
     })
     .catch(err => {
