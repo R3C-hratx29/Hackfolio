@@ -21,12 +21,12 @@ router.post('/signup', (req, res) => {
         bcrypt.hash(password, 10, (err, hash) => {
           User.createNewUser(username, hash);
         });
-        let payload = { username: username };
-        let token = jwt.encode(payload, secret);
+        const payload = { user: username };
+        const token = jwt.encode(payload, secret);
 
         res.status(201);
-        res.set({ 'Jwt': token });
-        res.send({ 'Jwt': token });
+        res.set({ Jwt: token });
+        res.send({ Jwt: token });
       }
     })
     .catch(err => {
@@ -46,23 +46,23 @@ router.post('/signin', (req, res) => {
       }
 
       if (user.length) {
-        bcrypt.compare(password, user[0].password, function(err, match) {
+        bcrypt.compare(password, user[0].password, (err, match) => {
           if (match) {
-            let payload = { username: username };
-            let token = jwt.encode(payload, secret);
+            const payload = { user: username };
+            const token = jwt.encode(payload, secret);
 
             res.status(201);
-            res.set({ 'Jwt': token });
-            res.send({ 'Jwt': token });
+            res.set({ Jwt: token });
+            res.send({ Jwt: token });
           }
 
           if (!res) {
             res.status(401);
             res.send('Incorrect password');
           }
-        })
+        });
       }
-    })
+    });
 });
 
 module.exports = router;
