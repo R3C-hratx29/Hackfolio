@@ -37,7 +37,7 @@ class NavBar extends React.Component {
     this.setState({ searchText: '' });
   }
   goProfile() {
-    const user = `/user/: ${this.props.userProfile}`; // need to change to current user
+    const user = `/user/${this.props.userProfile}`; // need to change to current user
     this.props.goTo(user);
   }
   goHome() {
