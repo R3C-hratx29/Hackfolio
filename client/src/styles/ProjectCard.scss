@@ -1,6 +1,6 @@
 @import './variables.scss';
 
-.Projects {
+.ProjectCard {
   .grommetux-card__thumbnail {
     max-height: 300px;
     width: auto !important;
@@ -38,6 +38,15 @@
       stroke: black;
     }
   }
+}
+
+.grommetux-split__column--fixed {
+  height: inherit !important;
+}
+
+
+.AddProject {
+
 }
 
 #SearchBar {
