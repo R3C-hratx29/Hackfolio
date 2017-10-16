@@ -1,6 +1,10 @@
 /* eslint-disable prefer-destructuring */
 const router = require('express').Router();
+const bcrypt = require('bcrypt');
+const jwt = require('jwt-simple');
 const User = require('./models/user.js');
+
+const secret = 'shakeweight';
 
 router.post('/signup', (req, res) => {
   const username = req.body.username;
@@ -14,16 +18,25 @@ router.post('/signup', (req, res) => {
       }
 
       if (!user.length) {
-        User.createNewUser(username, password);
+        bcrypt.hash(password, 10, (err, hash) => {
+          User.createNewUser(username, hash);
+        });
+        let payload = { username: username };
+        let token = jwt.encode(payload, secret);
+
         res.status(201);
+        res.set({ 'Jwt': token });
+        res.send({ 'Jwt': token });
       }
-      console.log(res.body);
+    })
+    .catch(err => {
+      console.error(err);
     });
 });
 
-router.get('/signin', (req, res) => {
+router.post('/signin', (req, res) => {
   const username = req.body.username;
-  // const password = req.body.password;
+  const password = req.body.password;
 
   User.findByUsername(username)
     .then(user => {
@@ -33,14 +46,23 @@ router.get('/signin', (req, res) => {
       }
 
       if (user.length) {
-        res.send({ user: user[0] });
-      }
+        bcrypt.compare(password, user[0].password, function(err, match) {
+          if (match) {
+            let payload = { username: username };
+            let token = jwt.encode(payload, secret);
 
-      if (!res) {
-        res.status(401);
-        res.send('Incorrect password.');
+            res.status(201);
+            res.set({ 'Jwt': token });
+            res.send({ 'Jwt': token });
+          }
+
+          if (!res) {
+            res.status(401);
+            res.send('Incorrect password');
+          }
+        })
       }
-    });
+    })
 });
 
 module.exports = router;

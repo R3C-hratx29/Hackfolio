@@ -14,7 +14,7 @@ User.findByUsername = (username) => {
 };
 
 User.createNewUser = (username, password) => {
-  db('usres').insert({ username: username, password: password })
+  db('users').insert({ username: username, password: password })
     .then(() => {
       console.log('User successfully inserted into DB.');
     })
