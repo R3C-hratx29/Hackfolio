@@ -2,7 +2,9 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jwt-simple');
+
 const User = require('./models/user.js');
+const Profile = require('./models/profile.js');
 
 const secret = 'shakeweight';
 
@@ -56,13 +58,20 @@ router.post('/signin', (req, res) => {
             res.send({ Jwt: token });
           }
 
-          if (!res) {
+          if (!match) {
             res.status(401);
             res.send('Incorrect password');
           }
         });
       }
     });
+});
+
+router.get('/profile', (req, res) => {
+  Profile.findAllByUserId(3)
+    .then(profile => {
+      res.send(profile);
+    })
 });
 
 module.exports = router;
