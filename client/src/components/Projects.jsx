@@ -18,6 +18,7 @@ import GithubIcon from 'grommet/components/icons/base/SocialGithub';
 
 // Component Styles
 import './../styles/Projects.scss';
+import ProfileBox from './ProfileBox.jsx'
 
 class Projects extends React.Component {
   constructor(props) {
@@ -112,6 +113,7 @@ class Projects extends React.Component {
           fill
           flush={false}
         >
+            <ProfileBox />
           {projects}
         </Tiles>
       </div>

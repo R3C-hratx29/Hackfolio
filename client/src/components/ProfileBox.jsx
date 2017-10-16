@@ -12,45 +12,38 @@ import Heading from 'grommet/components/Heading';
 import Label from 'grommet/components/Label';
 import Tiles from 'grommet/components/Tiles';
 import Tile from 'grommet/components/Tile';
+import Image from 'grommet/components/Image';
 
 import SocialIcons from './SocialIcons';
 
 const ProfileBox = (props) => (
-  <Box
-    pad="large"
-    align="center"
+  <Tile
+    full={false}
   >
-    <Heading>
-      {props.userProfile.name}
-    </Heading>
-    <Label>
-      {props.userProfile.profession}
-    </Label>
-    <Tiles
-      align="center"
+    <Image
+      size="medium"
+      style={{ maxWidth: 384, maxHeight: 280 }}
+      src={props.userProfile.profile_pic}
+    />
+    <Card
+      contentPad="medium"
+      heading={props.userProfile.name}
+      description={
+        <div>
+          <Heading tag="h3">
+            {props.userProfile.profession}
+          </Heading>
+        </div>
+      }
+    />
+    <Box
+      direction="row"
+      justify="between"
+      responsive={false}
     >
-      <Tile
-        justify="center"
-      >
-        <Card
-          margin="medium"
-          separator="all"
-          pad="small"
-          thumbnail={props.userProfile.profile_pic}
-          full="false"
-          size="small"
-          label="bio"
-          textSize="small"
-          flex={true}
-        >
-          {props.userProfile.bio}
-        </Card>
-      </Tile>
-    </Tiles>
-    <Box>
       <SocialIcons />
     </Box>
-  </Box>
+  </Tile>
 );
 
 ProfileBox.defaultProps = {

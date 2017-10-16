@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import Box from 'grommet/components/Box';
 import Anchor from 'grommet/components/Anchor';
 
+import './../styles/variables.scss';
+
 const SocialIcons = (props) => (
   <Box
     direction="row"
@@ -12,7 +14,7 @@ const SocialIcons = (props) => (
     {props.socialLinks
           .filter((social) => social.link)
           .map((social) =>
-            (<Anchor
+              (<Anchor
               icon={social.icon}
               href={social.link}
             />
