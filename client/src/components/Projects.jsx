@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+
 // Grommet Components
 import Tiles from 'grommet/components/Tiles';
 import Tile from 'grommet/components/Tile';
@@ -11,10 +12,14 @@ import Box from 'grommet/components/Box';
 import Carousel from 'grommet/components/Carousel';
 import Image from 'grommet/components/Image';
 import Heading from 'grommet/components/Heading';
+import Button from 'grommet/components/Button';
 
 // Grommet Icons
 import LinkNextIcon from 'grommet/components/icons/base/LinkNext';
 import GithubIcon from 'grommet/components/icons/base/SocialGithub';
+import AddIcon from 'grommet/components/icons/base/Add';
+
+import AddProject from './AddProject';
 
 // Component Styles
 import './../styles/Projects.scss';
@@ -23,7 +28,17 @@ class Projects extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      hideProjectModal: true
+    };
+
+    this.toggleProjectModal = this.toggleProjectModal.bind(this);
+  }
+
+  toggleProjectModal() {
+    this.setState({
+      hideProjectModal: !this.state.hideProjectModal
+    });
   }
 
   render() {
@@ -108,12 +123,26 @@ class Projects extends React.Component {
 
     return (
       <div className="Projects">
+        <Box
+          align="center"
+        >
+          <Button
+            label="Add Project"
+            icon={<AddIcon />}
+            primary
+            onClick={this.toggleProjectModal}
+          />
+        </Box>
         <Tiles
           fill
           flush={false}
         >
           {projects}
         </Tiles>
+        <AddProject
+          toggleProjectModal={this.toggleProjectModal}
+          hideProjectModal={this.state.hideProjectModal}
+        />
       </div>
     );
   }
