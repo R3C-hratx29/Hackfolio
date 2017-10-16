@@ -15,19 +15,39 @@ exports.up = (knex, Promise) => {
       table.string('profile_pic');
       table.string('profession');
       table.string('name');
-      table.specificType('links', 'jsonb[]');
     }),
     knex.schema.createTable('projects', (table) => {
       table.increments('id').primary();
-      table.integer('user_id')
-        .references('uid')
-        .inTable('users');
+      table.integer('profile_id')
+        .references('id')
+        .inTable('profiles');
       table.string('title');
       table.string('description');
       table.string('github_link');
       table.string('website_link');
-      table.specificType('stack', 'jsonb[]');
-      table.specificType('images', 'jsonb[]');
+    }),
+    knex.schema.createTable('links', (table) => {
+      table.increments('id').primary();
+      table.integer('profile_id')
+        .references('id')
+        .inTable('profiles');
+      table.string('title');
+      table.string('link');
+      table.string('icon');
+    }),
+    knex.schema.createTable('stacks', (table) => {
+      table.increments('id').primary();
+      table.integer('project_id')
+        .references('id')
+        .inTable('projects');
+      table.string('tech');
+    }),
+    knex.schema.createTable('images', (table) => {
+      table.increments('id').primary();
+      table.integer('project_id')
+        .references('id')
+        .inTable('projects');
+      table.string('link');
     })
   ]);
 };
@@ -36,6 +56,8 @@ exports.down = (knex, Promise) => {
   return Promise.all([
     knex.schema.dropTable('users'),
     knex.schema.dropTable('profiles'),
-    knex.schema.dropTable('projects')
+    knex.schema.dropTable('projects'),
+    knex.schema.dropTable('links'),
+    knex.schema.dropTable('stacks')
   ]);
 };
