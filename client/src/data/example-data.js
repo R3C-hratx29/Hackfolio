@@ -73,6 +73,21 @@ const data = {
           'gulp',
         ],
       },
+      {
+        id: 3,
+        title: 'Personal Blog',
+        description: 'My personal blog written with handlebars.',
+        github_link: 'https://github.com/kbrsh/blog',
+        website_link: 'https://blog.kabir.ml/',
+        images: [
+          'https://sm.uploads.im/sFbXU.png',
+        ],
+        stack: [
+          'javascript',
+          'css',
+          'handlebars',
+        ],
+      },
     ],
   },
 };
