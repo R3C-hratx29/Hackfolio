@@ -1,6 +1,6 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 // grommet components
 import Box from 'grommet/components/Box';
 import Anchor from 'grommet/components/Anchor';
@@ -15,23 +15,13 @@ const SocialIcons = (props) => (
           .filter((social) => social.link)
           .map((social) =>
               (<Anchor
-              icon={social.icon}
-              href={social.link}
-            />
+                icon={social.icon}
+                href={social.link}
+              />
             ))
     }
   </Box>
 );
-
-SocialIcons.defaultProps = {
-  socialLinks: {},
-  filter: PropTypes.func,
-};
-
-SocialIcons.propTypes = {
-  socialLinks: {},
-  filter: PropTypes.func,
-};
 
 const mapStateToProps = (state) => {
   return {
