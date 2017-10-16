@@ -54,10 +54,10 @@ exports.up = (knex, Promise) => {
 
 exports.down = (knex, Promise) => {
   return Promise.all([
-    // knex.schema.dropTable('users'),
-    // knex.schema.dropTable('profiles'),
-    // knex.schema.dropTable('projects'),
-    // knex.schema.dropTable('links'),
-    // knex.schema.dropTable('stacks')
+    knex.schema.dropTable('users'),
+    knex.schema.dropTable('profiles'),
+    knex.schema.dropTable('projects'),
+    knex.schema.dropTable('links'),
+    knex.schema.dropTable('stacks')
   ]);
 };

@@ -3,8 +3,8 @@ const db = require('./db');
 
 const User = {};
 
-User.findByUsername = (username) => {
-  return db('users').where({ username: username }).select('*')
+User.findByUsername = (username, email) => {
+  return db('users').where({ username: username }).orWhere({ email: email }).select('*')
     .then(user => {
       return user;
     })
@@ -13,10 +13,11 @@ User.findByUsername = (username) => {
     });
 };
 
-User.createNewUser = (username, password) => {
-  db('users').insert({ username: username, password: password })
+User.createNewUser = (username, password, email) => {
+  return db('users').insert({ username: username, password: password, email: email })
     .then(() => {
       console.log('User successfully inserted into DB.');
+      return db('users').where({ username: username }).select('*');
     })
     .catch(err => {
       console.error(err);
