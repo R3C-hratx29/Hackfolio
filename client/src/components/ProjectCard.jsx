@@ -21,6 +21,7 @@ const ProjectCard = (props) => (
     key={props.project.id}
     full={false}
     className="ProjectCard"
+    style={{ overflow: 'scroll' }}
   >
     {
       props.project.images.length <= 1 ? (
