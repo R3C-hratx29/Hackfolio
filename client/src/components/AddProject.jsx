@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import firebase from 'firebase';
 import FileUploader from 'react-firebase-file-uploader';
+import $ from 'jquery';
 
 // Grommet Components
 import Box from 'grommet/components/Box';
@@ -15,6 +16,7 @@ import Heading from 'grommet/components/Heading';
 import Menu from 'grommet/components/Menu';
 import Anchor from 'grommet/components/Anchor';
 import Split from 'grommet/components/Split';
+import Button from 'grommet/components/Button';
 
 // Grommet Icons
 import ImageIcon from 'grommet/components/icons/base/Image';
@@ -93,6 +95,9 @@ class AddProject extends React.Component {
     this.updateProject({
       images: array
     });
+    setTimeout(() => {
+      $(this.formScrollRef).animate({ scrollTop: this.formScrollRef.scrollHeight });
+    }, 10);
   }
 
   removeImage(index) {
@@ -119,10 +124,20 @@ class AddProject extends React.Component {
         onClose={this.props.toggleProjectModal}
         hidden={this.props.hideProjectModal}
       >
-        <Box direction="row" responsive={false} pad="large">
-          <Split showOnResponsive="both">
-            <ProjectCard className="left" project={this.state.project} />
-            <Form className="right">
+        <Box
+          direction="row"
+          responsive={false}
+          pad={{ vertical: 'large' }}
+        >
+          <Split
+            showOnResponsive="both"
+          >
+            <Box size="medium">
+              <ProjectCard
+                project={this.state.project}
+              />
+            </Box>
+            <Form>
               <Header
                 justify="between"
               >
@@ -145,7 +160,10 @@ class AddProject extends React.Component {
                   <Anchor
                     onClick={(e) => { e.stopPropagation(); }}
                   >
-                    <label htmlFor="firebaseUpload">
+                    <label
+                      htmlFor="firebaseUpload"
+                      style={{ cursor: 'pointer' }}
+                    >
                       { this.state.uploading && <Spinning /> } Upload Image
                       <FileUploader
                         style={{ display: 'none' }}
@@ -161,7 +179,10 @@ class AddProject extends React.Component {
                   </Anchor>
                 </Menu>
               </Header>
-              <div className="formScroll">
+              <div
+                className="formScroll"
+                ref={ref => { this.formScrollRef = ref; }}
+              >
                 <FormField label="Title">
                   <TextInput
                     onDOMChange={
@@ -242,6 +263,13 @@ class AddProject extends React.Component {
                   })
                 }
               </div>
+              <Button
+                primary
+                fill
+                onClick={() => {}}
+                label="Add Project"
+                style={{ marginTop: 10 }}
+              />
             </Form>
           </Split>
         </Box>
