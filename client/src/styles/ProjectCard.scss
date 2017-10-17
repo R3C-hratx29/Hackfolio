@@ -1,6 +1,7 @@
 @import './variables.scss';
 
 .ProjectCard {
+
   .grommetux-card__thumbnail {
     max-height: 300px;
     width: auto !important;
@@ -20,8 +21,13 @@
     }
   }
 
+  img {
+    object-fit: cover;
+  }
+
   .grommetux-carousel {
     height: 284px;
+
     .grommetux-button__icon, .grommetux-carousel__controls .grommetux-button {
       transform: scale(0.5);
     }
@@ -37,6 +43,32 @@
     .grommetux-button:hover .grommetux-control-icon polyline {
       stroke: black;
     }
+
+    .grommetux-tiles.grommetux-box--direction-row>.grommetux-tile.grommetux-carousel__item>* {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+    }
+  }
+
+}
+
+.deleteImage {
+  float: right;
+  color: red;
+  opacity: 0.35;
+  transition: all 0.2s linear;
+  cursor: pointer;
+}
+
+.formScroll {
+  overflow: scroll;
+  height: 400px;
+}
+
+.grommetux-form-field:hover {
+  .deleteImage {
+    opacity: 1;
   }
 }
 
