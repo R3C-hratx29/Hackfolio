@@ -1,10 +1,9 @@
-/* eslint-disable object-shorthand */
 const db = require('./db');
 
 const User = {};
 
-User.findByUsername = (username, email) => {
-  return db('users').where({ username: username }).orWhere({ email: email }).select('*')
+User.findByUsername = (_username, _email) => {
+  return db('users').where({ username: _username }).orWhere({ email: _email }).select('*')
     .then(user => {
       return user;
     })
@@ -13,11 +12,11 @@ User.findByUsername = (username, email) => {
     });
 };
 
-User.createNewUser = (username, password, email) => {
-  return db('users').insert({ username: username, password: password, email: email })
+User.createNewUser = (_username, _password, _email) => {
+  return db('users').insert({ username: _username, password: _password, email: _email })
     .then(() => {
       console.log('User successfully inserted into DB.');
-      return db('users').where({ username: username }).select('*');
+      return db('users').where({ username: _username }).select('*');
     })
     .catch(err => {
       console.error(err);
