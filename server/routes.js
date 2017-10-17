@@ -5,6 +5,7 @@ const jwt = require('jwt-simple');
 
 const User = require('./models/user.js');
 const Profile = require('./models/profile.js');
+const Link = require('./models/link.js');
 
 const secret = 'shakeweight';
 
@@ -15,29 +16,33 @@ router.post('/signup', (req, res) => {
   const password = req.body.password;
   const email = req.body.email;
 
-  User.findByUsername(username, email)
-    .then(user => {
-      if (user.length) {
-        res.status(409);
-        res.send('User already exists.');
-      }
+  if (username && password && email) {
+    User.findByUsername(username, email)
+      .then(user => {
+        if (user.length) {
+          res.status(409);
+          res.send('User already exists.');
+        }
 
-      if (!user.length) {
-        bcrypt.hash(password, 10, (err, hash) => {
-          User.createNewUser(username, hash, email)
-            .then(data => {
-              const payload = { user_id: data[0].uid };
-              const token = jwt.encode(payload, secret);
+        if (!user.length) {
+          bcrypt.hash(password, 10, (err, hash) => {
+            User.createNewUser(username, hash, email)
+              .then(data => {
+                const payload = { user_id: data[0].uid };
+                const token = jwt.encode(payload, secret);
 
-              res.status(201);
-              res.send({ User_Id: data[0].uid, Jwt: token });
-            });
-        });
-      }
-    })
-    .catch(err => {
-      console.error(err);
-    });
+                res.status(201);
+                res.send({ User_Id: data[0].uid, Jwt: token });
+              });
+          });
+        }
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  } else {
+    res.send('Please fill out all forms.');
+  }
 });
 
 router.post('/signin', (req, res) => {
@@ -61,6 +66,7 @@ router.post('/signin', (req, res) => {
       }
 
       if (user.length) {
+        console.log(user);
         bcrypt.compare(password, user[0].password, (err, match) => {
           if (match) {
             const payload = { user_id: user[0].uid };
@@ -79,33 +85,70 @@ router.post('/signin', (req, res) => {
     });
 });
 
-
+// TODO: Mother of God this monster needs to be refactored.
 router.post('/profile', (req, res) => {
   if (req.headers.jwt) {
     // TODO: Refactor this authentication into a seperate file.
-    let dLoad = jwt.decode(req.headers.jwt, secret);
-    const data = { user_id: dLoad.user_id, bio: req.body.bio, profile_pic: req.body.profile_pic, profession: req.body.profession, name: req.body.name };
+    const dLoad = jwt.decode(req.headers.jwt, secret);
+    const profileData = {
+      user_id: dLoad.user_id,
+      bio: req.body.bio,
+      profile_pic: req.body.profile_pic,
+      profession: req.body.profession,
+      name: req.body.name
+    };
+    const linkData = req.body.links;
 
-    Profile.findAllByUserId(data.user_id)
+    Profile.findAllByUserId(profileData.user_id)
       .then(profile => {
         if (!profile.length) {
-          Profile.createProfile(data)
-          .then(profile => {
+          Profile.createProfile(profileData)
+          .then(pData => {
+            linkData.forEach(e => {
+              e.profile_id = pData[0].id;
+              if (e.title.length && e.title) {
+                Link.addLink(e);
+              } else {
+                res.send('Insignificant data: title.')
+              }
+            });
+            pData[0].links = linkData;
             res.status(201);
-            res.send(profile);
-          })
-          .catch(err => {
-            console.error(err);
-          });
+            res.send(pData[0]);
+            })
+            .catch(err => {
+              console.error(err);
+            });
         } else {
-          res.status(401);
-          res.send('Profile already exists');
+          Profile.updateProfile(profileData)
+            .then(pData => {
+              linkData.forEach(e => {
+                e.profile_id = pData[0].id;
+                if (e.title && e.title.length) {
+                  Link.findByTitle(e.title, e.profile_id)
+                  .then(link => {
+                    if (!link.length) {
+                      Link.addLink(e);
+                    } else {
+                      Link.updateLink(e);
+                    }
+                  });
+                } else {
+                  res.send('Insignificant data: title.')
+                }
+              });
+              pData[0].links = linkData;
+              res.status(201);
+              res.send(pData[0]);
+            })
+            .catch(err => {
+              console.error(err);
+            });
         }
       });
   } else {
     res.send('No authentication detected');
   }
-
 });
 
 module.exports = router;
