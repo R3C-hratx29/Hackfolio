@@ -14,7 +14,9 @@ const SocialIcons = (props) => (
     {props.socialLinks
           .filter((social) => social.link)
           .map((social) =>
-              (<Anchor
+            (
+              <Anchor
+                key={social.link}
                 icon={social.icon}
                 href={social.link}
               />
