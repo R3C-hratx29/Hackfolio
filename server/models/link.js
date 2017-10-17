@@ -2,10 +2,10 @@ const db = require('./db');
 
 const Link = {};
 
-Link.findByTitle = (_title, _profile_id) => {
+Link.findByTitle = (_title, profileId) => {
   return db('links').where({
     title: _title,
-    profile_id: _profile_id
+    profile_id: profileId
   })
     .select('*')
     .then(link => {
