@@ -21,3 +21,13 @@ export const userProfileReducer = (state = {}, action) => {
   }
 };
 
+export const helpReducer = (state = {}, action) => {
+  switch (action.type) {
+    case 'HELP_USER': {
+      return Object.assign({}, action.payload);
+    }
+    default: {
+      return state;
+    }
+  }
+};

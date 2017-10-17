@@ -2,6 +2,7 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/prop-types */
+/* eslint-disable react/no-did-mount-set-state */
 import React from 'react';
 import { connect } from 'react-redux';
 /* import PropTypes from 'prop-types'; */
@@ -16,18 +17,21 @@ import FormField from 'grommet/components/FormField';
 import Form from 'grommet/components/Form';
 import TextInput from 'grommet/components/TextInput';
 import Anchor from 'grommet/components/Anchor';
+import Tip from 'grommet/components/Tip';
 // Grommet Icons
 import EditIcon from 'grommet/components/icons/base/Edit'; // <EditIcon />
 import SaveIcon from 'grommet/components/icons/base/Save';
 
 import SocialIcons from './SocialIcons';
 import { changeProfile } from './../actions/ProfileActions';
+import * as UserAction from '../actions/UserActions';
 
 class ProfileBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       edit: false,
+      help: false,
       name: this.props.userProfile.name,
       profession: this.props.userProfile.profession,
       bio: this.props.userProfile.bio
@@ -36,11 +40,17 @@ class ProfileBox extends React.Component {
     this.updateProfession = this.updateProfession.bind(this);
     this.updateName = this.updateName.bind(this);
     this.updateBio = this.updateBio.bind(this);
+    this.showTip = this.showTip.bind(this);
   }
-
+  componentDidMount() {
+    setTimeout(this.showTip, 500);
+  }
+  showTip() {
+    this.setState({ help: true });
+  }
   editMe() {
     this.setState({
-      edit: !this.state.edit
+      edit: !this.state.edit,
     });
 
     this.props.saveChanges({
@@ -102,11 +112,18 @@ class ProfileBox extends React.Component {
           {this.props.userProfile.bio}
         </div>
       );
-
     return (
       <Tile
         full={false}
       >
+        { this.state.help && this.props.help === 'Profile' ?
+          <Tip
+            onClose={this.props.displayHelp}
+            target="edit"
+          >
+            Click here to edit your profile
+          </Tip> : <div />
+        }
         <Image
           size="medium"
           style={{ maxWidth: 384, maxHeight: 280 }}
@@ -124,10 +141,12 @@ class ProfileBox extends React.Component {
           responsive={false}
         >
           <SocialIcons />
-          <Anchor
-            icon={this.state.edit ? <SaveIcon /> : <EditIcon />}
-            onClick={this.editMe}
-          />
+          <Box>
+            <Anchor
+              icon={this.state.edit ? <SaveIcon id="edit" /> : <EditIcon id="edit" />}
+              onClick={this.editMe}
+            />
+          </Box>
         </Box>
       </Tile>
     );
@@ -136,12 +155,14 @@ class ProfileBox extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    saveChanges: (changes) => dispatch(changeProfile(changes))
+    saveChanges: (changes) => dispatch(changeProfile(changes)),
+    displayHelp: () => dispatch(UserAction.help('Project'))
   };
 };
 
 const mapStateToProps = (state) => {
   return {
+    help: state.help.text,
     userProfile: state.userProfile
   };
 };

@@ -9,6 +9,7 @@ import Box from 'grommet/components/Box';
 import BriefcaseIcon from 'grommet/components/icons/base/Briefcase';
 import Heading from 'grommet/components/Heading';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 import modalAction from '../actions/ModalActions';
 import * as UserAction from '../actions/UserActions';
 
@@ -23,10 +24,14 @@ class Modal extends React.Component {
     this.toggle = this.toggle.bind(this);
     this.addUsername = this.addUsername.bind(this);
     this.addPassword = this.addPassword.bind(this);
+    this.addEmail = this.addEmail.bind(this);
     this.sendSignup = this.sendSignup.bind(this);
   }
   toggle() {
     this.setState({ page: !this.state.page });
+  }
+  addEmail(e) {
+    this.setState({ email: e.target.value });
   }
   addUsername(e) {
     this.setState({ username: e.target.value });
@@ -35,10 +40,15 @@ class Modal extends React.Component {
     this.setState({ password: e.target.value });
   }
   sendSignup() {
-    this.props.signup({ username: this.state.username, password: this.state.password });
+    this.props.signup({
+      username: this.state.username,
+      password: this.state.password,
+      email: this.state.email
+    });
     this.setState({
       username: '',
-      password: ''
+      password: '',
+      email: ''
     });
     this.toggle();
   }
@@ -73,6 +83,16 @@ class Modal extends React.Component {
               onDOMChange={this.addUsername}
             />
           </FormField>
+          {this.state.page ?
+            <div /> :
+            <FormField label="Email">
+              <TextInput
+                type="email"
+                value={this.state.email}
+                onDOMChange={this.addEmail}
+              />
+            </FormField>
+          }
           <FormField label="Password">
             <TextInput
               type="password"
@@ -103,7 +123,7 @@ const mapDispatchToprops = (dispatch) => {
   return {
     closeModal: () => dispatch(modalAction('close')),
     openModal: () => dispatch(modalAction('open')),
-    signup: (e) => { dispatch(UserAction.signup(e)); dispatch(modalAction('close')); },
+    signup: (e) => { dispatch(UserAction.signup(e)); dispatch(modalAction('close')); dispatch(UserAction.help('Home')); dispatch(push('/Home')); },
     login: (e) => { dispatch(UserAction.login(e)); dispatch(modalAction('close')); }
   };
 };

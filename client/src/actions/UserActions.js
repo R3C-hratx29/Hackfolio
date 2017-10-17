@@ -1,4 +1,6 @@
 /* eslint-disable no-console */
+// import axios from 'axios';
+
 export const login = (userdata) => {
   console.log('login', userdata);
   // do stuff
@@ -10,7 +12,14 @@ export const login = (userdata) => {
 
 export const signup = (userdata) => {
   console.log('signup', userdata);
-  // do stuff
+  /* axios.post('/signup', {
+    params: {
+      username: userdata.username,
+      password: userdata.password,
+      email: userdata.email
+    }
+  })
+  .then(  ) */
   return {
     type: 'SET_CURRENT_USER',
     userdata
@@ -37,3 +46,11 @@ export const search = (string) => {
   };
 };
 
+export const help = (state) => {
+  return {
+    type: 'HELP_USER',
+    payload: {
+      text: state
+    }
+  };
+};
