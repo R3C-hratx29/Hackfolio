@@ -12,6 +12,8 @@ import Layer from 'grommet/components/Layer';
 import ListItem from 'grommet/components/ListItem';
 import Heading from 'grommet/components/Heading';
 
+import { changeProjects } from '../actions/ProfileActions';
+
 // Custom Styles
 import '../styles/ReorderProjects.scss';
 
@@ -19,19 +21,14 @@ class ReorderProjects extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      projects: props.userProfile.projects
-    };
+    this.state = {};
 
     this.onReorder = this.onReorder.bind(this);
   }
 
   onReorder(event, previousIndex, nextIndex) {
-    const newProjects = reorder(this.state.projects, previousIndex, nextIndex);
-
-    this.setState({
-      projects: newProjects
-    });
+    const newProjects = reorder(this.props.userProfile.projects, previousIndex, nextIndex);
+    this.props.changeProjects(newProjects);
   }
 
   render() {
@@ -58,7 +55,7 @@ class ReorderProjects extends React.Component {
             onReorder={this.onReorder}
           >
             {
-              this.state.projects.map((project) => (
+              this.props.userProfile.projects.map((project) => (
                 <ListItem key={project.id + Math.random()} justify="start" className="project">
                   <div
                     className="image"
@@ -84,12 +81,18 @@ ReorderProjects.propTypes = {
   userProfile: PropTypes.shape({ projects: PropTypes.array }),
   toggleReorderModal: PropTypes.func.isRequired,
   hideReorderModal: PropTypes.bool.isRequired,
+  changeProjects: PropTypes.func.isRequired
 };
 
 ReorderProjects.defaultProps = {
   userProfile: {},
 };
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeProjects: (projects) => dispatch(changeProjects(projects))
+  };
+};
 
 function mapStateToProps(state) {
   return {
@@ -97,4 +100,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(ReorderProjects);
+export default connect(mapStateToProps, mapDispatchToProps)(ReorderProjects);
