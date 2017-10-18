@@ -72,6 +72,15 @@
   }
 }
 
+.Projects {
+  .grommetux-tiles {
+    &:after {
+      content: "";
+      flex: 0 0 384px;
+    }
+  }
+}
+
 .grommetux-split__column--fixed {
   height: inherit !important;
 }

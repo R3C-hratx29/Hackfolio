@@ -4,18 +4,14 @@ import PropTypes from 'prop-types';
 
 // Grommet Components
 import Tiles from 'grommet/components/Tiles';
-import Box from 'grommet/components/Box';
-import Button from 'grommet/components/Button';
 import Tip from 'grommet/components/Tip';
-
-// Grommet Icons
-import AddIcon from 'grommet/components/icons/base/Add';
 
 // Custom Components
 import ProjectCard from './ProjectCard';
 import AddProject from './AddProject';
 import ProfileBox from './ProfileBox';
 import * as UserAction from '../actions/UserActions';
+import AddProjectTile from './AddProjectTile';
 
 class Projects extends React.Component {
   constructor(props) {
@@ -50,23 +46,13 @@ class Projects extends React.Component {
     });
     return (
       <div className="Projects">
-        <Box
-          align="center"
-        >
-          <Button
-            id="AddProjectBtn"
-            label="Add Project"
-            icon={<AddIcon />}
-            primary
-            onClick={this.toggleProjectModal}
-          />
-        </Box>
         <Tiles
-          fill
           flush={false}
+          justify="around"
         >
           <ProfileBox />
           {projects}
+          <AddProjectTile toggleProjectModal={this.toggleProjectModal} />
         </Tiles>
         <AddProject
           toggleProjectModal={this.toggleProjectModal}

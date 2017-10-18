@@ -115,6 +115,7 @@ class ProfileBox extends React.Component {
     return (
       <Tile
         full={false}
+        align="center"
       >
         { this.state.help && this.props.help === 'Profile' ?
           <Tip
@@ -137,7 +138,8 @@ class ProfileBox extends React.Component {
         <Box
           direction="row"
           justify="between"
-          style={{ minWidth: 384 }}
+          // style={{ minWidth: 384 }}
+          size="medium"
           responsive={false}
         >
           <SocialIcons />

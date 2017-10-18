@@ -18,8 +18,6 @@ import placeHolderImage from '../images/placeholder.png';
 
 const ProjectCard = (props) => (
   <Tile
-    key={props.project.id}
-    full={false}
     className="ProjectCard"
     style={{ overflow: 'scroll' }}
   >
