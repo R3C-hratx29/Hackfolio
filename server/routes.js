@@ -6,7 +6,7 @@ const jwt = require('jwt-simple');
 const User = require('./models/user.js');
 const Profile = require('./models/profile.js');
 const Link = require('./models/link.js');
-// const Project = require('./models/project.js');
+const Project = require('./models/project.js');
 
 const secret = 'shakeweight';
 
@@ -32,7 +32,8 @@ router.post('/signup', (req, res) => {
                 const token = jwt.encode(payload, secret);
 
                 res.status(201);
-                res.send({ User_Id: data[0].uid, Jwt: token });
+                res.set({ 'User_Id': data[0].uid, 'Jwt': token });
+                res.send({ 'User_Id': data[0].uid, 'Jwt': token });
               });
           });
         }
@@ -73,6 +74,7 @@ router.post('/signin', (req, res) => {
             const token = jwt.encode(payload, secret);
 
             res.status(201);
+            res.set({ 'User_Id': user[0].uid, 'Jwt': token });
             res.send({ User_Id: user[0].uid, Jwt: token });
           }
 
@@ -149,6 +151,10 @@ router.post('/profile', (req, res) => {
   } else {
     res.send('No authentication detected');
   }
+});
+
+router.post('/project', (req, res) => {
+
 });
 
 router.get('/user/:id', (req, res) => {
