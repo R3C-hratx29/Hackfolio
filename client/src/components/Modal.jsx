@@ -19,7 +19,8 @@ class Modal extends React.Component {
     this.state = {
       page: true,
       username: '',
-      password: ''
+      password: '',
+      email: ''
     };
     this.toggle = this.toggle.bind(this);
     this.addUsername = this.addUsername.bind(this);
@@ -87,7 +88,7 @@ class Modal extends React.Component {
             <div /> :
             <FormField label="Email">
               <TextInput
-                type="email"
+                type="text"
                 value={this.state.email}
                 onDOMChange={this.addEmail}
               />

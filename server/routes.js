@@ -15,7 +15,6 @@ router.post('/signup', (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   const email = req.body.email;
-
   if (username && password && email) {
     User.findByUsername(username, email)
       .then(user => {
@@ -103,18 +102,18 @@ router.post('/profile', (req, res) => {
       .then(profile => {
         if (!profile.length) {
           Profile.createProfile(profileData)
-          .then(pData => {
-            linkData.forEach(e => {
-              e.profile_id = pData[0].id;
-              if (e.title.length && e.title) {
-                Link.addLink(e);
-              } else {
-                res.send('Insignificant data: title.')
-              }
-            });
-            pData[0].links = linkData;
-            res.status(201);
-            res.send(pData[0]);
+            .then(pData => {
+              linkData.forEach(e => {
+                e.profile_id = pData[0].id;
+                if (e.title.length && e.title) {
+                  Link.addLink(e);
+                } else {
+                  res.send('Insignificant data: title.');
+                }
+              });
+              pData[0].links = linkData;
+              res.status(201);
+              res.send(pData[0]);
             })
             .catch(err => {
               console.error(err);
@@ -126,15 +125,15 @@ router.post('/profile', (req, res) => {
                 e.profile_id = pData[0].id;
                 if (e.title && e.title.length) {
                   Link.findByTitle(e.title, e.profile_id)
-                  .then(link => {
-                    if (!link.length) {
-                      Link.addLink(e);
-                    } else {
-                      Link.updateLink(e);
-                    }
-                  });
+                    .then(link => {
+                      if (!link.length) {
+                        Link.addLink(e);
+                      } else {
+                        Link.updateLink(e);
+                      }
+                    });
                 } else {
-                  res.send('Insignificant data: title.')
+                  res.send('Insignificant data: title.');
                 }
               });
               pData[0].links = linkData;

@@ -3,6 +3,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { routerMiddleware } from 'react-router-redux';
 import { createStore, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
 import ReactDOM from 'react-dom';
 import Hackfolio, { history } from './components/App';
 import '../node_modules/grommet-css';
@@ -14,7 +15,7 @@ const middleware = routerMiddleware(history);
 const store = createStore(
   reducers,
   +typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-  applyMiddleware(middleware)
+  applyMiddleware(...[thunkMiddleware, middleware])
 );
 
 store.dispatch({ type: 'SET_CURRENT_USER', payload: { user: null } });
