@@ -16,6 +16,8 @@ import * as UserAction from '../actions/UserActions';
 import AddProjectTile from './AddProjectTile';
 import ReorderProjects from './ReorderProjects';
 
+import '../styles/Projects.scss';
+
 class Projects extends React.Component {
   constructor(props) {
     super(props);

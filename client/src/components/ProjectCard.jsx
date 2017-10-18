@@ -16,6 +16,8 @@ import GithubIcon from 'grommet/components/icons/base/SocialGithub';
 
 import placeHolderImage from '../images/placeholder.png';
 
+import '../styles/ProjectCard.scss';
+
 const ProjectCard = (props) => (
   <Tile
     className="ProjectCard"
