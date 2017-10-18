@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 // Grommet Components
 import Tiles from 'grommet/components/Tiles';
 import Tip from 'grommet/components/Tip';
+import Box from 'grommet/components/Box';
+import Button from 'grommet/components/Button';
 
 // Custom Components
 import ProjectCard from './ProjectCard';
@@ -12,6 +14,9 @@ import AddProject from './AddProject';
 import ProfileBox from './ProfileBox';
 import * as UserAction from '../actions/UserActions';
 import AddProjectTile from './AddProjectTile';
+import ReorderProjects from './ReorderProjects';
+
+import '../styles/Projects.scss';
 
 class Projects extends React.Component {
   constructor(props) {
@@ -19,10 +24,12 @@ class Projects extends React.Component {
 
     this.state = {
       hideProjectModal: true,
+      hideReorderModal: true,
       help: false
     };
 
     this.toggleProjectModal = this.toggleProjectModal.bind(this);
+    this.toggleReorderModal = this.toggleReorderModal.bind(this);
   }
   componentWillMount() {
     setTimeout(() => {
@@ -31,9 +38,16 @@ class Projects extends React.Component {
       });
     }, 500);
   }
+
   toggleProjectModal() {
     this.setState({
       hideProjectModal: !this.state.hideProjectModal
+    });
+  }
+
+  toggleReorderModal() {
+    this.setState({
+      hideReorderModal: !this.state.hideReorderModal
     });
   }
 
@@ -46,6 +60,15 @@ class Projects extends React.Component {
     });
     return (
       <div className="Projects">
+        <Box
+          align="end"
+        >
+          <Button
+            primary
+            onClick={this.toggleReorderModal}
+            label="Reorder Projects"
+          />
+        </Box>
         <Tiles
           flush={false}
           justify="around"
@@ -57,6 +80,10 @@ class Projects extends React.Component {
         <AddProject
           toggleProjectModal={this.toggleProjectModal}
           hideProjectModal={this.state.hideProjectModal}
+        />
+        <ReorderProjects
+          toggleReorderModal={this.toggleReorderModal}
+          hideReorderModal={this.state.hideReorderModal}
         />
         {this.props.help === 'Project' && this.state.help ?
           <Tip

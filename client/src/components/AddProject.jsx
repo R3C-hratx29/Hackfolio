@@ -26,7 +26,7 @@ import Spinning from 'grommet/components/icons/Spinning';
 import ProjectCard from './ProjectCard';
 
 // Component Styles
-import './../styles/ProjectCard.scss';
+import '../styles/AddProject.scss';
 
 // Initalize Firebase
 const config = {

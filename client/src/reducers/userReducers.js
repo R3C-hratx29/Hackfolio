@@ -15,6 +15,11 @@ export const userProfileReducer = (state = {}, action) => {
     case 'SET_USER_PROFILE': {
       return Object.assign({}, action.payload);
     }
+    case 'SET_USER_PROJECTS': {
+      return Object.assign({}, state, {
+        projects: action.payload
+      });
+    }
     default: {
       return state;
     }
