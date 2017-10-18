@@ -7,9 +7,10 @@ import Reorder, {
 } from 'react-reorder';
 
 // Grommet Components
+import Box from 'grommet/components/Box';
 import Layer from 'grommet/components/Layer';
-import List from 'grommet/components/List';
 import ListItem from 'grommet/components/ListItem';
+import Heading from 'grommet/components/Heading';
 
 // Custom Styles
 import '../styles/ReorderProjects.scss';
@@ -41,27 +42,39 @@ class ReorderProjects extends React.Component {
         onClose={this.props.toggleReorderModal}
         hidden={this.props.hideReorderModal}
       >
-        <List>
+        <Box
+          pad={{
+            horizontal: 'medium',
+            vertical: 'large'
+          }}
+        >
+          <Heading>
+            Reorder Projects
+          </Heading>
           <Reorder
             reorderId="projects"
-            component="div"
+            component="ul"
+            className="grommetux-list"
             onReorder={this.onReorder}
           >
             {
               this.state.projects.map((project) => (
-                <ListItem key={project.id} justify="between">
+                <ListItem key={project.id + Math.random()} justify="start" className="project">
                   <div
                     className="image"
                     style={{
-                      backgroundImage: `url(${project.images[0]})`,
+                          backgroundImage: `url(${project.images[0]})`,
                     }}
                   />
-                  <span>{project.title}</span>
+                  <div className="body">
+                    <div className="title">{project.title}</div>
+                    <div className="description">{project.description}</div>
+                  </div>
                 </ListItem>
               ))
             }
           </Reorder>
-        </List>
+        </Box>
       </Layer>
     );
   }
