@@ -12,7 +12,7 @@ export const setUser = (data) => {
     type: 'SET_CURRENT_USER',
     payload: {
       user: {
-        user_id: data.user_id,
+        username: data.username,
         jwt: data.jwt
       }
     }
@@ -56,7 +56,7 @@ export const logout = () => {
   return (dispatch) => {
     return axios.get('/logout')
       .then(() => {
-        dispatch(setUser({ user_id: undefined, jwt: undefined }));
+        dispatch(setUser({ username: undefined, jwt: undefined }));
       })
       .catch((err) => {
         throw err;

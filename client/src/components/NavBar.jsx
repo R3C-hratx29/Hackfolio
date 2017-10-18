@@ -44,8 +44,8 @@ class NavBar extends React.Component {
     this.setState({ searchText: '' });
   }
   goProfile() {
-    const user = `/user/${this.props.user.user_id}`;
-    console.log(this.props.user.user_id);
+    const user = `/user/${this.props.user.username}`;
+    console.log(this.props.user.username);
     this.props.goTo(user);
   }
   goHome() {
