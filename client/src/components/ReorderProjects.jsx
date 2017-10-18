@@ -3,13 +3,16 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Reorder, {
-  reorder,
-  reorderImmutable,
-  reorderFromTo,
-  reorderFromToImmutable
+  reorder
 } from 'react-reorder';
 
+// Grommet Components
 import Layer from 'grommet/components/Layer';
+import List from 'grommet/components/List';
+import ListItem from 'grommet/components/ListItem';
+
+// Custom Styles
+import '../styles/ReorderProjects.scss';
 
 class ReorderProjects extends React.Component {
   constructor(props) {
@@ -18,6 +21,16 @@ class ReorderProjects extends React.Component {
     this.state = {
       projects: props.userProfile.projects
     };
+
+    this.onReorder = this.onReorder.bind(this);
+  }
+
+  onReorder(event, previousIndex, nextIndex) {
+    const newProjects = reorder(this.state.projects, previousIndex, nextIndex);
+
+    this.setState({
+      projects: newProjects
+    });
   }
 
   render() {
@@ -28,21 +41,46 @@ class ReorderProjects extends React.Component {
         onClose={this.props.toggleReorderModal}
         hidden={this.props.hideReorderModal}
       >
-        <div>Hi</div>
+        <List>
+          <Reorder
+            reorderId="projects"
+            component="div"
+            onReorder={this.onReorder}
+          >
+            {
+              this.state.projects.map((project) => (
+                <ListItem key={project.id} justify="between">
+                  <div
+                    className="image"
+                    style={{
+                      backgroundImage: `url(${project.images[0]})`,
+                    }}
+                  />
+                  <span>{project.title}</span>
+                </ListItem>
+              ))
+            }
+          </Reorder>
+        </List>
       </Layer>
     );
   }
 }
 
 ReorderProjects.propTypes = {
+  userProfile: PropTypes.shape({ projects: PropTypes.array }),
   toggleReorderModal: PropTypes.func.isRequired,
   hideReorderModal: PropTypes.bool.isRequired,
 };
 
+ReorderProjects.defaultProps = {
+  userProfile: {},
+};
+
+
 function mapStateToProps(state) {
   return {
-    userProfile: state.userProfile,
-    help: state.help.text
+    userProfile: state.userProfile
   };
 }
 
