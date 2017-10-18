@@ -6,6 +6,7 @@ const jwt = require('jwt-simple');
 const User = require('./models/user.js');
 const Profile = require('./models/profile.js');
 const Link = require('./models/link.js');
+// const Project = require('./models/project.js');
 
 const secret = 'shakeweight';
 
@@ -149,6 +150,29 @@ router.post('/profile', (req, res) => {
   } else {
     res.send('No authentication detected');
   }
+});
+
+router.get('/user/:id', (req, res) => {
+  const user = req.params.id;
+
+  Profile.findByUsername(user)
+    .then(profile => {
+      // Shape data to match example data.
+      delete profile.password;
+      delete profile.email;
+      delete profile.uid;
+
+      Link.findByProfileId(profile.id)
+        .then(links => {
+          profile.socialLinks = links;
+          res.send(profile)
+        })
+    })
+    .catch(err => {
+      res.status(404);
+      res.send(404);
+    })
+
 });
 
 module.exports = router;
