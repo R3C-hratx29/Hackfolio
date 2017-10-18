@@ -1,16 +1,27 @@
 /* eslint-disable no-restricted-syntax */
-import { push } from 'react-router-redux';
+import axios from 'axios';
 import exampleData from './../data/example-data';
 
-const getProfile = (id) => {
-  // get data from database
-  if (id === 'randomperson') {
-    return push('/LandingPage');
-  }
+const setProfile = (data) => {
+  console.log('set Profile', data);
   return {
     type: 'SET_USER_PROFILE',
-    payload: exampleData.profileOfOtherUser
+    payload: data
   };
+};
+
+export const getProfile = (id) => {
+  // get data from database
+  return ((dispatch) => {
+    return axios.get('/Profile', { id })
+      .then((res) => {
+        console.log('res in getProfile', res);
+        dispatch(setProfile(res.data));
+      })
+      .catch((err) => {
+        throw err;
+      });
+  });
 };
 
 export const changeProfile = (data) => {

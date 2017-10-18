@@ -44,11 +44,12 @@ class NavBar extends React.Component {
     this.setState({ searchText: '' });
   }
   goProfile() {
-    const user = `/user/${this.props.userProfile}`; // need to change to current user
+    const user = `/user/${this.props.user.user_id}`;
+    console.log(this.props.user.user_id);
     this.props.goTo(user);
   }
   goHome() {
-    const home = this.props.user === null ? '/' : '/Home';
+    const home = this.props.user === undefined || this.props.user.jwt === undefined ? '/' : '/Home';
     this.props.goTo(home);
   }
   render() {
@@ -104,7 +105,7 @@ class NavBar extends React.Component {
               />
             </Box>
             <Box>
-              { this.props.user === null ?
+              { this.props.user === undefined || this.props.user.jwt === undefined ?
                 <Button label="Login" plain icon={<LoginIcon />} onClick={this.props.openModal} /> :
                 <Button label="Logout" plain icon={<LogoutIcon />} onClick={this.props.logout} />
               }
@@ -146,8 +147,7 @@ const mapStateToProps = (state) => {
   return {
     user: state.currentUser.user,
     modalState: state.modalState,
-    help: state.help.text,
-    userProfile: state.userProfile.username
+    help: state.help.text
   };
 };
 

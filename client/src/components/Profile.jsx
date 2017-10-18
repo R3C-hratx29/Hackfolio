@@ -2,8 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Projects from './Projects';
-import ProfileBox from './ProfileBox';
-import profileAction from '../actions/ProfileActions';
+import { getProfile } from '../actions/ProfileActions';
 
 class Profile extends React.Component {
   componentWillMount() {
@@ -29,7 +28,7 @@ class Profile extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getProfile: (id) => dispatch(profileAction(id))
+    getProfile: (id) => dispatch(getProfile(id))
   };
 };
 

@@ -1,11 +1,20 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console,no-undef */
 import axios from 'axios';
 
 export const setUser = (data) => {
+  console.log(data.jwt);
+  if (data.jwt === undefined) {
+    window.localStorage.removeItem('token');
+  } else {
+    window.localStorage.token = data.jwt;
+  }
   return {
     type: 'SET_CURRENT_USER',
     payload: {
-      user: data
+      user: {
+        user_id: data.user_id,
+        jwt: data.jwt
+      }
     }
   };
 };
@@ -18,7 +27,7 @@ export const login = (userdata) => {
       password: userdata.password
     })
       .then((res) => {
-        dispatch(setUser(res.data));
+        dispatch(setUser(res.headers));
       })
       .catch((err) => {
         throw err;
@@ -35,7 +44,7 @@ export const signup = (userdata) => {
       email: userdata.email
     })
       .then((res) => {
-        dispatch(setUser(res.data));
+        dispatch(setUser(res.headers));
       })
       .catch((err) => {
         throw err;
@@ -44,11 +53,14 @@ export const signup = (userdata) => {
 };
 
 export const logout = () => {
-  return {
-    type: 'SET_CURRENT_USER',
-    payload: {
-      user: null
-    }
+  return (dispatch) => {
+    return axios.get('/logout')
+      .then(() => {
+        dispatch(setUser({ user_id: undefined, jwt: undefined }));
+      })
+      .catch((err) => {
+        throw err;
+      });
   };
 };
 

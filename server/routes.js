@@ -12,12 +12,21 @@ const secret = 'shakeweight';
 
 // TODO: Refactor routes into seperate files.
 
-router.get('/isLoggedIn', (req,res) => {
-  res.send('done');
+router.post('/isLoggedIn', (req,res) => {
+  if(req.body.jwt) {
+    const headers = jwt.decode(req.body.jwt, secret);
+    console.log(headers);
+    res.set(headers); 
+    res.send(headers);
+  }
+  else {
+    res.sent('not logged in'); 
+  }
 });
 
 router.get('/logout', (req,res) => {
-  // delete headers
+  res.set({ 'User_id': undefined, 'jwt': undefined })
+  res.send('true');
 });
 
 router.post('/signup', (req, res) => {
@@ -40,8 +49,8 @@ router.post('/signup', (req, res) => {
                 const token = jwt.encode(payload, secret);
 
                 res.status(201);
-                res.set({ 'User_Id': data[0].uid, 'Jwt': token });
-                res.send({ 'User_Id': data[0].uid, 'Jwt': token });
+                res.set({ 'User_Id': data[0].uid, 'jwt': token });
+                res.send({ 'User_Id': data[0].uid, 'jwt': token });
               });
           });
         }
@@ -80,7 +89,6 @@ router.post('/login', (req, res) => {
           if (match) {
             const payload = { user_id: user[0].uid };
             const token = jwt.encode(payload, secret);
-
             res.status(201);
             res.set({ 'User_Id': user[0].uid, 'Jwt': token });
             res.send({ User_Id: user[0].uid, Jwt: token });

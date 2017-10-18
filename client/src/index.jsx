@@ -7,10 +7,11 @@ import Hackfolio from './components/App';
 import '../node_modules/grommet-css';
 import store from './store';
 
-axios.get('/isLoggedIn')
+axios.post('/isLoggedIn', {
+  jwt: window.localStorage.token
+})
   .then((res) => {
-    console.log(res.headers);
-    store.dispatch({ type: 'SET_CURRENT_USER', payload: { user: res.headers } });
+    store.dispatch({ type: 'SET_CURRENT_USER', payload: { user: { user_id: res.headers.user_id, jwt: window.localStorage.token } } });
   })
   .catch((err) => {
     throw err;
