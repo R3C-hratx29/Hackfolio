@@ -41,11 +41,18 @@ class Modal extends React.Component {
     this.setState({ password: e.target.value });
   }
   sendSignup() {
-    this.props.signup({
-      username: this.state.username,
-      password: this.state.password,
-      email: this.state.email
-    });
+    if (this.state.page) {
+      this.props.login({
+        username: this.state.username,
+        password: this.state.password
+      });
+    } else {
+      this.props.signup({
+        username: this.state.username,
+        password: this.state.password,
+        email: this.state.email
+      });
+    }
     this.setState({
       username: '',
       password: '',

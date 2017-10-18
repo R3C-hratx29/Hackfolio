@@ -12,6 +12,14 @@ const secret = 'shakeweight';
 
 // TODO: Refactor routes into seperate files.
 
+router.get('/isLoggedIn', (req,res) => {
+  res.send('done');
+});
+
+router.get('/logout', (req,res) => {
+  // delete headers
+});
+
 router.post('/signup', (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
@@ -46,7 +54,7 @@ router.post('/signup', (req, res) => {
   }
 });
 
-router.post('/signin', (req, res) => {
+router.post('/login', (req, res) => {
   const password = req.body.password;
   let username = null;
   let email = null;

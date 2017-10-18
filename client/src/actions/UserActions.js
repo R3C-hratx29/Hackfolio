@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import axios from 'axios';
 
-const setUser = (data) => {
+export const setUser = (data) => {
   return {
     type: 'SET_CURRENT_USER',
     payload: {
@@ -11,6 +11,7 @@ const setUser = (data) => {
 };
 
 export const login = (userdata) => {
+  console.log('login', userdata);
   return ((dispatch) => {
     return axios.post('/login', {
       username: userdata.username,
@@ -26,6 +27,7 @@ export const login = (userdata) => {
 };
 
 export const signup = (userdata) => {
+  console.log('signup', userdata);
   return (dispatch) => {
     return axios.post('/signup', {
       username: userdata.username,

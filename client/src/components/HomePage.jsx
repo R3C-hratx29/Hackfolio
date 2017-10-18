@@ -1,7 +1,9 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Tip from 'grommet/components/Tip';
+import LandingPage from './LandingPage';
 import * as UserAction from '../actions/UserActions';
 
 class HomePage extends React.Component {
@@ -27,9 +29,11 @@ class HomePage extends React.Component {
           something about a homepage (maybe cats)
           </Tip> : <div />
         }
-        <div id="Home">
-          Home
-        </div>
+        { this.props.currentUser ?
+          <div id="Home">
+            Home
+          </div> : <LandingPage />
+        }
       </div>
     );
   }
@@ -53,7 +57,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    help: state.help.text
+    help: state.help.text,
+    currentUser: state.currentUser.user
   };
 };
 
