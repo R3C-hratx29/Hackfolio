@@ -2,6 +2,16 @@ const db = require('./db');
 
 const Link = {};
 
+Link.findByProfileId = (profileId) => {
+  return db('links').where({ profile_id: profileId }).select('*')
+    .then(links => {
+      return links;
+    })
+    .catch(err => {
+      console.error(err);
+    });
+};
+
 Link.findByTitle = (_title, profileId) => {
   return db('links').where({
     title: _title,

@@ -3,6 +3,18 @@ const db = require('./db');
 
 const Profile = {};
 
+Profile.findByUsername = (_username) => {
+  return db('users').where({ username: _username })
+    .join('profiles', 'users.uid', 'profiles.user_id')
+    .select('*')
+    .then(profile => {
+      return profile[0];
+    })
+    .catch(err => {
+      console.error(err);
+    });
+};
+
 Profile.findAllByUserId = (userId) => {
   return db('profiles').where({ user_id: userId }).select('*')
     .then(profile => {
