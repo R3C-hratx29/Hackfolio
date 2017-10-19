@@ -8,7 +8,7 @@ export const saveProject = (project) => {
       headers: { jwt: window.localStorage.token }
     })
       .then((res) => {
-        console.log(res.headers)
+        console.log(res.headers);
         dispatch(getProfile(res.headers.username));
       })
       .catch((err) => {
@@ -17,6 +17,9 @@ export const saveProject = (project) => {
   });
 };
 
-export const updateProject = (project) => {
-
+export const changeProjects = (projects) => {
+  return {
+    type: 'SET_USER_PROJECTS',
+    payload: projects
+  };
 };

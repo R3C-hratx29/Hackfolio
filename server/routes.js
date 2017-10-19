@@ -133,7 +133,7 @@ router.post('/profile', (req, res) => {
           });
         }
         res.status(201);
-        res.set({ 'Username': dLoad.username });
+        res.set({ 'username': dLoad.username });
         res.end();
       });
 
@@ -170,7 +170,7 @@ router.post('/project', (req, res) => {
               if (!projects[0].length) {
                 Project.updateProject(projectData)
                 .then(project => {
-                  res.set({ 'Username': dLoad.username });
+                  res.set({ 'username': dLoad.username });
                   res.send(project[0]);
                 })
               } else {
