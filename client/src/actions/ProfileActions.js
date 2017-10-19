@@ -1,6 +1,5 @@
-/* eslint-disable no-restricted-syntax,prefer-template */
+/* eslint-disable no-restricted-syntax,prefer-template,guard-for-in,no-undef,no-console */
 import axios from 'axios';
-import exampleData from './../data/example-data';
 
 const setProfile = (data) => {
   console.log('set Profile', data);
@@ -19,21 +18,30 @@ export const getProfile = (id) => {
         dispatch(setProfile(res.data));
       })
       .catch((err) => {
-        throw err;
+        console.log(err);
       });
   });
 };
 
-export const changeProfile = (data) => {
-  for (const key in exampleData.profileOfOtherUser) {
-    if (data[key]) {
-      exampleData.profileOfOtherUser[key] = data[key];
-    }
+export const changeProfile = (data, profile) => {
+  const newProfile = {};
+  for (const key in profile) {
+    newProfile[key] = data[key] ? data[key] : profile[key];
   }
-  return {
-    type: 'SET_USER_PROFILE',
-    payload: exampleData.profileOfOtherUser
+  const config = {
+    headers: {
+      jwt: window.localStorage.token
+    }
   };
+  return ((dispatch) => {
+    return axios.post('/profile', newProfile, config)
+      .then((res) => {
+        dispatch(setProfile(res.data));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 };
 
 export const changeProjects = (projects) => {

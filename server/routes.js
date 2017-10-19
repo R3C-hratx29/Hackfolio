@@ -119,8 +119,6 @@ router.post('/profile', (req, res) => {
       socialLinks: req.body.socialLinks
     };
     let links = profileData.socialLinks;
-
-    console.log(profileData)
     Profile.updateProfile(profileData)
       .then(profiles => {
         profiles[0].username = dLoad.username;
@@ -205,7 +203,6 @@ router.put('/project', (req, res) => {
 
 router.get('/user/:id', (req, res) => {
   const user = req.params.id;
-  console.log('to profile', user);
   Profile.findByUsername(user)
     .then(profile => {
       // Shape data to match example data.
