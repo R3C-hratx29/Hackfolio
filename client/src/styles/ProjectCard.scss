@@ -28,20 +28,6 @@
   .grommetux-carousel {
     height: 284px;
 
-    .grommetux-carousel__track {
-
-    }
-
-    .grommetux-carousel__item {
-      width: 384px !important;
-      height: 280px !important;
-      // display: inline-block;
-      img {
-        width: 384px !important;
-        height: 280px !important;
-      }
-    }
-
     .grommetux-button__icon, .grommetux-carousel__controls .grommetux-button {
       transform: scale(0.5);
     }
@@ -58,11 +44,11 @@
       stroke: black;
     }
 
-    // .grommetux-tiles.grommetux-box--direction-row>.grommetux-tile.grommetux-carousel__item>* {
-    //   width: 100%;
-    //   height: 100%;
-    //   position: absolute;
-    // }
+    .grommetux-tiles.grommetux-box--direction-row>.grommetux-tile.grommetux-carousel__item>* {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+    }
   }
 
 }

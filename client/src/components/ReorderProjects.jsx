@@ -10,7 +10,9 @@ import Reorder, {
 import Box from 'grommet/components/Box';
 import Layer from 'grommet/components/Layer';
 import ListItem from 'grommet/components/ListItem';
+import Header from 'grommet/components/Header';
 import Heading from 'grommet/components/Heading';
+import Button from 'grommet/components/Button';
 
 import { changeProjects } from '../actions/ProfileActions';
 
@@ -21,14 +23,36 @@ class ReorderProjects extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      projects: props.userProfile.projects,
+      updatedOrder: []
+    };
 
     this.onReorder = this.onReorder.bind(this);
+    this.onSave = this.onSave.bind(this);
   }
 
   onReorder(event, previousIndex, nextIndex) {
-    const newProjects = reorder(this.props.userProfile.projects, previousIndex, nextIndex);
-    this.props.changeProjects(newProjects);
+    const newProjects = reorder(this.state.projects, previousIndex, nextIndex);
+    const updatedOrder = newProjects.map((project, index) => {
+      return {
+        id: project.id,
+        order: index
+      };
+    });
+
+    this.setState({
+      projects: newProjects,
+      updatedOrder
+    });
+  }
+
+  onSave() {
+    // TODO
+    // Make an axios call to update order of projects this.state.updatedOrder
+    console.log(this.state.updatedOrder);
+    this.props.changeProjects(this.state.projects);
+    this.props.toggleReorderModal();
   }
 
   render() {
@@ -45,9 +69,19 @@ class ReorderProjects extends React.Component {
             vertical: 'large'
           }}
         >
-          <Heading>
-            Reorder Projects
-          </Heading>
+          <Header
+            direction="row"
+            justify="between"
+          >
+            <Heading>
+              Reorder Projects
+            </Heading>
+            <Button
+              onClick={this.onSave}
+              label="Save"
+              primary
+            />
+          </Header>
           <Reorder
             reorderId="projects"
             component="ul"
@@ -55,7 +89,7 @@ class ReorderProjects extends React.Component {
             onReorder={this.onReorder}
           >
             {
-              this.props.userProfile.projects.map((project) => (
+              this.state.projects.map((project) => (
                 <ListItem key={project.id + Math.random()} justify="start" className="project">
                   <div
                     className="image"

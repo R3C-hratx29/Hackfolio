@@ -59,23 +59,27 @@ class Projects extends React.Component {
       );
     });
     return (
-      <div className="Projects">
-        <Box
-          align="end"
-        >
-          <Button
-            primary
-            onClick={this.toggleReorderModal}
-            label="Reorder Projects"
-          />
-        </Box>
+      <div className={`Projects ${this.props.isProfileOwner ? 'isProfileOwner' : ''}`}>
+        {this.props.isProfileOwner &&
+          <Box
+            align="end"
+          >
+            <Button
+              primary
+              onClick={this.toggleReorderModal}
+              label="Reorder Projects"
+            />
+          </Box>
+        }
         <Tiles
           flush={false}
-          justify="around"
+          justify={this.props.isProfileOwner ? 'around' : 'between'}
         >
-          <ProfileBox />
+          <ProfileBox isProfileOwner={this.props.isProfileOwner} />
           {projects}
-          <AddProjectTile toggleProjectModal={this.toggleProjectModal} />
+          {this.props.isProfileOwner &&
+            <AddProjectTile toggleProjectModal={this.toggleProjectModal} />
+          }
         </Tiles>
         <AddProject
           toggleProjectModal={this.toggleProjectModal}
@@ -107,7 +111,8 @@ Projects.defaultProps = {
 Projects.propTypes = {
   userProfile: PropTypes.shape({ projects: PropTypes.array }),
   help: PropTypes.string,
-  displayHelp: PropTypes.func
+  displayHelp: PropTypes.func,
+  isProfileOwner: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
