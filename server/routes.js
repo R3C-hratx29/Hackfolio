@@ -89,7 +89,7 @@ router.post('/login', (req, res) => {
         console.log(user);
         bcrypt.compare(password, user[0].password, (err, match) => {
           if (match) {
-            const payload = { user_id: user[0].uid };
+            const payload = { username: user[0].username };
             const token = jwt.encode(payload, secret);
             res.status(201);
             res.set({ 'Username': user[0].username, 'Jwt': token });
