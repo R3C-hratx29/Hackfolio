@@ -25,6 +25,8 @@ exports.up = (knex, Promise) => {
       table.string('description');
       table.string('github_link');
       table.string('website_link');
+      table.string('stack');
+      table.string('images');
     }),
     knex.schema.createTable('links', (table) => {
       table.increments('id').primary();
@@ -34,28 +36,12 @@ exports.up = (knex, Promise) => {
       table.string('title');
       table.string('link');
       table.string('icon');
-    }),
-    knex.schema.createTable('stacks', (table) => {
-      table.increments('id').primary();
-      table.integer('project_id')
-        .references('id')
-        .inTable('projects');
-      table.string('tech');
-    }),
-    knex.schema.createTable('images', (table) => {
-      table.increments('id').primary();
-      table.integer('project_id')
-        .references('id')
-        .inTable('projects');
-      table.string('link');
     })
   ]);
 };
 
 exports.down = (knex, Promise) => {
   return Promise.all([
-    knex.schema.dropTable('stacks'),
-    knex.schema.dropTable('images'),
     knex.schema.dropTable('links'),
     knex.schema.dropTable('projects'),
     knex.schema.dropTable('profiles'),

@@ -12,9 +12,9 @@ Link.findByProfileId = (profileId) => {
     });
 };
 
-Link.findByTitle = (_title, profileId) => {
+Link.findByTitle = (_id, profileId) => {
   return db('links').where({
-    title: _title,
+    id: _id,
     profile_id: profileId
   })
     .select('*')
@@ -35,7 +35,7 @@ Link.addLink = (data) => {
       icon: data.icon
     })
     .then(() => {
-      return db('links').where({ title: data.title }).select('*');
+      return db('links').where({ title: data.title, profile_id: data.profile_id }).select('*');
     })
     .catch(err => {
       console.error(err);
@@ -44,7 +44,8 @@ Link.addLink = (data) => {
 
 Link.updateLink = (data) => {
   return db('links').where({
-    title: data.title
+    id: data.id,
+    profile_id: data.profile_id
   })
     .update({
       title: data.title,
@@ -52,7 +53,7 @@ Link.updateLink = (data) => {
       icon: data.icon
     })
     .then(() => {
-      return db('links').where({ title: data.title }).select('*');
+      return db('links').where({ title: data.title, profile_id: data.profile_id }).select('*');
     })
     .catch(err => {
       console.error(err);

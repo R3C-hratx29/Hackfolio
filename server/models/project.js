@@ -2,9 +2,9 @@ const db = require('./db');
 
 const Project = {};
 
-Project.findByProfileId = (_title, profileId) => {
+Project.findByProfileId = (_id, profileId) => {
   return db('projects').where({
-    title: _title,
+    id: _id,
     profile_id: profileId
   })
     .select('*')
@@ -22,7 +22,9 @@ Project.createProject = (data) => {
     title: data.title,
     description: data.description,
     github_link: data.github_link,
-    website_link: data.website_link
+    website_link: data.website_link,
+    images: data.images,
+    stack: data.stack
   })
     .then(() => {
       return db('projects').where({ title: data.title }).select('*');
@@ -33,17 +35,20 @@ Project.createProject = (data) => {
 };
 
 Project.updateProject = (data) => {
-  return db('profiles').where({
-    title: data.title
+  return db('projects').where({
+    profile_id: data.profile_id,
+    id: data.id
   })
     .update({
       title: data.title,
       description: data.description,
       github_link: data.github_link,
-      website_link: data.website_link
+      website_link: data.website_link,
+      images: data.images,
+      stack: data.stack
     })
     .then(() => {
-      return db('links').where({ title: data.title }).select('*');
+      return db('projects').where({ id: data.id }).select('*');
     })
     .catch(err => {
       console.error(err);
