@@ -210,14 +210,31 @@ router.get('/user/:id', (req, res) => {
       // Shape data to match example data.
       delete profile.password;
       delete profile.email;
-      delete profile.uid;
+      delete profile.uid
       profile.projects = [];
+
 
       Link.findByProfileId(profile.id)
         .then(links => {
           profile.socialLinks = links;
-          res.send(profile)
+          Project.findByProfileId(1, profile.id)
+          .then(projects => {
+            profile.projects = projects;
+
+            projects.forEach(project => {
+              project.stack = project.stack.split(',');
+              project.images = project.images.split(',');
+            });
+
+            res.send(profile);
+          })
+          .catch(err => {
+            res.send(err);
+          });
         })
+        .catch(err => {
+          res.send(err);
+        });
     })
     .catch(err => {
       res.sendStatus(404);
