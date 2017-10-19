@@ -175,7 +175,6 @@ router.post('/project', (req, res) => {
               }
             });
         } else {
-          projectData.order = 0;
           Project.createProject(projectData)
             .then(project => {
               res.send(project[project.length-1]);
@@ -188,6 +187,17 @@ router.post('/project', (req, res) => {
   } else {
     res.send('No authentication detected');
   }
+});
+
+router.put('/project', (req, res) => {
+  req.body.forEach(project => {
+    Project.updateOrder(project)
+      .catch(err => {
+        console.error(err);
+      });
+  });
+
+  res.send(req.body);
 });
 
 router.get('/user/:id', (req, res) => {
@@ -212,5 +222,6 @@ router.get('/user/:id', (req, res) => {
       res.send(404);
     });
 });
+
 
 module.exports = router;

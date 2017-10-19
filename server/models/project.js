@@ -19,6 +19,7 @@ Project.findByProfileId = (_id, profileId) => {
 Project.createProject = (data) => {
   return db('projects').insert({
     profile_id: data.profile_id,
+    order: 0,
     title: data.title,
     description: data.description,
     github_link: data.github_link,
@@ -36,7 +37,6 @@ Project.createProject = (data) => {
 
 Project.updateProject = (data) => {
   return db('projects').where({
-    profile_id: data.profile_id,
     id: data.id
   })
     .update({
@@ -46,6 +46,21 @@ Project.updateProject = (data) => {
       website_link: data.website_link,
       images: data.images,
       stack: data.stack
+    })
+    .then(() => {
+      return db('projects').where({ id: data.id }).select('*');
+    })
+    .catch(err => {
+      console.error(err);
+    });
+};
+
+Project.updateOrder = (data) => {
+  return db('projects').where({
+    id: data.id
+  })
+    .update({
+      order: data.order
     })
     .then(() => {
       return db('projects').where({ id: data.id }).select('*');
