@@ -7,7 +7,7 @@ import Hackfolio from './components/App';
 import '../node_modules/grommet-css';
 import store from './store';
 
-axios.post('/isLoggedIn', {
+axios.get('/me', {
   jwt: window.localStorage.token
 })
   .then((res) => {

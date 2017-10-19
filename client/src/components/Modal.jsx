@@ -63,6 +63,7 @@ class Modal extends React.Component {
   render() {
     const text = this.state.page ? 'Login' : 'Signup';
     const welcome = this.state.page ? 'Welcome Back' : 'Welcome';
+    const changeLink = this.state.page ? 'Not a user? Signup!' : 'Already have an account?';
     return (
       <Layer closer onClose={this.props.closeModal}>
         <Box
@@ -84,7 +85,7 @@ class Modal extends React.Component {
               </Heading>
             </Box>
           </Box>
-          <FormField label="Username">
+          <FormField label={this.state.page ? 'Username/Email' : 'Username'}>
             <TextInput
               type="text"
               value={this.state.username}
@@ -119,7 +120,7 @@ class Modal extends React.Component {
           />
           <Anchor
             onClick={this.toggle}
-            label="Not a user? Signup!"
+            label={changeLink}
           />
         </Box>
       </Layer>

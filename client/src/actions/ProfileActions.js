@@ -1,4 +1,4 @@
-/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-restricted-syntax,prefer-template */
 import axios from 'axios';
 import exampleData from './../data/example-data';
 
@@ -13,7 +13,7 @@ const setProfile = (data) => {
 export const getProfile = (id) => {
   // get data from database
   return ((dispatch) => {
-    return axios.get('/Profile', { id })
+    return axios.get('/user/' + id)
       .then((res) => {
         console.log('res in getProfile', res);
         dispatch(setProfile(res.data));

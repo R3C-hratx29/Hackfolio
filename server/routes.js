@@ -12,15 +12,14 @@ const secret = 'shakeweight';
 
 // TODO: Refactor routes into seperate files.
 
-router.post('/isLoggedIn', (req,res) => {
-  if(req.body.jwt) {
+router.get('/me', (req,res) => {
+  if (req.body.jwt) {
     const headers = jwt.decode(req.body.jwt, secret);
-    console.log(headers);
     res.set(headers); 
     res.send(headers);
   }
   else {
-    res.sent('not logged in'); 
+    res.send('not logged in'); 
   }
 });
 
@@ -182,7 +181,7 @@ router.get('/user/:id', (req, res) => {
       delete profile.password;
       delete profile.email;
       delete profile.uid;
-
+      profile.projects = [];
       Link.findByProfileId(profile.id)
         .then(links => {
           profile.socialLinks = links;
