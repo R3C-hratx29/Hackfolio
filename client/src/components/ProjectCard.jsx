@@ -19,19 +19,30 @@ import placeHolderImage from '../images/placeholder.png';
 
 import '../styles/ProjectCard.scss';
 
+function httpify(value) {
+  let string = value;
+  if (!/^((http|https):\/\/)/.test(value)) {
+    string = `http://${string}`;
+  }
+  return string;
+}
+
 const ProjectCard = (props) => (
   <Tile
     className="ProjectCard"
     style={{ overflow: 'scroll' }}
   >
     {
-      props.project.images.length <= 1 ? (
+      props.project.images.length === 1 && props.project.images[0] !== '' && (
         <Image
           size="medium"
           style={{ maxWidth: 384, maxHeight: 280 }}
-          src={props.project.images[0]}
+          src={httpify(props.project.images[0])}
         />
-      ) : (
+      )
+    }
+    {
+      props.project.images.length > 1 && (
         <Box
           size="medium"
         >
@@ -43,8 +54,10 @@ const ProjectCard = (props) => (
               props.project.images.map((image, index) => {
                 const i = index;
                 let imageURL = image;
-                if (image === '') {
+                if (!image) {
                   imageURL = placeHolderImage;
+                } else {
+                  imageURL = httpify(imageURL);
                 }
                 return (
                   <Image
@@ -97,7 +110,7 @@ const ProjectCard = (props) => (
             <Anchor
               icon={<GithubIcon />}
               label="GitHub"
-              href={props.project.github_link}
+              href={httpify(props.project.github_link)}
               primary
               reverse={false}
               target="blank"
@@ -108,7 +121,7 @@ const ProjectCard = (props) => (
             <Anchor
               icon={<LinkNextIcon />}
               label="Visit Site"
-              href={props.project.website_link}
+              href={httpify(props.project.website_link)}
               primary
               reverse={false}
               target="blank"
