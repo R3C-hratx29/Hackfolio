@@ -123,6 +123,7 @@ router.post('/profile', (req, res) => {
     console.log(profileData)
     Profile.updateProfile(profileData)
       .then(profiles => {
+        profiles[0].username = dLoad.username;
         if (links.length) {
           links.forEach(link => {
             link.profile_id = profiles[0].id;
@@ -132,11 +133,11 @@ router.post('/profile', (req, res) => {
               Link.updateLink(link);
             }
           });
+          res.status(201);
+          res.send(profiles[0]);
         }
       });
 
-      res.status(201);
-      res.send(profileData);
   } else {
     res.send('No authentication detected');
   }
