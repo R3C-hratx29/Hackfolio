@@ -135,7 +135,7 @@ router.post('/profile', (req, res) => {
           });
         }
         res.status(201);
-        res.send(profiles[0]);
+        res.end();
       });
 
   } else {
