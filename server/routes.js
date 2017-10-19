@@ -133,9 +133,9 @@ router.post('/profile', (req, res) => {
               Link.updateLink(link);
             }
           });
-          res.status(201);
-          res.send(profiles[0]);
         }
+        res.status(201);
+        res.send(profiles[0]);
       });
 
   } else {
@@ -166,7 +166,7 @@ router.post('/project', (req, res) => {
         projectData.stack = projectData.stack.join(',');
 
         if (projectData.id && projectData.profile_id){
-          Project.findByProfileId(projectData.id, projectData.profile_id)
+          Project.findById(projectData.id, projectData.profile_id)
             .then(projects => {
               if (!projects[0].length) {
                 Project.updateProject(projectData)
@@ -218,7 +218,7 @@ router.get('/user/:id', (req, res) => {
       Link.findByProfileId(profile.id)
         .then(links => {
           profile.socialLinks = links;
-          Project.findByProfileId(1, profile.id)
+          Project.findByProfileId(profile.id)
           .then(projects => {
             profile.projects = projects;
 
