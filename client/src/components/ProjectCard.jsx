@@ -33,13 +33,16 @@ const ProjectCard = (props) => (
     style={{ overflow: 'scroll' }}
   >
     {
-      props.project.images.length <= 1 ? (
+      props.project.images.length === 1 && (
         <Image
           size="medium"
           style={{ maxWidth: 384, maxHeight: 280 }}
           src={props.project.images[0] === '' ? placeHolderImage : httpify(props.project.images[0])}
         />
-      ) : (
+      )
+    }
+    {
+      props.project.images.length > 1 && (
         <Box
           size="medium"
         >
