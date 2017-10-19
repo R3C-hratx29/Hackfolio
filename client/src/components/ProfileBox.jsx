@@ -143,12 +143,15 @@ class ProfileBox extends React.Component {
           responsive={false}
         >
           <SocialIcons />
-          <Box>
-            <Anchor
-              icon={this.state.edit ? <SaveIcon id="edit" /> : <EditIcon id="edit" />}
-              onClick={this.editMe}
-            />
-          </Box>
+          {
+            this.props.isProfileOwner &&
+            <Box>
+              <Anchor
+                icon={this.state.edit ? <SaveIcon id="edit" /> : <EditIcon id="edit" />}
+                onClick={this.editMe}
+              />
+            </Box>
+          }
         </Box>
       </Tile>
     );
