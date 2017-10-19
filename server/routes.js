@@ -32,6 +32,7 @@ router.post('/signup', (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   const email = req.body.email;
+
   if (username && password && email) {
     User.findByUsername(username, email)
       .then(user => {
@@ -48,8 +49,8 @@ router.post('/signup', (req, res) => {
                 const token = jwt.encode(payload, secret);
 
                 res.status(201);
-                res.set({ 'User_Id': data[0].uid, 'jwt': token });
-                res.send({ 'User_Id': data[0].uid, 'jwt': token });
+                res.set({ 'Username': data[0].username, 'Jwt': token });
+                res.send({ 'Username': data[0].username, 'Jwt': token });
               });
           });
         }
@@ -89,8 +90,8 @@ router.post('/login', (req, res) => {
             const payload = { user_id: user[0].uid };
             const token = jwt.encode(payload, secret);
             res.status(201);
-            res.set({ 'User_Id': user[0].uid, 'Jwt': token });
-            res.send({ User_Id: user[0].uid, Jwt: token });
+            res.set({ 'Username': user[0].username, 'Jwt': token });
+            res.send({ Username: user[0].username, Jwt: token });
           }
 
           if (!match) {
