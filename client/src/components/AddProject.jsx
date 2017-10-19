@@ -65,7 +65,10 @@ class AddProject extends React.Component {
 
   onSave() {
     // temp use of axios because I needed a way to add Projects
-    axios.post('/project', this.state.project);
+    console.log(this.state.project);
+    axios.post('/project', this.state.project, {
+      headers: { jwt: localStorage.token }
+    });
     this.props.toggleProjectModal();
   }
 
