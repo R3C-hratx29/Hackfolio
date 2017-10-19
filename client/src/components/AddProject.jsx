@@ -45,7 +45,7 @@ class AddProject extends React.Component {
     super(props);
 
     this.state = {
-      project: props.edit || {
+      project: {
         title: '',
         description: '',
         github_link: '',
@@ -61,6 +61,25 @@ class AddProject extends React.Component {
     this.updateImages = this.updateImages.bind(this);
     this.onImageUpload = this.onImageUpload.bind(this);
     this.onSave = this.onSave.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.edit) {
+      this.setState({
+        project: nextProps.edit
+      });
+    } else {
+      this.setState({
+        project: {
+          title: '',
+          description: '',
+          github_link: '',
+          website_link: '',
+          images: [],
+          stack: [],
+        }
+      });
+    }
   }
 
   onSave() {
@@ -153,7 +172,7 @@ class AddProject extends React.Component {
                 justify="between"
               >
                 <Heading>
-                  Add a Project
+                  {this.props.edit ? 'Edit Project' : 'Add a Project'}
                 </Heading>
                 <Menu
                   responsive
@@ -196,6 +215,7 @@ class AddProject extends React.Component {
               >
                 <FormField label="Title">
                   <TextInput
+                    value={this.state.project.title}
                     onDOMChange={
                       (e) => {
                         this.updateProject({ title: e.target.value });
@@ -205,6 +225,7 @@ class AddProject extends React.Component {
                 </FormField>
                 <FormField label="Description">
                   <TextInput
+                    value={this.state.project.description}
                     onDOMChange={
                       (e) => {
                         this.updateProject({ description: e.target.value });
@@ -214,6 +235,7 @@ class AddProject extends React.Component {
                 </FormField>
                 <FormField label="Website Link">
                   <TextInput
+                    value={this.state.project.website_link}
                     onDOMChange={
                       (e) => {
                         this.updateProject({ website_link: e.target.value });
@@ -223,6 +245,7 @@ class AddProject extends React.Component {
                 </FormField>
                 <FormField label="Github Link">
                   <TextInput
+                    value={this.state.project.github_link}
                     onDOMChange={
                       (e) => {
                         this.updateProject({ github_link: e.target.value });
@@ -232,6 +255,7 @@ class AddProject extends React.Component {
                 </FormField>
                 <FormField label="Stack">
                   <TextInput
+                    value={this.state.project.stack.join(', ')}
                     placeHolder="Separate with commas"
                     onDOMChange={
                       (e) => {
@@ -278,7 +302,7 @@ class AddProject extends React.Component {
                 primary
                 fill
                 onClick={this.onSave}
-                label="Add Project"
+                label="Save Project"
                 style={{ marginTop: 10 }}
               />
             </Form>

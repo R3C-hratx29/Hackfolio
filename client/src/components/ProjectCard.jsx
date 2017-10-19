@@ -63,18 +63,13 @@ const ProjectCard = (props) => (
     <Card
       contentPad="medium"
       heading={
-        <Box
-          direction="row"
-          justify="between"
+        <Heading
+          strong
+          tag="h2"
         >
-          <Heading
-            strong
-            tag="h2"
-          >
-            {props.project.title}
-          </Heading>
-          <EditIcon onClick={() => props.editProject(props.project)} />
-        </Box>
+          {props.project.title}
+          <EditIcon className="editProjectIcon" onClick={() => props.editProject(props.project)} />
+        </Heading>
       }
       description={
         <div>

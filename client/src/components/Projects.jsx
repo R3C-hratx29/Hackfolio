@@ -41,6 +41,11 @@ class Projects extends React.Component {
   }
 
   toggleProjectModal() {
+    if (this.state.hideProjectModal) {
+      this.setState({
+        edit: null
+      });
+    }
     this.setState({
       hideProjectModal: !this.state.hideProjectModal
     });
@@ -53,6 +58,7 @@ class Projects extends React.Component {
   }
 
   editProject(project) {
+    console.log(project);
     this.setState({
       hideProjectModal: false,
       edit: project
