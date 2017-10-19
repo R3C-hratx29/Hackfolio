@@ -65,7 +65,9 @@ class Projects extends React.Component {
   }
 
   render() {
-    const projects = this.props.userProfile.projects.map((project, index) => {
+    const projects = this.props.userProfile.projects.sort((a, b) => {
+      return a.order - b.order;
+    }).map((project, index) => {
       const i = index;
       return (
         <ProjectCard key={i} project={project} editProject={this.editProject} />
