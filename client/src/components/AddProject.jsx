@@ -88,7 +88,6 @@ class AddProject extends React.Component {
 
   onSave() {
     // temp use of axios because I needed a way to add Projects
-    console.log(this.state.project);
     this.props.saveProject(this.state.project);
     this.props.toggleProjectModal();
   }
