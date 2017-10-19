@@ -27,7 +27,6 @@ class Projects extends React.Component {
       hideReorderModal: true,
       help: false
     };
-
     this.toggleProjectModal = this.toggleProjectModal.bind(this);
     this.toggleReorderModal = this.toggleReorderModal.bind(this);
     this.editProject = this.editProject.bind(this);

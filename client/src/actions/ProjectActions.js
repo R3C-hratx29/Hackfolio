@@ -8,7 +8,6 @@ export const saveProject = (project) => {
       headers: { jwt: window.localStorage.token }
     })
       .then((res) => {
-        console.log(res.headers);
         dispatch(getProfile(res.headers.username));
       })
       .catch((err) => {
@@ -18,8 +17,16 @@ export const saveProject = (project) => {
 };
 
 export const changeProjects = (projects) => {
-  return {
-    type: 'SET_USER_PROJECTS',
-    payload: projects
-  };
+  return ((dispatch) => {
+    return axios.put('/project', projects, {
+      headers: { jwt: window.localStorage.token }
+    })
+      .then((res) => {
+        console.log('headers in change', res.headers);
+        dispatch(getProfile(res.headers.username));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 };
