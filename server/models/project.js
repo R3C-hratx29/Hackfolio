@@ -2,9 +2,22 @@ const db = require('./db');
 
 const Project = {};
 
-Project.findByProfileId = (_id, profileId) => {
+Project.findById = (_id, profileId) => {
   return db('projects').where({
     id: _id,
+    profile_id: profileId
+  })
+    .select('*')
+    .then(project => {
+      return project;
+    })
+    .catch(err => {
+      console.error(err);
+    });
+};
+
+Project.findByProfileId = (profileId) => {
+  return db('projects').where({
     profile_id: profileId
   })
     .select('*')
