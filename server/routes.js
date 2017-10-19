@@ -133,6 +133,7 @@ router.post('/profile', (req, res) => {
           });
         }
         res.status(201);
+        res.set({ 'Username': dLoad.username });
         res.end();
       });
 
@@ -144,7 +145,7 @@ router.post('/profile', (req, res) => {
 
 router.post('/project', (req, res) => {
   if (req.headers.jwt) {
-    const user_id = jwt.decode(req.headers.jwt, secret).user_id;
+    const dLoad = jwt.decode(req.headers.jwt, secret);
     const projectData = {
       id: req.body.id,
       profile_id: null,
@@ -157,7 +158,7 @@ router.post('/project', (req, res) => {
     };
 
 
-    Profile.findAllByUserId(user_id)
+    Profile.findAllByUserId(dLoad)
       .then(profile => {
         projectData.profile_id = profile[0].id;
         projectData.images = projectData.images.join(',');
@@ -169,6 +170,7 @@ router.post('/project', (req, res) => {
               if (!projects[0].length) {
                 Project.updateProject(projectData)
                 .then(project => {
+                  res.set({ 'Username': dLoad.username });
                   res.send(project[0]);
                 })
               } else {
@@ -178,6 +180,7 @@ router.post('/project', (req, res) => {
         } else {
           Project.createProject(projectData)
             .then(project => {
+              res.set({ 'Username': dLoad.username });
               res.send(project[project.length-1]);
             });
         }
