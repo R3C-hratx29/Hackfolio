@@ -12,6 +12,22 @@ const secret = 'shakeweight';
 
 // TODO: Refactor routes into seperate files.
 
+router.get('/me', (req,res) => {
+  if (req.body.jwt) {
+    const headers = jwt.decode(req.body.jwt, secret);
+    res.set(headers); 
+    res.send(headers);
+  }
+  else {
+    res.send('not logged in'); 
+  }
+});
+
+router.get('/logout', (req,res) => {
+  res.set({ 'User_id': undefined, 'jwt': undefined })
+  res.send('true');
+});
+
 router.post('/signup', (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
@@ -47,7 +63,7 @@ router.post('/signup', (req, res) => {
   }
 });
 
-router.post('/signin', (req, res) => {
+router.post('/login', (req, res) => {
   const password = req.body.password;
   let username = null;
   let email = null;
@@ -73,7 +89,6 @@ router.post('/signin', (req, res) => {
           if (match) {
             const payload = { user_id: user[0].uid };
             const token = jwt.encode(payload, secret);
-
             res.status(201);
             res.set({ 'Username': user[0].username, 'Jwt': token });
             res.send({ Username: user[0].username, Jwt: token });
@@ -167,7 +182,7 @@ router.get('/user/:id', (req, res) => {
       delete profile.password;
       delete profile.email;
       delete profile.uid;
-
+      profile.projects = [];
       Link.findByProfileId(profile.id)
         .then(links => {
           profile.socialLinks = links;

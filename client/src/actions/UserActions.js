@@ -1,23 +1,33 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console,no-undef */
 import axios from 'axios';
 
-const setUser = (data) => {
+export const setUser = (data) => {
+  console.log(data.jwt);
+  if (data.jwt === undefined) {
+    window.localStorage.removeItem('token');
+  } else {
+    window.localStorage.token = data.jwt;
+  }
   return {
     type: 'SET_CURRENT_USER',
     payload: {
-      user: data
+      user: {
+        username: data.username,
+        jwt: data.jwt
+      }
     }
   };
 };
 
 export const login = (userdata) => {
+  console.log('login', userdata);
   return ((dispatch) => {
     return axios.post('/login', {
       username: userdata.username,
       password: userdata.password
     })
       .then((res) => {
-        dispatch(setUser(res.data));
+        dispatch(setUser(res.headers));
       })
       .catch((err) => {
         throw err;
@@ -26,6 +36,7 @@ export const login = (userdata) => {
 };
 
 export const signup = (userdata) => {
+  console.log('signup', userdata);
   return (dispatch) => {
     return axios.post('/signup', {
       username: userdata.username,
@@ -33,7 +44,7 @@ export const signup = (userdata) => {
       email: userdata.email
     })
       .then((res) => {
-        dispatch(setUser(res.data));
+        dispatch(setUser(res.headers));
       })
       .catch((err) => {
         throw err;
@@ -42,11 +53,14 @@ export const signup = (userdata) => {
 };
 
 export const logout = () => {
-  return {
-    type: 'SET_CURRENT_USER',
-    payload: {
-      user: null
-    }
+  return (dispatch) => {
+    return axios.get('/logout')
+      .then(() => {
+        dispatch(setUser({ username: undefined, jwt: undefined }));
+      })
+      .catch((err) => {
+        throw err;
+      });
   };
 };
 
