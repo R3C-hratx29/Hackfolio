@@ -36,7 +36,7 @@ class ProfileBox extends React.Component {
   componentDidMount() {
     setTimeout(this.showTip, 500);
   }
-
+  
   hideModal() {
     this.setState({
       hideModal: !this.state.hideModal
@@ -87,14 +87,15 @@ class ProfileBox extends React.Component {
           size="medium"
           responsive={false}
         >
-          <SocialIcons />
-          <Box>
-            <Anchor
-              icon={<EditIcon id="edit" />}
-              onClick={this.hideModal}
-            />
-            <EditProfile hideModal={this.hideModal} hidden={this.state.hideModal} />
-          </Box>
+          {
+            this.props.isProfileOwner &&
+            <Box>
+              <Anchor
+                icon={this.state.edit ? <SaveIcon id="edit" /> : <EditIcon id="edit" />}
+                onClick={this.editMe}
+              />
+            </Box>
+          }
         </Box>
       </Tile>
     );
@@ -103,7 +104,7 @@ class ProfileBox extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    saveChanges: (changes) => dispatch(changeProfile(changes)),
+    saveChanges: (changes, profile) => dispatch(changeProfile(changes, profile)),
     displayHelp: () => dispatch(UserAction.help('Project'))
   };
 };

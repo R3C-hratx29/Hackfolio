@@ -1,0 +1,35 @@
+.ReorderProjects {
+
+  .dragged {
+    display: none;
+  }
+
+  .placeholder {
+    cursor: grabbing !important;
+  }
+
+  .project {
+    cursor: grab;
+
+    .image {
+      width: 100px;
+      height: 75px;
+      background-size: cover;
+      background-position: center center;
+    }
+
+    .body {
+      padding-left: 25px;
+
+      .title {
+        font-size: 1.5em;
+        font-weight: 600;
+      }
+
+      .description {
+        font-size: 1.1em;
+      }
+    }
+  }
+
+}

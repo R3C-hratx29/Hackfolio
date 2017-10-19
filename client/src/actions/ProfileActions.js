@@ -1,28 +1,47 @@
-/* eslint-disable no-restricted-syntax */
-import { push } from 'react-router-redux';
-import exampleData from './../data/example-data';
+/* eslint-disable no-restricted-syntax,prefer-template,guard-for-in,no-undef,no-console */
+import axios from 'axios';
 
-const getProfile = (id) => {
+const setProfile = (data) => {
+  return {
+    type: 'SET_USER_PROFILE',
+    payload: data
+  };
+};
+
+export const getProfile = (id) => {
   // get data from database
-  if (id === 'randomperson') {
-    return push('/LandingPage');
-  }
-  return {
-    type: 'SET_USER_PROFILE',
-    payload: exampleData.profileOfOtherUser
-  };
+  return ((dispatch) => {
+    return axios.get('/user/' + id)
+      .then((res) => {
+        console.log('res in getProfile', res);
+        dispatch(setProfile(res.data));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 };
 
-export const changeProfile = (data) => {
-  for (const key in exampleData.profileOfOtherUser) {
-    if (data[key]) {
-      exampleData.profileOfOtherUser[key] = data[key];
-    }
+export const changeProfile = (data, profile) => {
+  const newProfile = {};
+  for (const key in profile) {
+    newProfile[key] = data[key] ? data[key] : profile[key];
   }
-  return {
-    type: 'SET_USER_PROFILE',
-    payload: exampleData.profileOfOtherUser
+  const config = {
+    headers: {
+      jwt: window.localStorage.token
+    }
   };
+  return ((dispatch) => {
+    return axios.post('/profile', newProfile, config)
+      .then(() => {
+        dispatch(getProfile(profile.username));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 };
+
 
 export default getProfile;

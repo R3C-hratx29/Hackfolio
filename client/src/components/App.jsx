@@ -1,7 +1,6 @@
-/* eslint-disable react/prefer-stateless-function */
+/* eslint-disable react/prefer-stateless-function,react/prop-types */
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router';
-import { connect } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import App from 'grommet/components/App';
 import Heading from 'grommet/components/Heading';
@@ -33,13 +32,4 @@ class Hackfolio extends Component {
     );
   }
 }
-
-function mapStateToProps(state) {
-  return {
-    currentUser: state.currentUser,
-    userProfile: state.userProfile,
-    location: state.location
-  };
-}
-
-export default connect(mapStateToProps)(Hackfolio);
+export default Hackfolio;

@@ -1,10 +1,17 @@
 @import './variables.scss';
 
 .ProjectCard {
+  overflow: hidden;
 
   .grommetux-card__thumbnail {
     max-height: 300px;
     width: auto !important;
+  }
+
+  .editProjectIcon {
+    float: right;
+    margin-top: 10px;
+    cursor: pointer;
   }
 
   .stack {
@@ -51,36 +58,4 @@
     }
   }
 
-}
-
-.deleteImage {
-  float: right;
-  color: red;
-  opacity: 0.35;
-  transition: all 0.2s linear;
-  cursor: pointer;
-}
-
-.formScroll {
-  overflow: scroll;
-  height: 50vh;
-}
-
-.grommetux-form-field:hover {
-  .deleteImage {
-    opacity: 1;
-  }
-}
-
-.Projects {
-  .grommetux-tiles {
-    &:after {
-      content: "";
-      flex: 0 0 384px;
-    }
-  }
-}
-
-.grommetux-split__column--fixed {
-  height: inherit !important;
 }

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import firebase from 'firebase';
 import FileUploader from 'react-firebase-file-uploader';
 import $ from 'jquery';
+import { connect } from 'react-redux';
 
 // Grommet Components
 import Box from 'grommet/components/Box';
@@ -25,8 +26,11 @@ import Spinning from 'grommet/components/icons/Spinning';
 // Custom Components
 import ProjectCard from './ProjectCard';
 
+// Custom Actions
+import { saveProject } from '../actions/ProjectActions';
+
 // Component Styles
-import './../styles/ProjectCard.scss';
+import '../styles/AddProject.scss';
 
 // Initalize Firebase
 const config = {
@@ -59,6 +63,34 @@ class AddProject extends React.Component {
     this.addImageURL = this.addImageURL.bind(this);
     this.updateImages = this.updateImages.bind(this);
     this.onImageUpload = this.onImageUpload.bind(this);
+    this.onSave = this.onSave.bind(this);
+    this.onUploadStart = this.onUploadStart.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.edit) {
+      this.setState({
+        project: nextProps.edit
+      });
+    } else {
+      this.setState({
+        project: {
+          title: '',
+          description: '',
+          github_link: '',
+          website_link: '',
+          images: [],
+          stack: [],
+        }
+      });
+    }
+  }
+
+  onSave() {
+    // temp use of axios because I needed a way to add Projects
+    console.log(this.state.project);
+    this.props.saveProject(this.state.project);
+    this.props.toggleProjectModal();
   }
 
   onImageUpload(file) {
@@ -70,23 +102,8 @@ class AddProject extends React.Component {
       });
   }
 
-  updateProject(state) {
-    this.setState({
-      project: Object.assign(
-        {},
-        this.state.project,
-        state,
-      )
-    });
-  }
-
-  updateStack(stack) {
-    const array = stack.split(',').map((item) => {
-      return item.trim();
-    });
-    this.updateProject({
-      stack: array
-    });
+  onUploadStart() {
+    this.setState({ uploading: true });
   }
 
   addImageURL(url = '') {
@@ -116,6 +133,25 @@ class AddProject extends React.Component {
     });
   }
 
+  updateProject(state) {
+    this.setState({
+      project: Object.assign(
+        {},
+        this.state.project,
+        state,
+      )
+    });
+  }
+
+  updateStack(stack) {
+    const array = stack.split(',').map((item) => {
+      return item.trim();
+    });
+    this.updateProject({
+      stack: array
+    });
+  }
+
   render() {
     return (
       <Layer
@@ -142,7 +178,7 @@ class AddProject extends React.Component {
                 justify="between"
               >
                 <Heading>
-                  Add a Project
+                  {this.props.edit ? 'Edit Project' : 'Add a Project'}
                 </Heading>
                 <Menu
                   responsive
@@ -172,7 +208,7 @@ class AddProject extends React.Component {
                         accept="image/*"
                         randomizeFilename
                         storageRef={firebase.storage().ref('images')}
-                        onUploadStart={() => { this.setState({ uploading: true }); }}
+                        onUploadStart={this.onUploadStart}
                         onUploadSuccess={this.onImageUpload}
                       />
                     </label>
@@ -185,6 +221,7 @@ class AddProject extends React.Component {
               >
                 <FormField label="Title">
                   <TextInput
+                    value={this.state.project.title}
                     onDOMChange={
                       (e) => {
                         this.updateProject({ title: e.target.value });
@@ -194,6 +231,7 @@ class AddProject extends React.Component {
                 </FormField>
                 <FormField label="Description">
                   <TextInput
+                    value={this.state.project.description}
                     onDOMChange={
                       (e) => {
                         this.updateProject({ description: e.target.value });
@@ -203,6 +241,7 @@ class AddProject extends React.Component {
                 </FormField>
                 <FormField label="Website Link">
                   <TextInput
+                    value={this.state.project.website_link}
                     onDOMChange={
                       (e) => {
                         this.updateProject({ website_link: e.target.value });
@@ -212,6 +251,7 @@ class AddProject extends React.Component {
                 </FormField>
                 <FormField label="Github Link">
                   <TextInput
+                    value={this.state.project.github_link}
                     onDOMChange={
                       (e) => {
                         this.updateProject({ github_link: e.target.value });
@@ -221,6 +261,7 @@ class AddProject extends React.Component {
                 </FormField>
                 <FormField label="Stack">
                   <TextInput
+                    value={this.state.project.stack.join(', ')}
                     placeHolder="Separate with commas"
                     onDOMChange={
                       (e) => {
@@ -266,8 +307,8 @@ class AddProject extends React.Component {
               <Button
                 primary
                 fill
-                onClick={() => {}}
-                label="Add Project"
+                onClick={this.onSave}
+                label="Save Project"
                 style={{ marginTop: 10 }}
               />
             </Form>
@@ -278,9 +319,27 @@ class AddProject extends React.Component {
   }
 }
 
+AddProject.defaultProps = {
+  edit: null
+};
+
 AddProject.propTypes = {
   toggleProjectModal: PropTypes.func.isRequired,
   hideProjectModal: PropTypes.bool.isRequired,
+  edit: PropTypes.shape({}).isRequiredOrNull,
+  saveProject: PropTypes.func.isRequired
 };
 
-export default AddProject;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    saveProject: (project) => dispatch(saveProject(project))
+  };
+};
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.currentUser.user
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddProject);

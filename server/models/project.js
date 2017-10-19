@@ -2,9 +2,22 @@ const db = require('./db');
 
 const Project = {};
 
-Project.findByProfileId = (_title, profileId) => {
+Project.findById = (_id, profileId) => {
   return db('projects').where({
-    title: _title,
+    id: _id,
+    profile_id: profileId
+  })
+    .select('*')
+    .then(project => {
+      return project;
+    })
+    .catch(err => {
+      console.error(err);
+    });
+};
+
+Project.findByProfileId = (profileId) => {
+  return db('projects').where({
     profile_id: profileId
   })
     .select('*')
@@ -19,10 +32,13 @@ Project.findByProfileId = (_title, profileId) => {
 Project.createProject = (data) => {
   return db('projects').insert({
     profile_id: data.profile_id,
+    order: 0,
     title: data.title,
     description: data.description,
     github_link: data.github_link,
-    website_link: data.website_link
+    website_link: data.website_link,
+    images: data.images,
+    stack: data.stack
   })
     .then(() => {
       return db('projects').where({ title: data.title }).select('*');
@@ -33,17 +49,34 @@ Project.createProject = (data) => {
 };
 
 Project.updateProject = (data) => {
-  return db('profiles').where({
-    title: data.title
+  return db('projects').where({
+    id: data.id
   })
     .update({
       title: data.title,
       description: data.description,
       github_link: data.github_link,
-      website_link: data.website_link
+      website_link: data.website_link,
+      images: data.images,
+      stack: data.stack
     })
     .then(() => {
-      return db('links').where({ title: data.title }).select('*');
+      return db('projects').where({ id: data.id }).select('*');
+    })
+    .catch(err => {
+      console.error(err);
+    });
+};
+
+Project.updateOrder = (data) => {
+  return db('projects').where({
+    id: data.id
+  })
+    .update({
+      order: data.order
+    })
+    .then(() => {
+      return db('projects').where({ id: data.id }).select('*');
     })
     .catch(err => {
       console.error(err);

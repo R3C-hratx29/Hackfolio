@@ -1,0 +1,10 @@
+.Projects {
+  &.isProfileOwner {
+    &>.grommetux-tiles {
+      &:after {
+        content: "";
+        flex: 0 0 384px;
+      }
+    }
+  }
+}

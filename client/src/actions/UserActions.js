@@ -1,43 +1,70 @@
-/* eslint-disable no-console */
-// import axios from 'axios';
+/* eslint-disable no-console,no-undef */
+import axios from 'axios';
+
+export const setUser = (data) => {
+  console.log(data.jwt);
+  if (data.jwt === undefined) {
+    window.localStorage.removeItem('token');
+  } else {
+    window.localStorage.token = data.jwt;
+  }
+  return {
+    type: 'SET_CURRENT_USER',
+    payload: {
+      user: {
+        username: data.username,
+        jwt: data.jwt
+      }
+    }
+  };
+};
 
 export const login = (userdata) => {
   console.log('login', userdata);
-  // do stuff
-  return {
-    type: 'SET_CURRENT_USER',
-    userdata
-  };
+  return ((dispatch) => {
+    return axios.post('/login', {
+      username: userdata.username,
+      password: userdata.password
+    })
+      .then((res) => {
+        dispatch(setUser(res.headers));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 };
 
 export const signup = (userdata) => {
   console.log('signup', userdata);
-  /* axios.post('/signup', {
-    params: {
+  return (dispatch) => {
+    return axios.post('/signup', {
       username: userdata.username,
       password: userdata.password,
       email: userdata.email
-    }
-  })
-  .then(  ) */
-  return {
-    type: 'SET_CURRENT_USER',
-    userdata
+    })
+      .then((res) => {
+        dispatch(setUser(res.headers));
+      })
+      .catch((err) => {
+        throw err;
+      });
   };
 };
 
 export const logout = () => {
-  console.log('logged out');
-  return {
-    type: 'SET_CURRENT_USER',
-    payload: {
-      user: null
-    }
+  return (dispatch) => {
+    return axios.get('/logout')
+      .then(() => {
+        dispatch(setUser({ username: undefined, jwt: undefined }));
+      })
+      .catch((err) => {
+        throw err;
+      });
   };
 };
 
-export const search = (string) => {
-  console.log('search', string);
+export const search = () => {
   return {
     type: 'SET_USER_PROFILE',
     payload: {

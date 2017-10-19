@@ -2,15 +2,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Projects from './Projects';
-import ProfileBox from './ProfileBox';
 import profileAction from '../actions/ProfileActions';
 
 class Profile extends React.Component {
   componentWillMount() {
     // set user
+    console.log('profile', this.props.match.params.id);
     this.props.getProfile(this.props.match.params.id);
   }
+
   render() {
+    const isProfileOwner = this.props.match.params.id === this.props.userProfile;
+
     return (
       <div>
         { this.props.userProfile === null || this.props.userProfile === undefined ?
@@ -18,7 +21,7 @@ class Profile extends React.Component {
             No user found
           </div> :
           <div>
-            <Projects />
+            <Projects isProfileOwner={isProfileOwner} />
           </div>
         }
       </div>
