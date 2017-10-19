@@ -12,10 +12,27 @@ const secret = 'shakeweight';
 
 // TODO: Refactor routes into seperate files.
 
+router.get('/me', (req,res) => {
+  if (req.body.jwt) {
+    const headers = jwt.decode(req.body.jwt, secret);
+    res.set(headers);
+    res.send(headers);
+  }
+  else {
+    res.send('not logged in');
+  }
+});
+
+router.get('/logout', (req,res) => {
+  res.set({ 'User_id': undefined, 'jwt': undefined })
+  res.send('true');
+});
+
 router.post('/signup', (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   const email = req.body.email;
+
   if (username && password && email) {
     User.findByUsername(username, email)
       .then(user => {
@@ -31,9 +48,11 @@ router.post('/signup', (req, res) => {
                 const payload = { user_id: data[0].uid };
                 const token = jwt.encode(payload, secret);
 
+                Profile.init(data[0].uid, username);
+
                 res.status(201);
-                res.set({ 'User_Id': data[0].uid, 'Jwt': token });
-                res.send({ 'User_Id': data[0].uid, 'Jwt': token });
+                res.set({ 'Username': data[0].username, 'Jwt': token });
+                res.send({ 'Username': data[0].username, 'Jwt': token });
               });
           });
         }
@@ -46,7 +65,7 @@ router.post('/signup', (req, res) => {
   }
 });
 
-router.post('/signin', (req, res) => {
+router.post('/login', (req, res) => {
   const password = req.body.password;
   let username = null;
   let email = null;
@@ -70,12 +89,11 @@ router.post('/signin', (req, res) => {
         console.log(user);
         bcrypt.compare(password, user[0].password, (err, match) => {
           if (match) {
-            const payload = { user_id: user[0].uid };
+            const payload = { username: user[0].username };
             const token = jwt.encode(payload, secret);
-
             res.status(201);
-            res.set({ 'User_Id': user[0].uid, 'Jwt': token });
-            res.send({ User_Id: user[0].uid, Jwt: token });
+            res.set({ 'Username': user[0].username, 'Jwt': token });
+            res.send({ Username: user[0].username, Jwt: token });
           }
 
           if (!match) {
@@ -87,7 +105,6 @@ router.post('/signin', (req, res) => {
     });
 });
 
-// TODO: Mother of God this monster needs to be refactored.
 router.post('/profile', (req, res) => {
   if (req.headers.jwt) {
     // TODO: Refactor this authentication into a seperate file.
@@ -97,64 +114,80 @@ router.post('/profile', (req, res) => {
       bio: req.body.bio,
       profile_pic: req.body.profile_pic,
       profession: req.body.profession,
-      name: req.body.name
+      name: req.body.name,
+      socialLinks: req.body.socialLinks
     };
-    const linkData = req.body.links;
+    let links = profileData.socialLinks;
 
-    Profile.findAllByUserId(profileData.user_id)
+    Profile.updateProfile(profileData)
+      .then(profiles => {
+        if (links.length) {
+          links.forEach(link => {
+            link.profile_id = profiles[0].id;
+            if (!link.id) {
+              Link.addLink(link);
+            } else {
+              Link.updateLink(link);
+            }
+          });
+        }
+      });
+
+    res.status(201);
+    res.send(profileData);
+  } else {
+    res.send('No authentication detected');
+  }
+
+});
+
+router.post('/project', (req, res) => {
+  if (req.headers.jwt) {
+    const user_id = jwt.decode(req.headers.jwt, secret).user_id;
+    const projectData = {
+      id: req.body.id,
+      profile_id: null,
+      title: req.body.title,
+      description: req.body.description,
+      github_link: req.body.github_link,
+      website_link: req.body.website_link,
+      images: req.body.images,
+      stack: req.body.stack
+    };
+
+
+    Profile.findAllByUserId(user_id)
       .then(profile => {
-        if (!profile.length) {
-          Profile.createProfile(profileData)
-            .then(pData => {
-              linkData.forEach(e => {
-                e.profile_id = pData[0].id;
-                if (e.title.length && e.title) {
-                  Link.addLink(e);
-                } else {
-                  res.send('Insignificant data: title.');
-                }
-              });
-              pData[0].links = linkData;
-              res.status(201);
-              res.send(pData[0]);
-            })
-            .catch(err => {
-              console.error(err);
+        projectData.profile_id = profile[0].id;
+        projectData.images = projectData.images.join(',');
+        projectData.stack = projectData.stack.join(',');
+
+        if (projectData.id && projectData.profile_id){
+          Project.findByProfileId(projectData.id, projectData.profile_id)
+            .then(projects => {
+              if (!projects[0].length) {
+                Project.updateProject(projectData)
+                .then(project => {
+                  res.send(project[0]);
+                })
+              } else {
+                res.send('Project does not exist.');
+              }
             });
         } else {
-          Profile.updateProfile(profileData)
-            .then(pData => {
-              linkData.forEach(e => {
-                e.profile_id = pData[0].id;
-                if (e.title && e.title.length) {
-                  Link.findByTitle(e.title, e.profile_id)
-                    .then(link => {
-                      if (!link.length) {
-                        Link.addLink(e);
-                      } else {
-                        Link.updateLink(e);
-                      }
-                    });
-                } else {
-                  res.send('Insignificant data: title.');
-                }
-              });
-              pData[0].links = linkData;
-              res.status(201);
-              res.send(pData[0]);
-            })
-            .catch(err => {
-              console.error(err);
+          projectData.order = 0;
+          Project.createProject(projectData)
+            .then(project => {
+              res.send(project[project.length-1]);
             });
         }
+      })
+      .catch(err => {
+        res.send(err);
       });
   } else {
     res.send('No authentication detected');
   }
-});
-
-router.post('/project', (req, res) => {
-
 });
 
 router.get('/user/:id', (req, res) => {
@@ -166,6 +199,7 @@ router.get('/user/:id', (req, res) => {
       delete profile.password;
       delete profile.email;
       delete profile.uid;
+      profile.projects = [];
 
       Link.findByProfileId(profile.id)
         .then(links => {
@@ -176,8 +210,7 @@ router.get('/user/:id', (req, res) => {
     .catch(err => {
       res.status(404);
       res.send(404);
-    })
-
+    });
 });
 
 module.exports = router;
