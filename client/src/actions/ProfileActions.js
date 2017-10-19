@@ -34,8 +34,8 @@ export const changeProfile = (data, profile) => {
   };
   return ((dispatch) => {
     return axios.post('/profile', newProfile, config)
-      .then((res) => {
-        dispatch(getProfile(res.headers.username));
+      .then(() => {
+        dispatch(getProfile(profile.username));
       })
       .catch((err) => {
         console.log(err);
