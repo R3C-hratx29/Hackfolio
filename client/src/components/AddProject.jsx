@@ -44,15 +44,17 @@ class AddProject extends React.Component {
   constructor(props) {
     super(props);
 
+    let project = {
+      title: '',
+      description: '',
+      github_link: '',
+      website_link: '',
+      images: [],
+      stack: [],
+    };
+
     this.state = {
-      project: {
-        title: '',
-        description: '',
-        github_link: '',
-        website_link: '',
-        images: [],
-        stack: [],
-      },
+      project,
       uploading: false
     };
 
