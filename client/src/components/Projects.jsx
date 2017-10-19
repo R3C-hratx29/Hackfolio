@@ -30,6 +30,7 @@ class Projects extends React.Component {
 
     this.toggleProjectModal = this.toggleProjectModal.bind(this);
     this.toggleReorderModal = this.toggleReorderModal.bind(this);
+    this.editProject = this.editProject.bind(this);
   }
   componentWillMount() {
     setTimeout(() => {
@@ -51,11 +52,18 @@ class Projects extends React.Component {
     });
   }
 
+  editProject(project) {
+    this.setState({
+      hideProjectModal: false,
+      edit: project
+    });
+  }
+
   render() {
     const projects = this.props.userProfile.projects.map((project, index) => {
       const i = index;
       return (
-        <ProjectCard key={i} project={project} />
+        <ProjectCard key={i} project={project} editProject={this.editProject} />
       );
     });
     return (
@@ -84,6 +92,7 @@ class Projects extends React.Component {
         <AddProject
           toggleProjectModal={this.toggleProjectModal}
           hideProjectModal={this.state.hideProjectModal}
+          edit={this.state.edit}
         />
         <ReorderProjects
           toggleReorderModal={this.toggleReorderModal}

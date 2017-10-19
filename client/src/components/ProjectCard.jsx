@@ -13,6 +13,7 @@ import Heading from 'grommet/components/Heading';
 // Grommet Icons
 import LinkNextIcon from 'grommet/components/icons/base/LinkNext';
 import GithubIcon from 'grommet/components/icons/base/SocialGithub';
+import EditIcon from 'grommet/components/icons/base/Edit';
 
 import placeHolderImage from '../images/placeholder.png';
 
@@ -61,7 +62,20 @@ const ProjectCard = (props) => (
     }
     <Card
       contentPad="medium"
-      heading={props.project.title}
+      heading={
+        <Box
+          direction="row"
+          justify="between"
+        >
+          <Heading
+            strong
+            tag="h2"
+          >
+            {props.project.title}
+          </Heading>
+          <EditIcon onClick={() => props.editProject(props.project)} />
+        </Box>
+      }
       description={
         <div>
           <Heading tag="h3" className="description">

@@ -44,17 +44,15 @@ class AddProject extends React.Component {
   constructor(props) {
     super(props);
 
-    let project = {
-      title: '',
-      description: '',
-      github_link: '',
-      website_link: '',
-      images: [],
-      stack: [],
-    };
-
     this.state = {
-      project,
+      project: props.edit || {
+        title: '',
+        description: '',
+        github_link: '',
+        website_link: '',
+        images: [],
+        stack: [],
+      },
       uploading: false
     };
 
@@ -291,9 +289,14 @@ class AddProject extends React.Component {
   }
 }
 
+AddProject.defaultProps = {
+  edit: null
+};
+
 AddProject.propTypes = {
   toggleProjectModal: PropTypes.func.isRequired,
   hideProjectModal: PropTypes.bool.isRequired,
+  edit: PropTypes.shape({}).isRequiredOrNull,
 };
 
 export default AddProject;
