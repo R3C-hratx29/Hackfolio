@@ -132,7 +132,7 @@ router.post('/profile', (req, res) => {
           });
         }
         res.status(201);
-        res.set({ 'Username': dLoad.username });
+        res.set({ 'username': dLoad.username });
         res.end();
       });
 
@@ -168,7 +168,7 @@ router.post('/project', (req, res) => {
               if (!projects[0].length) {
                 Project.updateProject(projectData)
                 .then(project => {
-                  res.set({ 'Username': dLoad.username });
+                  res.set({ 'username': dLoad.username });
                   res.send(project[0]);
                 })
               } else {
@@ -192,19 +192,19 @@ router.post('/project', (req, res) => {
 });
 
 router.put('/project', (req, res) => {
+  const dLoad = jwt.decode(req.headers.jwt, secret);
   req.body.forEach(project => {
     Project.updateOrder(project)
       .catch(err => {
         console.error(err);
       });
   });
-
+  res.set({ 'username': dLoad.username });
   res.send(req.body);
 });
 
 router.get('/user/:id', (req, res) => {
   const user = req.params.id;
-  console.log('in /user/', user);
   Profile.findByUsername(user)
     .then(profile => {
       // Shape data to match example data.

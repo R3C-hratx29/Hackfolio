@@ -43,11 +43,5 @@ export const changeProfile = (data, profile) => {
   });
 };
 
-export const changeProjects = (projects) => {
-  return {
-    type: 'SET_USER_PROJECTS',
-    payload: projects
-  };
-};
 
 export default getProfile;

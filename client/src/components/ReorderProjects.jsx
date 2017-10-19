@@ -14,7 +14,7 @@ import Header from 'grommet/components/Header';
 import Heading from 'grommet/components/Heading';
 import Button from 'grommet/components/Button';
 
-import { changeProjects } from '../actions/ProfileActions';
+import { changeProjects } from '../actions/ProjectActions';
 
 // Custom Styles
 import '../styles/ReorderProjects.scss';
@@ -22,7 +22,6 @@ import '../styles/ReorderProjects.scss';
 class ReorderProjects extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       projects: props.userProfile.projects,
       updatedOrder: []
@@ -48,10 +47,7 @@ class ReorderProjects extends React.Component {
   }
 
   onSave() {
-    // TODO
-    // Make an axios call to update order of projects this.state.updatedOrder
-    console.log(this.state.updatedOrder);
-    this.props.changeProjects(this.state.projects);
+    this.props.changeProjects(this.state.updatedOrder);
     this.props.toggleReorderModal();
   }
 
