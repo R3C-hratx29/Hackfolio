@@ -27,7 +27,7 @@ exports.up = (knex, Promise) => {
       table.string('github_link');
       table.string('website_link');
       table.string('stack');
-      table.string('images');
+      table.string('images', 100000);
     }),
     knex.schema.createTable('links', (table) => {
       table.increments('id').primary();
