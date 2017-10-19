@@ -14,7 +14,7 @@ import Header from 'grommet/components/Header';
 import Heading from 'grommet/components/Heading';
 import Button from 'grommet/components/Button';
 
-import { changeProjects } from '../actions/ProfileActions';
+import { changeProjects } from '../actions/ProjectActions';
 
 // Custom Styles
 import '../styles/ReorderProjects.scss';

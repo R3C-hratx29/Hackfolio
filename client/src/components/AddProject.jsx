@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import firebase from 'firebase';
 import FileUploader from 'react-firebase-file-uploader';
 import $ from 'jquery';
-import axios from 'axios';
+import { connect } from 'react-redux';
 
 // Grommet Components
 import Box from 'grommet/components/Box';
@@ -25,6 +25,9 @@ import Spinning from 'grommet/components/icons/Spinning';
 
 // Custom Components
 import ProjectCard from './ProjectCard';
+
+// Custom Actions
+import { saveProject } from '../actions/ProjectActions';
 
 // Component Styles
 import '../styles/AddProject.scss';
@@ -61,14 +64,13 @@ class AddProject extends React.Component {
     this.updateImages = this.updateImages.bind(this);
     this.onImageUpload = this.onImageUpload.bind(this);
     this.onSave = this.onSave.bind(this);
+    this.onUploadStart = this.onUploadStart.bind(this);
   }
 
   onSave() {
     // temp use of axios because I needed a way to add Projects
     console.log(this.state.project);
-    axios.post('/project', this.state.project, {
-      headers: { jwt: localStorage.token }
-    });
+    this.props.saveProject(this.state.project);
     this.props.toggleProjectModal();
   }
 
@@ -81,23 +83,8 @@ class AddProject extends React.Component {
       });
   }
 
-  updateProject(state) {
-    this.setState({
-      project: Object.assign(
-        {},
-        this.state.project,
-        state,
-      )
-    });
-  }
-
-  updateStack(stack) {
-    const array = stack.split(',').map((item) => {
-      return item.trim();
-    });
-    this.updateProject({
-      stack: array
-    });
+  onUploadStart() {
+    this.setState({ uploading: true });
   }
 
   addImageURL(url = '') {
@@ -124,6 +111,25 @@ class AddProject extends React.Component {
     array[index] = url;
     this.updateProject({
       images: array
+    });
+  }
+
+  updateProject(state) {
+    this.setState({
+      project: Object.assign(
+        {},
+        this.state.project,
+        state,
+      )
+    });
+  }
+
+  updateStack(stack) {
+    const array = stack.split(',').map((item) => {
+      return item.trim();
+    });
+    this.updateProject({
+      stack: array
     });
   }
 
@@ -183,7 +189,7 @@ class AddProject extends React.Component {
                         accept="image/*"
                         randomizeFilename
                         storageRef={firebase.storage().ref('images')}
-                        onUploadStart={() => { this.setState({ uploading: true }); }}
+                        onUploadStart={this.onUploadStart}
                         onUploadSuccess={this.onImageUpload}
                       />
                     </label>
@@ -297,6 +303,19 @@ AddProject.propTypes = {
   toggleProjectModal: PropTypes.func.isRequired,
   hideProjectModal: PropTypes.bool.isRequired,
   edit: PropTypes.shape({}).isRequiredOrNull,
+  saveProject: PropTypes.func.isRequired
 };
 
-export default AddProject;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    saveProject: (project) => dispatch(saveProject(project))
+  };
+};
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.currentUser.user
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddProject);
