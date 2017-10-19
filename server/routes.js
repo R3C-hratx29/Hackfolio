@@ -157,8 +157,8 @@ router.post('/project', (req, res) => {
       stack: req.body.stack
     };
 
-
-    Profile.findAllByUserId(dLoad)
+    console.log('dload', dLoad)
+    Profile.findAllByUserId(dLoad.user_id)
       .then(profile => {
         projectData.profile_id = profile[0].id;
         projectData.images = projectData.images.join(',');
