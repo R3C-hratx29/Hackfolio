@@ -48,6 +48,8 @@ router.post('/signup', (req, res) => {
                 const payload = { user_id: data[0].uid };
                 const token = jwt.encode(payload, secret);
 
+                Profile.init(data[0].uid, username);
+
                 res.status(201);
                 res.set({ 'Username': data[0].username, 'Jwt': token });
                 res.send({ 'Username': data[0].username, 'Jwt': token });
@@ -103,7 +105,6 @@ router.post('/login', (req, res) => {
     });
 });
 
-// TODO: Mother of God this monster needs to be refactored.
 router.post('/profile', (req, res) => {
   if (req.headers.jwt) {
     // TODO: Refactor this authentication into a seperate file.
@@ -113,60 +114,31 @@ router.post('/profile', (req, res) => {
       bio: req.body.bio,
       profile_pic: req.body.profile_pic,
       profession: req.body.profession,
-      name: req.body.name
+      name: req.body.name,
+      socialLinks: req.body.socialLinks
     };
-    const linkData = req.body.links;
-    // TODO: Fix the link title duplication to function like the projects.
-    Profile.findAllByUserId(profileData.user_id)
-      .then(profile => {
-        if (!profile.length) {
-          Profile.createProfile(profileData)
-            .then(pData => {
-              linkData.forEach(e => {
-                e.profile_id = pData[0].id;
-                if (e.title.length && e.title) {
-                  Link.addLink(e);
-                } else {
-                  Link.updateLink(e);
-                }
-              });
-              pData[0].links = linkData;
-              res.status(201);
-              res.send(pData[0]);
-            })
-            .catch(err => {
-              console.error(err);
-            });
-        } else {
-          Profile.updateProfile(profileData)
-            .then(pData => {
-              linkData.forEach(e => {
-                e.profile_id = pData[0].id;
-                if (e.title && e.title.length) {
-                  Link.findByTitle(e.title, e.profile_id)
-                    .then(link => {
-                      if (!link.length) {
-                        Link.addLink(e);
-                      } else {
-                        Link.updateLink(e);
-                      }
-                    });
-                } else {
-                  res.send('Insignificant data: title.');
-                }
-              });
-              pData[0].links = linkData;
-              res.status(201);
-              res.send(pData[0]);
-            })
-            .catch(err => {
-              console.error(err);
-            });
+    let links = profileData.socialLinks;
+
+    Profile.updateProfile(profileData)
+      .then(profiles => {
+        if (links.length) {
+          links.forEach(link => {
+            link.profile_id = profiles[0].id;
+            if (!link.id) {
+              Link.addLink(link);
+            } else {
+              Link.updateLink(link);
+            }
+          });
         }
       });
+
+    res.status(201);
+    res.send(profileData);
   } else {
     res.send('No authentication detected');
   }
+
 });
 
 router.post('/project', (req, res) => {
@@ -203,6 +175,7 @@ router.post('/project', (req, res) => {
               }
             });
         } else {
+          projectData.order = 0;
           Project.createProject(projectData)
             .then(project => {
               res.send(project[project.length-1]);

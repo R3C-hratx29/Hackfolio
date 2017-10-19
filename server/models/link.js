@@ -12,7 +12,7 @@ Link.findByProfileId = (profileId) => {
     });
 };
 
-Link.findByTitle = (_id, profileId) => {
+Link.findById = (_id, profileId) => {
   return db('links').where({
     id: _id,
     profile_id: profileId

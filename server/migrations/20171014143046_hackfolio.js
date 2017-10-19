@@ -21,6 +21,7 @@ exports.up = (knex, Promise) => {
       table.integer('profile_id')
         .references('id')
         .inTable('profiles');
+      table.integer('order');
       table.string('title');
       table.string('description');
       table.string('github_link');
