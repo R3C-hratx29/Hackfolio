@@ -203,6 +203,7 @@ router.put('/project', (req, res) => {
 
 router.get('/user/:id', (req, res) => {
   const user = req.params.id;
+  console.log('in /user/', user);
   Profile.findByUsername(user)
     .then(profile => {
       // Shape data to match example data.

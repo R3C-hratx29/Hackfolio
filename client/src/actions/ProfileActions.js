@@ -2,7 +2,6 @@
 import axios from 'axios';
 
 const setProfile = (data) => {
-  console.log('set Profile', data);
   return {
     type: 'SET_USER_PROFILE',
     payload: data
@@ -36,7 +35,7 @@ export const changeProfile = (data, profile) => {
   return ((dispatch) => {
     return axios.post('/profile', newProfile, config)
       .then((res) => {
-        dispatch(setProfile(res.data));
+        dispatch(getProfile(res.headers.username));
       })
       .catch((err) => {
         console.log(err);
