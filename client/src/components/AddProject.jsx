@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import firebase from 'firebase';
 import FileUploader from 'react-firebase-file-uploader';
 import $ from 'jquery';
+import axios from 'axios';
 
 // Grommet Components
 import Box from 'grommet/components/Box';
@@ -44,7 +45,7 @@ class AddProject extends React.Component {
     super(props);
 
     this.state = {
-      project: {
+      project: props.edit || {
         title: '',
         description: '',
         github_link: '',
@@ -59,6 +60,16 @@ class AddProject extends React.Component {
     this.addImageURL = this.addImageURL.bind(this);
     this.updateImages = this.updateImages.bind(this);
     this.onImageUpload = this.onImageUpload.bind(this);
+    this.onSave = this.onSave.bind(this);
+  }
+
+  onSave() {
+    // temp use of axios because I needed a way to add Projects
+    console.log(this.state.project);
+    axios.post('/project', this.state.project, {
+      headers: { jwt: localStorage.token }
+    });
+    this.props.toggleProjectModal();
   }
 
   onImageUpload(file) {
@@ -266,7 +277,7 @@ class AddProject extends React.Component {
               <Button
                 primary
                 fill
-                onClick={() => {}}
+                onClick={this.onSave}
                 label="Add Project"
                 style={{ marginTop: 10 }}
               />
@@ -278,9 +289,14 @@ class AddProject extends React.Component {
   }
 }
 
+AddProject.defaultProps = {
+  edit: null
+};
+
 AddProject.propTypes = {
   toggleProjectModal: PropTypes.func.isRequired,
   hideProjectModal: PropTypes.bool.isRequired,
+  edit: PropTypes.shape({}).isRequiredOrNull,
 };
 
 export default AddProject;
