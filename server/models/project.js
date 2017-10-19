@@ -83,4 +83,14 @@ Project.updateOrder = (data) => {
     });
 };
 
+Project.deleteProject = (_id) => {
+  return db('projects').where({
+    id: _id
+  })
+    .del()
+    .catch(err => {
+      console.error(err);
+    });
+};
+
 module.exports = Project;
