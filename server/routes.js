@@ -109,7 +109,6 @@ router.post('/profile', (req, res) => {
   if (req.headers.jwt) {
     // TODO: Refactor this authentication into a seperate file.
     const dLoad = jwt.decode(req.headers.jwt, secret);
-    console.log('Dload', dLoad)
     const profileData = {
       user_id: dLoad.user_id,
       bio: req.body.bio,
@@ -157,7 +156,6 @@ router.post('/project', (req, res) => {
       stack: req.body.stack
     };
 
-    console.log('dload', dLoad)
     Profile.findAllByUserId(dLoad.user_id)
       .then(profile => {
         projectData.profile_id = profile[0].id;
