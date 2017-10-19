@@ -45,7 +45,7 @@ router.post('/signup', (req, res) => {
           bcrypt.hash(password, 10, (err, hash) => {
             User.createNewUser(username, hash, email)
               .then(data => {
-                const payload = { user_id: data[0].uid };
+                const payload = { username: data[0].username, user_id: data[0].uid };
                 const token = jwt.encode(payload, secret);
 
                 Profile.init(data[0].uid, username);
@@ -89,7 +89,7 @@ router.post('/login', (req, res) => {
         console.log(user);
         bcrypt.compare(password, user[0].password, (err, match) => {
           if (match) {
-            const payload = { username: user[0].username };
+            const payload = { username: user[0].username, user_id: user[0].uid };
             const token = jwt.encode(payload, secret);
             res.status(201);
             res.set({ 'Username': user[0].username, 'Jwt': token });
@@ -109,6 +109,7 @@ router.post('/profile', (req, res) => {
   if (req.headers.jwt) {
     // TODO: Refactor this authentication into a seperate file.
     const dLoad = jwt.decode(req.headers.jwt, secret);
+    console.log('Dload', dLoad)
     const profileData = {
       user_id: dLoad.user_id,
       bio: req.body.bio,
@@ -119,6 +120,7 @@ router.post('/profile', (req, res) => {
     };
     let links = profileData.socialLinks;
 
+    console.log(profileData)
     Profile.updateProfile(profileData)
       .then(profiles => {
         if (links.length) {
@@ -133,8 +135,8 @@ router.post('/profile', (req, res) => {
         }
       });
 
-    res.status(201);
-    res.send(profileData);
+      res.status(201);
+      res.send(profileData);
   } else {
     res.send('No authentication detected');
   }
@@ -218,8 +220,7 @@ router.get('/user/:id', (req, res) => {
         })
     })
     .catch(err => {
-      res.status(404);
-      res.send(404);
+      res.sendStatus(404);
     });
 });
 
