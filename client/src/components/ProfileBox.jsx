@@ -52,12 +52,13 @@ class ProfileBox extends React.Component {
     this.setState({
       edit: !this.state.edit,
     });
-
-    this.props.saveChanges({
-      name: this.state.name,
-      profession: this.state.profession,
-      bio: this.state.bio
-    });
+    if (this.state.edit) {
+      this.props.saveChanges({
+        name: this.state.name,
+        profession: this.state.profession,
+        bio: this.state.bio
+      }, this.props.userProfile);
+    }
   }
 
   updateProfession(e) {
@@ -160,7 +161,7 @@ class ProfileBox extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    saveChanges: (changes) => dispatch(changeProfile(changes)),
+    saveChanges: (changes, profile) => dispatch(changeProfile(changes, profile)),
     displayHelp: () => dispatch(UserAction.help('Project'))
   };
 };

@@ -30,7 +30,7 @@ export const login = (userdata) => {
         dispatch(setUser(res.headers));
       })
       .catch((err) => {
-        throw err;
+        console.log(err);
       });
   });
 };

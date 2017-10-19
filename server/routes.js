@@ -14,6 +14,7 @@ const secret = 'shakeweight';
 
 router.get('/me', (req,res) => {
   if (req.body.jwt) {
+    // headers now have id instead of username
     const headers = jwt.decode(req.body.jwt, secret);
     res.set(headers);
     res.send(headers);
@@ -77,7 +78,6 @@ router.post('/login', (req, res) => {
   if (req.body.email) {
     email = req.body.email;
   }
-
   User.findByUsername(username, email)
     .then(user => {
       if (!user.length) {
@@ -119,8 +119,6 @@ router.post('/profile', (req, res) => {
       socialLinks: req.body.socialLinks
     };
     let links = profileData.socialLinks;
-
-    console.log(profileData)
     Profile.updateProfile(profileData)
       .then(profiles => {
         profiles[0].username = dLoad.username;
@@ -205,7 +203,7 @@ router.put('/project', (req, res) => {
 
 router.get('/user/:id', (req, res) => {
   const user = req.params.id;
-
+  console.log('in /user/', user);
   Profile.findByUsername(user)
     .then(profile => {
       // Shape data to match example data.
