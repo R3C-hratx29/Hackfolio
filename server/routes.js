@@ -13,9 +13,9 @@ const secret = 'shakeweight';
 // TODO: Refactor routes into seperate files.
 
 router.get('/me', (req,res) => {
-  if (req.body.jwt) {
+  if (req.headers.jwt) {
     // headers now have id instead of username
-    const headers = jwt.decode(req.body.jwt, secret);
+    const headers = jwt.decode(req.headers.jwt, secret);
     res.set(headers);
     res.send(headers);
   }

@@ -15,8 +15,11 @@ import Tile from 'grommet/components/Tile';
 import Image from 'grommet/components/Image';
 import Anchor from 'grommet/components/Anchor';
 import Tip from 'grommet/components/Tip';
+
 // Grommet Icons
 import EditIcon from 'grommet/components/icons/base/Edit';
+import SaveIcon from 'grommet/components/icons/base/Save';
+
 // Custom Components
 import SocialIcons from './SocialIcons';
 import EditProfile from './EditProfile';
@@ -36,7 +39,7 @@ class ProfileBox extends React.Component {
   componentDidMount() {
     setTimeout(this.showTip, 500);
   }
-  
+
   hideModal() {
     this.setState({
       hideModal: !this.state.hideModal

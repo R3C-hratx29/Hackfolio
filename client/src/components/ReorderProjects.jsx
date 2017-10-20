@@ -31,6 +31,12 @@ class ReorderProjects extends React.Component {
     this.onSave = this.onSave.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      projects: nextProps.userProfile.projects
+    });
+  }
+
   onReorder(event, previousIndex, nextIndex) {
     const newProjects = reorder(this.state.projects, previousIndex, nextIndex);
     const updatedOrder = newProjects.map((project, index) => {

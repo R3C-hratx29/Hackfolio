@@ -326,7 +326,7 @@ AddProject.defaultProps = {
 AddProject.propTypes = {
   toggleProjectModal: PropTypes.func.isRequired,
   hideProjectModal: PropTypes.bool.isRequired,
-  edit: PropTypes.shape({}).isRequiredOrNull,
+  edit: PropTypes.shape(PropTypes.object),
   saveProject: PropTypes.func.isRequired
 };
 
