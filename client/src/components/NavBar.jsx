@@ -13,6 +13,8 @@ import SearchIcon from 'grommet/components/icons/base/Search';
 import LoginIcon from 'grommet/components/icons/base/Login';
 import LogoutIcon from 'grommet/components/icons/base/Logout';
 import Button from 'grommet/components/Button';
+
+// Grommet Icons
 import HomeIcon from 'grommet/components/icons/base/Home';
 
 // Custom Imports
@@ -57,7 +59,9 @@ class NavBar extends React.Component {
   render() {
     return (
       <div>
-        <Header>
+        <Header
+          style={{ marginBottom: 22 }}
+        >
           <Box
             flex
             justify="between"
@@ -74,6 +78,11 @@ class NavBar extends React.Component {
               align="center"
               direction="row"
             >
+              <Box
+                style={{ fontSize: 28, fontWeight: 'bold', margin: '0 15px' }}
+              >
+                Hackfolio
+              </Box>
               <Button
                 icon={<HomeIcon />}
                 label="Home Page"

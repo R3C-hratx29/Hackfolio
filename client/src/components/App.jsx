@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router';
 import { ConnectedRouter } from 'react-router-redux';
 import App from 'grommet/components/App';
-import Heading from 'grommet/components/Heading';
 import createHistory from 'history/createBrowserHistory';
 import Profile from './Profile';
 import NavBar from './NavBar';
@@ -17,9 +16,6 @@ class Hackfolio extends Component {
     return (
       <App className="App">
         <NavBar />
-        <Heading>
-          Hackfolio
-        </Heading>
         <ConnectedRouter history={history}>
           <Switch>
             <Route exact path="/" component={LandingPage} />
