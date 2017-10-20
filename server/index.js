@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const api = require('./api');
+const dotenv = require('dotenv').config({ path: '../env.env' });
 const bodyParser = require('body-parser');
 const router = require('./routes');
 // const db = require('./models/db');
