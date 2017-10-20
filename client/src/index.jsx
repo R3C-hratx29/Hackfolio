@@ -12,12 +12,14 @@ axios.defaults.headers.common.jwt = window.localStorage.token;
 
 axios.get('/me')
   .then((res) => {
-    console.log(res);
     store.dispatch({ type: 'SET_CURRENT_USER', payload: { user: { username: res.headers.username, jwt: window.localStorage.token } } });
   })
   .catch((err) => {
     console.log(err);
   });
+
+
+store.dispatch({ type: 'ERROR_SET_USER', payload: { error: 'start' } });
 
 ReactDOM.render((
   <Provider store={store}>

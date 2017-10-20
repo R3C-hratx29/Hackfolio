@@ -39,7 +39,14 @@ router.post('/signup', (req, res) => {
       .then(user => {
         if (user.length) {
           res.status(409);
-          res.send('User already exists.');
+          console.log(user);
+          if (user[0].username === username) {
+             res.send('User already exists.');
+          } else if( user[0].email === email ) {
+            res.send('Email already exists.');
+          } else {
+            res.send('unknown error');
+          }
         }
 
         if (!user.length) {
@@ -52,8 +59,8 @@ router.post('/signup', (req, res) => {
                 Profile.init(data[0].uid, username);
 
                 res.status(201);
-                res.set({ 'Username': data[0].username, 'Jwt': token });
-                res.send({ 'Username': data[0].username, 'Jwt': token });
+                res.set({ 'username': data[0].username, 'Jwt': token });
+                res.send({ 'username': data[0].username, 'Jwt': token });
               });
           });
         }
@@ -86,14 +93,13 @@ router.post('/login', (req, res) => {
       }
 
       if (user.length) {
-        console.log(user);
         bcrypt.compare(password, user[0].password, (err, match) => {
           if (match) {
             const payload = { username: user[0].username, user_id: user[0].uid };
             const token = jwt.encode(payload, secret);
             res.status(201);
-            res.set({ 'Username': user[0].username, 'Jwt': token });
-            res.send({ Username: user[0].username, Jwt: token });
+            res.set({ 'username': user[0].username, 'Jwt': token});
+            res.send({ 'username': user[0].username, Jwt: token });
           }
 
           if (!match) {
@@ -254,6 +260,5 @@ router.get('/user/:id', (req, res) => {
       res.sendStatus(404);
     });
 });
-
 
 module.exports = router;

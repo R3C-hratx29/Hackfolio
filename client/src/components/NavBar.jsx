@@ -118,7 +118,7 @@ class NavBar extends React.Component {
         { this.state.help && this.props.help === 'Search' ?
           <Tip
             target="SearchBar"
-            onClose={() => this.props.displayHelp('Tabs')}
+            onClose={() => this.props.displayHelp('Home')}
           >
             Here you can search for other users
           </Tip> : <div />
@@ -126,7 +126,7 @@ class NavBar extends React.Component {
         { this.state.help && this.props.help === 'Tabs' ?
           <Tip
             target="tabs"
-            onClose={() => this.props.displayHelp('Profile')}
+            onClose={() => this.props.displayHelp('Search')}
           >
             These will take you to the varies pages of Hackfolio
           </Tip> : <div />

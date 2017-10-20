@@ -9,11 +9,9 @@ const setProfile = (data) => {
 };
 
 export const getProfile = (id) => {
-  // get data from database
   return ((dispatch) => {
     return axios.get(`/user/${id}`)
       .then((res) => {
-        console.log('res in getProfile', res);
         dispatch(setProfile(res.data));
       })
       .catch((err) => {

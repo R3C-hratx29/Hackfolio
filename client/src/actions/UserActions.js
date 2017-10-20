@@ -1,42 +1,79 @@
 /* eslint-disable no-console,no-undef */
+import { push } from 'react-router-redux';
 import axios from 'axios';
+import modalAction from './ModalActions';
 
-export const setUser = (data) => {
-  console.log(data.jwt);
-  if (data.jwt === undefined) {
+export const help = (state) => {
+  return {
+    type: 'HELP_USER',
+    payload: {
+      text: state
+    }
+  };
+};
+
+export const clearError = () => {
+  return {
+    type: 'ERROR_SET_USER',
+    payload: { error: '' }
+  };
+};
+
+export const setError = (err) => {
+  let error = '';
+  if (err === 'User does not exist.') {
+    error = 'user';
+  } else if (err === 'Incorrect password') {
+    error = 'password';
+  } else if (err === 'Please fill out all forms.') {
+    error = 'form';
+  } else if (err === 'User already exists.') {
+    error = 'user';
+  } else if (err === 'Email already exists.') {
+    error = 'email';
+  }
+  return {
+    type: 'ERROR_SET_USER',
+    payload: { error }
+  };
+};
+
+export const setUser = (headers) => {
+  if (headers.jwt === undefined) {
     window.localStorage.removeItem('token');
   } else {
-    window.localStorage.token = data.jwt;
+    window.localStorage.token = headers.jwt;
   }
   return {
     type: 'SET_CURRENT_USER',
     payload: {
       user: {
-        username: data.username,
-        jwt: data.jwt
+        username: headers.username,
+        jwt: headers.jwt
       }
     }
   };
 };
 
 export const login = (userdata) => {
-  console.log('login', userdata);
   return ((dispatch) => {
     return axios.post('/login', {
       username: userdata.username,
       password: userdata.password
     })
       .then((res) => {
+        dispatch(clearError());
         dispatch(setUser(res.headers));
+        dispatch(push(`/user/${res.headers.username}`));
+        dispatch(modalAction('close'));
       })
       .catch((err) => {
         console.log(err);
+        dispatch(setError(err.response.data));
       });
   });
 };
-
 export const signup = (userdata) => {
-  console.log('signup', userdata);
   return (dispatch) => {
     return axios.post('/signup', {
       username: userdata.username,
@@ -44,10 +81,15 @@ export const signup = (userdata) => {
       email: userdata.email
     })
       .then((res) => {
+        dispatch(clearError());
         dispatch(setUser(res.headers));
+        dispatch(push(`/user/${res.headers.username}`));
+        dispatch(modalAction('close'));
+        dispatch(help('Profile'));
       })
       .catch((err) => {
-        throw err;
+        console.log(err);
+        dispatch(setError(err.response.data));
       });
   };
 };
@@ -73,11 +115,3 @@ export const search = () => {
   };
 };
 
-export const help = (state) => {
-  return {
-    type: 'HELP_USER',
-    payload: {
-      text: state
-    }
-  };
-};
