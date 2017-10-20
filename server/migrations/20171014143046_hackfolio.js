@@ -28,6 +28,8 @@ exports.up = (knex, Promise) => {
       table.string('website_link');
       table.string('stack');
       table.string('images', 100000);
+      table.timestamp('created_at')
+        .defaultTo(knex.fn.now());
     }),
     knex.schema.createTable('links', (table) => {
       table.increments('id').primary();
