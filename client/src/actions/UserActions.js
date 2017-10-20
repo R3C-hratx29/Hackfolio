@@ -39,7 +39,6 @@ export const setError = (err) => {
 };
 
 export const setUser = data => {
-  console.log(data.jwt);
   if (data.jwt === undefined) {
     window.localStorage.removeItem('token');
     axios.defaults.headers.common.jwt = null;
@@ -74,11 +73,10 @@ export const login = (userdata) => {
         console.log(err);
         dispatch(setError(err.response.data));
       });
-  };
+  });
 };
 
 export const signup = userdata => {
-  console.log('signup', userdata);
   return dispatch => {
     return axios
       .post('/signup', {
@@ -87,6 +85,7 @@ export const signup = userdata => {
         email: userdata.email,
       })
       .then(res => {
+        dispatch(clearError());
         dispatch(setUser(res.headers));
         dispatch(push(`/user/${res.headers.username}`));
         dispatch(modalAction('close'));
@@ -118,15 +117,6 @@ export const search = () => {
     type: 'SET_USER_PROFILE',
     payload: {
       text: 'some user goes here',
-    },
-  };
-};
-
-export const help = state => {
-  return {
-    type: 'HELP_USER',
-    payload: {
-      text: state,
     },
   };
 };
