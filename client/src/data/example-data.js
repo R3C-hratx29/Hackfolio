@@ -17,26 +17,26 @@ const data = {
         id: 1,
         title: 'github',
         link: 'https://github.com/kbrsh',
-        icon: <SocialGithubIcon />
+        icon: <SocialGithubIcon />,
       },
       {
         id: 2,
         title: 'facebook',
         link: null,
-        icon: <SocialFacebookOptionIcon />
+        icon: <SocialFacebookOptionIcon />,
       },
       {
         id: 3,
         title: 'linkedin',
         link: null,
-        icon: <SocialLinkedinIcon />
+        icon: <SocialLinkedinIcon />,
       },
       {
         id: 4,
         title: 'twitter',
         link: 'https://twitter.com/kbrshah',
-        icon: <SocialTwitterIcon />
-      }
+        icon: <SocialTwitterIcon />,
+      },
     ],
     website_link: 'https://kabir.ml',
     profile_pic: 'https://avatars1.githubusercontent.com/u/15644571?v=4&s=460',
@@ -47,19 +47,8 @@ const data = {
         description: 'A minimal, blazing fast user interface library.',
         github_link: 'https://github.com/kbrsh/moon',
         website_link: 'http://moonjs.ga/',
-        images: [
-          'https://sj.uploads.im/l9IXF.png',
-        ],
-        stack: [
-          'javascript',
-          'gulp',
-          'karma',
-          'mocha',
-          'chai',
-          'node',
-          'react',
-          'angularjs'
-        ],
+        images: ['https://sj.uploads.im/l9IXF.png'],
+        stack: ['javascript', 'gulp', 'karma', 'mocha', 'chai', 'node', 'react', 'angularjs'],
       },
       {
         id: 2,
@@ -72,10 +61,7 @@ const data = {
           'https://sl.uploads.im/94Bmq.png',
           'https://sm.uploads.im/EMAsF.png',
         ],
-        stack: [
-          'css',
-          'gulp',
-        ],
+        stack: ['css', 'gulp'],
       },
       {
         id: 3,
@@ -83,14 +69,8 @@ const data = {
         description: 'My personal blog written with handlebars.',
         github_link: 'https://github.com/kbrsh/blog',
         website_link: 'https://blog.kabir.ml/',
-        images: [
-          'https://sm.uploads.im/sFbXU.png',
-        ],
-        stack: [
-          'javascript',
-          'css',
-          'handlebars',
-        ],
+        images: ['https://sm.uploads.im/sFbXU.png'],
+        stack: ['javascript', 'css', 'handlebars'],
       },
     ],
   },

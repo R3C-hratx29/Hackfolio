@@ -1,8 +1,8 @@
 .Projects {
   &.isProfileOwner {
-    &>.grommetux-tiles {
+    & > .grommetux-tiles {
       &:after {
-        content: "";
+        content: '';
         flex: 0 0 384px;
       }
     }
