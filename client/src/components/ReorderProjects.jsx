@@ -38,7 +38,8 @@ class ReorderProjects extends React.Component {
   }
 
   onReorder(event, previousIndex, nextIndex) {
-    const newProjects = reorder(this.state.projects, previousIndex, nextIndex);
+    console.log(this.props.userProfile.projects);
+    const newProjects = reorder(this.props.userProfile.projects, previousIndex, nextIndex);
     const updatedOrder = newProjects.map((project, index) => {
       return {
         id: project.id,
