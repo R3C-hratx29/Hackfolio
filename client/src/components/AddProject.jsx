@@ -49,6 +49,7 @@ class AddProject extends React.Component {
         images: [],
         stack: [],
       },
+      stackString: '',
       uploading: false
     };
 
@@ -64,7 +65,8 @@ class AddProject extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.edit) {
       this.setState({
-        project: nextProps.edit
+        project: nextProps.edit,
+        stackString: nextProps.edit.stack.join(', ')
       });
     } else {
       this.setState({
@@ -75,7 +77,8 @@ class AddProject extends React.Component {
           website_link: '',
           images: [],
           stack: [],
-        }
+        },
+        stackString: ''
       });
     }
   }
@@ -145,7 +148,10 @@ class AddProject extends React.Component {
       return item.trim();
     });
     this.updateProject({
-      stack: array
+      stack: array,
+    });
+    this.setState({
+      stackString: stack
     });
   }
 
@@ -258,7 +264,7 @@ class AddProject extends React.Component {
                 </FormField>
                 <FormField label="Stack">
                   <TextInput
-                    value={this.state.project.stack.join(', ')}
+                    value={this.state.stackString}
                     placeHolder="Separate with commas"
                     onDOMChange={
                       (e) => {
@@ -334,9 +340,11 @@ AddProject.defaultProps = {
 AddProject.propTypes = {
   toggleProjectModal: PropTypes.func.isRequired,
   hideProjectModal: PropTypes.bool.isRequired,
-  edit: PropTypes.shape(PropTypes.object),
   saveProject: PropTypes.func.isRequired,
   deleteProject: PropTypes.func.isRequired,
+  edit: PropTypes.shape({
+    stack: PropTypes.array
+  }),
 };
 
 const mapDispatchToProps = (dispatch) => {
