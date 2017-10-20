@@ -67,7 +67,20 @@ class Projects extends React.Component {
   render() {
     const projects = this.props.userProfile.projects
       .sort((a, b) => {
-        return a.order - b.order;
+        if (a.order > b.order) {
+          return 1;
+        } else if (a.order < b.order) {
+          return -1;
+        }
+
+        // Else go to the 2nd item
+        if (a.created_at < b.created_at) {
+          return 1;
+        } else if (a.created_at > b.created_at) {
+          return -1;
+        }
+
+        return 0;
       })
       .map((project, index) => {
         const i = index;
