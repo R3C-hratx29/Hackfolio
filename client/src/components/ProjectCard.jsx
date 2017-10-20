@@ -28,7 +28,7 @@ function httpify(value) {
 }
 
 const ProjectCard = props => (
-  <Tile className="ProjectCard" style={{ overflow: 'scroll' }}>
+  <Tile className="ProjectCard">
     {props.project.images.length === 1 &&
       props.project.images[0] !== '' && (
         <Image

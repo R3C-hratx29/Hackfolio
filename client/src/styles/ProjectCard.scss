@@ -1,13 +1,7 @@
 @import './variables.scss';
 
 .ProjectCard {
-  & {
-    -ms-overflow-style: none; // IE 10+
-    overflow: -moz-scrollbars-none; // Firefox
-  }
-  &::-webkit-scrollbar {
-    display: none; // Safari and Chrome
-  }
+  overflow: hidden;
 
   .grommetux-card__thumbnail {
     max-height: 300px;

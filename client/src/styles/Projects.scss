@@ -1,11 +1,11 @@
 .Projects {
-  &.isProfileOwner {
-    & > .grommetux-tiles {
-      &:after {
-        content: '';
-        flex: 0 0 384px;
-      }
+  & > .grommetux-tiles {
+    &:after {
+      content: '';
+      flex: 0 0 384px;
     }
+  }
+  &.isProfileOwner {
     .editProjectIcon {
       display: inline-block !important;
     }
