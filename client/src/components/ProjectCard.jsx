@@ -33,13 +33,13 @@ const ProjectCard = props => (
       props.project.images[0] !== '' && (
         <Image
           size="medium"
-          style={{ maxWidth: 384, maxHeight: 280 }}
+          style={{ width: 384, height: 280 }}
           src={httpify(props.project.images[0])}
         />
       )}
     {props.project.images.length > 1 && (
       <Box size="medium">
-        <Carousel autoplay={false} style={{ maxWidth: 390, maxHeight: 284 }}>
+        <Carousel autoplay={false} style={{ width: 390, height: 284 }}>
           {props.project.images.map((image, index) => {
             const i = index;
             let imageURL = image;
