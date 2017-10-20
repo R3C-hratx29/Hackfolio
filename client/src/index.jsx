@@ -24,6 +24,8 @@ if (window.localStorage.token) {
     });
 }
 
+store.dispatch({ type: 'ERROR_SET_USER', payload: { error: 'start' } });
+
 ReactDOM.render(
   <Provider store={store}>
     <Hackfolio />

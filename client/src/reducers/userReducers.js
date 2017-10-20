@@ -36,3 +36,14 @@ export const helpReducer = (state = {}, action) => {
     }
   }
 };
+
+export const checkUserReducer = (state = {}, action) => {
+  switch (action.type) {
+    case 'ERROR_SET_USER': {
+      return Object.assign({}, action.payload);
+    }
+    default: {
+      return state;
+    }
+  }
+};

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
 
 // Gromment Imports
 import Anchor from 'grommet/components/Anchor';
@@ -30,7 +29,15 @@ class Modal extends React.Component {
     this.addUsername = this.addUsername.bind(this);
     this.addPassword = this.addPassword.bind(this);
     this.addEmail = this.addEmail.bind(this);
-    this.sendSignup = this.sendSignup.bind(this);
+    this.sendRequest = this.sendRequest.bind(this);
+  }
+  componentWillMount() {
+    this.setState({
+      username: '',
+      password: '',
+      email: '',
+      page: true
+    });
   }
   toggle() {
     this.setState({ page: !this.state.page });
@@ -44,30 +51,29 @@ class Modal extends React.Component {
   addPassword(e) {
     this.setState({ password: e.target.value });
   }
-  sendSignup() {
+  sendRequest() {
     if (this.state.page) {
-      this.props.login({
+      const obj = {
         username: this.state.username,
-        password: this.state.password,
-      });
+        password: this.state.password
+      };
+      this.props.login(obj);
     } else {
-      this.props.signup({
+      const objSign = {
         username: this.state.username,
         password: this.state.password,
-        email: this.state.email,
-      });
+        email: this.state.email
+      };
+      this.props.signup(objSign);
     }
-    this.setState({
-      username: '',
-      password: '',
-      email: '',
-    });
-    this.toggle();
   }
   render() {
     const text = this.state.page ? 'Login' : 'Signup';
     const welcome = this.state.page ? 'Welcome Back' : 'Welcome';
     const changeLink = this.state.page ? 'Not a user? Signup!' : 'Already have an account?';
+    let usernameError = '';
+    usernameError = this.state.page && this.props.valid === 'user' ? 'Username not found' : '';
+    usernameError = this.props.valid === 'user' && usernameError === '' ? 'User already exists' : usernameError;
     return (
       <Layer closer onClose={this.props.closeModal}>
         <Box size={{ height: 'medium', width: 'medium' }} justify="center" align="center">
@@ -81,18 +87,38 @@ class Modal extends React.Component {
               </Heading>
             </Box>
           </Box>
-          <FormField label={this.state.page ? 'Username/Email' : 'Username'}>
-            <TextInput type="text" value={this.state.username} onDOMChange={this.addUsername} />
+          <FormField
+            label={this.state.page ? 'Username/Email' : 'Username'}
+            error={usernameError}
+          >
+            <TextInput
+              type="text"
+              value={this.state.username}
+              onDOMChange={this.addUsername}
+            />
           </FormField>
-          {this.state.page ? (
-            <div />
-          ) : (
-            <FormField label="Email">
-              <TextInput type="text" value={this.state.email} onDOMChange={this.addEmail} />
+          {this.state.page ?
+            <div /> :
+            <FormField
+              label="Email"
+              error={this.props.valid === 'email' ? 'Email is already taken' : ''}
+            >
+              <TextInput
+                type="text"
+                value={this.state.email}
+                onDOMChange={this.addEmail}
+              />
             </FormField>
-          )}
-          <FormField label="Password">
-            <TextInput type="password" value={this.state.password} onDOMChange={this.addPassword} />
+          }
+          <FormField
+            error={this.props.valid === 'password' ? 'Wrong password' : ''}
+            label="Password"
+          >
+            <TextInput
+              type="password"
+              value={this.state.password}
+              onDOMChange={this.addPassword}
+            />
           </FormField>
           <Button
             box
@@ -101,7 +127,7 @@ class Modal extends React.Component {
             primary
             type="button"
             label={text}
-            onClick={this.sendSignup}
+            onClick={this.sendRequest}
           />
           <Anchor onClick={this.toggle} label={changeLink} />
         </Box>
@@ -109,30 +135,28 @@ class Modal extends React.Component {
     );
   }
 }
+Modal.defaultProps = {
+  valid: ''
+};
 
 Modal.propTypes = {
+  valid: PropTypes.string,
   closeModal: PropTypes.func.isRequired,
   signup: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
 };
 
-const mapStateToprops = () => {
-  return {};
+const mapStateToprops = (state) => {
+  return {
+    valid: state.checkUser.error
+  };
 };
 
 const mapDispatchToprops = dispatch => {
   return {
     closeModal: () => dispatch(modalAction('close')),
-    signup: e => {
-      dispatch(UserAction.signup(e));
-      dispatch(modalAction('close'));
-      dispatch(UserAction.help('Home'));
-      dispatch(push('/Home'));
-    },
-    login: e => {
-      dispatch(UserAction.login(e));
-      dispatch(modalAction('close'));
-    },
+    signup: (e) => dispatch(UserAction.signup(e)),
+    login: (e) => dispatch(UserAction.login(e))
   };
 };
 

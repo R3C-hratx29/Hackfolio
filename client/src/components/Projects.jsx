@@ -130,9 +130,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    displayHelp: () => {
-      dispatch(UserAction.help('off'));
-    },
+    displayHelp: () => { dispatch(UserAction.help('Tabs')); }
   };
 }
 

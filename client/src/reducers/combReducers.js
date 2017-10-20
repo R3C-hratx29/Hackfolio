@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
-import { currentUserReducer, userProfileReducer, helpReducer } from './userReducers';
+import { currentUserReducer, userProfileReducer, helpReducer, checkUserReducer } from './userReducers';
 import { modalStateReducer, modalPageReducer } from './modalReducers';
 
 const reducers = combineReducers({
@@ -9,7 +9,8 @@ const reducers = combineReducers({
   modalState: modalStateReducer,
   modalPage: modalPageReducer,
   router: routerReducer,
-  help: helpReducer
+  help: helpReducer,
+  checkUser: checkUserReducer
 });
 
 export default reducers;

@@ -38,7 +38,14 @@ router.post('/signup', (req, res) => {
       .then(user => {
         if (user.length) {
           res.status(409);
-          res.send('User already exists.');
+          console.log(user);
+          if (user[0].username === username) {
+             res.send('User already exists.');
+          } else if( user[0].email === email ) {
+            res.send('Email already exists.');
+          } else {
+            res.send('unknown error');
+          }
         }
 
         if (!user.length) {
@@ -48,11 +55,10 @@ router.post('/signup', (req, res) => {
               const token = jwt.encode(payload, secret);
 
               Profile.init(data[0].uid, username);
-
-              res.status(201);
-              res.set({ Username: data[0].username, Jwt: token });
-              res.send({ Username: data[0].username, Jwt: token });
-            });
+                res.status(201);
+                res.set({ 'username': data[0].username, 'Jwt': token });
+                res.send({ 'username': data[0].username, 'Jwt': token });
+              });
           });
         }
       })
@@ -76,23 +82,22 @@ router.post('/login', (req, res) => {
   if (req.body.email) {
     email = req.body.email;
   }
-  User.findByUsername(username, email).then(user => {
-    if (!user.length) {
-      res.status(401);
-      res.send('User does not exist.');
-    }
+  User.findByUsername(username, email)
+    .then(user => {
+      if (!user.length) {
+        res.status(401);
+        res.send('User does not exist.');
+      }
 
-    if (user.length) {
-      console.log(user);
-      bcrypt.compare(password, user[0].password, (err, match) => {
-        if (match) {
-          const payload = { username: user[0].username, user_id: user[0].uid };
-          const token = jwt.encode(payload, secret);
-          res.status(201);
-          res.set({ Username: user[0].username, Jwt: token });
-          res.send({ Username: user[0].username, Jwt: token });
-        }
-
+      if (user.length) {
+        bcrypt.compare(password, user[0].password, (err, match) => {
+          if (match) {
+            const payload = { username: user[0].username, user_id: user[0].uid };
+            const token = jwt.encode(payload, secret);
+            res.status(201);
+            res.set({ 'username': user[0].username, 'Jwt': token});
+            res.send({ 'username': user[0].username, Jwt: token });
+          }
         if (!match) {
           res.status(401);
           res.send('Incorrect password');

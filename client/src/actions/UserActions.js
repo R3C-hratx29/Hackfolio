@@ -1,5 +1,42 @@
 /* eslint-disable no-console,no-undef */
+import { push } from 'react-router-redux';
 import axios from 'axios';
+import modalAction from './ModalActions';
+
+export const help = (state) => {
+  return {
+    type: 'HELP_USER',
+    payload: {
+      text: state
+    }
+  };
+};
+
+export const clearError = () => {
+  return {
+    type: 'ERROR_SET_USER',
+    payload: { error: '' }
+  };
+};
+
+export const setError = (err) => {
+  let error = '';
+  if (err === 'User does not exist.') {
+    error = 'user';
+  } else if (err === 'Incorrect password') {
+    error = 'password';
+  } else if (err === 'Please fill out all forms.') {
+    error = 'form';
+  } else if (err === 'User already exists.') {
+    error = 'user';
+  } else if (err === 'Email already exists.') {
+    error = 'email';
+  }
+  return {
+    type: 'ERROR_SET_USER',
+    payload: { error }
+  };
+};
 
 export const setUser = data => {
   console.log(data.jwt);
@@ -21,19 +58,21 @@ export const setUser = data => {
   };
 };
 
-export const login = userdata => {
-  console.log('login', userdata);
-  return dispatch => {
-    return axios
-      .post('/login', {
-        username: userdata.username,
-        password: userdata.password,
-      })
-      .then(res => {
+export const login = (userdata) => {
+  return ((dispatch) => {
+    return axios.post('/login', {
+      username: userdata.username,
+      password: userdata.password
+    })
+      .then((res) => {
+        dispatch(clearError());
         dispatch(setUser(res.headers));
+        dispatch(push(`/user/${res.headers.username}`));
+        dispatch(modalAction('close'));
       })
       .catch(err => {
         console.log(err);
+        dispatch(setError(err.response.data));
       });
   };
 };
@@ -49,9 +88,14 @@ export const signup = userdata => {
       })
       .then(res => {
         dispatch(setUser(res.headers));
+        dispatch(push(`/user/${res.headers.username}`));
+        dispatch(modalAction('close'));
+        dispatch(help('Profile'));
       })
-      .catch(err => {
-        throw err;
+
+      .catch((err) => {
+        console.log(err);
+        dispatch(setError(err.response.data));
       });
   };
 };

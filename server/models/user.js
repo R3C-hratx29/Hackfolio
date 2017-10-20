@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const db = require('./db');
 // const Profile = require('./profile');
 
