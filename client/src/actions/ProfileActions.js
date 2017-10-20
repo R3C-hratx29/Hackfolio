@@ -1,4 +1,4 @@
-/* eslint-disable no-restricted-syntax,prefer-template,guard-for-in,no-undef,no-console */
+/* eslint-disable no-console */
 import axios from 'axios';
 
 const setProfile = (data) => {
@@ -11,7 +11,7 @@ const setProfile = (data) => {
 export const getProfile = (id) => {
   // get data from database
   return ((dispatch) => {
-    return axios.get('/user/' + id)
+    return axios.get(`/user/${id}`)
       .then((res) => {
         console.log('res in getProfile', res);
         dispatch(setProfile(res.data));
@@ -24,16 +24,12 @@ export const getProfile = (id) => {
 
 export const changeProfile = (data, profile) => {
   const newProfile = {};
-  for (const key in profile) {
+  Object.entries(profile).forEach((el) => {
+    const key = el[0];
     newProfile[key] = data[key] ? data[key] : profile[key];
-  }
-  const config = {
-    headers: {
-      jwt: window.localStorage.token
-    }
-  };
+  });
   return ((dispatch) => {
-    return axios.post('/profile', newProfile, config)
+    return axios.post('/profile', newProfile)
       .then(() => {
         dispatch(getProfile(profile.username));
       })

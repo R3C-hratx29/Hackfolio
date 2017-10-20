@@ -1,5 +1,9 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
+
+// Gromment Imports
 import Anchor from 'grommet/components/Anchor';
 import Layer from 'grommet/components/Layer';
 import FormField from 'grommet/components/FormField';
@@ -8,8 +12,8 @@ import TextInput from 'grommet/components/TextInput';
 import Box from 'grommet/components/Box';
 import BriefcaseIcon from 'grommet/components/icons/base/Briefcase';
 import Heading from 'grommet/components/Heading';
-import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+
+// Custom Imports
 import modalAction from '../actions/ModalActions';
 import * as UserAction from '../actions/UserActions';
 
@@ -128,18 +132,21 @@ class Modal extends React.Component {
   }
 }
 
+Modal.propTypes = {
+  closeModal: PropTypes.func.isRequired,
+  signup: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired
+};
+
+const mapStateToprops = () => {
+  return {};
+};
+
 const mapDispatchToprops = (dispatch) => {
   return {
     closeModal: () => dispatch(modalAction('close')),
-    openModal: () => dispatch(modalAction('open')),
     signup: (e) => { dispatch(UserAction.signup(e)); dispatch(modalAction('close')); dispatch(UserAction.help('Home')); dispatch(push('/Home')); },
     login: (e) => { dispatch(UserAction.login(e)); dispatch(modalAction('close')); }
-  };
-};
-
-const mapStateToprops = (state) => {
-  return {
-    page: state.modalPage
   };
 };
 

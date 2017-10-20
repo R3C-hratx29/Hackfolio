@@ -1,22 +1,26 @@
-/* eslint-disable react/prop-types, max-len */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+
+// Grommet Imports
 import Header from 'grommet/components/Header';
 import Box from 'grommet/components/Box';
 import Tip from 'grommet/components/Tip';
 import TextInput from 'grommet/components/TextInput';
-// import Title from 'grommet/components/Title';
 import UserIcon from 'grommet/components/icons/base/User';
 import SearchIcon from 'grommet/components/icons/base/Search';
 import LoginIcon from 'grommet/components/icons/base/Login';
 import LogoutIcon from 'grommet/components/icons/base/Logout';
 import Button from 'grommet/components/Button';
 import HomeIcon from 'grommet/components/icons/base/Home';
+
+// Custom Imports
 import Modal from './Modal';
 import modalAction from '../actions/ModalActions';
 import * as UserAction from '../actions/UserActions';
 import { getProfile } from '../actions/ProfileActions';
+
 class NavBar extends React.Component {
   constructor(props) {
     super(props);
@@ -24,7 +28,6 @@ class NavBar extends React.Component {
       searchText: '',
       help: false
     };
-    // this.match.params.username
     this.searchHandler = this.searchHandler.bind(this);
     this.sendSearch = this.sendSearch.bind(this);
     this.goProfile = this.goProfile.bind(this);
@@ -45,12 +48,11 @@ class NavBar extends React.Component {
   }
   goProfile() {
     const user = this.props.user.username;
-    console.log(this.props.user.username);
-    this.props.goTo(user);
+    this.props.goToProfile(user);
   }
   goHome() {
     const home = this.props.user === undefined || this.props.user.jwt === undefined ? '/' : '/Home';
-    this.props.goTo(home);
+    this.props.goToHome(home);
   }
   render() {
     return (
@@ -133,21 +135,41 @@ class NavBar extends React.Component {
     );
   }
 }
-const mapDispatchToProps = (dispatch) => {
-  return {
-    openModal: () => dispatch(modalAction('open')),
-    search: (text) => dispatch(UserAction.search(text)),
-    goTo: (user) => { dispatch(getProfile(user)); dispatch(push(`/user/${user}`)); },
-    logout: () => dispatch(UserAction.logout()),
-    displayHelp: (next) => dispatch(UserAction.help(next))
-  };
+
+NavBar.defaultProps = {
+  user: {},
+  help: 'off',
+  modalState: 'close'
+};
+
+NavBar.propTypes = {
+  user: PropTypes.shape({ jwt: PropTypes.string, username: PropTypes.string }),
+  help: PropTypes.string,
+  modalState: PropTypes.string,
+  openModal: PropTypes.func.isRequired,
+  search: PropTypes.func.isRequired,
+  goToHome: PropTypes.func.isRequired,
+  goToProfile: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
+  displayHelp: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
   return {
     user: state.currentUser.user,
-    modalState: state.modalState,
+    modalState: state.modalState.state,
     help: state.help.text
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    openModal: () => dispatch(modalAction('open')),
+    search: (text) => dispatch(UserAction.search(text)),
+    goToHome: (path) => dispatch(push(path)),
+    goToProfile: (user) => { dispatch(getProfile(user)); dispatch(push(`/user/${user}`)); },
+    logout: () => dispatch(UserAction.logout()),
+    displayHelp: (next) => dispatch(UserAction.help(next))
   };
 };
 

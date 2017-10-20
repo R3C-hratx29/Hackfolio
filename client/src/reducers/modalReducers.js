@@ -2,7 +2,7 @@
 export const modalStateReducer = (state = {}, action) => {
   switch (action.type) {
     case 'MODAL_STATE': {
-      return action.text;
+      return Object.assign({}, action.payload);
     }
     default: {
       return state;

@@ -1,4 +1,4 @@
-/* eslint-disable no-undef, no-underscore-dangle, object-shorthand */
+/* eslint-disable no-undef,no-console */
 import React from 'react';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
@@ -7,17 +7,16 @@ import Hackfolio from './components/App';
 import '../node_modules/grommet-css';
 import store from './store';
 
-axios.get('/me', {
-  headers: {
-    jwt: window.localStorage.token
-  }
-})
+
+axios.defaults.headers.common.jwt = window.localStorage.token;
+
+axios.get('/me')
   .then((res) => {
     console.log(res);
     store.dispatch({ type: 'SET_CURRENT_USER', payload: { user: { username: res.headers.username, jwt: window.localStorage.token } } });
   })
   .catch((err) => {
-    throw err;
+    console.log(err);
   });
 
 ReactDOM.render((

@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -29,7 +28,7 @@ class HomePage extends React.Component {
           something about a homepage (maybe cats)
           </Tip> : <div />
         }
-        { this.props.currentUser ?
+        { this.props.user ?
           <div id="Home">
             Home
           </div> : <LandingPage />
@@ -41,12 +40,20 @@ class HomePage extends React.Component {
 
 HomePage.defaultProps = {
   help: 'off',
-  displayHelp: () => {}
+  user: {}
 };
 
 HomePage.propTypes = {
   help: PropTypes.string,
-  displayHelp: PropTypes.func
+  user: PropTypes.shape({ jwt: PropTypes.string, username: PropTypes.string }),
+  displayHelp: PropTypes.func.isRequired
+};
+
+const mapStateToProps = (state) => {
+  return {
+    help: state.help.text,
+    user: state.currentUser.user
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -55,11 +62,5 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const mapStateToProps = (state) => {
-  return {
-    help: state.help.text,
-    currentUser: state.currentUser.user
-  };
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

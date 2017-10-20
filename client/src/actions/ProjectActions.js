@@ -1,12 +1,10 @@
-/* eslint-disable no-undef */
+/* eslint-disable no-console */
 import axios from 'axios';
 import { getProfile } from './ProfileActions';
 
 export const saveProject = (project) => {
   return ((dispatch) => {
-    return axios.post('/project', project, {
-      headers: { jwt: window.localStorage.token }
-    })
+    return axios.post('/project', project)
       .then((res) => {
         dispatch(getProfile(res.headers.username));
       })
@@ -18,11 +16,8 @@ export const saveProject = (project) => {
 
 export const changeProjects = (projects) => {
   return ((dispatch) => {
-    return axios.put('/project', projects, {
-      headers: { jwt: window.localStorage.token }
-    })
+    return axios.put('/project', projects)
       .then((res) => {
-        console.log('headers in change', res.headers);
         dispatch(getProfile(res.headers.username));
       })
       .catch((err) => {
