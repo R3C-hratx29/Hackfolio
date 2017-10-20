@@ -143,6 +143,7 @@ ProjectCard.propTypes = {
     github_link: PropTypes.string,
     website_link: PropTypes.string,
   }).isRequired,
+  editProject: PropTypes.func.isRequired
 };
 
 export default ProjectCard;
