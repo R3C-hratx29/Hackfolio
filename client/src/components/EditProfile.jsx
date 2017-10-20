@@ -8,7 +8,7 @@ import {
   Layer,
   Form,
   FormField,
-  TextInput, 
+  TextInput,
   Box,
   Menu,
   Anchor,
