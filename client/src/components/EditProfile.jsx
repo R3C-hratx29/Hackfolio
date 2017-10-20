@@ -4,15 +4,17 @@ import { connect } from 'react-redux';
 import firebase from 'firebase';
 import FileUploader from 'react-firebase-file-uploader';
 
-import Layer from 'grommet/components/Layer';
-import Form from 'grommet/components/Form';
-import FormField from 'grommet/components/FormField';
-import TextInput from 'grommet/components/TextInput';
-import Box from 'grommet/components/Box';
-import Menu from 'grommet/components/Menu';
-import Anchor from 'grommet/components/Anchor';
-import Header from 'grommet/components/Header';
-import Heading from 'grommet/components/Heading';
+import {
+  Layer,
+  Form,
+  FormField,
+  TextInput, 
+  Box,
+  Menu,
+  Anchor,
+  Header,
+  Heading
+} from 'grommet';
 // Grommet Icons
 import ImageIcon from 'grommet/components/icons/base/Image';
 import SaveIcon from 'grommet/components/icons/base/Save';
