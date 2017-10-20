@@ -1,23 +1,24 @@
 /*  eslint no-underscore-dangle: "error"  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import firebase from 'firebase';
 import FileUploader from 'react-firebase-file-uploader';
 import $ from 'jquery';
 import { connect } from 'react-redux';
 
 // Grommet Components
-import Box from 'grommet/components/Box';
-import Layer from 'grommet/components/Layer';
-import Form from 'grommet/components/Form';
-import FormField from 'grommet/components/FormField';
-import TextInput from 'grommet/components/TextInput';
-import Header from 'grommet/components/Header';
-import Heading from 'grommet/components/Heading';
-import Menu from 'grommet/components/Menu';
-import Anchor from 'grommet/components/Anchor';
-import Split from 'grommet/components/Split';
-import Button from 'grommet/components/Button';
+import {
+  Box,
+  Layer,
+  Form,
+  FormField,
+  TextInput,
+  Header,
+  Heading,
+  Menu,
+  Anchor,
+  Split,
+  Button,
+} from 'grommet';
 
 // Grommet Icons
 import ImageIcon from 'grommet/components/icons/base/Image';
@@ -27,21 +28,13 @@ import Spinning from 'grommet/components/icons/Spinning';
 import ProjectCard from './ProjectCard';
 
 // Custom Actions
-import { saveProject } from '../actions/ProjectActions';
+import { saveProject, deleteProject } from '../actions/ProjectActions';
+
+// Firebase
+import firebase from '../data/firebase';
 
 // Component Styles
 import '../styles/AddProject.scss';
-
-// Initalize Firebase
-const config = {
-  apiKey: 'AIzaSyDbSmVKg6UsDZFa2LHTqqm4Q9hPylorbao',
-  authDomain: 'hackfolio-ed6a4.firebaseapp.com',
-  databaseURL: 'https://hackfolio-ed6a4.firebaseio.com',
-  projectId: 'hackfolio-ed6a4',
-  storageBucket: 'hackfolio-ed6a4.appspot.com',
-  messagingSenderId: '977473242483'
-};
-firebase.initializeApp(config);
 
 class AddProject extends React.Component {
   constructor(props) {
@@ -64,6 +57,7 @@ class AddProject extends React.Component {
     this.updateImages = this.updateImages.bind(this);
     this.onImageUpload = this.onImageUpload.bind(this);
     this.onSave = this.onSave.bind(this);
+    this.onDelete = this.onDelete.bind(this);
     this.onUploadStart = this.onUploadStart.bind(this);
   }
 
@@ -87,8 +81,12 @@ class AddProject extends React.Component {
   }
 
   onSave() {
-    // temp use of axios because I needed a way to add Projects
     this.props.saveProject(this.state.project);
+    this.props.toggleProjectModal();
+  }
+
+  onDelete() {
+    this.props.deleteProject(this.state.project.id);
     this.props.toggleProjectModal();
   }
 
@@ -177,7 +175,7 @@ class AddProject extends React.Component {
                 justify="between"
               >
                 <Heading>
-                  {this.props.edit ? 'Edit Project' : 'Add a Project'}
+                  {this.props.edit ? 'Edit Project' : 'Add Project'}
                 </Heading>
                 <Menu
                   responsive
@@ -303,13 +301,24 @@ class AddProject extends React.Component {
                   })
                 }
               </div>
-              <Button
-                primary
-                fill
-                onClick={this.onSave}
-                label="Save Project"
-                style={{ marginTop: 10 }}
-              />
+              <Box
+                direction="row"
+              >
+                {this.props.edit &&
+                  <Button
+                    critical
+                    fill
+                    onClick={this.onDelete}
+                    label="Delete Project"
+                  />
+                }
+                <Button
+                  primary
+                  fill
+                  onClick={this.onSave}
+                  label="Save Project"
+                />
+              </Box>
             </Form>
           </Split>
         </Box>
@@ -326,12 +335,14 @@ AddProject.propTypes = {
   toggleProjectModal: PropTypes.func.isRequired,
   hideProjectModal: PropTypes.bool.isRequired,
   edit: PropTypes.shape(PropTypes.object),
-  saveProject: PropTypes.func.isRequired
+  saveProject: PropTypes.func.isRequired,
+  deleteProject: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    saveProject: (project) => dispatch(saveProject(project))
+    saveProject: (project) => dispatch(saveProject(project)),
+    deleteProject: (id) => dispatch(deleteProject(id)),
   };
 };
 

@@ -25,3 +25,15 @@ export const changeProjects = (projects) => {
       });
   });
 };
+
+export const deleteProject = (id) => {
+  return ((dispatch) => {
+    return axios.delete(`/project/${id}`)
+      .then((res) => {
+        dispatch(getProfile(res.headers.username));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+};

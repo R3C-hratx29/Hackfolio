@@ -203,11 +203,10 @@ router.put('/project', (req, res) => {
   res.send(req.body);
 });
 
-router.delete('/project', (req, res) => {
+router.delete('/project/:id', (req, res) => {
   if (req.headers.jwt) {
     const dLoad = jwt.decode(req.headers.jwt, secret);
-    console.log(req.body)
-    Project.deleteProject(req.body.id);
+    Project.deleteProject(req.params.id);
 
     res.status(201);
     res.set({ 'Username': dLoad.username });
