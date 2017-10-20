@@ -12,7 +12,6 @@ import newProjectImage from '../images/newProject.png';
 const AddProjectTile = (props) => (
   <Tile
     className="AddProjectTile"
-    style={{ overflow: 'scroll' }}
     size="medium"
     onClick={props.toggleProjectModal}
   >
