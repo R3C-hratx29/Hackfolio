@@ -25,7 +25,8 @@ class Projects extends React.Component {
     this.state = {
       hideProjectModal: true,
       hideReorderModal: true,
-      help: false
+      help: false,
+      edit: null,
     };
     this.toggleProjectModal = this.toggleProjectModal.bind(this);
     this.toggleReorderModal = this.toggleReorderModal.bind(this);
@@ -34,7 +35,7 @@ class Projects extends React.Component {
   componentWillMount() {
     setTimeout(() => {
       this.setState({
-        help: true
+        help: true,
       });
     }, 500);
   }
@@ -42,58 +43,49 @@ class Projects extends React.Component {
   toggleProjectModal() {
     if (this.state.hideProjectModal) {
       this.setState({
-        edit: null
+        edit: null,
       });
     }
     this.setState({
-      hideProjectModal: !this.state.hideProjectModal
+      hideProjectModal: !this.state.hideProjectModal,
     });
   }
 
   toggleReorderModal() {
     this.setState({
-      hideReorderModal: !this.state.hideReorderModal
+      hideReorderModal: !this.state.hideReorderModal,
     });
   }
 
   editProject(project) {
     this.setState({
       hideProjectModal: false,
-      edit: project
+      edit: project,
     });
   }
 
   render() {
-    const projects = this.props.userProfile.projects.sort((a, b) => {
-      return a.order - b.order;
-    }).map((project, index) => {
-      const i = index;
-      return (
-        <ProjectCard key={i} project={project} editProject={this.editProject} />
-      );
-    });
+    const projects = this.props.userProfile.projects
+      .sort((a, b) => {
+        return a.order - b.order;
+      })
+      .map((project, index) => {
+        const i = index;
+        return <ProjectCard key={i} project={project} editProject={this.editProject} />;
+      });
     return (
       <div className={`Projects ${this.props.isProfileOwner ? 'isProfileOwner' : ''}`}>
-        {this.props.isProfileOwner &&
-          <Box
-            align="end"
-          >
-            <Button
-              primary
-              onClick={this.toggleReorderModal}
-              label="Reorder Projects"
-            />
+        {this.props.isProfileOwner && (
+          <Box align="end">
+            <Button primary onClick={this.toggleReorderModal} label="Reorder Projects" />
           </Box>
-        }
-        <Tiles
-          flush={false}
-          justify="between"
-        >
+        )}
+        <Tiles flush={false} justify="between">
           <ProfileBox isProfileOwner={this.props.isProfileOwner} />
           {projects}
-          {this.props.isProfileOwner &&
+          {this.props.isProfileOwner && (
             <AddProjectTile toggleProjectModal={this.toggleProjectModal} />
-          }
+          )}
         </Tiles>
         <AddProject
           toggleProjectModal={this.toggleProjectModal}
@@ -104,14 +96,13 @@ class Projects extends React.Component {
           toggleReorderModal={this.toggleReorderModal}
           hideReorderModal={this.state.hideReorderModal}
         />
-        {this.props.help === 'Project' && this.state.help ?
-          <Tip
-            target="AddProjectBtn"
-            onClose={this.props.displayHelp}
-          >
+        {this.props.help === 'Project' && this.state.help ? (
+          <Tip target="AddProjectBtn" onClose={this.props.displayHelp}>
             You can add projects to show off here
-          </Tip> : <div />
-        }
+          </Tip>
+        ) : (
+          <div />
+        )}
       </div>
     );
   }
@@ -120,20 +111,20 @@ class Projects extends React.Component {
 Projects.defaultProps = {
   userProfile: {},
   help: 'off',
-  displayHelp: () => {}
+  displayHelp: () => {},
 };
 
 Projects.propTypes = {
   userProfile: PropTypes.shape({ projects: PropTypes.array }),
   help: PropTypes.string,
   displayHelp: PropTypes.func,
-  isProfileOwner: PropTypes.bool.isRequired
+  isProfileOwner: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     userProfile: state.userProfile,
-    help: state.help.text
+    help: state.help.text,
   };
 }
 

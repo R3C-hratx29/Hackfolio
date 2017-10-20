@@ -2,9 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Reorder, {
-  reorder
-} from 'react-reorder';
+import Reorder, { reorder } from 'react-reorder';
 
 // Grommet Components
 import Box from 'grommet/components/Box';
@@ -24,7 +22,7 @@ class ReorderProjects extends React.Component {
     super(props);
     this.state = {
       projects: props.userProfile.projects,
-      updatedOrder: []
+      updatedOrder: [],
     };
 
     this.onReorder = this.onReorder.bind(this);
@@ -33,23 +31,22 @@ class ReorderProjects extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      projects: nextProps.userProfile.projects
+      projects: nextProps.userProfile.projects,
     });
   }
 
   onReorder(event, previousIndex, nextIndex) {
-    console.log(this.props.userProfile.projects);
-    const newProjects = reorder(this.props.userProfile.projects, previousIndex, nextIndex);
+    const newProjects = reorder(this.state.projects, previousIndex, nextIndex);
     const updatedOrder = newProjects.map((project, index) => {
       return {
         id: project.id,
-        order: index
+        order: index,
       };
     });
 
     this.setState({
       projects: newProjects,
-      updatedOrder
+      updatedOrder,
     });
   }
 
@@ -69,21 +66,12 @@ class ReorderProjects extends React.Component {
         <Box
           pad={{
             horizontal: 'medium',
-            vertical: 'large'
+            vertical: 'large',
           }}
         >
-          <Header
-            direction="row"
-            justify="between"
-          >
-            <Heading>
-              Reorder Projects
-            </Heading>
-            <Button
-              onClick={this.onSave}
-              label="Save"
-              primary
-            />
+          <Header direction="row" justify="between">
+            <Heading>Reorder Projects</Heading>
+            <Button onClick={this.onSave} label="Save" primary />
           </Header>
           <Reorder
             reorderId="projects"
@@ -91,22 +79,20 @@ class ReorderProjects extends React.Component {
             className="grommetux-list"
             onReorder={this.onReorder}
           >
-            {
-              this.state.projects.map((project) => (
-                <ListItem key={project.id + Math.random()} justify="start" className="project">
-                  <div
-                    className="image"
-                    style={{
-                          backgroundImage: `url(${project.images[0]})`,
-                    }}
-                  />
-                  <div className="body">
-                    <div className="title">{project.title}</div>
-                    <div className="description">{project.description}</div>
-                  </div>
-                </ListItem>
-              ))
-            }
+            {this.state.projects.map(project => (
+              <ListItem key={project.id + Math.random()} justify="start" className="project">
+                <div
+                  className="image"
+                  style={{
+                    backgroundImage: `url(${project.images[0]})`,
+                  }}
+                />
+                <div className="body">
+                  <div className="title">{project.title}</div>
+                  <div className="description">{project.description}</div>
+                </div>
+              </ListItem>
+            ))}
           </Reorder>
         </Box>
       </Layer>
@@ -118,22 +104,22 @@ ReorderProjects.propTypes = {
   userProfile: PropTypes.shape({ projects: PropTypes.array }),
   toggleReorderModal: PropTypes.func.isRequired,
   hideReorderModal: PropTypes.bool.isRequired,
-  changeProjects: PropTypes.func.isRequired
+  changeProjects: PropTypes.func.isRequired,
 };
 
 ReorderProjects.defaultProps = {
   userProfile: {},
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    changeProjects: (projects) => dispatch(changeProjects(projects))
+    changeProjects: projects => dispatch(changeProjects(projects)),
   };
 };
 
 function mapStateToProps(state) {
   return {
-    userProfile: state.userProfile
+    userProfile: state.userProfile,
   };
 }
 

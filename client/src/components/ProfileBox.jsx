@@ -18,10 +18,8 @@ import Tip from 'grommet/components/Tip';
 
 // Grommet Icons
 import EditIcon from 'grommet/components/icons/base/Edit';
-import SaveIcon from 'grommet/components/icons/base/Save';
 
 // Custom Components
-import SocialIcons from './SocialIcons';
 import EditProfile from './EditProfile';
 import { changeProfile } from './../actions/ProfileActions';
 import * as UserAction from '../actions/UserActions';
@@ -94,9 +92,10 @@ class ProfileBox extends React.Component {
             this.props.isProfileOwner &&
             <Box>
               <Anchor
-                icon={this.state.edit ? <SaveIcon id="edit" /> : <EditIcon id="edit" />}
-                onClick={this.editMe}
+                icon={<EditIcon id="edit" />}
+                onClick={this.hideModal}
               />
+              <EditProfile hideModal={this.hideModal} hidden={this.state.hideModal} />
             </Box>
           }
         </Box>

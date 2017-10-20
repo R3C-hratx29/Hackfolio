@@ -1,23 +1,24 @@
 /*  eslint no-underscore-dangle: "error"  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import firebase from 'firebase';
 import FileUploader from 'react-firebase-file-uploader';
 import $ from 'jquery';
 import { connect } from 'react-redux';
 
 // Grommet Components
-import Box from 'grommet/components/Box';
-import Layer from 'grommet/components/Layer';
-import Form from 'grommet/components/Form';
-import FormField from 'grommet/components/FormField';
-import TextInput from 'grommet/components/TextInput';
-import Header from 'grommet/components/Header';
-import Heading from 'grommet/components/Heading';
-import Menu from 'grommet/components/Menu';
-import Anchor from 'grommet/components/Anchor';
-import Split from 'grommet/components/Split';
-import Button from 'grommet/components/Button';
+import {
+  Box,
+  Layer,
+  Form,
+  FormField,
+  TextInput,
+  Header,
+  Heading,
+  Menu,
+  Anchor,
+  Split,
+  Button,
+} from 'grommet';
 
 // Grommet Icons
 import ImageIcon from 'grommet/components/icons/base/Image';
@@ -27,21 +28,13 @@ import Spinning from 'grommet/components/icons/Spinning';
 import ProjectCard from './ProjectCard';
 
 // Custom Actions
-import { saveProject } from '../actions/ProjectActions';
+import { saveProject, deleteProject } from '../actions/ProjectActions';
+
+// Firebase
+import firebase from '../data/firebase';
 
 // Component Styles
 import '../styles/AddProject.scss';
-
-// Initalize Firebase
-const config = {
-  apiKey: 'AIzaSyDbSmVKg6UsDZFa2LHTqqm4Q9hPylorbao',
-  authDomain: 'hackfolio-ed6a4.firebaseapp.com',
-  databaseURL: 'https://hackfolio-ed6a4.firebaseio.com',
-  projectId: 'hackfolio-ed6a4',
-  storageBucket: 'hackfolio-ed6a4.appspot.com',
-  messagingSenderId: '977473242483'
-};
-firebase.initializeApp(config);
 
 class AddProject extends React.Component {
   constructor(props) {
@@ -56,7 +49,8 @@ class AddProject extends React.Component {
         images: [],
         stack: [],
       },
-      uploading: false
+      stackString: '',
+      uploading: false,
     };
 
     this.updateProject = this.updateProject.bind(this);
@@ -64,13 +58,15 @@ class AddProject extends React.Component {
     this.updateImages = this.updateImages.bind(this);
     this.onImageUpload = this.onImageUpload.bind(this);
     this.onSave = this.onSave.bind(this);
+    this.onDelete = this.onDelete.bind(this);
     this.onUploadStart = this.onUploadStart.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.edit) {
       this.setState({
-        project: nextProps.edit
+        project: nextProps.edit,
+        stackString: nextProps.edit.stack.join(', '),
       });
     } else {
       this.setState({
@@ -81,20 +77,29 @@ class AddProject extends React.Component {
           website_link: '',
           images: [],
           stack: [],
-        }
+        },
+        stackString: '',
       });
     }
   }
 
   onSave() {
-    // temp use of axios because I needed a way to add Projects
     this.props.saveProject(this.state.project);
+    this.props.toggleProjectModal();
+  }
+
+  onDelete() {
+    this.props.deleteProject(this.state.project.id);
     this.props.toggleProjectModal();
   }
 
   onImageUpload(file) {
     this.menuRef.setState({ state: 'collapsed' });
-    firebase.storage().ref('images').child(file).getDownloadURL()
+    firebase
+      .storage()
+      .ref('images')
+      .child(file)
+      .getDownloadURL()
       .then(url => {
         this.addImageURL(url);
         this.setState({ uploading: false });
@@ -109,7 +114,7 @@ class AddProject extends React.Component {
     const array = this.state.project.images;
     array.push(url);
     this.updateProject({
-      images: array
+      images: array,
     });
     setTimeout(() => {
       $(this.formScrollRef).animate({ scrollTop: this.formScrollRef.scrollHeight });
@@ -120,7 +125,7 @@ class AddProject extends React.Component {
     const array = this.state.project.images;
     array.splice(index, 1);
     this.updateProject({
-      images: array
+      images: array,
     });
   }
 
@@ -128,26 +133,25 @@ class AddProject extends React.Component {
     const array = this.state.project.images;
     array[index] = url;
     this.updateProject({
-      images: array
+      images: array,
     });
   }
 
   updateProject(state) {
     this.setState({
-      project: Object.assign(
-        {},
-        this.state.project,
-        state,
-      )
+      project: Object.assign({}, this.state.project, state),
     });
   }
 
   updateStack(stack) {
-    const array = stack.split(',').map((item) => {
+    const array = stack.split(',').map(item => {
       return item.trim();
     });
     this.updateProject({
-      stack: array
+      stack: array,
+    });
+    this.setState({
+      stackString: stack,
     });
   }
 
@@ -159,47 +163,32 @@ class AddProject extends React.Component {
         onClose={this.props.toggleProjectModal}
         hidden={this.props.hideProjectModal}
       >
-        <Box
-          direction="row"
-          responsive={false}
-          pad={{ vertical: 'large' }}
-        >
-          <Split
-            showOnResponsive="both"
-          >
+        <Box direction="row" responsive={false} pad={{ vertical: 'large' }}>
+          <Split showOnResponsive="both">
             <Box size="medium">
-              <ProjectCard
-                project={this.state.project}
-              />
+              <ProjectCard project={this.state.project} />
             </Box>
             <Form>
-              <Header
-                justify="between"
-              >
-                <Heading>
-                  {this.props.edit ? 'Edit Project' : 'Add a Project'}
-                </Heading>
+              <Header justify="between">
+                <Heading>{this.props.edit ? 'Edit Project' : 'Add Project'}</Heading>
                 <Menu
                   responsive
                   icon={<ImageIcon />}
                   label="Add Image"
                   inline={false}
                   reverse
-                  ref={ref => { this.menuRef = ref; }}
+                  ref={ref => {
+                    this.menuRef = ref;
+                  }}
                 >
+                  <Anchor onClick={() => this.addImageURL('')}>Image URL</Anchor>
                   <Anchor
-                    onClick={() => this.addImageURL('')}
+                    onClick={e => {
+                      e.stopPropagation();
+                    }}
                   >
-                    Image URL
-                  </Anchor>
-                  <Anchor
-                    onClick={(e) => { e.stopPropagation(); }}
-                  >
-                    <label
-                      htmlFor="firebaseUpload"
-                      style={{ cursor: 'pointer' }}
-                    >
-                      { this.state.uploading && <Spinning /> } Upload Image
+                    <label htmlFor="firebaseUpload" style={{ cursor: 'pointer' }}>
+                      {this.state.uploading && <Spinning />} Upload Image
                       <FileUploader
                         style={{ display: 'none' }}
                         hidden
@@ -216,100 +205,87 @@ class AddProject extends React.Component {
               </Header>
               <div
                 className="formScroll"
-                ref={ref => { this.formScrollRef = ref; }}
+                ref={ref => {
+                  this.formScrollRef = ref;
+                }}
               >
                 <FormField label="Title">
                   <TextInput
                     value={this.state.project.title}
-                    onDOMChange={
-                      (e) => {
-                        this.updateProject({ title: e.target.value });
-                      }
-                    }
+                    onDOMChange={e => {
+                      this.updateProject({ title: e.target.value });
+                    }}
                   />
                 </FormField>
                 <FormField label="Description">
                   <TextInput
                     value={this.state.project.description}
-                    onDOMChange={
-                      (e) => {
-                        this.updateProject({ description: e.target.value });
-                      }
-                    }
+                    onDOMChange={e => {
+                      this.updateProject({ description: e.target.value });
+                    }}
                   />
                 </FormField>
                 <FormField label="Website Link">
                   <TextInput
                     value={this.state.project.website_link}
-                    onDOMChange={
-                      (e) => {
-                        this.updateProject({ website_link: e.target.value });
-                      }
-                    }
+                    onDOMChange={e => {
+                      this.updateProject({ website_link: e.target.value });
+                    }}
                   />
                 </FormField>
                 <FormField label="Github Link">
                   <TextInput
                     value={this.state.project.github_link}
-                    onDOMChange={
-                      (e) => {
-                        this.updateProject({ github_link: e.target.value });
-                      }
-                    }
+                    onDOMChange={e => {
+                      this.updateProject({ github_link: e.target.value });
+                    }}
                   />
                 </FormField>
                 <FormField label="Stack">
                   <TextInput
-                    value={this.state.project.stack.join(', ')}
+                    value={this.state.stackString}
                     placeHolder="Separate with commas"
-                    onDOMChange={
-                      (e) => {
-                        this.updateStack(e.target.value);
-                      }
-                    }
+                    onDOMChange={e => {
+                      this.updateStack(e.target.value);
+                    }}
                   />
                 </FormField>
-                {
-                  this.state.project.images.map((image, index) => {
-                    const i = index;
-                    return (
-                      <FormField
-                        key={i}
-                        label={
-                          <div>
-                            <span>Image #{index + 1}</span>
-                            <span
-                              tabIndex={0}
-                              className="deleteImage"
-                              onClick={() => this.removeImage(index)}
-                              onKeyPress={() => {}}
-                              role="button"
-                            >
-                              Delete
-                            </span>
-                          </div>
-                        }
-                      >
-                        <TextInput
-                          value={image}
-                          onDOMChange={
-                            (e) => {
-                              this.updateImages(index, e.target.value);
-                            }
-                          }
-                        />
-                      </FormField>
-                    );
-                  })
-                }
+                {this.state.project.images.map((image, index) => {
+                  const i = index;
+                  return (
+                    <FormField
+                      key={i}
+                      label={
+                        <div>
+                          <span>Image #{index + 1}</span>
+                          <span
+                            tabIndex={0}
+                            className="deleteImage"
+                            onClick={() => this.removeImage(index)}
+                            onKeyPress={() => {}}
+                            role="button"
+                          >
+                            Delete
+                          </span>
+                        </div>
+                      }
+                    >
+                      <TextInput
+                        value={image}
+                        onDOMChange={e => {
+                          this.updateImages(index, e.target.value);
+                        }}
+                      />
+                    </FormField>
+                  );
+                })}
               </div>
-              <Button
-                primary
-                fill
-                onClick={this.onSave}
-                label="Save Project"
-                style={{ marginTop: 10 }}
-              />
+              <Box direction="row">
+                {this.props.edit && (
+                  <Button critical fill onClick={this.onDelete} label="Delete Project" />
+                )}
+                <Button primary fill onClick={this.onSave} label="Save Project" />
+              </Box>
             </Form>
           </Split>
         </Box>
@@ -319,25 +295,29 @@ class AddProject extends React.Component {
 }
 
 AddProject.defaultProps = {
-  edit: null
+  edit: null,
 };
 
 AddProject.propTypes = {
   toggleProjectModal: PropTypes.func.isRequired,
   hideProjectModal: PropTypes.bool.isRequired,
-  edit: PropTypes.shape(PropTypes.object),
-  saveProject: PropTypes.func.isRequired
+  saveProject: PropTypes.func.isRequired,
+  deleteProject: PropTypes.func.isRequired,
+  edit: PropTypes.shape({
+    stack: PropTypes.array,
+  }),
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    saveProject: (project) => dispatch(saveProject(project))
+    saveProject: project => dispatch(saveProject(project)),
+    deleteProject: id => dispatch(deleteProject(id)),
   };
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    user: state.currentUser.user
+    user: state.currentUser.user,
   };
 };
 

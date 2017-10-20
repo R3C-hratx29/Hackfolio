@@ -38,20 +38,23 @@ export const setError = (err) => {
   };
 };
 
-export const setUser = (headers) => {
-  if (headers.jwt === undefined) {
+export const setUser = data => {
+  console.log(data.jwt);
+  if (data.jwt === undefined) {
     window.localStorage.removeItem('token');
+    axios.defaults.headers.common.jwt = null;
   } else {
-    window.localStorage.token = headers.jwt;
+    window.localStorage.token = data.jwt;
+    axios.defaults.headers.common.jwt = data.jwt;
   }
   return {
     type: 'SET_CURRENT_USER',
     payload: {
       user: {
-        username: headers.username,
-        jwt: headers.jwt
-      }
-    }
+        username: data.username,
+        jwt: data.jwt,
+      },
+    },
   };
 };
 
@@ -67,26 +70,29 @@ export const login = (userdata) => {
         dispatch(push(`/user/${res.headers.username}`));
         dispatch(modalAction('close'));
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         dispatch(setError(err.response.data));
       });
-  });
+  };
 };
-export const signup = (userdata) => {
-  return (dispatch) => {
-    return axios.post('/signup', {
-      username: userdata.username,
-      password: userdata.password,
-      email: userdata.email
-    })
-      .then((res) => {
-        dispatch(clearError());
+
+export const signup = userdata => {
+  console.log('signup', userdata);
+  return dispatch => {
+    return axios
+      .post('/signup', {
+        username: userdata.username,
+        password: userdata.password,
+        email: userdata.email,
+      })
+      .then(res => {
         dispatch(setUser(res.headers));
         dispatch(push(`/user/${res.headers.username}`));
         dispatch(modalAction('close'));
         dispatch(help('Profile'));
       })
+
       .catch((err) => {
         console.log(err);
         dispatch(setError(err.response.data));
@@ -95,12 +101,13 @@ export const signup = (userdata) => {
 };
 
 export const logout = () => {
-  return (dispatch) => {
-    return axios.get('/logout')
+  return dispatch => {
+    return axios
+      .get('/logout')
       .then(() => {
         dispatch(setUser({ username: undefined, jwt: undefined }));
       })
-      .catch((err) => {
+      .catch(err => {
         throw err;
       });
   };
@@ -110,8 +117,16 @@ export const search = () => {
   return {
     type: 'SET_USER_PROFILE',
     payload: {
-      text: 'some user goes here'
-    }
+      text: 'some user goes here',
+    },
   };
 };
 
+export const help = state => {
+  return {
+    type: 'HELP_USER',
+    payload: {
+      text: state,
+    },
+  };
+};

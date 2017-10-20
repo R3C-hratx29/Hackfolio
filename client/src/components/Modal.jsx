@@ -23,7 +23,7 @@ class Modal extends React.Component {
       page: true,
       username: '',
       password: '',
-      email: ''
+      email: '',
     };
     this.toggle = this.toggle.bind(this);
     this.addUsername = this.addUsername.bind(this);
@@ -76,17 +76,9 @@ class Modal extends React.Component {
     usernameError = this.props.valid === 'user' && usernameError === '' ? 'User already exists' : usernameError;
     return (
       <Layer closer onClose={this.props.closeModal}>
-        <Box
-          size={{ height: 'medium', width: 'medium' }}
-          justify="center"
-          align="center"
-        >
-          <Box
-            margin={{ bottom: 'medium' }}
-            alignContent="end"
-            direction="row"
-          >
-            <Box margin={{ right: 'medium' }} >
+        <Box size={{ height: 'medium', width: 'medium' }} justify="center" align="center">
+          <Box margin={{ bottom: 'medium' }} alignContent="end" direction="row">
+            <Box margin={{ right: 'medium' }}>
               <BriefcaseIcon type="icon" size="large" />
             </Box>
             <Box alignSelf="end">
@@ -137,10 +129,7 @@ class Modal extends React.Component {
             label={text}
             onClick={this.sendRequest}
           />
-          <Anchor
-            onClick={this.toggle}
-            label={changeLink}
-          />
+          <Anchor onClick={this.toggle} label={changeLink} />
         </Box>
       </Layer>
     );
@@ -154,7 +143,7 @@ Modal.propTypes = {
   valid: PropTypes.string,
   closeModal: PropTypes.func.isRequired,
   signup: PropTypes.func.isRequired,
-  login: PropTypes.func.isRequired
+  login: PropTypes.func.isRequired,
 };
 
 const mapStateToprops = (state) => {
@@ -163,7 +152,7 @@ const mapStateToprops = (state) => {
   };
 };
 
-const mapDispatchToprops = (dispatch) => {
+const mapDispatchToprops = dispatch => {
   return {
     closeModal: () => dispatch(modalAction('close')),
     signup: (e) => dispatch(UserAction.signup(e)),

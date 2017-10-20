@@ -18,7 +18,7 @@
   .stack {
     margin-bottom: 25px;
 
-    &>div {
+    & > div {
       display: inline-block;
       background-color: $brand;
       color: white;
@@ -36,7 +36,8 @@
   .grommetux-carousel {
     height: 284px;
 
-    .grommetux-button__icon, .grommetux-carousel__controls .grommetux-button {
+    .grommetux-button__icon,
+    .grommetux-carousel__controls .grommetux-button {
       transform: scale(0.5);
     }
 
@@ -52,11 +53,10 @@
       stroke: black;
     }
 
-    .grommetux-tiles.grommetux-box--direction-row>.grommetux-tile.grommetux-carousel__item>* {
+    .grommetux-tiles.grommetux-box--direction-row > .grommetux-tile.grommetux-carousel__item > * {
       width: 100%;
       height: 100%;
       position: absolute;
     }
   }
-
 }
