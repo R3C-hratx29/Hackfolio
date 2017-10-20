@@ -27,59 +27,36 @@ function httpify(value) {
   return string;
 }
 
-const ProjectCard = (props) => (
-  <Tile
-    className="ProjectCard"
-    style={{ overflow: 'scroll' }}
-  >
-    {
-      props.project.images.length === 1 && props.project.images[0] !== '' && (
+const ProjectCard = props => (
+  <Tile className="ProjectCard">
+    {props.project.images.length === 1 &&
+      props.project.images[0] !== '' && (
         <Image
           size="medium"
           style={{ maxWidth: 384, maxHeight: 280 }}
           src={httpify(props.project.images[0])}
         />
-      )
-    }
-    {
-      props.project.images.length > 1 && (
-        <Box
-          size="medium"
-        >
-          <Carousel
-            autoplay={false}
-            style={{ maxWidth: 390, maxHeight: 284 }}
-          >
-            {
-              props.project.images.map((image, index) => {
-                const i = index;
-                let imageURL = image;
-                if (!image) {
-                  imageURL = placeHolderImage;
-                } else {
-                  imageURL = httpify(imageURL);
-                }
-                return (
-                  <Image
-                    key={i}
-                    size="medium"
-                    fit="cover"
-                    src={imageURL}
-                  />
-                );
-              })
+      )}
+    {props.project.images.length > 1 && (
+      <Box size="medium">
+        <Carousel autoplay={false} style={{ maxWidth: 390, maxHeight: 284 }}>
+          {props.project.images.map((image, index) => {
+            const i = index;
+            let imageURL = image;
+            if (!image) {
+              imageURL = placeHolderImage;
+            } else {
+              imageURL = httpify(imageURL);
             }
-          </Carousel>
-        </Box>
-      )
-    }
+            return <Image key={i} size="medium" fit="cover" src={imageURL} />;
+          })}
+        </Carousel>
+      </Box>
+    )}
     <Card
       contentPad="medium"
       heading={
-        <Heading
-          strong
-          tag="h2"
-        >
+        <Heading strong tag="h2">
           {props.project.title}
           <EditIcon className="editProjectIcon" onClick={() => props.editProject(props.project)} />
         </Heading>
@@ -90,23 +67,16 @@ const ProjectCard = (props) => (
             {props.project.description}
           </Heading>
           <div className="stack">
-            {
-              props.project.stack.map((el, index) => {
-                const i = index;
-                return el && <div key={i}>{el}</div>;
-              })
-            }
+            {props.project.stack.map((el, index) => {
+              const i = index;
+              return el && <div key={i}>{el}</div>;
+            })}
           </div>
         </div>
       }
       link={
-        <Box
-          direction="row"
-          justify="between"
-          responsive={false}
-        >
-          {
-            props.project.github_link &&
+        <Box direction="row" justify="between" responsive={false}>
+          {props.project.github_link && (
             <Anchor
               icon={<GithubIcon />}
               label="GitHub"
@@ -115,9 +85,8 @@ const ProjectCard = (props) => (
               reverse={false}
               target="blank"
             />
-          }
-          {
-            props.project.website_link &&
+          )}
+          {props.project.website_link && (
             <Anchor
               icon={<LinkNextIcon />}
               label="Visit Site"
@@ -126,12 +95,16 @@ const ProjectCard = (props) => (
               reverse={false}
               target="blank"
             />
-          }
+          )}
         </Box>
       }
     />
   </Tile>
 );
+
+ProjectCard.defaultProps = {
+  editProject: () => {},
+};
 
 ProjectCard.propTypes = {
   project: PropTypes.shape({
@@ -143,6 +116,7 @@ ProjectCard.propTypes = {
     github_link: PropTypes.string,
     website_link: PropTypes.string,
   }).isRequired,
+  editProject: PropTypes.func,
 };
 
 export default ProjectCard;

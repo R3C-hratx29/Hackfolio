@@ -24,7 +24,7 @@ class Modal extends React.Component {
       page: true,
       username: '',
       password: '',
-      email: ''
+      email: '',
     };
     this.toggle = this.toggle.bind(this);
     this.addUsername = this.addUsername.bind(this);
@@ -48,19 +48,19 @@ class Modal extends React.Component {
     if (this.state.page) {
       this.props.login({
         username: this.state.username,
-        password: this.state.password
+        password: this.state.password,
       });
     } else {
       this.props.signup({
         username: this.state.username,
         password: this.state.password,
-        email: this.state.email
+        email: this.state.email,
       });
     }
     this.setState({
       username: '',
       password: '',
-      email: ''
+      email: '',
     });
     this.toggle();
   }
@@ -70,17 +70,9 @@ class Modal extends React.Component {
     const changeLink = this.state.page ? 'Not a user? Signup!' : 'Already have an account?';
     return (
       <Layer closer onClose={this.props.closeModal}>
-        <Box
-          size={{ height: 'medium', width: 'medium' }}
-          justify="center"
-          align="center"
-        >
-          <Box
-            margin={{ bottom: 'medium' }}
-            alignContent="end"
-            direction="row"
-          >
-            <Box margin={{ right: 'medium' }} >
+        <Box size={{ height: 'medium', width: 'medium' }} justify="center" align="center">
+          <Box margin={{ bottom: 'medium' }} alignContent="end" direction="row">
+            <Box margin={{ right: 'medium' }}>
               <BriefcaseIcon type="icon" size="large" />
             </Box>
             <Box alignSelf="end">
@@ -90,28 +82,17 @@ class Modal extends React.Component {
             </Box>
           </Box>
           <FormField label={this.state.page ? 'Username/Email' : 'Username'}>
-            <TextInput
-              type="text"
-              value={this.state.username}
-              onDOMChange={this.addUsername}
-            />
+            <TextInput type="text" value={this.state.username} onDOMChange={this.addUsername} />
           </FormField>
-          {this.state.page ?
-            <div /> :
+          {this.state.page ? (
+            <div />
+          ) : (
             <FormField label="Email">
-              <TextInput
-                type="text"
-                value={this.state.email}
-                onDOMChange={this.addEmail}
-              />
+              <TextInput type="text" value={this.state.email} onDOMChange={this.addEmail} />
             </FormField>
-          }
+          )}
           <FormField label="Password">
-            <TextInput
-              type="password"
-              value={this.state.password}
-              onDOMChange={this.addPassword}
-            />
+            <TextInput type="password" value={this.state.password} onDOMChange={this.addPassword} />
           </FormField>
           <Button
             box
@@ -122,10 +103,7 @@ class Modal extends React.Component {
             label={text}
             onClick={this.sendSignup}
           />
-          <Anchor
-            onClick={this.toggle}
-            label={changeLink}
-          />
+          <Anchor onClick={this.toggle} label={changeLink} />
         </Box>
       </Layer>
     );
@@ -135,18 +113,26 @@ class Modal extends React.Component {
 Modal.propTypes = {
   closeModal: PropTypes.func.isRequired,
   signup: PropTypes.func.isRequired,
-  login: PropTypes.func.isRequired
+  login: PropTypes.func.isRequired,
 };
 
 const mapStateToprops = () => {
   return {};
 };
 
-const mapDispatchToprops = (dispatch) => {
+const mapDispatchToprops = dispatch => {
   return {
     closeModal: () => dispatch(modalAction('close')),
-    signup: (e) => { dispatch(UserAction.signup(e)); dispatch(modalAction('close')); dispatch(UserAction.help('Home')); dispatch(push('/Home')); },
-    login: (e) => { dispatch(UserAction.login(e)); dispatch(modalAction('close')); }
+    signup: e => {
+      dispatch(UserAction.signup(e));
+      dispatch(modalAction('close'));
+      dispatch(UserAction.help('Home'));
+      dispatch(push('/Home'));
+    },
+    login: e => {
+      dispatch(UserAction.login(e));
+      dispatch(modalAction('close'));
+    },
   };
 };
 
