@@ -22,6 +22,7 @@ import Button from 'grommet/components/Button';
 // Grommet Icons
 import ImageIcon from 'grommet/components/icons/base/Image';
 import Spinning from 'grommet/components/icons/Spinning';
+import TrashIcon from 'grommet/components/icons/base/Trash';
 
 // Custom Components
 import ProjectCard from './ProjectCard';
@@ -303,13 +304,22 @@ class AddProject extends React.Component {
                   })
                 }
               </div>
-              <Button
-                primary
-                fill
-                onClick={this.onSave}
-                label="Save Project"
-                style={{ marginTop: 10 }}
-              />
+              <Box
+                direction="row"
+              >
+                <Button
+                  critical
+                  fill
+                  onClick={this.onSave}
+                  label="Delete Project"
+                />
+                <Button
+                  primary
+                  fill
+                  onClick={this.onSave}
+                  label="Save Project"
+                />
+              </Box>
             </Form>
           </Split>
         </Box>
