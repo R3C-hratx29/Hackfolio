@@ -2,18 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Grommet Components
-import Tile from 'grommet/components/Tile';
-import Card from 'grommet/components/Card';
-import Anchor from 'grommet/components/Anchor';
-import Box from 'grommet/components/Box';
-import Carousel from 'grommet/components/Carousel';
-import Image from 'grommet/components/Image';
-import Heading from 'grommet/components/Heading';
+import {
+  Tile,
+  Card,
+  Anchor,
+  Box,
+  Carousel,
+  Image,
+  Heading
+} from 'grommet';
 
 // Grommet Icons
-import LinkNextIcon from 'grommet/components/icons/base/LinkNext';
-import GithubIcon from 'grommet/components/icons/base/SocialGithub';
-import EditIcon from 'grommet/components/icons/base/Edit';
+import {
+  LinkNextIcon,
+  SocialGithubIcon,
+  EditIcon
+} from 'grommet/components/icons/base';
 
 import placeHolderImage from '../images/placeholder.png';
 
@@ -78,7 +82,7 @@ const ProjectCard = props => (
         <Box direction="row" justify="between" responsive={false}>
           {props.project.github_link && (
             <Anchor
-              icon={<GithubIcon />}
+              icon={<SocialGithubIcon />}
               label="GitHub"
               href={httpify(props.project.github_link)}
               primary

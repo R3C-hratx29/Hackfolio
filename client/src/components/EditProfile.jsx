@@ -17,8 +17,10 @@ import {
 } from 'grommet';
 
 // Grommet Icons
-import ImageIcon from 'grommet/components/icons/base/Image';
-import SaveIcon from 'grommet/components/icons/base/Save';
+import {
+  ImageIcon,
+  SaveIcon
+} from 'grommet/components/icons/base';
 
 import { changeProfile } from './../actions/ProfileActions';
 // Component Styles

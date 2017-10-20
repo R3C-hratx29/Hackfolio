@@ -3,14 +3,17 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // Gromment Imports
-import Anchor from 'grommet/components/Anchor';
-import Layer from 'grommet/components/Layer';
-import FormField from 'grommet/components/FormField';
-import Button from 'grommet/components/Button';
-import TextInput from 'grommet/components/TextInput';
-import Box from 'grommet/components/Box';
+import {
+  Anchor,
+  Layer,
+  FormField,
+  Button,
+  TextInput,
+  Box,
+  Heading
+} from 'grommet';
+
 import BriefcaseIcon from 'grommet/components/icons/base/Briefcase';
-import Heading from 'grommet/components/Heading';
 
 // Custom Imports
 import modalAction from '../actions/ModalActions';
