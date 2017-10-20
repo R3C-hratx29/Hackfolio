@@ -8,10 +8,13 @@ import '../node_modules/grommet-css';
 import store from './store';
 
 axios.get('/me', {
-  jwt: window.localStorage.token
+  headers: {
+    jwt: window.localStorage.token
+  }
 })
   .then((res) => {
-    store.dispatch({ type: 'SET_CURRENT_USER', payload: { user: { user_id: res.headers.user_id, jwt: window.localStorage.token } } });
+    console.log(res);
+    store.dispatch({ type: 'SET_CURRENT_USER', payload: { user: { username: res.headers.username, jwt: window.localStorage.token } } });
   })
   .catch((err) => {
     throw err;

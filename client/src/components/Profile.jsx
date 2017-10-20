@@ -12,7 +12,10 @@ class Profile extends React.Component {
   }
 
   render() {
-    const isProfileOwner = this.props.match.params.id === this.props.userProfile;
+    let isProfileOwner = false;
+    if (this.props.user) {
+      isProfileOwner = this.props.match.params.id === this.props.user.username;
+    }
 
     return (
       <div>
