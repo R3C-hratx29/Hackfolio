@@ -7,7 +7,6 @@ import profileAction from '../actions/ProfileActions';
 class Profile extends React.Component {
   componentWillMount() {
     // set user
-    console.log('profile', this.props.match.params.id);
     this.props.getProfile(this.props.match.params.id);
   }
 
