@@ -4,13 +4,14 @@ import PropTypes from 'prop-types';
 
 import Reorder, { reorder } from 'react-reorder';
 
-// Grommet Components
-import Box from 'grommet/components/Box';
-import Layer from 'grommet/components/Layer';
-import ListItem from 'grommet/components/ListItem';
-import Header from 'grommet/components/Header';
-import Heading from 'grommet/components/Heading';
-import Button from 'grommet/components/Button';
+import
+{ Box,
+  Layer,
+  ListItem,
+  Header,
+  Heading,
+  Button
+} from 'grommet';
 
 import { changeProjects } from '../actions/ProjectActions';
 

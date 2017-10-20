@@ -3,10 +3,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Grommet Components
-import Tiles from 'grommet/components/Tiles';
-import Tip from 'grommet/components/Tip';
-import Box from 'grommet/components/Box';
-import Button from 'grommet/components/Button';
+import {
+  Tiles,
+  Tip,
+  Box,
+  Button
+} from 'grommet';
 
 // Custom Components
 import ProjectCard from './ProjectCard';

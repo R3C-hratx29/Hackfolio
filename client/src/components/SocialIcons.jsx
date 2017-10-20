@@ -2,8 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 // grommet components
-import Box from 'grommet/components/Box';
-import Anchor from 'grommet/components/Anchor';
+import { Box, Anchor } from 'grommet';
 
 import './../styles/variables.scss';
 

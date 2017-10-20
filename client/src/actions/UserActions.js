@@ -105,6 +105,7 @@ export const logout = () => {
       .get('/logout')
       .then(() => {
         dispatch(setUser({ username: undefined, jwt: undefined }));
+        dispatch(push('/LandingPage'));
       })
       .catch(err => {
         throw err;
