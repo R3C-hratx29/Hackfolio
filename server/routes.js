@@ -16,6 +16,7 @@ router.get('/me', (req, res) => {
   if (req.headers.jwt) {
     // headers now have id instead of username
     const headers = jwt.decode(req.headers.jwt, secret);
+    res.status(201);
     res.set(headers);
     res.send(headers);
   } else {
