@@ -57,7 +57,6 @@ class Projects extends React.Component {
   }
 
   editProject(project) {
-    console.log(project);
     this.setState({
       hideProjectModal: false,
       edit: project
@@ -88,7 +87,7 @@ class Projects extends React.Component {
         }
         <Tiles
           flush={false}
-          justify={this.props.isProfileOwner ? 'around' : 'between'}
+          justify="between"
         >
           <ProfileBox isProfileOwner={this.props.isProfileOwner} />
           {projects}
