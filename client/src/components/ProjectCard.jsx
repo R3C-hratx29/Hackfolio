@@ -15,7 +15,7 @@ import {
 // Grommet Icons
 import {
   LinkNextIcon,
-  GithubIcon,
+  SocialGithubIcon,
   EditIcon
 } from 'grommet/components/icons/base';
 
@@ -82,7 +82,7 @@ const ProjectCard = props => (
         <Box direction="row" justify="between" responsive={false}>
           {props.project.github_link && (
             <Anchor
-              icon={<GithubIcon />}
+              icon={<SocialGithubIcon />}
               label="GitHub"
               href={httpify(props.project.github_link)}
               primary

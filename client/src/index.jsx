@@ -13,7 +13,6 @@ if (window.localStorage.token) {
   axios
     .get('/me')
     .then(res => {
-      console.log(res);
       store.dispatch({
         type: 'SET_CURRENT_USER',
         payload: { user: { username: res.headers.username, jwt: window.localStorage.token } },

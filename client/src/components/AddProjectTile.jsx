@@ -2,10 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Grommet Components
-import Tile from 'grommet/components/Tile';
-import Card from 'grommet/components/Card';
-import Image from 'grommet/components/Image';
-import Button from 'grommet/components/Button';
+import {
+  Tile,
+  Card,
+  Image,
+  Button
+} from 'grommet';
 
 import newProjectImage from '../images/newProject.png';
 

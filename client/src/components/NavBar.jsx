@@ -4,18 +4,21 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 
 // Grommet Imports
-import Header from 'grommet/components/Header';
-import Box from 'grommet/components/Box';
-import Tip from 'grommet/components/Tip';
-import TextInput from 'grommet/components/TextInput';
-import UserIcon from 'grommet/components/icons/base/User';
-import SearchIcon from 'grommet/components/icons/base/Search';
-import LoginIcon from 'grommet/components/icons/base/Login';
-import LogoutIcon from 'grommet/components/icons/base/Logout';
-import Button from 'grommet/components/Button';
+import {
+  Header,
+  Box,
+  Tip,
+  TextInput,
+  Button
+} from 'grommet';
 
-// Grommet Icons
-import HomeIcon from 'grommet/components/icons/base/Home';
+import {
+  UserIcon,
+  SearchIcon,
+  LoginIcon,
+  LogoutIcon,
+  HomeIcon
+} from 'grommet/components/icons/base';
 
 // Custom Imports
 import Modal from './Modal';
