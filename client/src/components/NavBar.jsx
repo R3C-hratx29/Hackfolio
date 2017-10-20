@@ -16,7 +16,7 @@ import HomeIcon from 'grommet/components/icons/base/Home';
 import Modal from './Modal';
 import modalAction from '../actions/ModalActions';
 import * as UserAction from '../actions/UserActions';
-
+import { getProfile } from '../actions/ProfileActions';
 class NavBar extends React.Component {
   constructor(props) {
     super(props);
@@ -44,7 +44,7 @@ class NavBar extends React.Component {
     this.setState({ searchText: '' });
   }
   goProfile() {
-    const user = `/user/${this.props.user.username}`;
+    const user = this.props.user.username;
     console.log(this.props.user.username);
     this.props.goTo(user);
   }
@@ -137,7 +137,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     openModal: () => dispatch(modalAction('open')),
     search: (text) => dispatch(UserAction.search(text)),
-    goTo: (path) => dispatch(push(path)),
+    goTo: (user) => { dispatch(getProfile(user)); dispatch(push(`/user/${user}`)); },
     logout: () => dispatch(UserAction.logout()),
     displayHelp: (next) => dispatch(UserAction.help(next))
   };
