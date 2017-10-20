@@ -8,13 +8,15 @@ import { connect } from 'react-redux';
 /* import PropTypes from 'prop-types'; */
 
 // Grommet Components
-import Card from 'grommet/components/Card';
-import Box from 'grommet/components/Box';
-import Heading from 'grommet/components/Heading';
-import Tile from 'grommet/components/Tile';
-import Image from 'grommet/components/Image';
-import Anchor from 'grommet/components/Anchor';
-import Tip from 'grommet/components/Tip';
+import {
+  Card,
+  Box,
+  Heading,
+  Tile,
+  Image,
+  Anchor,
+  Tip
+} from 'grommet';
 
 // Grommet Icons
 import EditIcon from 'grommet/components/icons/base/Edit';
