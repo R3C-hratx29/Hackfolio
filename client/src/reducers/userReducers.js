@@ -47,3 +47,14 @@ export const checkUserReducer = (state = {}, action) => {
     }
   }
 };
+
+export const searchReducer = (state = {}, action) => {
+  switch (action.type) {
+    case 'SET_SEARCH': {
+      return Object.assign({}, action.payload);
+    }
+    default: {
+      return state;
+    }
+  }
+};

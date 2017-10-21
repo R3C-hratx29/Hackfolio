@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Tip from 'grommet/components/Tip';
-import LandingPage from './LandingPage';
 import * as UserAction from '../actions/UserActions';
 
 class HomePage extends React.Component {
@@ -20,6 +19,7 @@ class HomePage extends React.Component {
   render() {
     return (
       <div>
+        On home
         { this.props.help === 'Home' && this.state.help ?
           <Tip
             target="Home"
@@ -28,31 +28,23 @@ class HomePage extends React.Component {
           something about a homepage (maybe cats)
           </Tip> : <div />
         }
-        { this.props.user ?
-          <div id="Home">
-            Home
-          </div> : <LandingPage />
-        }
       </div>
     );
   }
 }
 
 HomePage.defaultProps = {
-  help: 'off',
-  user: {}
+  help: 'off'
 };
 
 HomePage.propTypes = {
   help: PropTypes.string,
-  user: PropTypes.shape({ jwt: PropTypes.string, username: PropTypes.string }),
   displayHelp: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
   return {
-    help: state.help.text,
-    user: state.currentUser.user
+    help: state.help.text
   };
 };
 

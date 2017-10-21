@@ -242,4 +242,22 @@ router.get('/user/:id', (req, res) => {
     });
 });
 
+router.put('/search', (req, res) => {
+  Profile.search(req.body.text)
+    .then((searchResults) => {
+      searchResults.forEach((result) => {
+        delete result.password;
+        delete result.uid;
+        delete result.user_id;
+        delete result.id;
+        delete result.email;
+      })
+      res.send(searchResults);
+    })
+    .catch(err => {
+      console.log(err);
+      res.sendStatus(402);
+    });
+});
+
 module.exports = router;
