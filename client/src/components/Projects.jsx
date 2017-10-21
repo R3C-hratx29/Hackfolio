@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 // Grommet Components
 import {
+  TableHeader,
   Tiles,
   Tip,
   Box,

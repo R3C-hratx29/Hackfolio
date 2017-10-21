@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable no-param-reassign */
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jwt-simple');
@@ -30,9 +30,9 @@ router.get('/logout', (req, res) => {
 });
 
 router.post('/signup', (req, res) => {
-  const username = req.body.username;
-  const password = req.body.password;
-  const email = req.body.email;
+  const { username } = req.body.username;
+  const { password } = req.body.password;
+  const { email } = req.body.email;
 
   if (username && password && email) {
     User.findByUsername(username, email)
@@ -41,8 +41,8 @@ router.post('/signup', (req, res) => {
           res.status(409);
           console.log(user);
           if (user[0].username === username) {
-             res.send('User already exists.');
-          } else if( user[0].email === email ) {
+            res.send('User already exists.');
+          } else if (user[0].email === email) {
             res.send('Email already exists.');
           } else {
             res.send('unknown error');
@@ -56,10 +56,10 @@ router.post('/signup', (req, res) => {
               const token = jwt.encode(payload, secret);
 
               Profile.init(data[0].uid, username);
-                res.status(201);
-                res.set({ 'username': data[0].username, 'Jwt': token });
-                res.send({ 'username': data[0].username, 'Jwt': token });
-              });
+              res.status(201);
+              res.set({ username: data[0].username, Jwt: token });
+              res.send({ username: data[0].username, Jwt: token });
+            });
           });
         }
       })
@@ -72,8 +72,8 @@ router.post('/signup', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-  const password = req.body.password;
-  const username = req.body.username;
+  const { password } = req.body.password;
+  const { username } = req.body.username;
 
   User.findByUsername(username)
     .then(user => {
@@ -88,16 +88,16 @@ router.post('/login', (req, res) => {
             const payload = { username: user[0].username, user_id: user[0].uid };
             const token = jwt.encode(payload, secret);
             res.status(201);
-            res.set({ 'username': user[0].username, 'Jwt': token});
-            res.send({ 'username': user[0].username, Jwt: token });
+            res.set({ username: user[0].username, Jwt: token });
+            res.send({ username: user[0].username, Jwt: token });
           }
-        if (!match) {
-          res.status(401);
-          res.send('Incorrect password');
-        }
-      });
-    }
-  });
+          if (!match) {
+            res.status(401);
+            res.send('Incorrect password');
+          }
+        });
+      }
+    });
 });
 
 router.post('/profile', (req, res) => {
@@ -112,7 +112,7 @@ router.post('/profile', (req, res) => {
       name: req.body.name,
       socialLinks: req.body.socialLinks,
     };
-    let links = profileData.socialLinks;
+    const links = profileData.socialLinks;
     Profile.updateProfile(profileData).then(profiles => {
       profiles[0].username = dLoad.username;
       if (links.length) {
@@ -238,6 +238,7 @@ router.get('/user/:id', (req, res) => {
     })
     .catch(err => {
       res.sendStatus(404);
+      res.send(err);
     });
 });
 
