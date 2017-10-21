@@ -39,7 +39,6 @@ router.post('/signup', (req, res) => {
       .then(user => {
         if (user.length) {
           res.status(409);
-          console.log(user);
           if (user[0].username === username) {
             res.send('User already exists.');
           } else if (user[0].email === email) {
@@ -250,26 +249,7 @@ router.put('/search', (req, res) => {
         delete result.uid;
         delete result.user_id;
         delete result.id;
-        delete result.email;
-      })
-      res.send(searchResults);
-    })
-    .catch(err => {
-      console.log(err);
-      res.sendStatus(402);
-    });
-});
-
-router.put('/search', (req, res) => {
-  Profile.search(req.body.text)
-    .then((searchResults) => {
-      searchResults.forEach((result) => {
-        delete result.password;
-        delete result.uid;
-        delete result.user_id;
-        delete result.id;
-        delete result.email;
-      })
+      });
       res.send(searchResults);
     })
     .catch(err => {
