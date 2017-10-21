@@ -28,6 +28,8 @@ import modalAction from '../actions/ModalActions';
 import * as UserAction from '../actions/UserActions';
 import { getProfile } from '../actions/ProfileActions';
 
+import '../styles/NavBar.scss';
+
 class NavBar extends React.Component {
   constructor(props) {
     super(props);
@@ -63,7 +65,7 @@ class NavBar extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="NavBar">
         <Header
           style={{ marginBottom: 22 }}
         >
@@ -106,20 +108,24 @@ class NavBar extends React.Component {
               direction="row"
               primary={false}
             >
-              <Form onSubmit={this.sendSearch}>
-                <FormField>
-                  <TextInput
-                    id="SearchBar"
-                    placeHolder="Search"
-                    onDOMChange={this.searchHandler}
-                    value={this.state.searchText}
+              <Form onSubmit={this.sendSearch} compact >
+                <Box
+                  direction="row"
+                >
+                  <FormField className="SearchInput">
+                    <TextInput
+                      placeHolder="Search"
+                      onDOMChange={this.searchHandler}
+                      value={this.state.searchText}
+                    />
+                  </FormField>
+                  <Button
+                    className="SearchIcon"
+                    icon={<SearchIcon />}
+                    type="submit"
+                    plain
                   />
-                </FormField>
-                <Button
-                  icon={<SearchIcon />}
-                  type="submit"
-                  plain
-                />
+                </Box>
               </Form>
             </Box>
             <Box>
