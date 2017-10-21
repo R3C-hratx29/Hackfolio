@@ -64,6 +64,7 @@ class ProfileBox extends React.Component {
       <Tile
         full={false}
         align="center"
+        style={{ boxShadow: '0px 0px 13px 8px rgba(0, 0, 0, .07)' }}
       >
         { this.state.help && this.props.help === 'Profile' ?
           <Tip
