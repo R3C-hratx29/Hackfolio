@@ -5,7 +5,7 @@ import Tiles from 'grommet/components/Tiles';
 import SearchCard from './SearchCard';
 
 const SearchPage = (props) => (
-  <Tiles flush={false} justify="between">
+  <Tiles flush={false} justify="around">
     { props.searchResults.map((profile) => {
         return <SearchCard key={profile.username} userProfile={profile} />;
       })
