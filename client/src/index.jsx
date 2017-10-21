@@ -24,6 +24,7 @@ if (window.localStorage.token) {
 }
 
 store.dispatch({ type: 'ERROR_SET_USER', payload: { error: 'start' } });
+store.dispatch({ type: 'SET_SEARCH', payload: { results: [] } });
 
 ReactDOM.render(
   <Provider store={store}>

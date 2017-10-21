@@ -9,7 +9,9 @@ import {
   Box,
   Tip,
   TextInput,
-  Button
+  Button,
+  Form,
+  FormField
 } from 'grommet';
 
 import {
@@ -46,7 +48,8 @@ class NavBar extends React.Component {
   searchHandler(e) {
     this.setState({ searchText: e.target.value });
   }
-  sendSearch() {
+  sendSearch(e) {
+    e.preventDefault();
     const temp = this.state.searchText;
     this.props.search(temp);
     this.setState({ searchText: '' });
@@ -56,8 +59,7 @@ class NavBar extends React.Component {
     this.props.goToProfile(user);
   }
   goHome() {
-    const home = this.props.user === undefined || this.props.user.jwt === undefined ? '/' : '/Home';
-    this.props.goToHome(home);
+    this.props.goToHome('/');
   }
   render() {
     return (
@@ -90,14 +92,12 @@ class NavBar extends React.Component {
                 icon={<HomeIcon />}
                 label="Home Page"
                 plain
-                path="/Home"
                 onClick={this.goHome}
               />
               <Button
                 icon={<UserIcon />}
                 label="Profile"
                 plain
-                path="/Profile"
                 onClick={this.goProfile}
               />
             </Box>
@@ -106,17 +106,21 @@ class NavBar extends React.Component {
               direction="row"
               primary={false}
             >
-              <TextInput
-                id="SearchBar"
-                placeHolder="Search"
-                onDOMChange={this.searchHandler}
-                value={this.state.searchText}
-              />
-              <Button
-                icon={<SearchIcon />}
-                onClick={this.sendSearch}
-                plain
-              />
+              <Form onSubmit={this.sendSearch}>
+                <FormField>
+                  <TextInput
+                    id="SearchBar"
+                    placeHolder="Search"
+                    onDOMChange={this.searchHandler}
+                    value={this.state.searchText}
+                  />
+                </FormField>
+                <Button
+                  icon={<SearchIcon />}
+                  type="submit"
+                  plain
+                />
+              </Form>
             </Box>
             <Box>
               { this.props.user === undefined || this.props.user.jwt === undefined ?
@@ -177,7 +181,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     openModal: () => dispatch(modalAction('open')),
-    search: (text) => dispatch(UserAction.search(text)),
+    search: (text) => { dispatch(UserAction.search(text)); dispatch(push('/search')); },
     goToHome: (path) => dispatch(push(path)),
     goToProfile: (user) => { dispatch(getProfile(user)); dispatch(push(`/user/${user}`)); },
     logout: () => dispatch(UserAction.logout()),
