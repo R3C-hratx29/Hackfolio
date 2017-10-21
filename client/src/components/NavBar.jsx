@@ -22,7 +22,7 @@ import {
   SearchIcon,
   LoginIcon,
   LogoutIcon,
-  HomeIcon,
+  MultipleIcon,
   NotificationIcon,
   BookmarkIcon,
 } from 'grommet/components/icons/base';
@@ -93,6 +93,7 @@ class NavBar extends React.Component {
               <Box
                 style={{ fontSize: 28, fontWeight: 'bold', margin: '0 15px' }}
                 direction="row"
+                onClick={this.goHome}
               >
                 <Box
                   justify="center"
@@ -112,16 +113,40 @@ class NavBar extends React.Component {
               >
                 <List>
                   <ListItem
-                    justify="between"
+                    justify="start"
                     separator="horizontal"
                   >
-                    THIS IS A NOTIFICATION
+                    THIS IS A NOTIFICATION!!!
+                  </ListItem>
+                  <ListItem
+                    justify="start"
+                    separator="horizontal"
+                  >
+                    This might be a longer notification.
+                  </ListItem>
+                  <ListItem
+                    justify="start"
+                    separator="horizontal"
+                  >
+                    Another one! <span role="img" aria-label="key">🔑</span>
+                  </ListItem>
+                  <ListItem
+                    justify="start"
+                    separator="horizontal"
+                  >
+                    New Message from Rachel for bounty: Make a Redux.
+                  </ListItem>
+                  <ListItem
+                    justify="start"
+                    separator="horizontal"
+                  >
+                    You've got to scroll to be able to see this whole notification.
                   </ListItem>
                 </List>
               </Menu>
               <Button
-                icon={<HomeIcon />}
-                label="Home Page"
+                icon={<MultipleIcon />}
+                label="Bounty Board"
                 plain
                 onClick={this.goHome}
               />
