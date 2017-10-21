@@ -11,7 +11,10 @@ import {
   TextInput,
   Button,
   Form,
-  FormField
+  FormField,
+  Menu,
+  List,
+  ListItem,
 } from 'grommet';
 
 import {
@@ -19,7 +22,9 @@ import {
   SearchIcon,
   LoginIcon,
   LogoutIcon,
-  HomeIcon
+  MultipleIcon,
+  NotificationIcon,
+  BookmarkIcon,
 } from 'grommet/components/icons/base';
 
 // Custom Imports
@@ -87,12 +92,61 @@ class NavBar extends React.Component {
             >
               <Box
                 style={{ fontSize: 28, fontWeight: 'bold', margin: '0 15px' }}
+                direction="row"
+                onClick={this.goHome}
               >
-                Hackfolio
+                <Box
+                  justify="center"
+                >
+                  <BookmarkIcon />
+                </Box>
+                <Box
+                  justify="center"
+                >
+                  Hackfolio
+                </Box>
               </Box>
+              <Menu
+                responsive={false}
+                icon={<NotificationIcon />}
+                closeOnClick
+              >
+                <List>
+                  <ListItem
+                    justify="start"
+                    separator="horizontal"
+                  >
+                    THIS IS A NOTIFICATION!!!
+                  </ListItem>
+                  <ListItem
+                    justify="start"
+                    separator="horizontal"
+                  >
+                    This might be a longer notification.
+                  </ListItem>
+                  <ListItem
+                    justify="start"
+                    separator="horizontal"
+                  >
+                    Another one! <span role="img" aria-label="key">🔑</span>
+                  </ListItem>
+                  <ListItem
+                    justify="start"
+                    separator="horizontal"
+                  >
+                    New Message from Rachel for bounty: Make a Redux.
+                  </ListItem>
+                  <ListItem
+                    justify="start"
+                    separator="horizontal"
+                  >
+                    You've got to scroll to be able to see this whole notification.
+                  </ListItem>
+                </List>
+              </Menu>
               <Button
-                icon={<HomeIcon />}
-                label="Home Page"
+                icon={<MultipleIcon />}
+                label="Bounty Board"
                 plain
                 onClick={this.goHome}
               />
