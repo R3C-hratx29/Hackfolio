@@ -5,8 +5,8 @@ const db = require('./db');
 
 const User = {};
 
-User.findByUsername = (_username, _email) => {
-  return db('users').where({ username: _username }).orWhere({ email: _email }).select('*')
+User.findByUsername = (_username) => {
+  return db('users').where({ username: _username }).orWhere({ email: _username }).select('*')
     .then(user => {
       return user;
     })
