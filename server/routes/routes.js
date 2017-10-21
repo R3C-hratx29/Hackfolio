@@ -3,10 +3,10 @@ const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jwt-simple');
 
-const User = require('./models/user.js');
-const Profile = require('./models/profile.js');
-const Link = require('./models/link.js');
-const Project = require('./models/project.js');
+const User = require('../models/user.js');
+const Profile = require('../models/profile.js');
+const Link = require('../models/link.js');
+const Project = require('../models/project.js');
 
 const secret = 'shakeweight';
 
@@ -73,17 +73,9 @@ router.post('/signup', (req, res) => {
 
 router.post('/login', (req, res) => {
   const password = req.body.password;
-  let username = null;
-  let email = null;
+  const username = req.body.username;
 
-  if (req.body.username) {
-    username = req.body.username;
-  }
-
-  if (req.body.email) {
-    email = req.body.email;
-  }
-  User.findByUsername(username, email)
+  User.findByUsername(username)
     .then(user => {
       if (!user.length) {
         res.status(401);
