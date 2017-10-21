@@ -11,7 +11,10 @@ import {
   TextInput,
   Button,
   Form,
-  FormField
+  FormField,
+  Menu,
+  List,
+  ListItem,
 } from 'grommet';
 
 import {
@@ -19,7 +22,9 @@ import {
   SearchIcon,
   LoginIcon,
   LogoutIcon,
-  HomeIcon
+  HomeIcon,
+  NotificationIcon,
+  BookmarkIcon,
 } from 'grommet/components/icons/base';
 
 // Custom Imports
@@ -27,6 +32,8 @@ import Modal from './Modal';
 import modalAction from '../actions/ModalActions';
 import * as UserAction from '../actions/UserActions';
 import { getProfile } from '../actions/ProfileActions';
+
+import '../styles/NavBar.scss';
 
 class NavBar extends React.Component {
   constructor(props) {
@@ -63,7 +70,7 @@ class NavBar extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="NavBar">
         <Header
           style={{ marginBottom: 22 }}
         >
@@ -85,9 +92,33 @@ class NavBar extends React.Component {
             >
               <Box
                 style={{ fontSize: 28, fontWeight: 'bold', margin: '0 15px' }}
+                direction="row"
               >
-                Hackfolio
+                <Box
+                  justify="center"
+                >
+                  <BookmarkIcon />
+                </Box>
+                <Box
+                  justify="center"
+                >
+                  Hackfolio
+                </Box>
               </Box>
+              <Menu
+                responsive={false}
+                icon={<NotificationIcon />}
+                closeOnClick
+              >
+                <List>
+                  <ListItem
+                    justify="between"
+                    separator="horizontal"
+                  >
+                    THIS IS A NOTIFICATION
+                  </ListItem>
+                </List>
+              </Menu>
               <Button
                 icon={<HomeIcon />}
                 label="Home Page"

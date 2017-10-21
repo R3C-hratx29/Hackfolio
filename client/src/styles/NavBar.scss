@@ -1,0 +1,35 @@
+@import './variables.scss';
+
+$background: rgba(248,248,248,0.98);
+
+.grommetux-drop {
+  background-color: transparent !important;
+  border-radius: 0 !important;
+
+  .grommetux-menu__control {
+    border: 0 !important;
+  }
+
+  .grommetux-button__icon, .grommetux-menu__contents {
+    background-color: $background;
+  }
+
+  .grommetux-list {
+    width: 250px;
+    * {
+      cursor: default;
+    }
+  }
+
+}
+
+.NavBar {
+  .grommetux-button {
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .grommetux-button__icon {
+    border: 0;
+  }
+}
