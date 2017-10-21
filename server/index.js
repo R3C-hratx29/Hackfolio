@@ -13,8 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, '../client/build')));
 
-app.use('/api', api);
-app.use(router);
+app.use('/api', router);
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.

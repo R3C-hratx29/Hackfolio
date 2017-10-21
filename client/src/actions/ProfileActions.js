@@ -10,7 +10,7 @@ const setProfile = (data) => {
 
 export const getProfile = (id) => {
   return ((dispatch) => {
-    return axios.get(`/user/${id}`)
+    return axios.get(`/api/user/${id}`)
       .then((res) => {
         dispatch(setProfile(res.data));
       })
@@ -27,7 +27,7 @@ export const changeProfile = (data, profile) => {
     newProfile[key] = data[key] ? data[key] : profile[key];
   });
   return ((dispatch) => {
-    return axios.post('/profile', newProfile)
+    return axios.post('/api/profile', newProfile)
       .then(() => {
         dispatch(getProfile(profile.username));
       })
