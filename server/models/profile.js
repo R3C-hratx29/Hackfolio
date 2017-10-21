@@ -72,4 +72,13 @@ Profile.updateProfile = (data) => {
     });
 };
 
+Profile.search = (text) => {
+  const string = `%${text}%`;
+  return db.from('profiles').innerJoin('users', 'profiles.user_id', 'users.uid')
+    .where('bio', 'like', string)
+    .orWhere('profession', 'like', string)
+    .orWhere('name', 'like', string)
+    .orWhere('email', 'like', string);
+};
+
 module.exports = Profile;

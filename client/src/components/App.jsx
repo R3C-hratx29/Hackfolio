@@ -7,7 +7,7 @@ import createHistory from 'history/createBrowserHistory';
 import Profile from './Profile';
 import NavBar from './NavBar';
 import HomePage from './HomePage';
-import LandingPage from './LandingPage';
+import SearchPage from './SearchPage';
 
 export const history = createHistory();
 
@@ -18,10 +18,10 @@ class Hackfolio extends Component {
         <NavBar />
         <ConnectedRouter history={history}>
           <Switch>
-            <Route exact path="/" component={LandingPage} />
+            <Route exact path="/" component={HomePage} />
             <Route path="/user/:id" component={Profile} />
-            <Route path="/Home" component={HomePage} />
-            <Route component={LandingPage} />
+            <Route path="/search" component={SearchPage} />
+            <Route component={HomePage} />
           </Switch>
         </ConnectedRouter>
       </App>

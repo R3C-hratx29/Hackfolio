@@ -113,11 +113,22 @@ export const logout = () => {
   };
 };
 
-export const search = () => {
+const sendSearch = (results) => {
   return {
-    type: 'SET_USER_PROFILE',
-    payload: {
-      text: 'some user goes here',
-    },
+    type: 'SET_SEARCH',
+    payload: { results }
   };
 };
+
+export const search = (text) => {
+  return dispatch => {
+    return axios.put('/api/search', { text })
+      .then((res) => {
+        dispatch(sendSearch(res.data));
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+};
+
