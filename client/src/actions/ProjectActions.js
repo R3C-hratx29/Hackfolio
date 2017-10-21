@@ -5,7 +5,7 @@ import { getProfile } from './ProfileActions';
 export const saveProject = project => {
   return dispatch => {
     return axios
-      .post('/project', project)
+      .post('/api/project', project)
       .then(res => {
         dispatch(getProfile(res.headers.username));
       })
@@ -18,7 +18,7 @@ export const saveProject = project => {
 export const changeProjects = projects => {
   return dispatch => {
     return axios
-      .put('/project', projects)
+      .put('/api/project', projects)
       .then(res => {
         dispatch(getProfile(res.headers.username));
       })
@@ -31,7 +31,7 @@ export const changeProjects = projects => {
 export const deleteProject = id => {
   return dispatch => {
     return axios
-      .delete(`/project/${id}`)
+      .delete(`/api/project/${id}`)
       .then(res => {
         dispatch(getProfile(res.headers.username));
       })

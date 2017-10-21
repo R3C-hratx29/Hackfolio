@@ -59,7 +59,7 @@ export const setUser = data => {
 
 export const login = (userdata) => {
   return ((dispatch) => {
-    return axios.post('/login', {
+    return axios.post('/api/login', {
       username: userdata.username,
       password: userdata.password
     })
@@ -79,7 +79,7 @@ export const login = (userdata) => {
 export const signup = userdata => {
   return dispatch => {
     return axios
-      .post('/signup', {
+      .post('/api/signup', {
         username: userdata.username,
         password: userdata.password,
         email: userdata.email,
@@ -102,7 +102,7 @@ export const signup = userdata => {
 export const logout = () => {
   return dispatch => {
     return axios
-      .get('/logout')
+      .get('/api/logout')
       .then(() => {
         dispatch(setUser({ username: undefined, jwt: undefined }));
         dispatch(push('/LandingPage'));

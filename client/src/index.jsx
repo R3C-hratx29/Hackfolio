@@ -11,7 +11,7 @@ axios.defaults.headers.common.jwt = window.localStorage.token;
 
 if (window.localStorage.token) {
   axios
-    .get('/me')
+    .get('/api/me')
     .then(res => {
       store.dispatch({
         type: 'SET_CURRENT_USER',

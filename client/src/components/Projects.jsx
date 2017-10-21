@@ -91,7 +91,7 @@ class Projects extends React.Component {
     return (
       <div className={`Projects ${this.props.isProfileOwner ? 'isProfileOwner' : ''}`}>
         {this.props.isProfileOwner && (
-          <Box align="end">
+          <Box align="end" pad={{ horizontal: 'medium' }}>
             <Button primary onClick={this.toggleReorderModal} label="Reorder Projects" />
           </Box>
         )}
