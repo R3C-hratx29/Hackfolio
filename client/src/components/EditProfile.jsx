@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+/* eslint-disable */
 import React from 'react';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
@@ -19,8 +19,10 @@ import {
 // Grommet Icons
 import {
   ImageIcon,
-  SaveIcon
+  SaveIcon,
 } from 'grommet/components/icons/base';
+
+import Spinning from 'grommet/components/icons/Spinning';
 
 import { changeProfile } from './../actions/ProfileActions';
 // Component Styles
@@ -31,12 +33,12 @@ class EditProfile extends React.Component {
     super(props);
 
     this.state = {
+      profile_pic_url: null,
+      uploading: false,
       name: '',
       profession: '',
-      bio: '',
-      linkedin: '',
-      twitter: '',
-      facebook: '',
+      socialLinks: [
+      ]
     };
 
     this.updateName = this.updateName.bind(this);
@@ -46,14 +48,25 @@ class EditProfile extends React.Component {
     this.updateLinkedIn = this.updateLinkedIn.bind(this);
     this.updateTwitter = this.updateTwitter.bind(this);
     this.updateFacebook = this.updateFacebook.bind(this);
+    this.saveChanges = this.saveChanges.bind(this);
+    this.onUploadStart = this.onUploadStart.bind(this);
+    this.onImageUpload = this.onImageUpload.bind(this);
   }
 
   onImageUpload(file) {
     this.menuRef.setState({ state: 'collapsed' });
-    firebase.storage().ref('images').child(file).getDownloadURL()
+    firebase
+      .storage()
+      .ref('images')
+      .child(file)
+      .getDownloadURL()
       .then(url => {
-        this.addImageURL(url);
+        this.setState({ uploading: false, profile_pic_url: url });
       });
+  }
+
+  onUploadStart() {
+    this.setState({ uploading: true });
   }
 
   updateProfession(e) {
@@ -100,13 +113,11 @@ class EditProfile extends React.Component {
 
   saveChanges() {
     this.props.saveChanges({
+      profile_pic: this.state.profile_pic_url,
       name: this.state.name,
       profession: this.state.profession,
       bio: this.state.bio,
-      github: this.state.github,
-      linkedin: this.state.linkedin,
-      twitter: this.state.twitter,
-      facebook: this.state.facebook
+      socialLinks: []
     });
   }
 
@@ -141,19 +152,22 @@ class EditProfile extends React.Component {
                   Image URL
                 </Anchor>
                 <Anchor
-                  onClick={(e) => { e.stopPropagaation(); }}
+                  onClick={(e) => { e.stopPropagation(); }}
                 >
                   <label
                     htmlFor="firebaseUpload"
                     style={{ cursor: 'pointer' }}
-                  > Upload Image
+      >
+      {this.state.uploading && <Spinning />} Upload Image
                     <FileUploader
                       style={{ display: 'none' }}
                       hidden
                       id="firebaseUpload"
                       accept="image/*"
                       randomizeFilename
-                      storageRef={firebase.storage().ref('images')}
+      storageRef={firebase.storage().ref('images')}
+      onUploadStart={this.onUploadStart}
+                        onUploadSuccess={this.onImageUpload}
                     />
                   </label>
                 </Anchor>
@@ -211,7 +225,7 @@ class EditProfile extends React.Component {
             <Anchor
               icon={<SaveIcon />}
               primary
-              onClick={this.SaveChanges}
+              onClick={this.saveChanges}
             />
           </Form>
         </Box>
