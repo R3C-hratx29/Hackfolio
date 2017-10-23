@@ -30,9 +30,7 @@ router.get('/logout', (req, res) => {
 });
 
 router.post('/signup', (req, res) => {
-  const { username } = req.body.username;
-  const { password } = req.body.password;
-  const { email } = req.body.email;
+  const { username, password, email } = req.body;
 
   if (username && password && email) {
     User.findByUsername(username, email)
@@ -71,9 +69,7 @@ router.post('/signup', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-  const { password } = req.body.password;
-  const { username } = req.body.username;
-
+  const { password, username } = req.body;
   User.findByUsername(username)
     .then(user => {
       if (!user.length) {
