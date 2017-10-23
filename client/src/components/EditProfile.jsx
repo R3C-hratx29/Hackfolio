@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+/* eslint-disable react/no-unused-state */
 import React from 'react';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
@@ -37,7 +38,20 @@ class EditProfile extends React.Component {
       uploading: false,
       name: '',
       profession: '',
-      socialLinks: []
+      socialLinks: [
+        {
+          profile_id: '', link: '', title: 'github', icon: ''
+        },
+        {
+          profile_id: '', link: '', title: 'twitter', icon: ''
+        },
+        {
+          profile_id: '', link: '', title: 'linkedIn', icon: ''
+        },
+        {
+          profile_id: '', link: '', title: 'facebook', icon: ''
+        }
+      ]
     };
 
     this.updateName = this.updateName.bind(this);
@@ -87,30 +101,29 @@ class EditProfile extends React.Component {
   }
 
   updateGithub(e) {
-    const array = this.state.socialLinks;
+    console.log(this.state.socialLinks[0].title);
+    const socialLinksCopy = this.state.socialLinks.slice();
+    socialLinksCopy[0].link = e.target.value;
     this.setState({
-      socialLinks: array[0].link[e.target.value]
+      socialLinks: socialLinksCopy
     });
   }
 
   updateLinkedIn(e) {
-    const array = this.state.socialLinks;
     this.setState({
-      socialLinks: array[1].link[e.target.value]
+      linkedIn: e.target.value
     });
   }
 
   updateTwitter(e) {
-    const array = this.state.socialLinks;
     this.setState({
-      socialLinks: array[2].link[e.target.value]
+      twitter: e.target.value
     });
   }
 
   updateFacebook(e) {
-    const array = this.state.socialLinks;
     this.setState({
-      socialLinks: array[3].link[e.target.value]
+      facebook: e.target.value
     });
   }
 
@@ -146,7 +159,7 @@ class EditProfile extends React.Component {
           icon: this.state.icon
         }
       ]
-    });
+    }, this.props.userProfile);
   }
 
   render() {
@@ -264,11 +277,12 @@ class EditProfile extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    saveChanges: (changes) => dispatch(changeProfile(changes))
+    saveChanges: (changes, profile) => dispatch(changeProfile(changes, profile))
   };
 };
 
 const mapStateToProps = (state) => {
+  console.log(state.userProfile);
   return {
     userProfile: state.userProfile,
   };
