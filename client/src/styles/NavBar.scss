@@ -41,3 +41,13 @@ $background: rgba(248,248,248,0.98);
     border-left: 0px;
   }
 }
+
+.LoginBox {
+  .grommetux-form-field {
+    overflow: hidden;
+  }
+  .inactiveLink {
+    pointer-events: none;
+    cursor: default;
+  }
+}

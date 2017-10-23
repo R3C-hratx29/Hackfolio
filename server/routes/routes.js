@@ -1,8 +1,10 @@
 /* eslint-disable no-param-reassign */
+/* eslint-disable prefer-destructuring */
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jwt-simple');
 
+const Auth = require('../auth.js');
 const User = require('../models/user.js');
 const Profile = require('../models/profile.js');
 const Link = require('../models/link.js');
@@ -10,20 +12,14 @@ const Project = require('../models/project.js');
 const Notification = require('../models/notification.js');
 const Message = require('../models/message.js');
 
-const secret = 'shakeweight';
+const secret = process.env.SECRET;
 
 // TODO: Refactor routes into seperate files.
-
-router.get('/me', (req, res) => {
-  if (req.headers.jwt) {
-    // headers now have id instead of username
-    const headers = jwt.decode(req.headers.jwt, secret);
-    res.status(201);
-    res.set(headers);
-    res.send(headers);
-  } else {
-    res.send('not logged in');
-  }
+router.get('/me', Auth.isLoggedIn, (req, res) => {
+  const headers = jwt.decode(req.headers.jwt, secret);
+  res.status(201);
+  res.set(headers);
+  res.send(headers);
 });
 
 router.get('/logout', (req, res) => {
@@ -72,6 +68,7 @@ router.post('/signup', (req, res) => {
 
 router.post('/login', (req, res) => {
   const { password, username } = req.body;
+
   User.findByUsername(username)
     .then(user => {
       if (!user.length) {
@@ -97,90 +94,85 @@ router.post('/login', (req, res) => {
     });
 });
 
-router.post('/profile', (req, res) => {
-  if (req.headers.jwt) {
-    // TODO: Refactor this authentication into a seperate file.
-    const dLoad = jwt.decode(req.headers.jwt, secret);
-    const profileData = {
-      user_id: dLoad.user_id,
-      bio: req.body.bio,
-      profile_pic: req.body.profile_pic,
-      profession: req.body.profession,
-      name: req.body.name,
-      socialLinks: req.body.socialLinks,
-    };
-    const links = profileData.socialLinks;
-    Profile.updateProfile(profileData).then(profiles => {
-      profiles[0].username = dLoad.username;
-      if (links.length) {
-        links.forEach(link => {
-          link.profile_id = profiles[0].id;
-          if (!link.id) {
-            Link.addLink(link);
-          } else {
-            Link.updateLink(link);
-          }
-        });
-      }
+router.post('/profile', Auth.isLoggedIn, (req, res) => {
+  const dLoad = jwt.decode(req.headers.jwt, secret);
+  const profileData = {
+    user_id: dLoad.user_id,
+    bio: req.body.bio,
+    profile_pic: req.body.profile_pic,
+    profession: req.body.profession,
+    name: req.body.name,
+    socialLinks: req.body.socialLinks,
+  };
+  const links = profileData.socialLinks;
+  Profile.updateProfile(profileData).then(profiles => {
+    profiles[0].username = dLoad.username;
+    if (links.length) {
+      links.forEach(link => {
+        link.profile_id = profiles[0].id;
+        if (!link.id) {
+          Link.addLink(link);
+        } else {
+          Link.updateLink(link);
+        }
+      });
+    } else {
       res.status(201);
-      res.set({ username: dLoad.username });
-      res.end();
-    });
-  } else {
-    res.send('No authentication detected');
-  }
+    }
+    Profile.findAllByUserId(profileData.user_id).then(profile => {
+      Link.findByProfileId(profile[0].id).then(profileLinks => {
+        profile[0].socialLinks = profileLinks;
+
+        res.set(201);
+        res.send(profile[0]);
+      });
+    })
+      .catch(err => {
+        console.error(err);
+      });
+  });
 });
 
-router.post('/project', (req, res) => {
-  if (req.headers.jwt) {
-    const dLoad = jwt.decode(req.headers.jwt, secret);
-    const projectData = {
-      id: req.body.id,
-      profile_id: null,
-      title: req.body.title,
-      description: req.body.description,
-      github_link: req.body.github_link,
-      website_link: req.body.website_link,
-      images: req.body.images,
-      stack: req.body.stack,
-    };
+router.post('/project', Auth.isLoggedIn, (req, res) => {
+  const dLoad = jwt.decode(req.headers.jwt, secret);
+  const projectData = {
+    id: req.body.id,
+    profile_id: null,
+    title: req.body.title,
+    description: req.body.description,
+    github_link: req.body.github_link,
+    website_link: req.body.website_link,
+    images: req.body.images,
+    stack: req.body.stack,
+  };
 
-    Profile.findAllByUserId(dLoad.user_id)
-      .then(profile => {
-        projectData.profile_id = profile[0].id;
-        projectData.images = projectData.images.join(',');
-        projectData.stack = projectData.stack.join(',');
+  Profile.findAllByUserId(dLoad.user_id)
+    .then(profile => {
+      projectData.profile_id = profile[0].id;
+      projectData.images = projectData.images.join(',');
+      projectData.stack = projectData.stack.join(',');
 
-        if (projectData.id && projectData.profile_id) {
-          Project.findById(projectData.id, projectData.profile_id).then(projects => {
-            if (!projects[0].length) {
-              Project.updateProject(projectData).then(project => {
-                // TODO Just an example to test notifications
-                Notification.createNotification({
-                  bounty_id: null,
-                  user_id: dLoad.user_id,
-                  message: `Project "${project[0].title}" was updated.`
-                });
-                res.set({ username: dLoad.username });
-                res.send(project[0]);
-              });
-            } else {
-              res.send('Project does not exist.');
-            }
-          });
-        } else {
-          Project.createProject(projectData).then(project => {
-            res.set({ Username: dLoad.username });
-            res.send(project[project.length - 1]);
-          });
-        }
-      })
-      .catch(err => {
-        res.send(err);
-      });
-  } else {
-    res.send('No authentication detected');
-  }
+      if (projectData.id && projectData.profile_id) {
+        Project.findById(projectData.id, projectData.profile_id).then(projects => {
+          if (!projects[0].length) {
+            Project.updateProject(projectData).then(project => {
+              res.set({ username: dLoad.username });
+              res.send(project[0]);
+            });
+          } else {
+            res.send('Project does not exist.');
+          }
+        });
+      } else {
+        Project.createProject(projectData).then(project => {
+          res.set({ Username: dLoad.username });
+          res.send(project[project.length - 1]);
+        });
+      }
+    })
+    .catch(err => {
+      res.send(err);
+    });
 });
 
 router.put('/project', (req, res) => {
@@ -194,17 +186,13 @@ router.put('/project', (req, res) => {
   res.send(req.body);
 });
 
-router.delete('/project/:id', (req, res) => {
-  if (req.headers.jwt) {
-    const dLoad = jwt.decode(req.headers.jwt, secret);
-    Project.deleteProject(req.params.id);
+router.delete('/project/:id', Auth.isLoggedIn, (req, res) => {
+  const dLoad = jwt.decode(req.headers.jwt, secret);
+  Project.deleteProject(req.params.id);
 
-    res.status(201);
-    res.set({ Username: dLoad.username });
-    res.send('Project successfully deleted.');
-  } else {
-    res.send('No authentication detected');
-  }
+  res.status(201);
+  res.set({ Username: dLoad.username });
+  res.send('Project successfully deleted.');
 });
 
 router.get('/user/:id', (req, res) => {
@@ -230,19 +218,8 @@ router.get('/user/:id', (req, res) => {
               });
 
               res.send(profile);
-            })
-            .catch(err => {
-              res.send(err);
             });
-        })
-        .catch(err => {
-          res.send(err);
         });
-    })
-    .catch(err => {
-      console.log(err);
-      res.sendStatus(404);
-      res.send(err);
     });
 });
 
@@ -254,6 +231,7 @@ router.put('/search', (req, res) => {
         delete result.uid;
         delete result.user_id;
         delete result.id;
+        delete result.email;
       });
       res.send(searchResults);
     })
@@ -263,19 +241,14 @@ router.put('/search', (req, res) => {
     });
 });
 
-router.get('/notifications', (req, res) => {
-  if (req.headers.jwt) {
-    // headers now have id instead of username
-    const headers = jwt.decode(req.headers.jwt, secret);
-    res.status(200);
-    res.set(headers);
-    Notification.findByUserId(headers.user_id)
-      .then((notifications) => {
-        res.send(notifications);
-      });
-  } else {
-    res.send('not logged in');
-  }
+router.get('/notifications', Auth.isLoggedIn, (req, res) => {
+  const headers = jwt.decode(req.headers.jwt, secret);
+  res.status(200);
+  res.set(headers);
+  Notification.findByUserId(headers.user_id)
+    .then((notifications) => {
+      res.send(notifications);
+    });
 });
 
 /* router.get('/messagesByUser', (req, res) => {
