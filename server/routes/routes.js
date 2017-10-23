@@ -1,8 +1,10 @@
 /* eslint-disable no-param-reassign */
+/* eslint-disable prefer-destructuring */
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jwt-simple');
 
+const Auth = require('../auth.js');
 const User = require('../models/user.js');
 const Profile = require('../models/profile.js');
 const Link = require('../models/link.js');
@@ -13,16 +15,11 @@ const secret = 'shakeweight';
 
 // TODO: Refactor routes into seperate files.
 
-router.get('/me', (req, res) => {
-  if (req.headers.jwt) {
-    // headers now have id instead of username
-    const headers = jwt.decode(req.headers.jwt, secret);
-    res.status(201);
-    res.set(headers);
-    res.send(headers);
-  } else {
-    res.send('not logged in');
-  }
+router.get('/me', Auth.isLoggedIn, (req, res) => {
+  const headers = jwt.decode(req.headers.jwt, secret);
+  res.status(201);
+  res.set(headers);
+  res.send(headers);
 });
 
 router.get('/logout', (req, res) => {
@@ -31,7 +28,13 @@ router.get('/logout', (req, res) => {
 });
 
 router.post('/signup', (req, res) => {
+<<<<<<< 516601361262dcd6c52b8da11c809281d426ff74
   const { username, password, email } = req.body;
+=======
+  const username = req.body.username;
+  const password = req.body.password;
+  const email = req.body.email;
+>>>>>>> Refactored backend authentication
 
   if (username && password && email) {
     User.findByUsername(username, email)
@@ -70,7 +73,13 @@ router.post('/signup', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
+<<<<<<< 516601361262dcd6c52b8da11c809281d426ff74
   const { password, username } = req.body;
+=======
+  const password = req.body.password;
+  const username = req.body.username;
+
+>>>>>>> Refactored backend authentication
   User.findByUsername(username)
     .then(user => {
       if (!user.length) {
@@ -96,35 +105,78 @@ router.post('/login', (req, res) => {
     });
 });
 
-router.post('/profile', (req, res) => {
-  if (req.headers.jwt) {
-    // TODO: Refactor this authentication into a seperate file.
-    const dLoad = jwt.decode(req.headers.jwt, secret);
-    const profileData = {
-      user_id: dLoad.user_id,
-      bio: req.body.bio,
-      profile_pic: req.body.profile_pic,
-      profession: req.body.profession,
-      name: req.body.name,
-      socialLinks: req.body.socialLinks,
-    };
-    const links = profileData.socialLinks;
-    Profile.updateProfile(profileData).then(profiles => {
-      profiles[0].username = dLoad.username;
-      if (links.length) {
-        links.forEach(link => {
-          link.profile_id = profiles[0].id;
-          if (!link.id) {
-            Link.addLink(link);
+router.post('/profile', Auth.isLoggedIn, (req, res) => {
+  const dLoad = jwt.decode(req.headers.jwt, secret);
+  const profileData = {
+    user_id: dLoad.user_id,
+    bio: req.body.bio,
+    profile_pic: req.body.profile_pic,
+    profession: req.body.profession,
+    name: req.body.name,
+    socialLinks: req.body.socialLinks,
+  };
+  const links = profileData.socialLinks;
+  Profile.updateProfile(profileData).then(profiles => {
+    profiles[0].username = dLoad.username;
+    if (links.length) {
+      links.forEach(link => {
+        link.profile_id = profiles[0].id;
+        if (!link.id) {
+          Link.addLink(link);
+        } else {
+          Link.updateLink(link);
+        }
+      });
+    } else {
+      res.status(201);
+    }
+    res.status(201);
+    res.set({ username: dLoad.username });
+    res.end();
+  });
+});
+
+router.post('/project', Auth.isLoggedIn, (req, res) => {
+  const dLoad = jwt.decode(req.headers.jwt, secret);
+  const projectData = {
+    id: req.body.id,
+    profile_id: null,
+    title: req.body.title,
+    description: req.body.description,
+    github_link: req.body.github_link,
+    website_link: req.body.website_link,
+    images: req.body.images,
+    stack: req.body.stack,
+  };
+
+  Profile.findAllByUserId(dLoad.user_id)
+    .then(profile => {
+      projectData.profile_id = profile[0].id;
+      projectData.images = projectData.images.join(',');
+      projectData.stack = projectData.stack.join(',');
+
+      if (projectData.id && projectData.profile_id) {
+        Project.findById(projectData.id, projectData.profile_id).then(projects => {
+          if (!projects[0].length) {
+            Project.updateProject(projectData).then(project => {
+              res.set({ username: dLoad.username });
+              res.send(project[0]);
+            });
           } else {
-            Link.updateLink(link);
+            res.send('Project does not exist.');
           }
         });
+      } else {
+        Project.createProject(projectData).then(project => {
+          res.set({ Username: dLoad.username });
+          res.send(project[project.length - 1]);
+        });
       }
-      res.status(201);
-      res.set({ username: dLoad.username });
-      res.end();
+    })
+    .catch(err => {
+      res.send(err);
     });
+<<<<<<< 516601361262dcd6c52b8da11c809281d426ff74
   } else {
     res.send('No authentication detected');
   }
@@ -180,6 +232,8 @@ router.post('/project', (req, res) => {
   } else {
     res.send('No authentication detected');
   }
+=======
+>>>>>>> Refactored backend authentication
 });
 
 router.put('/project', (req, res) => {
@@ -193,17 +247,13 @@ router.put('/project', (req, res) => {
   res.send(req.body);
 });
 
-router.delete('/project/:id', (req, res) => {
-  if (req.headers.jwt) {
-    const dLoad = jwt.decode(req.headers.jwt, secret);
-    Project.deleteProject(req.params.id);
+router.delete('/project/:id', Auth.isLoggedIn, (req, res) => {
+  const dLoad = jwt.decode(req.headers.jwt, secret);
+  Project.deleteProject(req.params.id);
 
-    res.status(201);
-    res.set({ Username: dLoad.username });
-    res.send('Project successfully deleted.');
-  } else {
-    res.send('No authentication detected');
-  }
+  res.status(201);
+  res.set({ Username: dLoad.username });
+  res.send('Project successfully deleted.');
 });
 
 router.get('/user/:id', (req, res) => {
@@ -229,19 +279,16 @@ router.get('/user/:id', (req, res) => {
               });
 
               res.send(profile);
-            })
-            .catch(err => {
-              res.send(err);
             });
-        })
-        .catch(err => {
-          res.send(err);
         });
+<<<<<<< 516601361262dcd6c52b8da11c809281d426ff74
     })
     .catch(err => {
       console.log(err);
       res.sendStatus(404);
       res.send(err);
+=======
+>>>>>>> Refactored backend authentication
     });
 });
 
@@ -253,6 +300,10 @@ router.put('/search', (req, res) => {
         delete result.uid;
         delete result.user_id;
         delete result.id;
+<<<<<<< 516601361262dcd6c52b8da11c809281d426ff74
+=======
+        delete result.email;
+>>>>>>> Refactored backend authentication
       });
       res.send(searchResults);
     })
