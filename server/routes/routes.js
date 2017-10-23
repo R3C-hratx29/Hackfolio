@@ -14,7 +14,6 @@ const Notification = require('../models/notification.js');
 const secret = process.env.SECRET;
 
 // TODO: Refactor routes into seperate files.
-console.log(process.env);
 router.get('/me', Auth.isLoggedIn, (req, res) => {
   const headers = jwt.decode(req.headers.jwt, secret);
   res.status(201);
@@ -167,58 +166,6 @@ router.post('/project', Auth.isLoggedIn, (req, res) => {
     });
 });
 
-router.post('/project', (req, res) => {
-  if (req.headers.jwt) {
-    const dLoad = jwt.decode(req.headers.jwt, secret);
-    const projectData = {
-      id: req.body.id,
-      profile_id: null,
-      title: req.body.title,
-      description: req.body.description,
-      github_link: req.body.github_link,
-      website_link: req.body.website_link,
-      images: req.body.images,
-      stack: req.body.stack,
-    };
-
-    Profile.findAllByUserId(dLoad.user_id)
-      .then(profile => {
-        projectData.profile_id = profile[0].id;
-        projectData.images = projectData.images.join(',');
-        projectData.stack = projectData.stack.join(',');
-
-        if (projectData.id && projectData.profile_id) {
-          Project.findById(projectData.id, projectData.profile_id).then(projects => {
-            if (!projects[0].length) {
-              Project.updateProject(projectData).then(project => {
-                // TODO Just an example to test notifications
-                Notification.createNotification({
-                  bounty_id: null,
-                  user_id: dLoad.user_id,
-                  message: `Project "${project[0].title}" was updated.`
-                });
-                res.set({ username: dLoad.username });
-                res.send(project[0]);
-              });
-            } else {
-              res.send('Project does not exist.');
-            }
-          });
-        } else {
-          Project.createProject(projectData).then(project => {
-            res.set({ Username: dLoad.username });
-            res.send(project[project.length - 1]);
-          });
-        }
-      })
-      .catch(err => {
-        res.send(err);
-      });
-  } else {
-    res.send('No authentication detected');
-  }
-});
-
 router.put('/project', (req, res) => {
   const dLoad = jwt.decode(req.headers.jwt, secret);
   req.body.forEach(project => {
@@ -264,11 +211,6 @@ router.get('/user/:id', (req, res) => {
               res.send(profile);
             });
         });
-    })
-    .catch(err => {
-      console.log(err);
-      res.sendStatus(404);
-      res.send(err);
     });
 });
 
