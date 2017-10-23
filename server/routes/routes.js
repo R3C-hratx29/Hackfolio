@@ -7,6 +7,7 @@ const User = require('../models/user.js');
 const Profile = require('../models/profile.js');
 const Link = require('../models/link.js');
 const Project = require('../models/project.js');
+const Notification = require('../models/notification.js');
 
 const secret = 'shakeweight';
 
@@ -17,8 +18,13 @@ router.get('/me', (req, res) => {
     // headers now have id instead of username
     const headers = jwt.decode(req.headers.jwt, secret);
     res.status(201);
+    console.log(headers);
     res.set(headers);
-    res.send(headers);
+    Notification.findByUserId(headers.user_id)
+      .then((notifications) => {
+        headers.notifications = notifications;
+        res.send(headers);
+      });
   } else {
     res.send('not logged in');
   }
@@ -232,6 +238,7 @@ router.get('/user/:id', (req, res) => {
         });
     })
     .catch(err => {
+      console.log(err);
       res.sendStatus(404);
       res.send(err);
     });
