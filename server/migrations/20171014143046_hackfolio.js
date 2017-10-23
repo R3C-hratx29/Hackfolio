@@ -49,6 +49,8 @@ exports.up = (knex, Promise) => {
         .references('uid')
         .inTable('user');
       table.string('message');
+      table.timestamp('created_at')
+        .defaultTo(knex.fn.now());
     }),
   ]);
 };

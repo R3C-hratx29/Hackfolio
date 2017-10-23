@@ -7,6 +7,7 @@ const User = require('../models/user.js');
 const Profile = require('../models/profile.js');
 const Link = require('../models/link.js');
 const Project = require('../models/project.js');
+const Notification = require('../models/notification.js');
 
 const secret = 'shakeweight';
 
@@ -153,6 +154,12 @@ router.post('/project', (req, res) => {
           Project.findById(projectData.id, projectData.profile_id).then(projects => {
             if (!projects[0].length) {
               Project.updateProject(projectData).then(project => {
+                // TODO Just an example to test notifications
+                Notification.createNotification({
+                  bounty_id: null,
+                  user_id: dLoad.user_id,
+                  message: `Project "${project[0].title}" was updated.`
+                });
                 res.set({ username: dLoad.username });
                 res.send(project[0]);
               });
@@ -232,6 +239,7 @@ router.get('/user/:id', (req, res) => {
         });
     })
     .catch(err => {
+      console.log(err);
       res.sendStatus(404);
       res.send(err);
     });
@@ -252,6 +260,21 @@ router.put('/search', (req, res) => {
       console.log(err);
       res.sendStatus(402);
     });
+});
+
+router.get('/notifications', (req, res) => {
+  if (req.headers.jwt) {
+    // headers now have id instead of username
+    const headers = jwt.decode(req.headers.jwt, secret);
+    res.status(200);
+    res.set(headers);
+    Notification.findByUserId(headers.user_id)
+      .then((notifications) => {
+        res.send(notifications);
+      });
+  } else {
+    res.send('not logged in');
+  }
 });
 
 module.exports = router;

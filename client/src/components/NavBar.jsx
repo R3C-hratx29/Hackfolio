@@ -48,6 +48,7 @@ class NavBar extends React.Component {
     this.goHome = this.goHome.bind(this);
   }
   componentDidMount() {
+    this.props.getNotifications();
     setTimeout(() => {
       this.setState({ help: true });
     }, 500);
@@ -112,36 +113,21 @@ class NavBar extends React.Component {
                 closeOnClick
               >
                 <List>
-                  <ListItem
-                    justify="start"
-                    separator="horizontal"
-                  >
-                    THIS IS A NOTIFICATION!!!
-                  </ListItem>
-                  <ListItem
-                    justify="start"
-                    separator="horizontal"
-                  >
-                    This might be a longer notification.
-                  </ListItem>
-                  <ListItem
-                    justify="start"
-                    separator="horizontal"
-                  >
-                    Another one! <span role="img" aria-label="key">🔑</span>
-                  </ListItem>
-                  <ListItem
-                    justify="start"
-                    separator="horizontal"
-                  >
-                    New Message from Rachel for bounty: Make a Redux.
-                  </ListItem>
-                  <ListItem
-                    justify="start"
-                    separator="horizontal"
-                  >
-                    You've got to scroll to be able to see this whole notification.
-                  </ListItem>
+                  {
+                    this.props.notifications.notifications.sort((a, b) => {
+                      return a.created_at < b.created_at;
+                    }).map((notification) => {
+                      return (
+                        <ListItem
+                          key={notification.id}
+                          justify="start"
+                          separator="horizontal"
+                        >
+                          {notification.message}
+                        </ListItem>
+                      );
+                    })
+                  }
                 </List>
               </Menu>
               <Button
@@ -215,7 +201,10 @@ class NavBar extends React.Component {
 NavBar.defaultProps = {
   user: {},
   help: 'off',
-  modalState: 'close'
+  modalState: 'close',
+  notifications: {
+    notifications: []
+  },
 };
 
 NavBar.propTypes = {
@@ -228,13 +217,17 @@ NavBar.propTypes = {
   goToProfile: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
   displayHelp: PropTypes.func.isRequired,
+  getNotifications: PropTypes.func.isRequired,
+  notifications: PropTypes.shape({ notifications: PropTypes.array })
 };
 
 const mapStateToProps = (state) => {
+  console.log(state);
   return {
     user: state.currentUser.user,
     modalState: state.modalState.state,
-    help: state.help.text
+    help: state.help.text,
+    notifications: state.notifications,
   };
 };
 
@@ -245,7 +238,8 @@ const mapDispatchToProps = (dispatch) => {
     goToHome: (path) => dispatch(push(path)),
     goToProfile: (user) => { dispatch(getProfile(user)); dispatch(push(`/user/${user}`)); },
     logout: () => dispatch(UserAction.logout()),
-    displayHelp: (next) => dispatch(UserAction.help(next))
+    displayHelp: (next) => dispatch(UserAction.help(next)),
+    getNotifications: () => dispatch(UserAction.getNotifications()),
   };
 };
 
