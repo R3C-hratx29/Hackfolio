@@ -225,6 +225,7 @@ router.put('/search', (req, res) => {
         delete result.uid;
         delete result.user_id;
         delete result.id;
+        delete result.email;
       });
       res.send(searchResults);
     })
