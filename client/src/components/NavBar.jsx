@@ -140,7 +140,7 @@ class NavBar extends React.Component {
                     justify="start"
                     separator="horizontal"
                   >
-                    You've got to scroll to be able to see this whole notification.
+                    You need to scroll to be able to see this whole notification.
                   </ListItem>
                 </List>
               </Menu>
