@@ -11,10 +11,10 @@ const Link = require('../models/link.js');
 const Project = require('../models/project.js');
 const Notification = require('../models/notification.js');
 
-const secret = 'shakeweight';
+const secret = process.env.SECRET;
 
 // TODO: Refactor routes into seperate files.
-
+console.log(process.env);
 router.get('/me', Auth.isLoggedIn, (req, res) => {
   const headers = jwt.decode(req.headers.jwt, secret);
   res.status(201);

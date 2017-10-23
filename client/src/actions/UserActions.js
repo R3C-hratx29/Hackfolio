@@ -97,6 +97,25 @@ export const login = (userdata) => {
   });
 };
 
+export const githubSignup = userdata => {
+  return dispatch => {
+    return axios
+      .get('https://github.com/login/oauth/authorize', {
+        params: {
+          client_id: '3b114f5afe920bd6f722'
+        }
+      })
+      .then(res => {
+        dispatch(clearError());
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+        dispatch(setError(err.response.data));
+      })
+  };
+};
+
 export const signup = userdata => {
   return dispatch => {
     return axios
@@ -113,7 +132,6 @@ export const signup = userdata => {
         dispatch(modalAction('close'));
         dispatch(help('Profile'));
       })
-
       .catch((err) => {
         console.log(err);
         dispatch(setError(err.response.data));

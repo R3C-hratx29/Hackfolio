@@ -14,6 +14,7 @@ import {
 } from 'grommet';
 
 import BriefcaseIcon from 'grommet/components/icons/base/Briefcase';
+import '../styles/NavBar.scss';
 
 // Custom Imports
 import modalAction from '../actions/ModalActions';
@@ -33,6 +34,7 @@ class Modal extends React.Component {
     this.addPassword = this.addPassword.bind(this);
     this.addEmail = this.addEmail.bind(this);
     this.sendRequest = this.sendRequest.bind(this);
+    this.sendGithubRequest = this.sendGithubRequest.bind(this);
   }
   componentWillMount() {
     this.setState({
@@ -70,15 +72,20 @@ class Modal extends React.Component {
       this.props.signup(objSign);
     }
   }
+  sendGithubRequest() {
+    this.props.githubSignup();
+  }
+
   render() {
     const text = this.state.page ? 'Login' : 'Signup';
     const welcome = this.state.page ? 'Welcome Back' : 'Welcome';
+    const githubOauth = this.state.page ? 'Login with Github.' : 'Signup with Github.';
     const changeLink = this.state.page ? 'Not a user? Signup!' : 'Already have an account?';
     let usernameError = '';
     usernameError = this.state.page && this.props.valid === 'user' ? 'Username not found' : '';
     usernameError = this.props.valid === 'user' && usernameError === '' ? 'User already exists' : usernameError;
     return (
-      <Layer closer onClose={this.props.closeModal}>
+      <Layer className='LoginBox' closer onClose={this.props.closeModal}>
         <Box size={{ height: 'medium', width: 'medium' }} justify="center" align="center">
           <Box margin={{ bottom: 'medium' }} alignContent="end" direction="row">
             <Box margin={{ right: 'medium' }}>
@@ -133,6 +140,8 @@ class Modal extends React.Component {
             onClick={this.sendRequest}
           />
           <Anchor onClick={this.toggle} label={changeLink} />
+          <Anchor className='inactiveLink' label={'or'} />
+          <Anchor onClick={this.sendGithubRequest} label={githubOauth} />
         </Box>
       </Layer>
     );
@@ -147,6 +156,7 @@ Modal.propTypes = {
   closeModal: PropTypes.func.isRequired,
   signup: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
+  githubSignup: PropTypes.func.isRequired,
 };
 
 const mapStateToprops = (state) => {
@@ -159,7 +169,8 @@ const mapDispatchToprops = dispatch => {
   return {
     closeModal: () => dispatch(modalAction('close')),
     signup: (e) => dispatch(UserAction.signup(e)),
-    login: (e) => dispatch(UserAction.login(e))
+    login: (e) => dispatch(UserAction.login(e)),
+    githubSignup: (e) => dispatch(UserAction.githubSignup(e)),
   };
 };
 
