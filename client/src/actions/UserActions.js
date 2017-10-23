@@ -107,12 +107,12 @@ export const githubSignup = userdata => {
       })
       .then(res => {
         dispatch(clearError());
-        console.log(res);
+        console.log(res, userdata);
       })
       .catch(err => {
         console.log(err);
         dispatch(setError(err.response.data));
-      })
+      });
   };
 };
 

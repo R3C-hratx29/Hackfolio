@@ -85,7 +85,7 @@ class Modal extends React.Component {
     usernameError = this.state.page && this.props.valid === 'user' ? 'Username not found' : '';
     usernameError = this.props.valid === 'user' && usernameError === '' ? 'User already exists' : usernameError;
     return (
-      <Layer className='LoginBox' closer onClose={this.props.closeModal}>
+      <Layer className="LoginBox" closer onClose={this.props.closeModal}>
         <Box size={{ height: 'medium', width: 'medium' }} justify="center" align="center">
           <Box margin={{ bottom: 'medium' }} alignContent="end" direction="row">
             <Box margin={{ right: 'medium' }}>
@@ -140,7 +140,7 @@ class Modal extends React.Component {
             onClick={this.sendRequest}
           />
           <Anchor onClick={this.toggle} label={changeLink} />
-          <Anchor className='inactiveLink' label={'or'} />
+          <Anchor className="inactiveLink" label="or" />
           <Anchor onClick={this.sendGithubRequest} label={githubOauth} />
         </Box>
       </Layer>
