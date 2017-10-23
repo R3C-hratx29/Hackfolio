@@ -20,4 +20,18 @@ Notification.deleteNotification = (id) => {
     });
 };
 
+Notification.createNotification = (data) => {
+  return db('notifications').insert({
+    user_id: data.user_id,
+    bounty_id: data.bounty_id,
+    message: data.message,
+  })
+    .then(() => {
+      return db('notifications').where({ user_id: data.user_id }).select('*');
+    })
+    .catch(err => {
+      console.error(err);
+    });
+};
+
 module.exports = Notification;

@@ -13,7 +13,6 @@ if (window.localStorage.token) {
   axios
     .get('/api/me')
     .then(res => {
-      console.log(res.data);
       store.dispatch({
         type: 'SET_CURRENT_USER',
         payload: { user: { username: res.headers.username, jwt: window.localStorage.token } },
@@ -26,6 +25,7 @@ if (window.localStorage.token) {
 
 store.dispatch({ type: 'ERROR_SET_USER', payload: { error: 'start' } });
 store.dispatch({ type: 'SET_SEARCH', payload: { results: [] } });
+store.dispatch({ type: 'SET_NOTIFICATIONS', payload: { notifications: [] } });
 
 ReactDOM.render(
   <Provider store={store}>

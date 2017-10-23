@@ -18,13 +18,8 @@ router.get('/me', (req, res) => {
     // headers now have id instead of username
     const headers = jwt.decode(req.headers.jwt, secret);
     res.status(201);
-    console.log(headers);
     res.set(headers);
-    Notification.findByUserId(headers.user_id)
-      .then((notifications) => {
-        headers.notifications = notifications;
-        res.send(headers);
-      });
+    res.send(headers);
   } else {
     res.send('not logged in');
   }
@@ -159,6 +154,12 @@ router.post('/project', (req, res) => {
           Project.findById(projectData.id, projectData.profile_id).then(projects => {
             if (!projects[0].length) {
               Project.updateProject(projectData).then(project => {
+                // TODO Just an example to test notifications
+                Notification.createNotification({
+                  bounty_id: null,
+                  user_id: dLoad.user_id,
+                  message: `Project "${project[0].title}" was updated.`
+                });
                 res.set({ username: dLoad.username });
                 res.send(project[0]);
               });
@@ -259,6 +260,21 @@ router.put('/search', (req, res) => {
       console.log(err);
       res.sendStatus(402);
     });
+});
+
+router.get('/notifications', (req, res) => {
+  if (req.headers.jwt) {
+    // headers now have id instead of username
+    const headers = jwt.decode(req.headers.jwt, secret);
+    res.status(200);
+    res.set(headers);
+    Notification.findByUserId(headers.user_id)
+      .then((notifications) => {
+        res.send(notifications);
+      });
+  } else {
+    res.send('not logged in');
+  }
 });
 
 module.exports = router;

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
-import { searchReducer, currentUserReducer, userProfileReducer, helpReducer, checkUserReducer } from './userReducers';
+import { searchReducer, currentUserReducer, userProfileReducer, helpReducer, checkUserReducer, notificationReducer } from './userReducers';
 import { modalStateReducer, modalPageReducer } from './modalReducers';
 
 const reducers = combineReducers({
@@ -11,7 +11,8 @@ const reducers = combineReducers({
   router: routerReducer,
   help: helpReducer,
   checkUser: checkUserReducer,
-  searchResults: searchReducer
+  searchResults: searchReducer,
+  notifications: notificationReducer,
 });
 
 export default reducers;

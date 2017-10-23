@@ -3,6 +3,26 @@ import { push } from 'react-router-redux';
 import axios from 'axios';
 import modalAction from './ModalActions';
 
+const setNotifications = (notifications) => {
+  return {
+    type: 'SET_NOTIFICATIONS',
+    payload: { notifications }
+  };
+};
+
+export const getNotifications = () => {
+  return dispatch => {
+    return axios
+      .get('/api/notifications')
+      .then(res => {
+        dispatch(setNotifications(res.data));
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+};
+
 export const help = (state) => {
   return {
     type: 'HELP_USER',
@@ -66,6 +86,7 @@ export const login = (userdata) => {
       .then((res) => {
         dispatch(clearError());
         dispatch(setUser(res.headers));
+        dispatch(getNotifications());
         dispatch(push(`/user/${res.headers.username}`));
         dispatch(modalAction('close'));
       })
@@ -87,6 +108,7 @@ export const signup = userdata => {
       .then(res => {
         dispatch(clearError());
         dispatch(setUser(res.headers));
+        dispatch(getNotifications());
         dispatch(push(`/user/${res.headers.username}`));
         dispatch(modalAction('close'));
         dispatch(help('Profile'));
@@ -131,4 +153,3 @@ export const search = (text) => {
       });
   };
 };
-
