@@ -94,7 +94,7 @@ class AddProject extends React.Component {
   }
 
   onImageUpload(file) {
-    this.menuRef.setState({ state: 'collapsed' });
+    this.ProjectMenuRef.setState({ state: 'collapsed' });
     firebase
       .storage()
       .ref('images')
@@ -178,7 +178,7 @@ class AddProject extends React.Component {
                   inline={false}
                   reverse
                   ref={ref => {
-                    this.menuRef = ref;
+                    this.ProjectMenuRef = ref;
                   }}
                 >
                   <Anchor onClick={() => this.addImageURL('')}>Image URL</Anchor>
