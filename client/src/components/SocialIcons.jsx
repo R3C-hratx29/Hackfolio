@@ -4,7 +4,21 @@ import { connect } from 'react-redux';
 // grommet components
 import { Box, Anchor } from 'grommet';
 
+import {
+  SocialGithubIcon,
+  SocialFacebookOptionIcon,
+  SocialLinkedinIcon,
+  SocialTwitterIcon
+} from 'grommet/components/icons/base';
+
 import './../styles/variables.scss';
+
+const SocialIcon = {
+  facebook: <SocialFacebookOptionIcon />,
+  twitter: <SocialTwitterIcon />,
+  linkedin: <SocialLinkedinIcon />,
+  github: <SocialGithubIcon />
+};
 
 const SocialIcons = (props) => (
   <Box
@@ -16,7 +30,7 @@ const SocialIcons = (props) => (
             (
               <Anchor
                 key={social.link}
-                icon={social.icon}
+                icon={SocialIcon[social.title]}
                 href={social.link}
               />
             ))

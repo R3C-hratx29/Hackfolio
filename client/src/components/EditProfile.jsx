@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unused-state */
+/* eslint-disable */
 import React from 'react';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
@@ -21,6 +22,10 @@ import {
 import {
   ImageIcon,
   SaveIcon,
+  SocialGithubIcon,
+  SocialFacebookOptionIcon,
+  SocialLinkedinIcon,
+  SocialTwitterIcon
 } from 'grommet/components/icons/base';
 
 import Spinning from 'grommet/components/icons/Spinning';
@@ -40,16 +45,16 @@ class EditProfile extends React.Component {
       profession: '',
       socialLinks: [
         {
-          profile_id: '', link: '', title: 'github', icon: ''
+          profile_id: '', link: '', title: 'github', icon:  '<SocialGithubIcon />'
         },
         {
-          profile_id: '', link: '', title: 'twitter', icon: ''
+          profile_id: '', link: '', title: 'twitter', icon: '<SocialTwitterIcon/>'
         },
         {
-          profile_id: '', link: '', title: 'linkedIn', icon: ''
+          profile_id: '', link: '', title: 'linkedIn', icon: '<SocialLinkedinIcon />'
         },
         {
-          profile_id: '', link: '', title: 'facebook', icon: ''
+          profile_id: '', link: '', title: 'facebook', icon: '<SocialFacebookOptionIcon />'
         }
       ]
     };
@@ -101,8 +106,7 @@ class EditProfile extends React.Component {
   }
 
   updateGithub(e) {
-    console.log(this.state.socialLinks[0].title);
-    const socialLinksCopy = this.state.socialLinks.slice();
+    let socialLinksCopy = this.state.socialLinks.slice();
     socialLinksCopy[0].link = e.target.value;
     this.setState({
       socialLinks: socialLinksCopy
@@ -110,20 +114,26 @@ class EditProfile extends React.Component {
   }
 
   updateLinkedIn(e) {
+    let socialLinksCopy = this.state.socialLinks.slice();
+    socialLinksCopy[1].link = e.target.value;
     this.setState({
-      linkedIn: e.target.value
+      socialLinks: socialLinksCopy
     });
   }
 
   updateTwitter(e) {
+    let socialLinksCopy = this.state.socialLinks.slice();
+    socialLinksCopy[2].link = e.target.value;
     this.setState({
-      twitter: e.target.value
+      socialLinks: socialLinksCopy
     });
   }
 
   updateFacebook(e) {
+    let socialLinksCopy = this.state.socialLinks.slice();
+    socialLinksCopy[3].link = e.target.value;
     this.setState({
-      facebook: e.target.value
+      socialLinks: socialLinksCopy
     });
   }
 
@@ -135,28 +145,28 @@ class EditProfile extends React.Component {
       bio: this.state.bio,
       socialLinks: [
         {
-          profile_id: this.state.profile_id,
-          link: this.state.github,
-          title: this.state.title,
-          icon: this.state.icon
+          profile_id: this.state.socialLinks[0].profile_id,
+          link: this.state.socialLinks[0].link,
+          title: this.state.socialLinks[0].title,
+          icon: this.state.socialLinks[0].icon
         },
         {
-          profile_id: this.state.profile_id,
-          link: this.state.linkedin,
-          title: this.state.title,
-          icon: this.state.icon
+          profile_id: this.state.socialLinks[1].profile_id,
+          link: this.state.socialLinks[1].link,
+          title: this.state.socialLinks[1].title,
+          icon: this.state.socialLinks[1].icon
         },
         {
-          profile_id: this.state.profile_id,
-          link: this.state.twitter,
-          title: this.state.title,
-          icon: this.state.icon
+          profile_id: this.state.socialLinks[2].profile_id,
+          link: this.state.socialLinks[2].link,
+          title: this.state.socialLinks[2].title,
+          icon: this.state.socialLinks[2].icon
         },
         {
-          profile_id: this.state.profile_id,
-          link: this.state.facebook,
-          title: this.state.title,
-          icon: this.state.icon
+          profile_id: this.state.socialLinks[3].profile_id,
+          link: this.state.socialLinks[3].link,
+          title: this.state.socialLinks[3].title,
+          icon: this.state.socialLinks[3].icon
         }
       ]
     }, this.props.userProfile);
@@ -238,28 +248,28 @@ class EditProfile extends React.Component {
             <FormField label="Your Github Profile">
               <TextInput
                 onDOMChange={this.updateGithub}
-                value={this.state.github}
+                value={this.state.socialLinks[0].link}
                 placeholder="github"
               />
             </FormField>
             <FormField label="your LinkedIn profile">
               <TextInput
                 onDOMChange={this.updateLinkedIn}
-                value={this.state.linkedin}
+                value={this.state.socialLinks[1].link}
                 placeholder="linkedin"
               />
             </FormField>
             <FormField label="Your Twitter profile">
               <TextInput
                 onDOMChange={this.updateTwitter}
-                value={this.state.twitter}
+                value={this.state.socialLinks[2].link}
                 placeholder="twitter"
               />
             </FormField>
             <FormField label="your Facebook profile">
               <TextInput
                 onDOMChange={this.updateFacebook}
-                value={this.state.facebook}
+                value={this.state.socialLinks[3].link}
                 placeholder="facebook"
               />
             </FormField>
@@ -282,7 +292,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state.userProfile);
   return {
     userProfile: state.userProfile,
   };

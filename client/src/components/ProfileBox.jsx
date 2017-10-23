@@ -23,6 +23,7 @@ import EditIcon from 'grommet/components/icons/base/Edit';
 
 // Custom Components
 import EditProfile from './EditProfile';
+import SocialIcons from './SocialIcons';
 import { changeProfile } from './../actions/ProfileActions';
 import * as UserAction from '../actions/UserActions';
 
@@ -99,6 +100,7 @@ class ProfileBox extends React.Component {
                 onClick={this.hideModal}
               />
               <EditProfile hideModal={this.hideModal} hidden={this.state.hideModal} />
+              <SocialIcons />
             </Box>
           }
         </Box>
