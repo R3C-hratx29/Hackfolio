@@ -27,6 +27,39 @@ store.dispatch({ type: 'ERROR_SET_USER', payload: { error: 'start' } });
 store.dispatch({ type: 'SET_SEARCH', payload: { results: [] } });
 store.dispatch({ type: 'SET_NOTIFICATIONS', payload: { notifications: [] } });
 
+store.dispatch({
+  type: 'CHAT_MESSAGES',
+  payload: {
+    messages:
+    [
+      { text: 'hi' },
+      { text: 'blah' },
+      { text: 'something' }
+    ]
+  }
+});
+
+store.dispatch({
+  type: 'BOUNTY',
+  payload: {
+    bounty: {
+      bounty_id: 1,
+      title: 'test',
+      owner: 'bob'
+    }
+  }
+});
+
+store.dispatch({
+  type: 'BOUNTY_HUNTER',
+  payload: {
+    bounty_hunter: {
+      id: 2,
+      username: 'notbob'
+    }
+  }
+});
+
 ReactDOM.render(
   <Provider store={store}>
     <Hackfolio />

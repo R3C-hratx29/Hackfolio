@@ -10,6 +10,7 @@ const Profile = require('../models/profile.js');
 const Link = require('../models/link.js');
 const Project = require('../models/project.js');
 const Notification = require('../models/notification.js');
+const Message = require('../models/message.js');
 
 const secret = process.env.SECRET;
 
@@ -248,6 +249,42 @@ router.get('/notifications', Auth.isLoggedIn, (req, res) => {
     .then((notifications) => {
       res.send(notifications);
     });
+});
+
+/* router.get('/messagesByUser', (req, res) => {
+  if (req.headers.jwt) {
+    const dLoad = jwt.decode(req.headers.jwt, secret);
+    Message.getById(dLoad.user_id)
+      .then((results) => {
+        console.log('getByUserMes', results);
+        res.send(results);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.sendStatas(402);
+      });
+  } else {
+    res.sendStatus(402);
+    res.send('Not signed in');
+  }
+}); */
+
+router.get('/messagesByBounty', (req, res) => {
+  if (req.headers.jwt) {
+    const dLoad = jwt.decode(req.headers.jwt, secret);
+    Message.getByBounty(req.body.params.bounty_id, dLoad.user_id)
+      .then((results) => {
+        console.log('MessBountyResult', results);
+        res.send(results);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.sendStatus(402);
+      });
+  } else {
+    res.sendStatus(402);
+    res.send('Not signed in');
+  }
 });
 
 module.exports = router;

@@ -25,8 +25,6 @@ const SearchCard = (props) => (
       description={(
         <div>
           <Heading tag="h3">
-            {props.userProfile.name === props.userProfile.username ?
-              <div /> : props.userProfile.username}
             {props.userProfile.profession}
           </Heading>
           {props.userProfile.bio}
