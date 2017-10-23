@@ -28,13 +28,7 @@ router.get('/logout', (req, res) => {
 });
 
 router.post('/signup', (req, res) => {
-<<<<<<< 516601361262dcd6c52b8da11c809281d426ff74
   const { username, password, email } = req.body;
-=======
-  const username = req.body.username;
-  const password = req.body.password;
-  const email = req.body.email;
->>>>>>> Refactored backend authentication
 
   if (username && password && email) {
     User.findByUsername(username, email)
@@ -73,13 +67,8 @@ router.post('/signup', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-<<<<<<< 516601361262dcd6c52b8da11c809281d426ff74
   const { password, username } = req.body;
-=======
-  const password = req.body.password;
-  const username = req.body.username;
 
->>>>>>> Refactored backend authentication
   User.findByUsername(username)
     .then(user => {
       if (!user.length) {
@@ -176,10 +165,6 @@ router.post('/project', Auth.isLoggedIn, (req, res) => {
     .catch(err => {
       res.send(err);
     });
-<<<<<<< 516601361262dcd6c52b8da11c809281d426ff74
-  } else {
-    res.send('No authentication detected');
-  }
 });
 
 router.post('/project', (req, res) => {
@@ -232,8 +217,6 @@ router.post('/project', (req, res) => {
   } else {
     res.send('No authentication detected');
   }
-=======
->>>>>>> Refactored backend authentication
 });
 
 router.put('/project', (req, res) => {
@@ -281,14 +264,11 @@ router.get('/user/:id', (req, res) => {
               res.send(profile);
             });
         });
-<<<<<<< 516601361262dcd6c52b8da11c809281d426ff74
     })
     .catch(err => {
       console.log(err);
       res.sendStatus(404);
       res.send(err);
-=======
->>>>>>> Refactored backend authentication
     });
 });
 
@@ -300,10 +280,7 @@ router.put('/search', (req, res) => {
         delete result.uid;
         delete result.user_id;
         delete result.id;
-<<<<<<< 516601361262dcd6c52b8da11c809281d426ff74
-=======
         delete result.email;
->>>>>>> Refactored backend authentication
       });
       res.send(searchResults);
     })
