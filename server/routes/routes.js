@@ -118,9 +118,17 @@ router.post('/profile', Auth.isLoggedIn, (req, res) => {
     } else {
       res.status(201);
     }
-    res.status(201);
-    res.set({ username: dLoad.username });
-    res.end();
+    Profile.findAllByUserId(profileData.user_id).then(profile => {
+      Link.findByProfileId(profile[0].id).then(profileLinks => {
+        profile[0].socialLinks = profileLinks;
+
+        res.set(201);
+        res.send(profile[0]);
+      });
+    })
+      .catch(err => {
+        console.error(err);
+      });
   });
 });
 
@@ -232,19 +240,14 @@ router.put('/search', (req, res) => {
     });
 });
 
-router.get('/notifications', (req, res) => {
-  if (req.headers.jwt) {
-    // headers now have id instead of username
-    const headers = jwt.decode(req.headers.jwt, secret);
-    res.status(200);
-    res.set(headers);
-    Notification.findByUserId(headers.user_id)
-      .then((notifications) => {
-        res.send(notifications);
-      });
-  } else {
-    res.send('not logged in');
-  }
+router.get('/notifications', Auth.isLoggedIn, (req, res) => {
+  const headers = jwt.decode(req.headers.jwt, secret);
+  res.status(200);
+  res.set(headers);
+  Notification.findByUserId(headers.user_id)
+    .then((notifications) => {
+      res.send(notifications);
+    });
 });
 
 module.exports = router;

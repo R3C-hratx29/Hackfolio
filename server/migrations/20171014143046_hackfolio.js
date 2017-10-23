@@ -42,12 +42,12 @@ exports.up = (knex, Promise) => {
     }),
     knex.schema.createTable('notifications', (table) => {
       table.increments('id').primary();
-      table.string('bounty_id')
-        .references('bounty_id')
-        .inTable('bounties');
+      // table.string('bounty_id')
+      //   .references('bounty_id')
+      //   .inTable('bounties');
       table.integer('user_id')
         .references('uid')
-        .inTable('user');
+        .inTable('users');
       table.string('message');
       table.timestamp('created_at')
         .defaultTo(knex.fn.now());
@@ -57,10 +57,10 @@ exports.up = (knex, Promise) => {
 
 exports.down = (knex, Promise) => {
   return Promise.all([
+    knex.schema.dropTable('notifications'),
     knex.schema.dropTable('links'),
     knex.schema.dropTable('projects'),
     knex.schema.dropTable('profiles'),
     knex.schema.dropTable('users'),
-    knex.schema.dropTable('notifications'),
   ]);
 };
