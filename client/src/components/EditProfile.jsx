@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
@@ -37,8 +37,7 @@ class EditProfile extends React.Component {
       uploading: false,
       name: '',
       profession: '',
-      socialLinks: [
-      ]
+      socialLinks: []
     };
 
     this.updateName = this.updateName.bind(this);
@@ -88,26 +87,30 @@ class EditProfile extends React.Component {
   }
 
   updateGithub(e) {
+    const array = this.state.socialLinks;
     this.setState({
-      github: e.target.value
+      socialLinks: array[0].link[e.target.value]
     });
   }
 
   updateLinkedIn(e) {
+    const array = this.state.socialLinks;
     this.setState({
-      linkedin: e.target.value
+      socialLinks: array[1].link[e.target.value]
     });
   }
 
   updateTwitter(e) {
+    const array = this.state.socialLinks;
     this.setState({
-      twitter: e.target.value
+      socialLinks: array[2].link[e.target.value]
     });
   }
 
   updateFacebook(e) {
+    const array = this.state.socialLinks;
     this.setState({
-      facebook: e.target.value
+      socialLinks: array[3].link[e.target.value]
     });
   }
 
@@ -117,7 +120,32 @@ class EditProfile extends React.Component {
       name: this.state.name,
       profession: this.state.profession,
       bio: this.state.bio,
-      socialLinks: []
+      socialLinks: [
+        {
+          profile_id: this.state.profile_id,
+          link: this.state.github,
+          title: this.state.title,
+          icon: this.state.icon
+        },
+        {
+          profile_id: this.state.profile_id,
+          link: this.state.linkedin,
+          title: this.state.title,
+          icon: this.state.icon
+        },
+        {
+          profile_id: this.state.profile_id,
+          link: this.state.twitter,
+          title: this.state.title,
+          icon: this.state.icon
+        },
+        {
+          profile_id: this.state.profile_id,
+          link: this.state.facebook,
+          title: this.state.title,
+          icon: this.state.icon
+        }
+      ]
     });
   }
 
@@ -157,17 +185,17 @@ class EditProfile extends React.Component {
                   <label
                     htmlFor="firebaseUpload"
                     style={{ cursor: 'pointer' }}
-      >
-      {this.state.uploading && <Spinning />} Upload Image
+                  >
+                    {this.state.uploading && <Spinning />} Upload Image
                     <FileUploader
                       style={{ display: 'none' }}
                       hidden
                       id="firebaseUpload"
                       accept="image/*"
                       randomizeFilename
-      storageRef={firebase.storage().ref('images')}
-      onUploadStart={this.onUploadStart}
-                        onUploadSuccess={this.onImageUpload}
+                      storageRef={firebase.storage().ref('images')}
+                      onUploadStart={this.onUploadStart}
+                      onUploadSuccess={this.onImageUpload}
                     />
                   </label>
                 </Anchor>
@@ -242,7 +270,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    userProfile: state.userProfile
+    userProfile: state.userProfile,
   };
 };
 
