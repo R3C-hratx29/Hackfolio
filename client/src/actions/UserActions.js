@@ -12,14 +12,14 @@ const setNotifications = (notifications) => {
 
 export const getNotifications = () => {
   return dispatch => {
-    return axios
-      .get('/api/notifications')
-      .then(res => {
-        dispatch(setNotifications(res.data));
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    // return axios
+    //   .get('/api/notification')
+    //   .then(res => {
+    return dispatch(setNotifications([]));
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   };
 };
 
