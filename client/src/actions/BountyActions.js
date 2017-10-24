@@ -15,10 +15,15 @@ const setConversations = (conversations) => {
 };
 
 export const getMessages = (bountyId) => {
+  console.log('action', bountyId);
   return ((dispatch) => {
+<<<<<<< HEAD
     return axios.get('/api/messagesByBounty', {
       params: { bountyId }
     })
+=======
+    return axios.get(`/api/messagesByBounty/${bountyId}`)
+>>>>>>> rebase
       .then((results) => {
         dispatch(setMessages(results.data));
       })

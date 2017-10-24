@@ -14,6 +14,7 @@ import {
 import SendIcon from 'grommet/components/icons/base/Send';
 import UserIcon from 'grommet/components/icons/base/User';
 import Messages from './Messages';
+<<<<<<< HEAD
 import { getConversations } from '../actions/BountyActions';
 import { setOtherUser } from '../actions/UserActions';
 
@@ -36,6 +37,9 @@ const hasChanged = function (cono1, cono2) {
   });
   return ret;
 };
+=======
+import { getMessages } from '../actions/BountyActions';
+>>>>>>> rebase
 
 class Chat extends React.Component {
   constructor(props) {
@@ -49,6 +53,7 @@ class Chat extends React.Component {
     this.sendMessage = this.sendMessage.bind(this);
     this.textHandler = this.textHandler.bind(this);
   }
+<<<<<<< HEAD
   componentWillReceiveProps(nextProps) {
     if (this.props.currentUser === undefined && nextProps.currentUser !== undefined) {
       nextProps.getConversations(4); // need to change to real bounties
@@ -80,6 +85,19 @@ class Chat extends React.Component {
       sender: this.props.currentUser.username,
       receiver: this.state.conversations.username,
       conversationId: this.state.conversation.conversation_id
+=======
+  componentWillMount() {
+    console.log('getting messages', this.props.bounty);
+    this.props.getMessages(this.props.bounty);
+  }
+  sendMessage(e) {
+    e.preventDefault();
+    console.log(this.state.messageText, this.props.bounty, this.props.bountyHunter);
+    axios.post('/api/message', {
+      text: this.state.messageText,
+      bountyId: this.props.bounty,
+      bountyHunter: this.props.bountyHunter
+>>>>>>> rebase
     })
       .then(() => {
         console.log('send mess :D');
@@ -142,14 +160,23 @@ Chat.propTypes = {
     user_id: PropTypes.number
   }).isRequired,
   bounty: PropTypes.number.isRequired,
+<<<<<<< HEAD
   conversations: PropTypes.shape({
   })
+=======
+  bountyHunter: PropTypes.number.isRequired,
+  getMessages: PropTypes.func.isRequired
+>>>>>>> rebase
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+<<<<<<< HEAD
     setOtherUser: (user) => dispatch(setOtherUser(user)),
     getConversations: (id) => dispatch(getConversations(id))
+=======
+    getMessages: (id) => dispatch(getMessages(id))
+>>>>>>> rebase
   };
 };
 

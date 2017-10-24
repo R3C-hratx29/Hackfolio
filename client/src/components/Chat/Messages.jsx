@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import Message from './Message';
 
+<<<<<<< HEAD
 class Messages extends React.Component {
   constructor(props) {
     super(props);
@@ -33,6 +34,15 @@ class Messages extends React.Component {
     );
   }
 }
+=======
+const Messages = (props) => (
+  <div>
+    { props.messages.map((message) => {
+      return <Message message={message} key={message.id} />;
+    })}
+  </div>
+);
+>>>>>>> rebase
 
 Messages.defaultProps = {
   id: -1
