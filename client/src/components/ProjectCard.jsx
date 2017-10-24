@@ -24,11 +24,11 @@ import placeHolderImage from '../images/placeholder.png';
 import '../styles/ProjectCard.scss';
 
 function httpify(value) {
-  let string = value;
-  if (!/^((http|https):\/\/)/.test(value)) {
+  let string = value.trim();
+  if (!/^((http|https):\/\/)/.test(value.trim())) {
     string = `http://${string}`;
   }
-  return string;
+  return string.trim();
 }
 
 const ProjectCard = props => {
