@@ -43,20 +43,10 @@ class EditProfile extends React.Component {
       uploading: false,
       name: '',
       profession: '',
-      socialLinks: [
-        {
-          profile_id: '', link: '', title: 'github', icon:  '<SocialGithubIcon />'
-        },
-        {
-          profile_id: '', link: '', title: 'twitter', icon: '<SocialTwitterIcon/>'
-        },
-        {
-          profile_id: '', link: '', title: 'linkedIn', icon: '<SocialLinkedinIcon />'
-        },
-        {
-          profile_id: '', link: '', title: 'facebook', icon: '<SocialFacebookOptionIcon />'
-        }
-      ]
+      github: '',
+      twitter: '',
+      facebook: '',
+      linkedin: ''
     };
 
     this.updateName = this.updateName.bind(this);
@@ -106,34 +96,26 @@ class EditProfile extends React.Component {
   }
 
   updateGithub(e) {
-    let socialLinksCopy = this.state.socialLinks.slice();
-    socialLinksCopy[0].link = e.target.value;
     this.setState({
-      socialLinks: socialLinksCopy
+      github: github
     });
   }
 
   updateLinkedIn(e) {
-    let socialLinksCopy = this.state.socialLinks.slice();
-    socialLinksCopy[1].link = e.target.value;
     this.setState({
-      socialLinks: socialLinksCopy
+      linkedin: linkedin
     });
   }
 
   updateTwitter(e) {
-    let socialLinksCopy = this.state.socialLinks.slice();
-    socialLinksCopy[2].link = e.target.value;
     this.setState({
-      socialLinks: socialLinksCopy
+      twitter: twitter
     });
   }
 
   updateFacebook(e) {
-    let socialLinksCopy = this.state.socialLinks.slice();
-    socialLinksCopy[3].link = e.target.value;
     this.setState({
-      socialLinks: socialLinksCopy
+      facebook: facebook
     });
   }
 
@@ -143,32 +125,10 @@ class EditProfile extends React.Component {
       name: this.state.name,
       profession: this.state.profession,
       bio: this.state.bio,
-      socialLinks: [
-        {
-          id: this.state.socialLinks[0].id,
-          link: this.state.socialLinks[0].link,
-          title: this.state.socialLinks[0].title,
-          icon: this.state.socialLinks[0].icon
-        },
-        {
-          id: this.state.socialLinks[1].id,
-          link: this.state.socialLinks[1].link,
-          title: this.state.socialLinks[1].title,
-          icon: this.state.socialLinks[1].icon
-        },
-        {
-          id: this.state.socialLinks[2].id,
-          link: this.state.socialLinks[2].link,
-          title: this.state.socialLinks[2].title,
-          icon: this.state.socialLinks[2].icon
-        },
-        {
-          id: this.state.socialLinks[3].id,
-          link: this.state.socialLinks[3].link,
-          title: this.state.socialLinks[3].title,
-          icon: this.state.socialLinks[3].icon
-        }
-      ]
+      github: this.state.github,
+      linkedin: this.state.linkedin,
+      twitter: this.state.twitter,
+      facebook: this.state.facebook
     }, this.props.userProfile);
   }
 
@@ -248,28 +208,28 @@ class EditProfile extends React.Component {
             <FormField label="Your Github Profile">
               <TextInput
                 onDOMChange={this.updateGithub}
-                value={this.state.socialLinks[0].link}
+                value={this.state.github}
                 placeholder="github"
               />
             </FormField>
             <FormField label="your LinkedIn profile">
               <TextInput
                 onDOMChange={this.updateLinkedIn}
-                value={this.state.socialLinks[1].link}
+                value={this.state.linkedin}
                 placeholder="linkedin"
               />
             </FormField>
             <FormField label="Your Twitter profile">
               <TextInput
                 onDOMChange={this.updateTwitter}
-                value={this.state.socialLinks[2].link}
+                value={this.state.twitter}
                 placeholder="twitter"
               />
             </FormField>
             <FormField label="your Facebook profile">
               <TextInput
                 onDOMChange={this.updateFacebook}
-                value={this.state.socialLinks[3].link}
+                value={this.state.socialLinks}
                 placeholder="facebook"
               />
             </FormField>
