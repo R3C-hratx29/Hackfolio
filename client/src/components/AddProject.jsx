@@ -46,10 +46,9 @@ class AddProject extends React.Component {
         description: '',
         github_link: '',
         website_link: '',
-        images: [],
-        stack: [],
+        images: '',
+        stack: '',
       },
-      stackString: '',
       uploading: false,
     };
 
@@ -66,7 +65,6 @@ class AddProject extends React.Component {
     if (nextProps.edit) {
       this.setState({
         project: nextProps.edit,
-        stackString: nextProps.edit.stack.join(', '),
       });
     } else {
       this.setState({
@@ -75,10 +73,9 @@ class AddProject extends React.Component {
           description: '',
           github_link: '',
           website_link: '',
-          images: [],
-          stack: [],
-        },
-        stackString: '',
+          images: '',
+          stack: '',
+        }
       });
     }
   }
@@ -111,10 +108,10 @@ class AddProject extends React.Component {
   }
 
   addImageURL(url = '') {
-    const array = this.state.project.images;
+    const array = this.state.project.images.split(',');
     array.push(url);
     this.updateProject({
-      images: array,
+      images: array.join(','),
     });
     setTimeout(() => {
       $(this.formScrollRef).animate({ scrollTop: this.formScrollRef.scrollHeight });
@@ -122,18 +119,18 @@ class AddProject extends React.Component {
   }
 
   removeImage(index) {
-    const array = this.state.project.images;
+    const array = this.state.project.images.split(',');
     array.splice(index, 1);
     this.updateProject({
-      images: array,
+      images: array.join(','),
     });
   }
 
   updateImages(index, url) {
-    const array = this.state.project.images;
+    const array = this.state.project.images.split(',');
     array[index] = url;
     this.updateProject({
-      images: array,
+      images: array.join(','),
     });
   }
 
@@ -144,14 +141,8 @@ class AddProject extends React.Component {
   }
 
   updateStack(stack) {
-    const array = stack.split(',').map(item => {
-      return item.trim();
-    });
     this.updateProject({
-      stack: array,
-    });
-    this.setState({
-      stackString: stack,
+      stack
     });
   }
 
@@ -243,14 +234,14 @@ class AddProject extends React.Component {
                 </FormField>
                 <FormField label="Stack">
                   <TextInput
-                    value={this.state.stackString}
+                    value={this.state.project.stack}
                     placeHolder="Separate with commas"
                     onDOMChange={e => {
                       this.updateStack(e.target.value);
                     }}
                   />
                 </FormField>
-                {this.state.project.images.map((image, index) => {
+                {this.state.project.images.split(',').map((image, index) => {
                   const i = index;
                   return (
                     <FormField
@@ -303,9 +294,7 @@ AddProject.propTypes = {
   hideProjectModal: PropTypes.bool.isRequired,
   saveProject: PropTypes.func.isRequired,
   deleteProject: PropTypes.func.isRequired,
-  edit: PropTypes.shape({
-    stack: PropTypes.array,
-  }),
+  edit: PropTypes.shape({}),
 };
 
 const mapDispatchToProps = dispatch => {
