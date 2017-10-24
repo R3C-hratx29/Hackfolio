@@ -97,25 +97,25 @@ class EditProfile extends React.Component {
 
   updateGithub(e) {
     this.setState({
-      github: github
+      github: e.target.value
     });
   }
 
   updateLinkedIn(e) {
     this.setState({
-      linkedin: linkedin
+      linkedin: e.target.value
     });
   }
 
   updateTwitter(e) {
     this.setState({
-      twitter: twitter
+      twitter: e.target.value
     });
   }
 
   updateFacebook(e) {
     this.setState({
-      facebook: facebook
+      facebook: e.target.value
     });
   }
 
