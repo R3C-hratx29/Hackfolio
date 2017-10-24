@@ -222,7 +222,6 @@ NavBar.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     user: state.currentUser.user,
     modalState: state.modalState.state,
