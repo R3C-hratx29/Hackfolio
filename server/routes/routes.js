@@ -144,6 +144,11 @@ router.post('/project', Auth.isLoggedIn, (req, res) => {
         Project.findById(projectData.id, projectData.profile_id).then(projects => {
           if (!projects[0].length) {
             Project.updateProject(projectData).then(project => {
+              Notification.createNotification({
+                user_id: dLoad.user_id,
+                bounty_id: null,
+                message: `Project "${project[0].title}" has been updated.`
+              });
               res.set({ username: dLoad.username });
               res.send(project[0]);
             });
