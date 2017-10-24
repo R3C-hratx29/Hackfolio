@@ -9,7 +9,11 @@ Profile.init = (userId, username) => {
     bio: 'Edit your bio here...',
     profile_pic: 'https://tinyurl.com/ybny9zhw',
     profession: 'Edit your profession here...',
-    name: username
+    name: username,
+    github: null,
+    linked_in: null,
+    twitter: null,
+    facebook: null
   })
     .then(() => {
       db('profiles').where({ user_id: userId }).select('*');
@@ -65,7 +69,11 @@ Profile.updateProfile = (data) => {
       bio: data.bio,
       profile_pic: data.profile_pic,
       profession: data.profession,
-      name: data.name
+      name: data.name,
+      github: data.github,
+      linked_in: data.linked_in,
+      twitter: data.twitter,
+      facebook: data.facebook
     })
     .then(() => {
       return db('profiles').where({ user_id: data.user_id }).select('*');

@@ -7,7 +7,6 @@ const jwt = require('jwt-simple');
 const Auth = require('../auth.js');
 const User = require('../models/user.js');
 const Profile = require('../models/profile.js');
-const Link = require('../models/link.js');
 const Project = require('../models/project.js');
 const Notification = require('../models/notification.js');
 const Message = require('../models/message.js');
@@ -102,34 +101,14 @@ router.post('/profile', Auth.isLoggedIn, (req, res) => {
     profile_pic: req.body.profile_pic,
     profession: req.body.profession,
     name: req.body.name,
-    socialLinks: req.body.socialLinks,
+    github: req.body.github,
+    linked_in: req.body.linked_in,
+    twitter: req.body.twitter,
+    facebook: req.body.facebook
   };
-  const links = profileData.socialLinks;
   Profile.updateProfile(profileData).then(profiles => {
     profiles[0].username = dLoad.username;
-    if (links.length) {
-      links.forEach(link => {
-        link.profile_id = profiles[0].id;
-        if (!link.id) {
-          Link.addLink(link);
-        } else {
-          Link.updateLink(link);
-        }
-      });
-    } else {
-      res.status(201);
-    }
-    Profile.findAllByUserId(profileData.user_id).then(profile => {
-      Link.findByProfileId(profile[0].id).then(profileLinks => {
-        profile[0].socialLinks = profileLinks;
-
-        res.set(201);
-        res.send(profile[0]);
-      });
-    })
-      .catch(err => {
-        console.error(err);
-      });
+    res.send(profiles[0]);
   });
 });
 
@@ -175,7 +154,7 @@ router.post('/project', Auth.isLoggedIn, (req, res) => {
     });
 });
 
-router.put('/project', (req, res) => {
+router.put('/project', Auth.isLoggedIn, (req, res) => {
   const dLoad = jwt.decode(req.headers.jwt, secret);
   req.body.forEach(project => {
     Project.updateOrder(project).catch(err => {
@@ -204,21 +183,13 @@ router.get('/user/:id', (req, res) => {
       delete profile.email;
       delete profile.uid;
       profile.projects = [];
-
-      Link.findByProfileId(profile.id)
-        .then(links => {
-          profile.socialLinks = links;
-          Project.findByProfileId(profile.id)
-            .then(projects => {
-              profile.projects = projects;
-
-              projects.forEach(project => {
-                project.stack = project.stack.split(',');
-                project.images = project.images.split(',');
-              });
-
-              res.send(profile);
-            });
+      Project.findByProfileId(profile.id).then(projects => {
+        profile.projects = projects;
+        res.set(201);
+        res.send(profile);
+      })
+        .catch(err => {
+          console.error(err);
         });
     });
 });
