@@ -237,6 +237,24 @@ router.get('/notifications', Auth.isLoggedIn, (req, res) => {
     });
 });
 
+router.delete('/notifications/:id', Auth.isLoggedIn, (req, res) => {
+  const dLoad = jwt.decode(req.headers.jwt, secret);
+  Notification.deleteNotification(dLoad, req.params.id)
+    .then(() => {
+      res.status(201);
+      res.send('Notification successfully deleted.');
+    });
+});
+
+router.delete('/notifications', Auth.isLoggedIn, (req, res) => {
+  const dLoad = jwt.decode(req.headers.jwt, secret);
+  Notification.deleteAllNotifications(dLoad)
+    .then(() => {
+      res.status(201);
+      res.send('notifications successfully deleted.');
+    });
+});
+
 router.post('/message', Auth.isLoggedIn, (req, res) => {
   Message.post(req.body.conversationId, req.body.receiver, req.body.sender, req.body.text)
     .then(() => {
@@ -258,7 +276,6 @@ router.post('/conversations', (req, res) => {
       throw err;
     });
 });
-
 
 router.get('/messages', Auth.isLoggedIn, (req, res) => {
   console.log('in messages');
