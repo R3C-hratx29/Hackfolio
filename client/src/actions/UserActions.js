@@ -131,21 +131,20 @@ export const login = (userdata) => {
   });
 };
 
-export const githubSignup = userdata => {
+export const githubSignup = () => {
   return dispatch => {
     return axios
-      .get('https://github.com/login/oauth/authorize', {
-        params: {
-          client_id: '3b114f5afe920bd6f722'
-        }
-      })
+      .get('/api/auth/github')
       .then(res => {
         dispatch(clearError());
-        console.log(res, userdata);
+        dispatch(setUser(res.headers));
+        dispatch(getNotifications());
+        dispatch(push(`/user/${res.headers.username}`));
+        dispatch(modalAction('close'));
       })
       .catch(err => {
         console.log(err);
-        dispatch(setError(err.response.data));
+        dispatch(setError(err));
       });
   };
 };

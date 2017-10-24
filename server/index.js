@@ -3,12 +3,22 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const router = require('./routes/routes.js');
-// const db = require('./models/db');
+const methodOverride = require('method-override');
+const passport = require('passport');
 
 const app = express();
+app.use(passport.initialize());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(methodOverride());
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, jwt');
+  next();
+});
 
 app.use(express.static(path.join(__dirname, '../client/build')));
 
