@@ -107,10 +107,23 @@ class NavBar extends React.Component {
                   Hackfolio
                 </Box>
               </Box>
+              <Button
+                icon={<MultipleIcon />}
+                label="Bounty Board"
+                plain
+                onClick={this.goHome}
+              />
+              <Button
+                icon={<UserIcon />}
+                label="Profile"
+                plain
+                onClick={this.goProfile}
+              />
               <Menu
                 responsive={false}
                 icon={<NotificationIcon />}
                 closeOnClick
+                className="notifications"
               >
                 <List>
                   {
@@ -130,18 +143,6 @@ class NavBar extends React.Component {
                   }
                 </List>
               </Menu>
-              <Button
-                icon={<MultipleIcon />}
-                label="Bounty Board"
-                plain
-                onClick={this.goHome}
-              />
-              <Button
-                icon={<UserIcon />}
-                label="Profile"
-                plain
-                onClick={this.goProfile}
-              />
             </Box>
             <Box
               separator="all"
