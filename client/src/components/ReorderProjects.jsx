@@ -85,7 +85,7 @@ class ReorderProjects extends React.Component {
                 <div
                   className="image"
                   style={{
-                    backgroundImage: `url(${project.images[0]})`,
+                    backgroundImage: `url(${project.images.split(',')[0]})`,
                   }}
                 />
                 <div className="body">

@@ -123,9 +123,9 @@ class NavBar extends React.Component {
                 responsive={false}
                 icon={<NotificationIcon />}
                 closeOnClick
-                className="notifications"
+                className={`${this.props.notifications.notifications.length ? 'dot' : ''} notifications`}
               >
-                <List>
+                <List ref={(ref) => { if (ref) ref.listRef.closest('.grommetux-drop').classList.add('droptop'); }}>
                   {
                     this.props.notifications.notifications.sort((a, b) => {
                       return a.created_at < b.created_at;
@@ -135,6 +135,7 @@ class NavBar extends React.Component {
                           key={notification.id}
                           justify="start"
                           separator="horizontal"
+                          onClick={() => { this.props.deleteNotification(notification.id); }}
                         >
                           {notification.message}
                         </ListItem>
@@ -219,6 +220,7 @@ NavBar.propTypes = {
   logout: PropTypes.func.isRequired,
   displayHelp: PropTypes.func.isRequired,
   getNotifications: PropTypes.func.isRequired,
+  deleteNotification: PropTypes.func.isRequired,
   notifications: PropTypes.shape({ notifications: PropTypes.array })
 };
 
@@ -240,6 +242,7 @@ const mapDispatchToProps = (dispatch) => {
     logout: () => dispatch(UserAction.logout()),
     displayHelp: (next) => dispatch(UserAction.help(next)),
     getNotifications: () => dispatch(UserAction.getNotifications()),
+    deleteNotification: (id) => dispatch(UserAction.deleteNotification(id)),
   };
 };
 

@@ -7,12 +7,11 @@ $background: rgba(248,248,248,0.98);
   box-shadow: none !important;
 }
 
-.grommetux-drop {
-  // background-color: transparent !important;
-  // border-radius: 0 !important;
+.grommetux-drop.droptop {
+  border-radius: 0 !important;
+  background-color: transparent !important;
 
   .notifications__drop {
-    background-color: transparent !important;
 
     .grommetux-menu__control {
       border: 0 !important;
@@ -48,6 +47,18 @@ $background: rgba(248,248,248,0.98);
   }
   .SearchIcon {
     border-left: 0px;
+  }
+
+  .notifications {
+    &.dot::after {
+      content: '\25CF';
+      color: red;
+      top: 0;
+      left: 55%;
+      position: absolute;
+      pointer-events:none;
+      z-index: 999;
+    }
   }
 }
 

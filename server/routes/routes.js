@@ -135,6 +135,11 @@ router.post('/project', Auth.isLoggedIn, (req, res) => {
         Project.findById(projectData.id, projectData.profile_id).then(projects => {
           if (!projects[0].length) {
             Project.updateProject(projectData).then(project => {
+              Notification.createNotification({
+                user_id: dLoad.user_id,
+                bounty_id: null,
+                message: `Project "${project[0].title}" has been updated.`
+              });
               res.set({ username: dLoad.username });
               res.send(project[0]);
             });
@@ -220,6 +225,24 @@ router.get('/notifications', Auth.isLoggedIn, (req, res) => {
   Notification.findByUserId(headers.user_id)
     .then((notifications) => {
       res.send(notifications);
+    });
+});
+
+router.delete('/notifications/:id', Auth.isLoggedIn, (req, res) => {
+  const dLoad = jwt.decode(req.headers.jwt, secret);
+  Notification.deleteNotification(dLoad, req.params.id)
+    .then(() => {
+      res.status(201);
+      res.send('Notification successfully deleted.');
+    });
+});
+
+router.delete('/notifications', Auth.isLoggedIn, (req, res) => {
+  const dLoad = jwt.decode(req.headers.jwt, secret);
+  Notification.deleteAllNotifications(dLoad)
+    .then(() => {
+      res.status(201);
+      res.send('notifications successfully deleted.');
     });
 });
 
