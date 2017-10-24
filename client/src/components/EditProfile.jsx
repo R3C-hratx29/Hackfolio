@@ -145,25 +145,25 @@ class EditProfile extends React.Component {
       bio: this.state.bio,
       socialLinks: [
         {
-          profile_id: this.state.socialLinks[0].profile_id,
+          id: this.state.socialLinks[0].id,
           link: this.state.socialLinks[0].link,
           title: this.state.socialLinks[0].title,
           icon: this.state.socialLinks[0].icon
         },
         {
-          profile_id: this.state.socialLinks[1].profile_id,
+          id: this.state.socialLinks[1].id,
           link: this.state.socialLinks[1].link,
           title: this.state.socialLinks[1].title,
           icon: this.state.socialLinks[1].icon
         },
         {
-          profile_id: this.state.socialLinks[2].profile_id,
+          id: this.state.socialLinks[2].id,
           link: this.state.socialLinks[2].link,
           title: this.state.socialLinks[2].title,
           icon: this.state.socialLinks[2].icon
         },
         {
-          profile_id: this.state.socialLinks[3].profile_id,
+          id: this.state.socialLinks[3].id,
           link: this.state.socialLinks[3].link,
           title: this.state.socialLinks[3].title,
           icon: this.state.socialLinks[3].icon
