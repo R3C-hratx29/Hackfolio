@@ -238,24 +238,37 @@ router.get('/notifications', Auth.isLoggedIn, (req, res) => {
     res.sendStatus(402);
     res.send('Not signed in');
   }
-}); */
+}); */ // add auth
+router.post('/message', (req, res) => {
+  console.log('post message', req.body);
+  Message.post(req.body.bountyId, req.body.bountyHunter, req.body.text)
+    .then(() => {
+      res.end();
+    })
+    .catch((err) => {
+      console.log(err);
+      res.end();
+    });
+});
 
-router.get('/messagesByBounty', (req, res) => {
-  if (req.headers.jwt) {
-    const dLoad = jwt.decode(req.headers.jwt, secret);
-    Message.getByBounty(req.body.params.bounty_id, dLoad.user_id)
-      .then((results) => {
-        console.log('MessBountyResult', results);
-        res.send(results);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.sendStatus(402);
-      });
-  } else {
+router.get('/messagesByBounty/:id', (req, res) => {
+  // if (req.headers.jwt) {
+  const dLoad = 2; // jwt.decode(req.headers.jwt, secret);
+  const bountyId = parseInt(req.query.id, 10);
+  console.log(typeof bountyId);
+  Message.getByBounty(bountyId, dLoad)
+    .then((results) => {
+      console.log('MessBountyResult', results);
+      res.send(results);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.sendStatus(402);
+    });
+  /* } else {
     res.sendStatus(402);
     res.send('Not signed in');
-  }
+  } */
 });
 
 module.exports = router;

@@ -8,10 +8,9 @@ const setMessages = (messages) => {
 };
 
 export const getMessages = (bountyId) => {
+  console.log('action', bountyId);
   return ((dispatch) => {
-    return axios.get('/messagesByBounty', {
-      params: { bountyId }
-    })
+    return axios.get(`/api/messagesByBounty/${bountyId}`)
       .then((results) => {
         dispatch(setMessages(results));
       })

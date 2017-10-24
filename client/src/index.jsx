@@ -45,7 +45,7 @@ store.dispatch({
     bounty: {
       bounty_id: 1,
       title: 'test',
-      owner: 'bob'
+      owner: 1
     }
   }
 });

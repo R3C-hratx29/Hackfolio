@@ -10,6 +10,7 @@ import {
 } from 'grommet';
 import SendIcon from 'grommet/components/icons/base/Send';
 import Messages from './Messages';
+import { getMessages } from '../actions/BountyActions';
 
 class Chat extends React.Component {
   constructor(props) {
@@ -20,16 +21,24 @@ class Chat extends React.Component {
     this.sendMessage = this.sendMessage.bind(this);
     this.textHandler = this.textHandler.bind(this);
   }
+  componentWillMount() {
+    console.log('getting messages', this.props.bounty);
+    this.props.getMessages(this.props.bounty);
+  }
   sendMessage(e) {
     e.preventDefault();
     console.log(this.state.messageText, this.props.bounty, this.props.bountyHunter);
-/* 
-      axios.post('/message', {
+    axios.post('/api/message', {
       text: this.state.messageText,
-      bounty_id: this.props.bounty,
-      bounty_hunter: this.props.bountyHunter
-    });
-*/
+      bountyId: this.props.bounty,
+      bountyHunter: this.props.bountyHunter
+    })
+      .then(() => {
+        console.log('send mess :D');
+      })
+      .catch((err) => {
+        console.log('send message failed', err);
+      });
     this.setState({ messageText: '' });
   }
   textHandler(e) {
@@ -59,7 +68,14 @@ class Chat extends React.Component {
 
 Chat.propTypes = {
   bounty: PropTypes.number.isRequired,
-  bountyHunter: PropTypes.number.isRequired
+  bountyHunter: PropTypes.number.isRequired,
+  getMessages: PropTypes.func.isRequired
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getMessages: (id) => dispatch(getMessages(id))
+  };
 };
 
 const mapStateToProps = (state) => {
@@ -69,4 +85,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Chat);
+export default connect(mapStateToProps, mapDispatchToProps)(Chat);
