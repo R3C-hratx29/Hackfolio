@@ -3,6 +3,8 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jwt-simple');
+const passport = require('passport');
+const GitHubStrategy = require('passport-github2').Strategy;
 
 const Auth = require('../auth.js');
 const User = require('../models/user.js');
@@ -49,7 +51,7 @@ router.post('/signup', (req, res) => {
               const payload = { username: data[0].username, user_id: data[0].uid };
               const token = jwt.encode(payload, secret);
 
-              Profile.init(data[0].uid, username);
+              Profile.init(data[0]);
               res.status(201);
               res.set({ username: data[0].username, Jwt: token });
               res.send({ username: data[0].username, Jwt: token });
@@ -64,6 +66,62 @@ router.post('/signup', (req, res) => {
     res.send('Please fill out all forms.');
   }
 });
+
+// Github oAuth2 ------------------------------
+passport.serializeUser(function(user, cb) {
+  cb(null, user);
+});
+
+passport.deserializeUser(function(obj, cb) {
+  cb(null, obj);
+});
+
+passport.use(new GitHubStrategy({
+  clientID: process.env.GITHUB_CLIENT_ID,
+  clientSecret: process.env.GITHUB_CLIENT_SECRET,
+},
+(accessToken, refreshToken, profile, done) => {
+  return done(null, profile);
+}
+));
+
+router.get('/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));
+router.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/' }), (req, res) => {
+  const data = {
+    username : res.req.user._json.login,
+    email: res.req.user._json.email,
+    name: res.req.user._json.name,
+    bio: res.req.user._json.bio,
+    profile_pic: res.req.user._json.avatar_url,
+    github: res.req.user.profileUrl
+  }
+
+  User.findByUsername(data.username, data.email)
+    .then(users => {
+      if (!users.length) {
+        User.createNewUser(data.username, null, data.email).then(user => {
+          const payload = { username: user[0].username, user_id: user[0].uid };
+          const token = jwt.encode(payload, secret);
+          data.user_id = user[0].uid;
+
+          Profile.init(data);
+          res.status(201);
+          res.set({ username: user[0].username, Jwt: token });
+          res.send({ username: user[0].username, Jwt: token });
+        });
+      }
+
+      if (users.length) {
+        const payload = { username: users[0].username, user_id: users[0].uid };
+        const token = jwt.encode(payload, secret);
+        res.status(201);
+        res.set({ username: users[0].username, Jwt: token });
+        res.send({ username: users[0].username, Jwt: token });
+      }
+    });
+
+});
+// Github oAuth2 ------------------------------
 
 router.post('/login', (req, res) => {
   const { password, username } = req.body;
