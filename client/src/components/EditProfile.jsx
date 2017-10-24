@@ -46,7 +46,7 @@ class EditProfile extends React.Component {
       github: '',
       twitter: '',
       facebook: '',
-      linkedin: ''
+      linked_in: ''
     };
 
     this.updateName = this.updateName.bind(this);
@@ -103,7 +103,7 @@ class EditProfile extends React.Component {
 
   updateLinkedIn(e) {
     this.setState({
-      linkedin: e.target.value
+      linked_in: e.target.value
     });
   }
 
@@ -126,7 +126,7 @@ class EditProfile extends React.Component {
       profession: this.state.profession,
       bio: this.state.bio,
       github: this.state.github,
-      linkedin: this.state.linkedin,
+      linked_in: this.state.linked_in,
       twitter: this.state.twitter,
       facebook: this.state.facebook
     }, this.props.userProfile);
@@ -215,7 +215,7 @@ class EditProfile extends React.Component {
             <FormField label="your LinkedIn profile">
               <TextInput
                 onDOMChange={this.updateLinkedIn}
-                value={this.state.linkedin}
+                value={this.state.linked_in}
                 placeholder="linkedin"
               />
             </FormField>

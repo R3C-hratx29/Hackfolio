@@ -16,7 +16,7 @@ import './../styles/variables.scss';
 const SocialIcon = {
   facebook: <SocialFacebookOptionIcon />,
   twitter: <SocialTwitterIcon />,
-  linkedin: <SocialLinkedinIcon />,
+  linked_in: <SocialLinkedinIcon />,
   github: <SocialGithubIcon />
 };
 
@@ -56,10 +56,11 @@ const SocialIcons = (props) => (
 );
 
 const mapStateToProps = (state) => {
+  console.log(state);
   return {
     github: state.userProfile.github,
     twitter: state.userProfile.twitter,
-    linked_in: state.userProfile.github,
+    linked_in: state.userProfile.linked_in,
     facebook: state.userProfile.facebook,
   };
 };

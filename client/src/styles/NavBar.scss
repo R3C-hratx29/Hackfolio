@@ -2,27 +2,36 @@
 
 $background: rgba(248,248,248,0.98);
 
-// .grommetux-drop {
-//   background-color: transparent !important;
-//   border-radius: 0 !important;
-//
-//   .grommetux-menu__control {
-//     border: 0 !important;
-//   }
-//
-//   .grommetux-button__icon, .grommetux-menu__contents {
-//     background-color: $background;
-//   }
-//
-//   .grommetux-list {
-//     width: 250px;
-//     max-height: 300px;
-//     * {
-//       cursor: default;
-//     }
-//   }
-//
-// }
+.grommetux-button--focus {
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.grommetux-drop {
+  // background-color: transparent !important;
+  // border-radius: 0 !important;
+
+  .notifications__drop {
+    background-color: transparent !important;
+
+    .grommetux-menu__control {
+      border: 0 !important;
+    }
+
+    .grommetux-button__icon, .grommetux-menu__contents {
+      background-color: $background;
+    }
+
+    .grommetux-list {
+      width: 250px;
+      max-height: 300px;
+      * {
+        cursor: default;
+      }
+    }
+  }
+
+}
 
 .NavBar {
   .grommetux-button {
