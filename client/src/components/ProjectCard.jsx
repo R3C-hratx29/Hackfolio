@@ -80,7 +80,7 @@ const ProjectCard = props => {
             <div className="stack">
               {stack.map((el, index) => {
                 const i = index;
-                return el && <div key={i}>{el}</div>;
+                return el && el.trim() !== '' && <div key={i}>{el}</div>;
               })}
             </div>
           </div>
