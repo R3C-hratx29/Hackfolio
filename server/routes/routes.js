@@ -228,6 +228,24 @@ router.get('/notifications', Auth.isLoggedIn, (req, res) => {
     });
 });
 
+router.delete('/notifications/:id', Auth.isLoggedIn, (req, res) => {
+  const dLoad = jwt.decode(req.headers.jwt, secret);
+  Notification.deleteNotification(dLoad, req.params.id)
+    .then(() => {
+      res.status(201);
+      res.send('Notification successfully deleted.');
+    });
+});
+
+router.delete('/notifications', Auth.isLoggedIn, (req, res) => {
+  const dLoad = jwt.decode(req.headers.jwt, secret);
+  Notification.deleteAllNotifications(dLoad)
+    .then(() => {
+      res.status(201);
+      res.send('notifications successfully deleted.');
+    });
+});
+
 /* router.get('/messagesByUser', (req, res) => {
   if (req.headers.jwt) {
     const dLoad = jwt.decode(req.headers.jwt, secret);

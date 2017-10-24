@@ -12,8 +12,16 @@ Notification.findByUserId = (userId) => {
     });
 };
 
-Notification.deleteNotification = (id) => {
-  return db('notifications').where({ id })
+Notification.deleteNotification = (dLoad, id) => {
+  return db('notifications').where({ id, user_id: dLoad.user_id })
+    .del()
+    .catch(err => {
+      console.error(err);
+    });
+};
+
+Notification.deleteAllNotifications = (dLoad) => {
+  return db('notifications').where({ user_id: dLoad.user_id })
     .del()
     .catch(err => {
       console.error(err);

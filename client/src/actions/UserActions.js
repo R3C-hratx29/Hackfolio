@@ -23,6 +23,32 @@ export const getNotifications = () => {
   };
 };
 
+export const deleteNotification = (id) => {
+  return dispatch => {
+    return axios
+      .delete(`/api/notifications/${id}`)
+      .then(() => {
+        dispatch(getNotifications());
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+};
+
+export const deleteAllNotifications = () => {
+  return dispatch => {
+    return axios
+      .delete('/api/notifications')
+      .then(() => {
+        dispatch(getNotifications());
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+};
+
 export const help = (state) => {
   return {
     type: 'HELP_USER',
