@@ -128,8 +128,8 @@ router.post('/project', Auth.isLoggedIn, (req, res) => {
   Profile.findAllByUserId(dLoad.user_id)
     .then(profile => {
       projectData.profile_id = profile[0].id;
-      projectData.images = projectData.images.join(',');
-      projectData.stack = projectData.stack.join(',');
+      projectData.images = projectData.images;
+      projectData.stack = projectData.stack;
 
       if (projectData.id && projectData.profile_id) {
         Project.findById(projectData.id, projectData.profile_id).then(projects => {
@@ -176,6 +176,7 @@ router.delete('/project/:id', Auth.isLoggedIn, (req, res) => {
 
 router.get('/user/:id', (req, res) => {
   const user = req.params.id;
+  console.log(user);
   Profile.findByUsername(user)
     .then(profile => {
       // Shape data to match example data.

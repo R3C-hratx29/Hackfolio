@@ -56,7 +56,6 @@ const SocialIcons = (props) => (
 );
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     github: state.userProfile.github,
     twitter: state.userProfile.twitter,
