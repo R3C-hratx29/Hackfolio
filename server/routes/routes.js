@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable prefer-destructuring */
+/* eslint-disable no-underscore-dangle */
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jwt-simple');
@@ -68,33 +69,34 @@ router.post('/signup', (req, res) => {
 });
 
 // Github oAuth2 ------------------------------
-passport.serializeUser(function(user, cb) {
+passport.serializeUser((user, cb) => {
   cb(null, user);
 });
 
-passport.deserializeUser(function(obj, cb) {
+passport.deserializeUser((obj, cb) => {
   cb(null, obj);
 });
 
-passport.use(new GitHubStrategy({
-  clientID: process.env.GITHUB_CLIENT_ID,
-  clientSecret: process.env.GITHUB_CLIENT_SECRET,
-},
-(accessToken, refreshToken, profile, done) => {
-  return done(null, profile);
-}
+passport.use(new GitHubStrategy(
+  {
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+  },
+  (accessToken, refreshToken, profile, done) => {
+    return done(null, profile);
+  }
 ));
 
-router.get('/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));
+router.get('/auth/github', passport.authenticate('github', { scope: ['user:email'] }));
 router.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/' }), (req, res) => {
   const data = {
-    username : res.req.user._json.login,
+    username: res.req.user._json.login,
     email: res.req.user._json.email,
     name: res.req.user._json.name,
     bio: res.req.user._json.bio,
     profile_pic: res.req.user._json.avatar_url,
     github: res.req.user.profileUrl
-  }
+  };
 
   User.findByUsername(data.username, data.email)
     .then(users => {
@@ -119,7 +121,6 @@ router.get('/auth/github/callback', passport.authenticate('github', { failureRed
         res.send({ username: users[0].username, Jwt: token });
       }
     });
-
 });
 // Github oAuth2 ------------------------------
 
