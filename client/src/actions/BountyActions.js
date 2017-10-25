@@ -1,41 +1,10 @@
 import axios from 'axios';
 
-const setMessages = (messages) => {
-  return {
-    type: 'CHAT_MESSAGES',
-    payload: { messages }
-  };
-};
-
 const setConversations = (conversations) => {
   return {
     type: 'CONVERSATIONS',
     payload: { conversations }
   };
-};
-
-export const getMessages = (bountyId) => {
-  return ((dispatch) => {
-<<<<<<< HEAD
-<<<<<<< HEAD
-    return axios.get('/api/messagesByBounty', {
-      params: { bountyId }
-    })
-=======
-    return axios.get(`/api/messagesByBounty/${bountyId}`)
->>>>>>> rebase
-=======
-    return axios.get('/api/messagesByBounty', {
-      params: { bountyId }
-    })
->>>>>>> chat somewhat working?
-      .then((results) => {
-        dispatch(setMessages(results.data));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  });
 };
 
 export const getConversations = (bountyId) => {

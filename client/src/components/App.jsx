@@ -25,7 +25,7 @@ const Github = (props) => {
 
 axios.defaults.headers.common.jwt = window.localStorage.token;
 
-class Hackfolio extends Component {
+class Hackfolio extends React.Component {
   componentWillMount() {
     if (window.localStorage.token) {
       axios.get('/api/me')
