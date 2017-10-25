@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const router = require('./routes/routes.js');
+const github = require('./routes/githubAuth.js');
 const methodOverride = require('method-override');
 const passport = require('passport');
 
@@ -23,7 +24,7 @@ app.use((req, res, next) => {
 
 app.use(express.static(path.join(__dirname, '../client/build')));
 
-app.use('/api', router);
+app.use('/api', router, github);
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.

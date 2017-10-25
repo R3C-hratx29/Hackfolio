@@ -54,11 +54,11 @@ router.post('/signup', (req, res) => {
               Profile.init(data[0]);
               res.status(201);
               res.set({
-                username: user[0].username,
-                Jwt: token,
-                user_id: user[0].uid
+                username: data[0].username,
+                jwt: token,
+                user_id: data[0].uid
               });
-              res.send({ username: user[0].username, Jwt: token });
+              res.send({ username: data[0].username, jwt: token });
             });
           });
         }
@@ -102,6 +102,28 @@ router.post('/login', (req, res) => {
       }
     });
 });
+
+router.post('/profile', Auth.isLoggedIn, (req, res) => {
+  const dLoad = jwt.decode(req.headers.jwt, secret);
+  const profileData = {
+    user_id: dLoad.user_id,
+    bio: req.body.bio,
+    profile_pic: req.body.profile_pic,
+    profession: req.body.profession,
+    name: req.body.name,
+    github: req.body.github,
+    linked_in: req.body.linked_in,
+    twitter: req.body.twitter,
+    facebook: req.body.facebook,
+    resume: req.body.resume
+  };
+  Profile.updateProfile(profileData).then(profiles => {
+    profiles[0].username = dLoad.username;
+    res.send(profiles[0]);
+  });
+});
+
+module.exports = router;
 
 router.post('/project', Auth.isLoggedIn, (req, res) => {
   const dLoad = jwt.decode(req.headers.jwt, secret);
