@@ -3,20 +3,20 @@ const db = require('./db');
 
 const Profile = {};
 
-Profile.init = (userId, username) => {
+Profile.init = (data) => {
   db('profiles').insert({
-    user_id: userId,
-    bio: 'Edit your bio here...',
-    profile_pic: 'https://tinyurl.com/ybny9zhw',
+    user_id: data.user_id,
+    bio: data.bio || 'Edit your bio here...',
+    profile_pic: data.profile_pic || 'https://tinyurl.com/ybny9zhw',
     profession: 'Edit your profession here...',
-    name: username,
-    github: null,
+    name: data.name || data.username,
+    github: data.github || null,
     linked_in: null,
     twitter: null,
     facebook: null
   })
     .then(() => {
-      db('profiles').where({ user_id: userId }).select('*');
+      db('profiles').where({ user_id: data.userId }).select('*');
     })
     .catch(err => {
       console.error(err);

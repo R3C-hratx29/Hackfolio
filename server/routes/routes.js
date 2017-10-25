@@ -1,8 +1,10 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable prefer-destructuring */
+/* eslint-disable no-underscore-dangle */
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jwt-simple');
+const passport = require('passport');
 
 const Auth = require('../auth.js');
 const User = require('../models/user.js');
@@ -49,7 +51,7 @@ router.post('/signup', (req, res) => {
               const payload = { username: data[0].username, user_id: data[0].uid };
               const token = jwt.encode(payload, secret);
 
-              Profile.init(data[0].uid, username);
+              Profile.init(data[0]);
               res.status(201);
               res.set({ username: data[0].username, Jwt: token });
               res.send({ username: data[0].username, Jwt: token });
