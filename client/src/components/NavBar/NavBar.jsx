@@ -47,7 +47,9 @@ class NavBar extends React.Component {
     this.goHome = this.goHome.bind(this);
   }
   componentDidMount() {
-    this.props.getNotifications();
+    if (window.localStorage.token) {
+      this.props.getNotifications();
+    }
     setTimeout(() => {
       this.setState({ help: true });
     }, 500);
