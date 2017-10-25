@@ -220,6 +220,7 @@ router.put('/search', (req, res) => {
 });
 
 router.get('/notifications', Auth.isLoggedIn, (req, res) => {
+  console.log(req.headers);
   const headers = jwt.decode(req.headers.jwt, secret);
   res.status(200);
   res.set(headers);

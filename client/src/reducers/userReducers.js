@@ -59,7 +59,7 @@ export const searchReducer = (state = {}, action) => {
   }
 };
 
-export const notificationReducer = (state = {}, action) => {
+export const notificationReducer = (state = { notifications: [] }, action) => {
   switch (action.type) {
     case 'SET_NOTIFICATIONS': {
       return Object.assign({}, action.payload);
