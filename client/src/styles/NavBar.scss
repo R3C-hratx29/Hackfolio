@@ -11,6 +11,10 @@ $background: rgba(248,248,248,0.98);
   border-radius: 0 !important;
   background-color: transparent !important;
 
+  .dotDiv {
+    display: none;
+  }
+
   .notifications__drop {
 
     .grommetux-menu__control {
@@ -26,16 +30,6 @@ $background: rgba(248,248,248,0.98);
       max-height: 300px;
       * {
         cursor: default;
-      }
-    }
-  }
-
-  .nodot {
-    .grommetux-button__icon, .grommetux-button {
-      background-color: transparent;
-      svg {
-        fill: rgba(255,255,255,0.7) !important;
-        stroke: rgba(255,255,255,0.7) !important;
       }
     }
   }
@@ -59,15 +53,21 @@ $background: rgba(248,248,248,0.98);
     border-left: 0px;
   }
 
-  .notifications {
-    &.dot::after {
-      content: '\25CF';
-      color: red;
-      top: 0;
+  .dot {
+    .dotDiv {
+      background-color: red;
+      color: white;
+      top: 5px;
       left: 55%;
       position: absolute;
       pointer-events:none;
       z-index: 999;
+      font-size: 12px;
+      font-weight: 900;
+      border-radius: 100px;
+      line-height: 1em;
+      padding: 1px 4px;
+      display: block !important;
     }
   }
 }
