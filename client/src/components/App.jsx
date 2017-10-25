@@ -59,7 +59,7 @@ class Hackfolio extends React.Component {
             <Route path="/user/:id" component={Profile} />
             <Route path="/search" component={SearchPage} />
             <Route path="/chat" component={Chat} />
-            <Route component={HomePage} />
+            <Route path="*" status={404} component={() => <div>Not Found</div>} />
           </Switch>
         </ConnectedRouter>
       </App>
