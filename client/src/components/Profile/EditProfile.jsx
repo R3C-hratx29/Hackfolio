@@ -25,7 +25,8 @@ import {
   SocialGithubIcon,
   SocialFacebookOptionIcon,
   SocialLinkedinIcon,
-  SocialTwitterIcon
+  SocialTwitterIcon,
+  ResumeIcon
 } from 'grommet/components/icons/base';
 
 import Spinning from 'grommet/components/icons/Spinning';
@@ -45,7 +46,8 @@ class EditProfile extends React.Component {
       github: '',
       twitter: '',
       facebook: '',
-      linked_in: ''
+      linked_in: '',
+      resume: ''
     };
 
     this.updateName = this.updateName.bind(this);
@@ -55,6 +57,7 @@ class EditProfile extends React.Component {
     this.updateLinkedIn = this.updateLinkedIn.bind(this);
     this.updateTwitter = this.updateTwitter.bind(this);
     this.updateFacebook = this.updateFacebook.bind(this);
+    this.updateResume = this.updateResume.bind(this);
     this.saveChanges = this.saveChanges.bind(this);
     this.onUploadStart = this.onUploadStart.bind(this);
     this.onImageUpload = this.onImageUpload.bind(this);
@@ -115,6 +118,12 @@ class EditProfile extends React.Component {
   updateFacebook(e) {
     this.setState({
       facebook: e.target.value
+    });
+  }
+
+  updateResume(e) {
+    this.setState({
+      resume: e.target.value
     });
   }
 
@@ -230,6 +239,13 @@ class EditProfile extends React.Component {
                 onDOMChange={this.updateFacebook}
                 value={this.state.socialLinks}
                 placeholder="facebook"
+              />
+            </FormField>
+            <FormField label="your Resume">
+              <TextInput
+                onDOMChange={this.updateResume}
+                value={this.state.socialLinks}
+                placeholder="Résumé"
               />
             </FormField>
             <Anchor

@@ -82,7 +82,7 @@ class Modal extends React.Component {
     usernameError = this.props.valid === 'user' && usernameError === '' ? 'User already exists' : usernameError;
     return (
       <Layer className="LoginBox" closer onClose={this.props.closeModal}>
-        <Box size={{ height: 'medium', width: 'medium' }} justify="center" align="center">
+        <Box size={{ height: 'large', width: 'medium' }} justify="center" align="center">
           <Box margin={{ bottom: 'medium' }} alignContent="end" direction="row">
             <Box margin={{ right: 'medium' }}>
               <BriefcaseIcon type="icon" size="large" />
