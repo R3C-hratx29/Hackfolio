@@ -126,11 +126,28 @@ class NavBar extends React.Component {
               { this.props.user.username &&
                 <Menu
                   responsive={false}
-                  icon={<NotificationIcon />}
+                  icon={
+                    <div>
+                      <NotificationIcon />
+                      <div className="dotDiv">
+                        {this.props.notifications.notifications.length > 0 &&
+                        this.props.notifications.notifications.length}
+                      </div>
+                    </div>
+                  }
                   closeOnClick
-                  className={`${this.props.notifications.notifications.length ? 'dot' : 'nodot'} notifications`}
+                  className={`${this.props.notifications.notifications.length ? 'dot' : ''} notifications`}
                 >
                   <List ref={(ref) => { if (ref) ref.listRef.closest('.grommetux-drop').classList.add('droptop'); }}>
+                    {
+                      this.props.notifications.notifications.length === 0 &&
+                      <ListItem
+                        justify="start"
+                        separator="horizontal"
+                      >
+                        You have no notifications.
+                      </ListItem>
+                    }
                     {
                       this.props.notifications.notifications.sort((a, b) => {
                         return a.created_at < b.created_at;
