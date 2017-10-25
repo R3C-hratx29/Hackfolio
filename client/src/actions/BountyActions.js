@@ -7,15 +7,37 @@ const setMessages = (messages) => {
   };
 };
 
+const setConversations = (conversations) => {
+  return {
+    type: 'CONVERSATIONS',
+    payload: { conversations }
+  };
+};
+
 export const getMessages = (bountyId) => {
-  console.log('action', bountyId);
   return ((dispatch) => {
-    return axios.get(`/api/messagesByBounty/${bountyId}`)
+    return axios.get('/api/messagesByBounty', {
+      params: { bountyId }
+    })
       .then((results) => {
-        dispatch(setMessages(results));
+        dispatch(setMessages(results.data));
       })
       .catch((err) => {
         console.log(err);
+      });
+  });
+};
+
+export const getConversations = (bountyId) => {
+  return ((dispatch) => {
+    return axios.get('/api/conversations', {
+      params: { bountyId }
+    })
+      .then((results) => {
+        dispatch(setConversations(results.data));
+      })
+      .catch((err) => {
+        throw err;
       });
   });
 };

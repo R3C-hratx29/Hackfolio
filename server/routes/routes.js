@@ -10,11 +10,12 @@ const Profile = require('../models/profile.js');
 const Project = require('../models/project.js');
 const Notification = require('../models/notification.js');
 const Message = require('../models/message.js');
+const Conversation = require('../models/conversation.js');
 
 const secret = process.env.SECRET;
 
 // TODO: Refactor routes into seperate files.
-router.get('/me', Auth.isLoggedIn, (req, res) => {
+router.get('/me', (req, res) => {
   const headers = jwt.decode(req.headers.jwt, secret);
   res.status(201);
   res.set(headers);
@@ -51,14 +52,18 @@ router.post('/signup', (req, res) => {
 
               Profile.init(data[0].uid, username);
               res.status(201);
-              res.set({ username: data[0].username, Jwt: token });
-              res.send({ username: data[0].username, Jwt: token });
+              res.set({
+                username: user[0].username,
+                Jwt: token,
+                user_id: user[0].uid
+              });
+              res.send({ username: user[0].username, Jwt: token });
             });
           });
         }
       })
       .catch(err => {
-        console.error(err);
+        throw err;
       });
   } else {
     res.send('Please fill out all forms.');
@@ -81,7 +86,11 @@ router.post('/login', (req, res) => {
             const payload = { username: user[0].username, user_id: user[0].uid };
             const token = jwt.encode(payload, secret);
             res.status(201);
-            res.set({ username: user[0].username, Jwt: token });
+            res.set({
+              username: user[0].username,
+              Jwt: token,
+              user_id: user[0].uid
+            });
             res.send({ username: user[0].username, Jwt: token });
           }
           if (!match) {
@@ -158,7 +167,7 @@ router.put('/project', Auth.isLoggedIn, (req, res) => {
   const dLoad = jwt.decode(req.headers.jwt, secret);
   req.body.forEach(project => {
     Project.updateOrder(project).catch(err => {
-      console.error(err);
+      throw err;
     });
   });
   res.set({ username: dLoad.username });
@@ -189,7 +198,7 @@ router.get('/user/:id', (req, res) => {
         res.send(profile);
       })
         .catch(err => {
-          console.error(err);
+          throw err;
         });
     });
 });
@@ -207,8 +216,8 @@ router.put('/search', (req, res) => {
       res.send(searchResults);
     })
     .catch(err => {
-      console.log(err);
       res.sendStatus(402);
+      throw err;
     });
 });
 
@@ -222,53 +231,59 @@ router.get('/notifications', Auth.isLoggedIn, (req, res) => {
     });
 });
 
-/* router.get('/messagesByUser', (req, res) => {
-  if (req.headers.jwt) {
-    const dLoad = jwt.decode(req.headers.jwt, secret);
-    Message.getById(dLoad.user_id)
-      .then((results) => {
-        console.log('getByUserMes', results);
-        res.send(results);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.sendStatas(402);
-      });
-  } else {
-    res.sendStatus(402);
-    res.send('Not signed in');
-  }
-}); */ // add auth
-router.post('/message', (req, res) => {
-  console.log('post message', req.body);
-  Message.post(req.body.bountyId, req.body.bountyHunter, req.body.text)
+router.post('/message', Auth.isLoggedIn, (req, res) => {
+  Message.post(req.body.conversationId, req.body.receiver, req.body.sender, req.body.text)
     .then(() => {
       res.end();
     })
     .catch((err) => {
-      console.log(err);
       res.end();
+      throw err;
     });
 });
 
-router.get('/messagesByBounty/:id', (req, res) => {
-  // if (req.headers.jwt) {
-  const dLoad = 2; // jwt.decode(req.headers.jwt, secret);
-  const bountyId = parseInt(req.query.id, 10);
-  console.log(typeof bountyId);
-  Message.getByBounty(bountyId, dLoad)
+router.post('/conversations', (req, res) => {
+  Conversation.post(req.body.bountyId, req.body.bountyHunter, req.body.ownerId, req.body.name)
+    .then(() => {
+      res.end();
+    })
+    .catch((err) => {
+      res.end();
+      throw err;
+    });
+});
+
+
+router.get('/messages', Auth.isLoggedIn, (req, res) => {
+  console.log('in messages');
+  const conversationId = parseInt(req.query.conversationId, 10);
+  Message.getByConversation(conversationId)
     .then((results) => {
-      console.log('MessBountyResult', results);
+      console.log(results);
+      res.send(results);
+    })
+    .catch((err) => {
+      res.sendStatus(401);
+      throw err;
+    });
+});
+
+router.get('/conversations', Auth.isLoggedIn, (req, res) => {
+  const bountyId = parseInt(req.query.bountyId, 10);
+  const dLoad = jwt.decode(req.headers.jwt, secret);
+  Conversation.getByBounty(bountyId, dLoad.user_id)
+    .then((results) => {
+      results.forEach((el) => {
+        delete el.email;
+        delete el.password;
+      });
+      console.log('****', results);
       res.send(results);
     })
     .catch((err) => {
       console.log(err);
-      res.sendStatus(402);
+      res.sendStatus(401);
     });
-  /* } else {
-    res.sendStatus(402);
-    res.send('Not signed in');
-  } */
 });
 
 module.exports = router;

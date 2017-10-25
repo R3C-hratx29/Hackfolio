@@ -56,15 +56,27 @@ exports.up = (knex, Promise) => {
     }),
     knex.schema.createTable('messages', (table) => {
       table.increments('message_id').primary();
+      table.string('receiver');
+      table.string('sender');
+      table.string('message');
+      table.integer('conversation_id')
+        .references('conversation_id')
+        .inTable('conversations');
+      table.timestamp('created_at')
+        .defaultTo(knex.fn.now());
+    }),
+    knex.schema.createTable('conversations', (table) => {
+      table.increments('conversation_id').primary();
+      table.string('name');
       table.integer('bounty_id')
         .references('bounty_id')
         .inTable('bounties');
       table.integer('bounty_hunter')
         .references('uid')
         .inTable('users');
-      table.string('message');
-      table.timestamp('created_at')
-        .defaultTo(knex.fn.now());
+      table.integer('owner_id')
+        .references('uid')
+        .inTable('users');
     })
   ]);
 };
@@ -73,6 +85,7 @@ exports.down = (knex, Promise) => {
   return Promise.all([
     knex.schema.dropTable('notifications'),
     knex.schema.dropTable('messages'),
+    knex.schema.dropTable('conversations'),
     knex.schema.dropTable('bounties'),
     knex.schema.dropTable('projects'),
     knex.schema.dropTable('profiles'),

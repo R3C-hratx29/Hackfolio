@@ -1,5 +1,5 @@
 
-export const currentUserReducer = (state = {}, action) => {
+export const currentUserReducer = (state = { user: { username: '', user_id: -1 } }, action) => {
   switch (action.type) {
     case 'SET_CURRENT_USER': {
       return Object.assign({}, action.payload);
@@ -59,9 +59,20 @@ export const searchReducer = (state = {}, action) => {
   }
 };
 
-export const notificationReducer = (state = {}, action) => {
+export const notificationReducer = (state = { notifications: [] }, action) => {
   switch (action.type) {
     case 'SET_NOTIFICATIONS': {
+      return Object.assign({}, action.payload);
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
+export const otherUserReducer = (state = { user: { user_id: 1, username: '' } }, action) => {
+  switch (action.type) {
+    case 'OTHER_USER': {
       return Object.assign({}, action.payload);
     }
     default: {

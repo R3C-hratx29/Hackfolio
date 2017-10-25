@@ -1,33 +1,46 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import axios from 'axios';
 import Message from './Message';
 
-const Messages = (props) => (
-  <div>
-    { props.messages.map((message) => {
-      return <Message message={message} key={message.id} />;
-    })}
-  </div>
-);
+class Messages extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      messages: []
+    };
+  }
+  componentDidMount() {
+    console.log('here');
+    axios.get('/api/messages', {
+      params: { conversationId: this.props.id }
+    })
+      .then((results) => {
+        console.log(results.data);
+        this.setState({ messages: results.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  render() {
+    return (
+      <div>
+        { this.state.messages.map((message) => {
+          return <Message message={message} key={message.message_id} />;
+        })}
+      </div>
+    );
+  }
+}
 
-/*
 Messages.defaultProps = {
-  messages: []
+  id: -1
 };
+
 
 Messages.propTypes = {
-  messages: PropTypes.shape([{
-    text: PropTypes.string
-  }])
-};
-*/
-
-const mapStateToProps = state => {
-  return {
-    messages: state.messages.messages,
-  };
+  id: PropTypes.number
 };
 
-export default connect(mapStateToProps)(Messages);
+export default Messages;

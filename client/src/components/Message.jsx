@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const Message = (props) => (
   <div>
-    { props.message.text }
+    { props.message.message }
   </div>
 );
 
@@ -13,7 +13,7 @@ Message.defaultProps = {
 
 Message.propTypes = {
   message: PropTypes.shape({
-    text: PropTypes.string
+    message: PropTypes.string
   })
 };
 
