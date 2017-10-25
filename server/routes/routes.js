@@ -4,7 +4,7 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jwt-simple');
-const passport = require('passport');
+// const passport = require('passport');
 
 const Auth = require('../auth.js');
 const User = require('../models/user.js');
