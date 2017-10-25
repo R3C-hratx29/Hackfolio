@@ -138,7 +138,7 @@ export const githubSignup = () => {
       url: '/api/auth/github',
       headers: { 'Access-Control-Allow-Origin': '*', 'X-Requested-With': 'XMLHttpRequest', 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS' },
       withCredentials: false
-      })
+    })
       .then(res => {
         dispatch(clearError());
         dispatch(setUser(res.headers));
