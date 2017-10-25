@@ -5,11 +5,11 @@ import { ConnectedRouter } from 'react-router-redux';
 import axios from 'axios';
 import App from 'grommet/components/App';
 import createHistory from 'history/createBrowserHistory';
-import Profile from './Profile';
-import NavBar from './NavBar';
+import Profile from './Profile/Profile';
+import NavBar from './NavBar/NavBar';
 import HomePage from './HomePage';
-import SearchPage from './SearchPage';
-import Chat from './Chat';
+import SearchPage from './NavBar/SearchPage';
+import Chat from './Chat/Chat';
 
 export const history = createHistory();
 

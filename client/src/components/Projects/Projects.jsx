@@ -13,12 +13,12 @@ import {
 // Custom Components
 import ProjectCard from './ProjectCard';
 import AddProject from './AddProject';
-import ProfileBox from './ProfileBox';
-import * as UserAction from '../actions/UserActions';
+import ProfileBox from './../Profile/ProfileBox';
+import * as UserAction from './../../actions/UserActions';
 import AddProjectTile from './AddProjectTile';
 import ReorderProjects from './ReorderProjects';
 
-import '../styles/Projects.scss';
+import './../../styles/Projects.scss';
 
 class Projects extends React.Component {
   constructor(props) {

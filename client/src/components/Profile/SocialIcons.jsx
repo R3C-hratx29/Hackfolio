@@ -11,7 +11,7 @@ import {
   SocialTwitterIcon
 } from 'grommet/components/icons/base';
 
-import './../styles/variables.scss';
+import './../../styles/variables.scss';
 
 const SocialIcon = {
   facebook: <SocialFacebookOptionIcon />,

@@ -29,12 +29,11 @@ import {
 
 // Custom Imports
 import Modal from './Modal';
-import modalAction from '../actions/ModalActions';
-import * as UserAction from '../actions/UserActions';
-import { getProfile } from '../actions/ProfileActions';
+import modalAction from './../../actions/ModalActions';
+import * as UserAction from './../../actions/UserActions';
+import { getProfile } from './../../actions/ProfileActions';
 
-import '../styles/NavBar.scss';
-
+import './../../styles/NavBar.scss';
 class NavBar extends React.Component {
   constructor(props) {
     super(props);

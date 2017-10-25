@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Tip from 'grommet/components/Tip';
-import * as UserAction from '../actions/UserActions';
+import * as UserAction from './../actions/UserActions';
 
 class HomePage extends React.Component {
   constructor(props) {
