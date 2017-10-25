@@ -15,6 +15,14 @@ export const history = createHistory();
 
 axios.defaults.headers.common.jwt = window.localStorage.token;
 
+const Github = (props) => {
+  if (props.match.params.token) {
+    window.localStorage.token = props.match.params.token;
+    window.location.href = `/user/${props.match.params.username}`;
+  }
+  return null;
+};
+
 class Hackfolio extends React.Component {
   componentWillMount() {
     if (window.localStorage.token) {
@@ -36,16 +44,6 @@ class Hackfolio extends React.Component {
           console.log(err);
         });
     }
-    this.props.store.dispatch({
-      type: 'BOUNTY',
-      payload: {
-        bounty: {
-          bounty_id: 3,
-          title: 'test',
-          owner: 18
-        }
-      }
-    });
   }
   render() {
     return (
@@ -54,7 +52,11 @@ class Hackfolio extends React.Component {
         <ConnectedRouter history={history}>
           <Switch>
             <Route exact path="/" component={HomePage} />
-            <Route path="/user/:id" component={Profile} />
+            <Route
+              path="/github/:token"
+              component={Github}
+            />
+            <Route path="/user/:id/:username" component={Profile} />
             <Route path="/search" component={SearchPage} />
             <Route path="/chat" component={Chat} />
             <Route component={HomePage} />

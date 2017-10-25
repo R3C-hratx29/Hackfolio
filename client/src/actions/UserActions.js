@@ -131,28 +131,6 @@ export const login = (userdata) => {
   });
 };
 
-export const githubSignup = () => {
-  return dispatch => {
-    return axios({
-      method: 'get',
-      url: '/api/auth/github',
-      headers: { 'Access-Control-Allow-Origin': '*', 'X-Requested-With': 'XMLHttpRequest', 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS' },
-      withCredentials: false
-    })
-      .then(res => {
-        dispatch(clearError());
-        dispatch(setUser(res.headers));
-        dispatch(getNotifications());
-        dispatch(push(`/user/${res.headers.username}`));
-        dispatch(modalAction('close'));
-      })
-      .catch(err => {
-        console.log(err);
-        dispatch(setError(err));
-      });
-  };
-};
-
 export const signup = userdata => {
   return dispatch => {
     return axios
