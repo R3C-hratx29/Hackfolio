@@ -2,17 +2,18 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-underscore-dangle */
 const router = require('express').Router();
-const bcrypt = require('bcrypt');
 const jwt = require('jwt-simple');
+const bcrypt = require('bcrypt');
 
-const Auth = require('../auth.js');
+const secret = process.env.SECRET;
+
+const Auth = require('./auth.js');
 const User = require('../models/user.js');
 const Profile = require('../models/profile.js');
 const Project = require('../models/project.js');
 const Notification = require('../models/notification.js');
 const Message = require('../models/message.js');
 
-const secret = process.env.SECRET;
 
 // TODO: Refactor routes into seperate files.
 router.get('/me', Auth.isLoggedIn, (req, res) => {
@@ -91,25 +92,6 @@ router.post('/login', (req, res) => {
         });
       }
     });
-});
-
-router.post('/profile', Auth.isLoggedIn, (req, res) => {
-  const dLoad = jwt.decode(req.headers.jwt, secret);
-  const profileData = {
-    user_id: dLoad.user_id,
-    bio: req.body.bio,
-    profile_pic: req.body.profile_pic,
-    profession: req.body.profession,
-    name: req.body.name,
-    github: req.body.github,
-    linked_in: req.body.linked_in,
-    twitter: req.body.twitter,
-    facebook: req.body.facebook
-  };
-  Profile.updateProfile(profileData).then(profiles => {
-    profiles[0].username = dLoad.username;
-    res.send(profiles[0]);
-  });
 });
 
 router.post('/project', Auth.isLoggedIn, (req, res) => {

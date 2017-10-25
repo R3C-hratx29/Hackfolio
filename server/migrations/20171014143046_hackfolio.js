@@ -19,6 +19,7 @@ exports.up = (knex, Promise) => {
       table.string('linked_in');
       table.string('twitter');
       table.string('facebook');
+      table.string('resume');
     }),
     knex.schema.createTable('projects', (table) => {
       table.increments('id').primary();

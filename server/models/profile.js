@@ -13,7 +13,8 @@ Profile.init = (data) => {
     github: data.github || null,
     linked_in: null,
     twitter: null,
-    facebook: null
+    facebook: null,
+    resume: null
   })
     .then(() => {
       db('profiles').where({ user_id: data.userId }).select('*');
