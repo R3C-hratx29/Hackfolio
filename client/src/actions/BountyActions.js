@@ -7,16 +7,47 @@ const setMessages = (messages) => {
   };
 };
 
+const setConversations = (conversations) => {
+  return {
+    type: 'CONVERSATIONS',
+    payload: { conversations }
+  };
+};
+
 export const getMessages = (bountyId) => {
   return ((dispatch) => {
-    return axios.get('/messagesByBounty', {
+<<<<<<< HEAD
+<<<<<<< HEAD
+    return axios.get('/api/messagesByBounty', {
       params: { bountyId }
     })
+=======
+    return axios.get(`/api/messagesByBounty/${bountyId}`)
+>>>>>>> rebase
+=======
+    return axios.get('/api/messagesByBounty', {
+      params: { bountyId }
+    })
+>>>>>>> chat somewhat working?
       .then((results) => {
-        dispatch(setMessages(results));
+        dispatch(setMessages(results.data));
       })
       .catch((err) => {
         console.log(err);
+      });
+  });
+};
+
+export const getConversations = (bountyId) => {
+  return ((dispatch) => {
+    return axios.get('/api/conversations', {
+      params: { bountyId }
+    })
+      .then((results) => {
+        dispatch(setConversations(results.data));
+      })
+      .catch((err) => {
+        throw err;
       });
   });
 };

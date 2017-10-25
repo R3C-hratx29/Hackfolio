@@ -97,9 +97,17 @@ export const setUser = data => {
     payload: {
       user: {
         username: data.username,
-        jwt: data.jwt,
+        user_id: data.user_id,
+        jwt: data.jwt
       },
     },
+  };
+};
+
+export const setOtherUser = (user) => {
+  return {
+    type: 'OTHER_USER',
+    payload: { user }
   };
 };
 

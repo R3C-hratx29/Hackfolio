@@ -1,7 +1,8 @@
-/* eslint-disable react/prefer-stateless-function,react/prop-types */
-import React, { Component } from 'react';
+/* eslint-disable react/prop-types,no-undef */
+import React from 'react';
 import { Route, Switch } from 'react-router';
 import { ConnectedRouter } from 'react-router-redux';
+import axios from 'axios';
 import App from 'grommet/components/App';
 import createHistory from 'history/createBrowserHistory';
 import Profile from './Profile/Profile';
@@ -12,6 +13,8 @@ import Chat from './Chat/Chat';
 
 export const history = createHistory();
 
+axios.defaults.headers.common.jwt = window.localStorage.token;
+
 const Github = (props) => {
   if (props.match.params.token) {
     window.localStorage.token = props.match.params.token;
@@ -20,7 +23,30 @@ const Github = (props) => {
   return null;
 };
 
+axios.defaults.headers.common.jwt = window.localStorage.token;
+
 class Hackfolio extends Component {
+  componentWillMount() {
+    if (window.localStorage.token) {
+      axios.get('/api/me')
+        .then(res => {
+          this.props.store.dispatch({
+            type: 'SET_CURRENT_USER',
+            payload: {
+              user: {
+                username: res.headers.username,
+                jwt: window.localStorage.token,
+                user_id: parseInt(res.headers.user_id, 10)
+              }
+            }
+
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }
   render() {
     return (
       <App className="App">
@@ -42,4 +68,5 @@ class Hackfolio extends Component {
     );
   }
 }
+
 export default Hackfolio;
