@@ -190,7 +190,6 @@ router.get('/user/:id', (req, res) => {
       profile.projects = [];
       Project.findByProfileId(profile.id).then(projects => {
         profile.projects = projects;
-        res.set(201);
         res.send(profile);
       })
         .catch(err => {
