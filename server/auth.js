@@ -5,6 +5,7 @@ Auth.isLoggedIn = (req, res, next) => {
     next();
   } else {
     res.status(401).send({ error: 'Not logged in.' });
+    res.redirect('/');
   }
 };
 
