@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const router = require('./routes/routes.js');
+const githubAuth = require('./routes/githubAuth.js');
 const methodOverride = require('method-override');
 const passport = require('passport');
 
@@ -16,13 +17,14 @@ app.use(methodOverride());
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, jwt');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTION');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
   next();
 });
 
 app.use(express.static(path.join(__dirname, '../client/build')));
 
-app.use('/api', router);
+app.use('/api', router, githubAuth);
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.

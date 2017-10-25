@@ -12,14 +12,14 @@ const setNotifications = (notifications) => {
 
 export const getNotifications = () => {
   return dispatch => {
-    // return axios
-    //   .get('/api/notification')
-    //   .then(res => {
-    return dispatch(setNotifications([]));
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    return axios
+      .get('/api/notification')
+      .then(res => {
+        dispatch(setNotifications(res.data));
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 };
 
@@ -99,8 +99,12 @@ export const login = (userdata) => {
 
 export const githubSignup = () => {
   return dispatch => {
-    return axios
-      .get('/api/auth/github')
+    return axios({
+      method: 'get',
+      url: '/api/auth/github',
+      headers: { 'Access-Control-Allow-Origin': '*', 'X-Requested-With': 'XMLHttpRequest', 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS' },
+      withCredentials: false
+      })
       .then(res => {
         dispatch(clearError());
         dispatch(setUser(res.headers));
