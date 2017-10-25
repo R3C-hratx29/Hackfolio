@@ -14,11 +14,11 @@ import {
 } from 'grommet';
 
 import BriefcaseIcon from 'grommet/components/icons/base/Briefcase';
-import '../styles/NavBar.scss';
+import './../../styles/NavBar.scss';
 
 // Custom Imports
-import modalAction from '../actions/ModalActions';
-import * as UserAction from '../actions/UserActions';
+import modalAction from './../../actions/ModalActions';
+import * as UserAction from './../../actions/UserActions';
 
 class Modal extends React.Component {
   constructor(props) {

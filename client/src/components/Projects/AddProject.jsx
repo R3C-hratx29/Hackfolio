@@ -28,13 +28,13 @@ import Spinning from 'grommet/components/icons/Spinning';
 import ProjectCard from './ProjectCard';
 
 // Custom Actions
-import { saveProject, deleteProject } from '../actions/ProjectActions';
+import { saveProject, deleteProject } from './../../actions/ProjectActions';
 
 // Firebase
-import firebase from '../data/firebase';
+import firebase from './../../data/firebase';
 
 // Component Styles
-import '../styles/AddProject.scss';
+import './../../styles/AddProject.scss';
 
 class AddProject extends React.Component {
   constructor(props) {

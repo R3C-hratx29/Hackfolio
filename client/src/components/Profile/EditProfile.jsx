@@ -30,10 +30,9 @@ import {
 
 import Spinning from 'grommet/components/icons/Spinning';
 
-import { changeProfile } from './../actions/ProfileActions';
+import { changeProfile } from './../../actions/ProfileActions';
 // Component Styles
-import './../styles/ProjectCard.scss';
-
+import './../../styles/ProjectCard.scss';
 class EditProfile extends React.Component {
   constructor(props) {
     super(props);

@@ -13,10 +13,10 @@ import
   Button
 } from 'grommet';
 
-import { changeProjects } from '../actions/ProjectActions';
+import { changeProjects } from './../../actions/ProjectActions';
 
 // Custom Styles
-import '../styles/ReorderProjects.scss';
+import './../../styles/ReorderProjects.scss';
 
 class ReorderProjects extends React.Component {
   constructor(props) {

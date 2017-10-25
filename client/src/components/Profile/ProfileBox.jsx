@@ -24,8 +24,8 @@ import EditIcon from 'grommet/components/icons/base/Edit';
 // Custom Components
 import EditProfile from './EditProfile';
 import SocialIcons from './SocialIcons';
-import { changeProfile } from './../actions/ProfileActions';
-import * as UserAction from '../actions/UserActions';
+import { changeProfile } from './../../actions/ProfileActions';
+import * as UserAction from './../../actions/UserActions';
 
 class ProfileBox extends React.Component {
   constructor(props) {

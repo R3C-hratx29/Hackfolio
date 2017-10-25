@@ -9,7 +9,7 @@ import {
   Button
 } from 'grommet';
 
-import newProjectImage from '../images/newProject.png';
+import newProjectImage from './../../images/newProject.png';
 
 const AddProjectTile = (props) => (
   <Tile
