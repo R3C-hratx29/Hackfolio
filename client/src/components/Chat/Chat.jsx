@@ -1,8 +1,6 @@
-/* eslint-disable */
-
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import axios from 'axios';
 import {
   Form,
@@ -14,8 +12,8 @@ import {
 import SendIcon from 'grommet/components/icons/base/Send';
 import UserIcon from 'grommet/components/icons/base/User';
 import Messages from './Messages';
-import { getConversations } from '../actions/BountyActions';
-import { setOtherUser } from '../actions/UserActions';
+import { getConversations } from '../../actions/BountyActions';
+import { setOtherUser } from '../../actions/UserActions';
 
 const hasChanged = function (cono1, cono2) {
   let ret = false;
@@ -44,7 +42,7 @@ class Chat extends React.Component {
       messageText: '',
       isOwner: false,
       bountyHunters: [],
-      conversation: {conversation_id: -1}
+      conversation: { conversation_id: -1 }
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.textHandler = this.textHandler.bind(this);
@@ -87,6 +85,7 @@ class Chat extends React.Component {
       .catch((err) => {
         console.log('send message failed', err);
       });
+  }
   textHandler(e) {
     this.setState({ messageText: e.target.value });
   }
@@ -123,50 +122,36 @@ class Chat extends React.Component {
               icon={<UserIcon />}
             >
               { this.state.bountyHunters.map((user) => {
-                  return <Button label={user.username} onClick={() => this.pickConversation(user)} key={user.user_id} />;
+                return (
+                  <Button
+                    label={user.username}
+                    onClick={() => this.pickConversation(user)}
+                    key={user.user_id}
+                  />);
               }) }
             </Menu> : <div />
           }
         </div>
         <div>
-          <Messages id={this.state.conversation.conversation_id}/>
+          <Messages id={this.state.conversation.conversation_id} />
         </div>
       </div>
     );
   }
 }
 
-Chat.propTypes = {
-  currentUser: PropTypes.shape({
-    username: PropTypes.string,
-    user_id: PropTypes.number
-  }).isRequired,
-  bounty: PropTypes.number.isRequired,
-  bountyHunter: PropTypes.number.isRequired,
-  getMessages: PropTypes.func.isRequired,
-  conversations: PropTypes.shape({
-  })
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
     setOtherUser: (user) => dispatch(setOtherUser(user)),
-    getConversations: (id) => dispatch(getConversations(id)),
-    getMessages: (id) => dispatch(getMessages(id)),
-    setOtherUser: (user) => dispatch(setOtherUser(user)),
     getConversations: (id) => dispatch(getConversations(id))
   };
-
-
-Chat.propTypes = {
-  bounty: PropTypes.number.isRequired,
-  bountyHunter: PropTypes.number.isRequired
 };
 
 const mapStateToProps = (state) => {
   return {
     currentUser: state.currentUser.user,
     bounty: state.bounty.bounty.bounty_id,
+    otherUse: state.otherUser.user,
     conversations: state.conversations.conversations
   };
 };

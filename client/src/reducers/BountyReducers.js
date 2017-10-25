@@ -1,13 +1,3 @@
-export const messagesReducer = (state = { messages: [] }, action) => {
-  switch (action.type) {
-    case 'CHAT_MESSAGES': {
-      return Object.assign({}, action.payload);
-    }
-    default: {
-      return state;
-    }
-  }
-};
 
 export const bountyHunterReducer = (state = { bounty_hunter: { username: 'notbob', id: 19 } }, action) => {
   switch (action.type) {
