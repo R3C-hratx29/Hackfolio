@@ -23,10 +23,12 @@ export const getProfile = (id) => {
 
 export const changeProfile = (data, profile) => {
   const newProfile = {};
+  console.log('Profile:', data);
   Object.entries(profile).forEach((el) => {
     const key = el[0];
     newProfile[key] = data[key] ? data[key] : profile[key];
   });
+  console.log(newProfile);
   return ((dispatch) => {
     return axios.post('/api/profile', newProfile)
       .then(() => {

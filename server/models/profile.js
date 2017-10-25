@@ -74,7 +74,8 @@ Profile.updateProfile = (data) => {
       github: data.github,
       linked_in: data.linked_in,
       twitter: data.twitter,
-      facebook: data.facebook
+      facebook: data.facebook,
+      resume: data.resume
     })
     .then(() => {
       return db('profiles').where({ user_id: data.user_id }).select('*');
