@@ -7,7 +7,9 @@ import Hackfolio from './components/App';
 import '../node_modules/grommet-css';
 import store from './store';
 
-axios.defaults.headers.common.jwt = window.localStorage.token;
+if (window.localStorage.token) {
+  axios.defaults.headers.common.jwt = window.localStorage.token;
+}
 
 if (window.localStorage.token) {
   axios
@@ -25,7 +27,6 @@ if (window.localStorage.token) {
 
 store.dispatch({ type: 'ERROR_SET_USER', payload: { error: 'start' } });
 store.dispatch({ type: 'SET_SEARCH', payload: { results: [] } });
-store.dispatch({ type: 'SET_NOTIFICATIONS', payload: { notifications: [] } });
 
 store.dispatch({
   type: 'CHAT_MESSAGES',
