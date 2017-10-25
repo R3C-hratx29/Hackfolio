@@ -13,15 +13,15 @@ import SendIcon from 'grommet/components/icons/base/Send';
 import UserIcon from 'grommet/components/icons/base/User';
 import Messages from './Messages';
 import { getConversations } from '../../actions/BountyActions';
-import { setOtherUser } from '../../actions/UserActions';
 
 const hasChanged = function (cono1, cono2) {
   let ret = false;
+  console.log(cono1, cono2);
   if (cono1 === undefined) {
     if (cono2 !== undefined) {
       return true;
     }
-    if (cono1.length !== cono2.lenght) {
+    if (cono1.length !== cono2.length) {
       return true;
     }
   }
@@ -54,7 +54,7 @@ class Chat extends React.Component {
       nextProps.getConversations(4); // need to change to real bounties
     }
 
-    if (hasChanged(this.props.conversations, nextProps.conversations)) {
+    if (nextProps.conversations && hasChanged(this.props.conversations, nextProps.conversations)) {
       const isOwner = nextProps.conversations[0].owner_id === nextProps.currentUser.user_id;
       const bountyHunters = [];
       if (isOwner) {
@@ -64,7 +64,7 @@ class Chat extends React.Component {
           user.user_id = el.uid;
           bountyHunters.push(user);
         });
-        console.log(bountyHunters);
+        console.log('bounty hunters', bountyHunters);
         this.setState({ isOwner, bountyHunters });
       } else {
         this.setState({ conversation: nextProps.conversations[0] });
@@ -142,7 +142,6 @@ class Chat extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setOtherUser: (user) => dispatch(setOtherUser(user)),
     getConversations: (id) => dispatch(getConversations(id))
   };
 };
@@ -151,7 +150,6 @@ const mapStateToProps = (state) => {
   return {
     currentUser: state.currentUser.user,
     bounty: state.bounty.bounty.bounty_id,
-    otherUse: state.otherUser.user,
     conversations: state.conversations.conversations
   };
 };

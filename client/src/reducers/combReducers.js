@@ -1,12 +1,11 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
-import { searchReducer, currentUserReducer, userProfileReducer, helpReducer, checkUserReducer, notificationReducer, otherUserReducer } from './userReducers';
+import { searchReducer, currentUserReducer, userProfileReducer, helpReducer, checkUserReducer, notificationReducer } from './userReducers';
 import { modalStateReducer, modalPageReducer } from './modalReducers';
-import { conversationReducer, bountyHunterReducer, bountyReducer } from './BountyReducers';
+import { conversationReducer, bountyReducer } from './BountyReducers';
 
 const reducers = combineReducers({
   currentUser: currentUserReducer,
-  otherUser: otherUserReducer,
   userProfile: userProfileReducer,
   modalState: modalStateReducer,
   modalPage: modalPageReducer,
@@ -15,7 +14,6 @@ const reducers = combineReducers({
   checkUser: checkUserReducer,
   searchResults: searchReducer,
   notifications: notificationReducer,
-  bountyHunter: bountyHunterReducer,
   bounty: bountyReducer,
   conversations: conversationReducer
 });

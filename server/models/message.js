@@ -21,7 +21,7 @@ Message.getByBounty = (bountyId, userId) => {
 Message.getByConversation = (conversationId) => {
   return db.from('messages')
     .innerJoin('conversations', 'messages.conversation_id', 'conversations.conversation_id')
-    .where({ 'conversation.conversation_id': conversationId });
+    .where({ 'conversations.conversation_id': conversationId });
 };
 
 module.exports = Message;

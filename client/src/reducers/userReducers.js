@@ -69,14 +69,3 @@ export const notificationReducer = (state = { notifications: [] }, action) => {
     }
   }
 };
-
-export const otherUserReducer = (state = { user: { user_id: 1, username: '' } }, action) => {
-  switch (action.type) {
-    case 'OTHER_USER': {
-      return Object.assign({}, action.payload);
-    }
-    default: {
-      return state;
-    }
-  }
-};

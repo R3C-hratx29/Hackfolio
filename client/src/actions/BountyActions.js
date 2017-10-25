@@ -21,14 +21,4 @@ export const getConversations = (bountyId) => {
   });
 };
 
-export const setBountyHunter = (user) => {
-  return {
-    type: 'BOUNTY_HUNTER',
-    payload: {
-      user_id: user.id,
-      username: user.username
-    }
-  };
-};
-
 // get bounty - here it checks to see if user is bounty hunter and then sets it type: (BOUNTY)

@@ -12,14 +12,22 @@ Conversation.post = (bountyId, bountyHunter, ownerId, name) => {
 };
 
 Conversation.getByBounty = (bountyId, userId) => {
-  return db.from('conversations').where({ bounty_id: bountyId })
+  return db.from('bounties').where({ bounty_id: bountyId })
     .then((results) => {
-      if (results[0].owner_id === userId) {
-        return db.from('conversations').innerJoin('users', 'conversations.bounty_hunter', 'users.uid');
+      if (results[0]) {
+        if (results[0].owner_id === userId) {
+          return db.from('conversations')
+            .innerJoin('users', 'conversations.bounty_hunter', 'users.uid')
+            .where({ 'conversations.bounty_id': bountyId });
+        }
+        return db.from('conversations')
+          .innerJoin('users', 'conversations.owner_id', 'users.uid')
+          .where({
+            'conversations.bounty_hunter': userId,
+            'conversations.bounty_id': bountyId
+          });
       }
-      return db.from('conversations')
-        .innerJoin('users', 'conversations.owner_id', 'users.uid')
-        .where({ 'conversation.bounty_hunter': userId });
+      return [];
     })
     .catch((err) => {
       throw err;
