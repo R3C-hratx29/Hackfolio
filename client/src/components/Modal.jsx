@@ -141,7 +141,7 @@ class Modal extends React.Component {
           />
           <Anchor onClick={this.toggle} label={changeLink} />
           <Anchor className="inactiveLink" label="or" />
-          <Anchor href={'http://localhost:3000/auth/github'} label={githubOauth} />
+          <Anchor onClick={this.sendGithubRequest} label={githubOauth} />
         </Box>
       </Layer>
     );
