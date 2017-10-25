@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const router = require('express').Router();
 const jwt = require('jwt-simple');
 const Profile = require('../models/profile.js');
