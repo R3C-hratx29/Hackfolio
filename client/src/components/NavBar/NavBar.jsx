@@ -128,7 +128,7 @@ class NavBar extends React.Component {
                   responsive={false}
                   icon={<NotificationIcon />}
                   closeOnClick
-                  className={`${this.props.notifications.notifications.length ? 'dot' : ''} notifications`}
+                  className={`${this.props.notifications.notifications.length ? 'dot' : 'nodot'} notifications`}
                 >
                   <List ref={(ref) => { if (ref) ref.listRef.closest('.grommetux-drop').classList.add('droptop'); }}>
                     {

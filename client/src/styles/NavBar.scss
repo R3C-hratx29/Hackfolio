@@ -30,6 +30,16 @@ $background: rgba(248,248,248,0.98);
     }
   }
 
+  .nodot {
+    .grommetux-button__icon, .grommetux-button {
+      background-color: transparent;
+      svg {
+        fill: rgba(255,255,255,0.7) !important;
+        stroke: rgba(255,255,255,0.7) !important;
+      }
+    }
+  }
+
 }
 
 .NavBar {
