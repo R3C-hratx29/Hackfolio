@@ -19,9 +19,9 @@ import {
   EditIcon
 } from 'grommet/components/icons/base';
 
-import placeHolderImage from '../images/placeholder.png';
+import placeHolderImage from './../../images/placeholder.png';
 
-import '../styles/ProjectCard.scss';
+import './../../styles/ProjectCard.scss';
 
 function httpify(value) {
   let string = value.trim();
