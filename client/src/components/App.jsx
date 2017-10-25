@@ -53,10 +53,10 @@ class Hackfolio extends React.Component {
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route
-              path="/github/:token"
+              path="/github/:token/:username"
               component={Github}
             />
-            <Route path="/user/:id/:username" component={Profile} />
+            <Route path="/user/:id" component={Profile} />
             <Route path="/search" component={SearchPage} />
             <Route path="/chat" component={Chat} />
             <Route component={HomePage} />

@@ -46,7 +46,6 @@ router.get('/auth/github/callback', passport.authenticate('github', { failureRed
           const payload = { username: user[0].username, user_id: user[0].uid };
           const token = jwt.encode(payload, secret);
           data.uid = user[0].uid;
-
           Profile.init(data);
           res.set({ username: user[0].username, jwt: token });
           res.redirect(302, 'http://localhost:3000/github/'+token+'/'+data.username);
