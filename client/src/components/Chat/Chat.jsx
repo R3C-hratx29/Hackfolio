@@ -14,10 +14,6 @@ import {
 import SendIcon from 'grommet/components/icons/base/Send';
 import UserIcon from 'grommet/components/icons/base/User';
 import Messages from './Messages';
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> chat somewhat working?
 import { getConversations } from '../actions/BountyActions';
 import { setOtherUser } from '../actions/UserActions';
 
@@ -40,12 +36,6 @@ const hasChanged = function (cono1, cono2) {
   });
   return ret;
 };
-<<<<<<< HEAD
-=======
-import { getMessages } from '../actions/BountyActions';
->>>>>>> rebase
-=======
->>>>>>> chat somewhat working?
 
 class Chat extends React.Component {
   constructor(props) {
@@ -59,10 +49,6 @@ class Chat extends React.Component {
     this.sendMessage = this.sendMessage.bind(this);
     this.textHandler = this.textHandler.bind(this);
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> chat somewhat working?
   componentWillReceiveProps(nextProps) {
     if (this.props.currentUser === undefined && nextProps.currentUser !== undefined) {
       nextProps.getConversations(4); // need to change to real bounties
@@ -86,7 +72,6 @@ class Chat extends React.Component {
         this.setState({ conversation: nextProps.conversations[0] });
       }
     }
-<<<<<<< HEAD
   }
   sendMessage(e) {
     e.preventDefault();
@@ -95,26 +80,6 @@ class Chat extends React.Component {
       sender: this.props.currentUser.username,
       receiver: this.state.conversations.username,
       conversationId: this.state.conversation.conversation_id
-=======
-  componentWillMount() {
-    console.log('getting messages', this.props.bounty);
-    this.props.getMessages(this.props.bounty);
-=======
->>>>>>> chat somewhat working?
-  }
-  sendMessage(e) {
-    e.preventDefault();
-    axios.post('/api/message', {
-      text: this.state.messageText,
-<<<<<<< HEAD
-      bountyId: this.props.bounty,
-      bountyHunter: this.props.bountyHunter
->>>>>>> rebase
-=======
-      sender: this.props.currentUser.username,
-      receiver: this.state.conversations.username,
-      conversationId: this.state.conversation.conversation_id
->>>>>>> chat somewhat working?
     })
       .then(() => {
         console.log('send mess :D');
@@ -122,8 +87,6 @@ class Chat extends React.Component {
       .catch((err) => {
         console.log('send message failed', err);
       });
-    this.setState({ messageText: '' });
-  }
   textHandler(e) {
     this.setState({ messageText: e.target.value });
   }
@@ -151,6 +114,7 @@ class Chat extends React.Component {
             type="submit"
           />
         </Form>
+
         <div>
           { this.state.isOwner ?
             <Menu
@@ -171,40 +135,32 @@ class Chat extends React.Component {
     );
   }
 }
+
 Chat.propTypes = {
   currentUser: PropTypes.shape({
     username: PropTypes.string,
     user_id: PropTypes.number
   }).isRequired,
   bounty: PropTypes.number.isRequired,
-<<<<<<< HEAD
-<<<<<<< HEAD
-  conversations: PropTypes.shape({
-  })
-=======
   bountyHunter: PropTypes.number.isRequired,
-  getMessages: PropTypes.func.isRequired
->>>>>>> rebase
-=======
+  getMessages: PropTypes.func.isRequired,
   conversations: PropTypes.shape({
   })
->>>>>>> chat somewhat working?
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-<<<<<<< HEAD
-<<<<<<< HEAD
+    setOtherUser: (user) => dispatch(setOtherUser(user)),
+    getConversations: (id) => dispatch(getConversations(id)),
+    getMessages: (id) => dispatch(getMessages(id)),
     setOtherUser: (user) => dispatch(setOtherUser(user)),
     getConversations: (id) => dispatch(getConversations(id))
-=======
-    getMessages: (id) => dispatch(getMessages(id))
->>>>>>> rebase
-=======
-    setOtherUser: (user) => dispatch(setOtherUser(user)),
-    getConversations: (id) => dispatch(getConversations(id))
->>>>>>> chat somewhat working?
   };
+
+
+Chat.propTypes = {
+  bounty: PropTypes.number.isRequired,
+  bountyHunter: PropTypes.number.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -216,3 +172,4 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);
+

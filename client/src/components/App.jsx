@@ -23,13 +23,9 @@ const Github = (props) => {
   return null;
 };
 
-<<<<<<< HEAD
-class Hackfolio extends React.Component {
-=======
 axios.defaults.headers.common.jwt = window.localStorage.token;
 
 class Hackfolio extends Component {
->>>>>>> chat somewhat working?
   componentWillMount() {
     if (window.localStorage.token) {
       axios.get('/api/me')
