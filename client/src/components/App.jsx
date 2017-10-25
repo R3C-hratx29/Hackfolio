@@ -16,16 +16,6 @@ export const history = createHistory();
 
 axios.defaults.headers.common.jwt = window.localStorage.token;
 
-const Github = (props) => {
-  if (props.match.params.token) {
-    window.localStorage.token = props.match.params.token;
-    window.location.href = `/user/${props.match.params.username}`;
-  }
-  return null;
-};
-
-axios.defaults.headers.common.jwt = window.localStorage.token;
-
 class Hackfolio extends React.Component {
   componentWillMount() {
     if (window.localStorage.token) {
