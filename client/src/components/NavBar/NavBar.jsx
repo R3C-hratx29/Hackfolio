@@ -115,37 +115,41 @@ class NavBar extends React.Component {
                 plain
                 onClick={this.goHome}
               />
-              <Button
-                icon={<UserIcon />}
-                label="Profile"
-                plain
-                onClick={this.goProfile}
-              />
-              <Menu
-                responsive={false}
-                icon={<NotificationIcon />}
-                closeOnClick
-                className={`${this.props.notifications.notifications.length ? 'dot' : ''} notifications`}
-              >
-                <List ref={(ref) => { if (ref) ref.listRef.closest('.grommetux-drop').classList.add('droptop'); }}>
-                  {
-                    this.props.notifications.notifications.sort((a, b) => {
-                      return a.created_at < b.created_at;
-                    }).map((notification) => {
-                      return (
-                        <ListItem
-                          key={notification.id}
-                          justify="start"
-                          separator="horizontal"
-                          onClick={() => { this.props.deleteNotification(notification.id); }}
-                        >
-                          {notification.message}
-                        </ListItem>
-                      );
-                    })
-                  }
-                </List>
-              </Menu>
+              { this.props.user.username &&
+                <Button
+                  icon={<UserIcon />}
+                  label="Profile"
+                  plain
+                  onClick={this.goProfile}
+                />
+              }
+              { this.props.user.username &&
+                <Menu
+                  responsive={false}
+                  icon={<NotificationIcon />}
+                  closeOnClick
+                  className={`${this.props.notifications.notifications.length ? 'dot' : ''} notifications`}
+                >
+                  <List ref={(ref) => { if (ref) ref.listRef.closest('.grommetux-drop').classList.add('droptop'); }}>
+                    {
+                      this.props.notifications.notifications.sort((a, b) => {
+                        return a.created_at < b.created_at;
+                      }).map((notification) => {
+                        return (
+                          <ListItem
+                            key={notification.id}
+                            justify="start"
+                            separator="horizontal"
+                            onClick={() => { this.props.deleteNotification(notification.id); }}
+                          >
+                            {notification.message}
+                          </ListItem>
+                        );
+                      })
+                    }
+                  </List>
+                </Menu>
+              }
             </Box>
             <Box
               separator="all"

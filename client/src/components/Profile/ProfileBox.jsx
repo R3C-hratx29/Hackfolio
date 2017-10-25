@@ -77,7 +77,7 @@ class ProfileBox extends React.Component {
         }
         <Image
           size="medium"
-          style={{ maxWidth: 384, maxHeight: 280 }}
+          style={{ maxWidth: 384, maxHeight: 280, objectFit: 'cover' }}
           src={this.props.userProfile.profile_pic}
         />
         <Card
