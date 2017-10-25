@@ -4,7 +4,6 @@ import { Route, Switch } from 'react-router';
 import { ConnectedRouter } from 'react-router-redux';
 import App from 'grommet/components/App';
 import createHistory from 'history/createBrowserHistory';
-import axios from 'axios';
 import Profile from './Profile/Profile';
 import NavBar from './NavBar/NavBar';
 import HomePage from './HomePage';
