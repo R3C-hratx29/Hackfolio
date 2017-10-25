@@ -8,7 +8,8 @@ import {
   SocialGithubIcon,
   SocialFacebookOptionIcon,
   SocialLinkedinIcon,
-  SocialTwitterIcon
+  SocialTwitterIcon,
+  DocumentUserIcon,
 } from 'grommet/components/icons/base';
 
 import './../../styles/variables.scss';
@@ -17,7 +18,8 @@ const SocialIcon = {
   facebook: <SocialFacebookOptionIcon />,
   twitter: <SocialTwitterIcon />,
   linked_in: <SocialLinkedinIcon />,
-  github: <SocialGithubIcon />
+  github: <SocialGithubIcon />,
+  resume: <DocumentUserIcon />
 };
 
 const SocialIcons = (props) => (
@@ -52,6 +54,13 @@ const SocialIcons = (props) => (
         target="_blank"
       />
     }
+    {props.resume &&
+      <Anchor
+        icon={SocialIcon.resume}
+        href={props.resume}
+        target="_blank"
+      />
+    }
   </Box>
 );
 
@@ -61,6 +70,7 @@ const mapStateToProps = (state) => {
     twitter: state.userProfile.twitter,
     linked_in: state.userProfile.linked_in,
     facebook: state.userProfile.facebook,
+    resume: state.userProfile.resume
   };
 };
 export default connect(mapStateToProps)(SocialIcons);

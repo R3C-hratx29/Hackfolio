@@ -26,7 +26,7 @@ import {
   SocialFacebookOptionIcon,
   SocialLinkedinIcon,
   SocialTwitterIcon,
-  ResumeIcon
+  DocumentUserIcon
 } from 'grommet/components/icons/base';
 
 import Spinning from 'grommet/components/icons/Spinning';
@@ -134,9 +134,10 @@ class EditProfile extends React.Component {
       profession: this.state.profession,
       bio: this.state.bio,
       github: this.state.github,
+      resume: this.state.resume,
       linked_in: this.state.linked_in,
       twitter: this.state.twitter,
-      facebook: this.state.facebook
+      facebook: this.state.facebook,
     }, this.props.userProfile);
   }
 
@@ -213,7 +214,7 @@ class EditProfile extends React.Component {
                 placeHolder={this.props.userProfile.bio}
               />
             </FormField>
-            <FormField label="Your Github Profile">
+            <FormField label="your Github Profile">
               <TextInput
                 onDOMChange={this.updateGithub}
                 value={this.state.github}
@@ -227,7 +228,7 @@ class EditProfile extends React.Component {
                 placeholder="linkedin"
               />
             </FormField>
-            <FormField label="Your Twitter profile">
+            <FormField label="your Twitter profile">
               <TextInput
                 onDOMChange={this.updateTwitter}
                 value={this.state.twitter}
