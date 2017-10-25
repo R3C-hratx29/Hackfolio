@@ -49,7 +49,6 @@ router.post('/signup', (req, res) => {
             User.createNewUser(username, hash, email).then(data => {
               const payload = { username: data[0].username, user_id: data[0].uid };
               const token = jwt.encode(payload, secret);
-              console.log(data[0]);
               Profile.init(data[0]);
               res.status(201);
               res.set({ username: data[0].username, Jwt: token });
@@ -182,7 +181,6 @@ router.delete('/project/:id', Auth.isLoggedIn, (req, res) => {
 
 router.get('/user/:id', (req, res) => {
   const user = req.params.id;
-  console.log(user);
   Profile.findByUsername(user)
     .then(profile => {
       // Shape data to match example data.
