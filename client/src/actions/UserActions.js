@@ -13,7 +13,7 @@ const setNotifications = (notifications) => {
 export const getNotifications = () => {
   return dispatch => {
     return axios
-      .get('/api/notification')
+      .get('/api/notifications')
       .then(res => {
         dispatch(setNotifications(res.data));
       })

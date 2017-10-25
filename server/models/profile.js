@@ -5,7 +5,7 @@ const Profile = {};
 
 Profile.init = (data) => {
   db('profiles').insert({
-    user_id: data.user_id,
+    user_id: data.uid,
     bio: data.bio || 'Edit your bio here...',
     profile_pic: data.profile_pic || 'https://tinyurl.com/ybny9zhw',
     profession: 'Edit your profession here...',
