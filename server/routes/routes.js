@@ -299,36 +299,12 @@ router.get('/conversations', Auth.isLoggedIn, (req, res) => {
         delete el.password;
       });
       console.log('****', results);
-=======
-      console.log(err);
-      res.end();
-    });
-});
-
-router.get('/messagesByBounty/:id', (req, res) => {
-  // if (req.headers.jwt) {
-  const dLoad = 2; // jwt.decode(req.headers.jwt, secret);
-  const bountyId = parseInt(req.query.id, 10);
-  console.log(typeof bountyId);
-  Message.getByBounty(bountyId, dLoad)
-    .then((results) => {
-      console.log('MessBountyResult', results);
->>>>>>> rebase
-      res.send(results);
     })
     .catch((err) => {
       console.log(err);
-<<<<<<< HEAD
-      res.sendStatus(401);
+      res.end();
+      throw err;
     });
-=======
-      res.sendStatus(402);
-    });
-  /* } else {
-    res.sendStatus(402);
-    res.send('Not signed in');
-  } */
->>>>>>> rebase
 });
 
 module.exports = router;

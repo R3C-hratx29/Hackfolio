@@ -7,6 +7,7 @@ import '../node_modules/grommet-css';
 import store from './store';
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 if (window.localStorage.token) {
   axios.defaults.headers.common.jwt = window.localStorage.token;
@@ -63,6 +64,8 @@ store.dispatch({
 });
 
 >>>>>>> rebase
+=======
+>>>>>>> chat somewhat working?
 ReactDOM.render(
   <Provider store={store}>
     <Hackfolio store={store} />

@@ -4,6 +4,9 @@ import axios from 'axios';
 import Message from './Message';
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> chat somewhat working?
 class Messages extends React.Component {
   constructor(props) {
     super(props);
@@ -34,6 +37,7 @@ class Messages extends React.Component {
     );
   }
 }
+<<<<<<< HEAD
 =======
 const Messages = (props) => (
   <div>
@@ -43,6 +47,8 @@ const Messages = (props) => (
   </div>
 );
 >>>>>>> rebase
+=======
+>>>>>>> chat somewhat working?
 
 Messages.defaultProps = {
   id: -1

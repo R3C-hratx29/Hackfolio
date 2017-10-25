@@ -15,8 +15,8 @@ const setConversations = (conversations) => {
 };
 
 export const getMessages = (bountyId) => {
-  console.log('action', bountyId);
   return ((dispatch) => {
+<<<<<<< HEAD
 <<<<<<< HEAD
     return axios.get('/api/messagesByBounty', {
       params: { bountyId }
@@ -24,6 +24,11 @@ export const getMessages = (bountyId) => {
 =======
     return axios.get(`/api/messagesByBounty/${bountyId}`)
 >>>>>>> rebase
+=======
+    return axios.get('/api/messagesByBounty', {
+      params: { bountyId }
+    })
+>>>>>>> chat somewhat working?
       .then((results) => {
         dispatch(setMessages(results.data));
       })
