@@ -24,7 +24,7 @@ export const changeProfile = (data, profile) => {
   const newProfile = {};
   Object.entries(profile).forEach((el) => {
     const key = el[0];
-      newProfile[key] = data[key] ? data[key] : profile[key];
+    newProfile[key] = data[key] ? data[key] : profile[key];
   });
   return ((dispatch) => {
     return axios.post('/api/profile', newProfile)
