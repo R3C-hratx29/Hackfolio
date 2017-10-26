@@ -11,15 +11,10 @@ class Messages extends React.Component {
       messages: []
     };
   }
-  componentWillMount() {
-    console.log('will mount');
-  }
   componentWillReceiveProps(nextProps) {
     if (nextProps.id > 0 && nextProps.id !== this.props.id) {
       socket.removeListener(`conversations:${this.props.id}`);
-      console.log('here', `conversations:${nextProps.id}`);
       socket.on(`conversation:${nextProps.id}`, (data) => {
-        console.log('fuck yeah');
         this.setState({ messages: data.data });
       });
       axios.get('/api/messages', {
