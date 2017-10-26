@@ -99,7 +99,10 @@ class ProfileBox extends React.Component {
                 icon={<EditIcon id="edit" />}
                 onClick={this.hideModal}
               />
-              <EditProfile hideModal={this.hideModal} hidden={this.state.hideModal} />
+              <EditProfile
+                hideModal={this.hideModal}
+                hidden={this.state.hideModal}
+              />
               <SocialIcons />
             </Box>
           }

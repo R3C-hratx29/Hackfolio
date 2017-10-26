@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Tip from 'grommet/components/Tip';
 import * as UserAction from './../actions/UserActions';
+import BountyContainer from './Bounty/BountyContainer';
 
 class HomePage extends React.Component {
   constructor(props) {
@@ -28,6 +29,7 @@ class HomePage extends React.Component {
           something about a homepage (maybe cats)
           </Tip> : <div />
         }
+        <BountyContainer />
       </div>
     );
   }
