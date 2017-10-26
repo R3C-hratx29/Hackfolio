@@ -65,7 +65,7 @@ const ProjectCard = props => {
         contentPad="medium"
         heading={
           <Heading strong tag="h2">
-            {props.project.title}
+            <span className="title">{props.project.title}</span>
             <EditIcon
               className="editProjectIcon"
               onClick={() => props.editProject(props.project)}
@@ -95,6 +95,7 @@ const ProjectCard = props => {
                 primary
                 reverse={false}
                 target="blank"
+                className="githubLink"
               />
             )}
             {props.project.website_link && (
@@ -105,6 +106,7 @@ const ProjectCard = props => {
                 primary
                 reverse={false}
                 target="blank"
+                className="websiteLink"
               />
             )}
           </Box>

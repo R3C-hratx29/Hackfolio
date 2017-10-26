@@ -75,7 +75,9 @@ class Chat extends React.Component {
       text: this.state.messageText,
       sender: this.props.currentUser.username,
       receiver: this.state.conversation.username,
-      conversationId: this.state.conversation.conversation_id
+      conversationId: this.state.conversation.conversation_id,
+      receiverId: this.state.conversation.uid,
+      name: this.state.conversation.name
     })
       .then(() => {
         console.log('send mess :D');
@@ -166,4 +168,3 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);
-

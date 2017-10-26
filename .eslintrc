@@ -7,6 +7,10 @@
     "comma-dangle": 0
   },
   "globals": {
-    "window": true
+    "window": true,
+    "document": true,
+    "it": true,
+    "test": true,
+    "expect": true,
   }
 }
