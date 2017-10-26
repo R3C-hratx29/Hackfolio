@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import {
@@ -14,9 +15,8 @@ import UserIcon from 'grommet/components/icons/base/User';
 import Messages from './Messages';
 import getConversations from '../../actions/BountyActions';
 
-const hasChanged = function (cono1, cono2) {
+const hasChanged = (cono1, cono2) => {
   let ret = false;
-  console.log(cono1, cono2);
   if (cono1 === undefined) {
     if (cono2 !== undefined) {
       return true;
@@ -49,9 +49,9 @@ class Chat extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     if (this.props.currentUser === undefined && nextProps.currentUser !== undefined) {
-      nextProps.getConversations(1); // need to change to real bounties
+      nextProps.getConversations(this.props.bounty); // need to change to real bounties
     } else if (this.props.currentUser.user_id !== nextProps.currentUser.user_id) {
-      nextProps.getConversations(1); // need to change to real bounties
+      nextProps.getConversations(this.props.bounty); // need to change to real bounties
     }
 
     if (nextProps.conversations && hasChanged(this.props.conversations, nextProps.conversations)) {
@@ -138,6 +138,18 @@ class Chat extends React.Component {
   }
 }
 
+Chat.propTypes = {
+  currentUser: PropTypes.shape({
+    username: PropTypes.string,
+    user_id: PropTypes.number
+  }).isRequired,
+  bounty: PropTypes.number.isRequired,
+  conversations: PropTypes.arrayOf.shape({
+    conversations_id: PropTypes.number,
+    bounty_hunter: PropTypes.number
+  }).isRequired
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     getConversations: (id) => dispatch(getConversations(id))
@@ -147,7 +159,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     currentUser: state.currentUser.user,
-    bounty: state.bounty.bounty.bounty_id,
+    bounty: 1,
     conversations: state.conversations.conversations
   };
 };
