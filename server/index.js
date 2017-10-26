@@ -6,8 +6,13 @@ const router = require('./routes/routes.js');
 const githubAuth = require('./routes/githubAuth.js');
 const methodOverride = require('method-override');
 const passport = require('passport');
+const socket = require('socket.io');
+const http = require('http');
 
 const app = express();
+const server = http.createServer(app);
+const io = socket(server);
+
 app.use(passport.initialize());
 
 app.use(bodyParser.json());
@@ -19,6 +24,12 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTION');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+
+// Attach socket.io to the request
+app.use((req, res, next) => {
+  req.io = io;
   next();
 });
 
@@ -34,6 +45,6 @@ app.get('*', (req, res) => {
 
 
 const port = process.env.PORT || 3001;
-app.listen(port);
+server.listen(port);
 
 console.log(`Server listening on ${port}`);
