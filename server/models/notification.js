@@ -35,7 +35,7 @@ Notification.createNotification = (io, data) => {
     message: data.message,
   })
     .then(() => {
-      io.emit('notification', {
+      io.emit(`notification:${data.username}`, {
         message: data.message
       });
       // return db('notifications').where({ user_id: data.user_id }).select('*');
