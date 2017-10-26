@@ -160,7 +160,7 @@ export const logout = () => {
       .get('/api/logout')
       .then(() => {
         dispatch(setUser({ username: undefined, jwt: undefined }));
-        dispatch(push('/LandingPage'));
+        dispatch(push('/'));
       })
       .catch(err => {
         throw err;
