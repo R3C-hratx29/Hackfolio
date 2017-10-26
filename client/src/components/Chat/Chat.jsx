@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -144,10 +143,11 @@ Chat.propTypes = {
     user_id: PropTypes.number
   }).isRequired,
   bounty: PropTypes.number.isRequired,
-  conversations: PropTypes.arrayOf.shape({
+  conversations: PropTypes.arrayOf(PropTypes.shape({
     conversations_id: PropTypes.number,
-    bounty_hunter: PropTypes.number
-  }).isRequired
+    owner_id: PropTypes.number
+  })).isRequired,
+  getConversations: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => {
