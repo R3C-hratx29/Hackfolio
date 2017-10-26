@@ -14,8 +14,28 @@ class AddBountyCardLayer extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      bounty_title: '',
+      description: '',
+      price: '',
+      tech_stack: '',
+      github: '',
+      website: '',
+      images: [],
+    };
   }
+  saveChanges() {
+    this.props.saveChanges({
+      bounty_title: this.state.bounty_title,
+      description: this.state.description,
+      price: this.state.price,
+      tech_stack: this.state.tech_stack,
+      github: this.state.github,
+      website: this.state.website,
+      images: this.state.images
+    });
+  }
+
   render() {
     return (
       <Layer
@@ -36,38 +56,45 @@ class AddBountyCardLayer extends React.Component {
               </Heading>
             </Header>
             <FormField
-              label="so this is a form"
+              label="Give your bounty a name"
             >
               <TextInput
-                placeholder="form"
+                placeholder="bounty name"
               />
             </FormField>
             <FormField
-              label="so this is a form"
+              label="Describe the task you want help completing"
             >
               <TextInput
-                placeholder="form"
+                placeholder="bounty description"
               />
             </FormField>
             <FormField
-              label="so this is a form"
+              label="Name your price: how much are you offering to complete this task?"
             >
               <TextInput
-                placeholder="form"
+                placeholder="$$$"
               />
             </FormField>
             <FormField
-              label="so this is a form"
+              label="List the tech stack that developers will need to complete the task"
             >
               <TextInput
-                placeholder="form"
+                placeholder="tech stack"
               />
             </FormField>
             <FormField
-              label="so this is a form"
+              label="Link to your github if this isn't a brand new project"
             >
               <TextInput
-                placeholder="form"
+                placeholder="github link"
+              />
+            </FormField>
+            <FormField
+              label="Link to your website"
+            >
+              <TextInput
+                placeholder="website link"
               />
             </FormField>
           </Form>
