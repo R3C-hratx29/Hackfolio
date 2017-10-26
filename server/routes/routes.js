@@ -259,7 +259,7 @@ router.delete('/notifications', Auth.isLoggedIn, (req, res) => {
 });
 
 router.post('/message', Auth.isLoggedIn, (req, res) => {
-  Message.post(req.body.conversationId, req.body.receiver, req.body.sender, req.body.text)
+  Message.post(req.io, req.body.conversationId, req.body.receiver, req.body.sender, req.body.text)
     .then(() => {
       res.end();
     })
