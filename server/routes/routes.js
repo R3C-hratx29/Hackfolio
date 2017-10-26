@@ -151,7 +151,8 @@ router.post('/project', Auth.isLoggedIn, (req, res) => {
               Notification.createNotification(req.io, {
                 user_id: dLoad.user_id,
                 bounty_id: null,
-                message: `Project "${project[0].title}" has been updated.`
+                message: `Project "${project[0].title}" has been updated.`,
+                username: dLoad.username
               });
               res.set({ username: dLoad.username });
               res.send(project[0]);

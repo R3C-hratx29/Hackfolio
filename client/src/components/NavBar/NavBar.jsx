@@ -42,19 +42,13 @@ class NavBar extends React.Component {
     super(props);
     this.state = {
       searchText: '',
-      help: false
+      help: false,
+      notificationChannel: null,
     };
     this.searchHandler = this.searchHandler.bind(this);
     this.sendSearch = this.sendSearch.bind(this);
     this.goProfile = this.goProfile.bind(this);
     this.goHome = this.goHome.bind(this);
-  }
-
-  componentWillMount() {
-    socket.on('notification', (data) => {
-      console.log(data);
-      this.props.getNotifications();
-    });
   }
 
   componentDidMount() {
@@ -65,22 +59,50 @@ class NavBar extends React.Component {
       this.setState({ help: true });
     }, 500);
   }
+
+  componentWillReceiveProps(next) {
+    const { notificationChannel } = this.state;
+
+    if (next.user) {
+      const { username } = next.user;
+
+      if (!notificationChannel || username !== notificationChannel) {
+        if (notificationChannel) {
+          // Remove previous user's event listener
+          socket.removeListener(`notification:${notificationChannel}`);
+        }
+
+        // Add new user's event listener
+        socket.on(`notification:${username}`, () => {
+          this.props.getNotifications();
+        });
+        this.setState({
+          notificationChannel: username
+        });
+      }
+    }
+  }
+
   searchHandler(e) {
     this.setState({ searchText: e.target.value });
   }
+
   sendSearch(e) {
     e.preventDefault();
     const temp = this.state.searchText;
     this.props.search(temp);
     this.setState({ searchText: '' });
   }
+
   goProfile() {
     const user = this.props.user.username;
     this.props.goToProfile(user);
   }
+
   goHome() {
     this.props.goToHome('/');
   }
+
   render() {
     return (
       <div className="NavBar">
