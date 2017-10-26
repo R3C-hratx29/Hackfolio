@@ -12,7 +12,7 @@ import {
 import SendIcon from 'grommet/components/icons/base/Send';
 import UserIcon from 'grommet/components/icons/base/User';
 import Messages from './Messages';
-import { getConversations } from '../../actions/BountyActions';
+import getConversations from '../../actions/BountyActions';
 
 const hasChanged = function (cono1, cono2) {
   let ret = false;
@@ -49,9 +49,9 @@ class Chat extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     if (this.props.currentUser === undefined && nextProps.currentUser !== undefined) {
-      nextProps.getConversations(4); // need to change to real bounties
+      nextProps.getConversations(1); // need to change to real bounties
     } else if (this.props.currentUser.user_id !== nextProps.currentUser.user_id) {
-      nextProps.getConversations(4); // need to change to real bounties
+      nextProps.getConversations(1); // need to change to real bounties
     }
 
     if (nextProps.conversations && hasChanged(this.props.conversations, nextProps.conversations)) {
@@ -64,7 +64,6 @@ class Chat extends React.Component {
           user.user_id = el.uid;
           bountyHunters.push(user);
         });
-        console.log('bounty hunters', bountyHunters);
         this.setState({ isOwner, bountyHunters });
       } else {
         this.setState({ conversation: nextProps.conversations[0] });
@@ -76,7 +75,7 @@ class Chat extends React.Component {
     axios.post('/api/message', {
       text: this.state.messageText,
       sender: this.props.currentUser.username,
-      receiver: this.state.conversations.username,
+      receiver: this.state.conversation.username,
       conversationId: this.state.conversation.conversation_id
     })
       .then(() => {
@@ -92,7 +91,6 @@ class Chat extends React.Component {
   pickConversation(user) {
     this.props.conversations.forEach((convo) => {
       if (convo.bounty_hunter === user.user_id) {
-        console.log(convo);
         this.setState({ conversation: convo });
       }
     });

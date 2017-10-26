@@ -48,7 +48,7 @@ export const checkUserReducer = (state = {}, action) => {
   }
 };
 
-export const searchReducer = (state = {}, action) => {
+export const searchReducer = (state = { results: [] }, action) => {
   switch (action.type) {
     case 'SET_SEARCH': {
       return Object.assign({}, action.payload);
