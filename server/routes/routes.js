@@ -150,7 +150,7 @@ router.post('/project', Auth.isLoggedIn, (req, res) => {
             Project.updateProject(projectData).then(project => {
               Notification.createNotification(req.io, {
                 user_id: dLoad.user_id,
-                bounty_id: null,
+                conversation_id: null,
                 message: `Project "${project[0].title}" has been updated.`,
                 username: dLoad.username
               });
@@ -261,6 +261,12 @@ router.delete('/notifications', Auth.isLoggedIn, (req, res) => {
 router.post('/message', Auth.isLoggedIn, (req, res) => {
   Message.post(req.io, req.body.conversationId, req.body.receiver, req.body.sender, req.body.text)
     .then(() => {
+      Notification.createNotification(req.io, {
+        user_id: req.body.receiverId,
+        conversation_id: req.body.conversationId,
+        message: `Message from ${req.body.sender} in chat ${req.body.name}`,
+        username: req.body.receiver
+      });
       res.end();
     })
     .catch((err) => {
