@@ -22,4 +22,3 @@ const getConversations = (bountyId) => {
 };
 
 export default getConversations;
-// get bounty - here it checks to see if user is bounty hunter and then sets it type: (BOUNTY)
