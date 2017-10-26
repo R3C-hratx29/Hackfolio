@@ -20,8 +20,7 @@ Message.post = (io, conversationId, receiver, sender, message) => {
         .innerJoin('conversations', 'messages.conversation_id', 'conversations.conversation_id')
         .where({ 'conversations.conversation_id': conversationId })
         .then((data) => {
-          io.emit('test', { stuff: 'test' });
-          console.log('messages', `conversations:${conversationId}`);
+          io.emit(`conversation:${conversationId}`, { data });
         });
     })
     .catch((err) => {

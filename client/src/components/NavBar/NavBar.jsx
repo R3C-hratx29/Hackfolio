@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 
-import socket from '../../socket';
-
 // Grommet Imports
 import {
   Header,
@@ -36,6 +34,7 @@ import * as UserAction from './../../actions/UserActions';
 import { getProfile } from './../../actions/ProfileActions';
 
 import './../../styles/NavBar.scss';
+import socket from '../../socket';
 
 class NavBar extends React.Component {
   constructor(props) {
