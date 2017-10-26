@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 
+import socket from '../../socket';
+
 // Grommet Imports
 import {
   Header,
@@ -48,6 +50,9 @@ class NavBar extends React.Component {
     this.goHome = this.goHome.bind(this);
   }
   componentDidMount() {
+
+    console.log(socket);
+    
     if (window.localStorage.token) {
       this.props.getNotifications();
     }
