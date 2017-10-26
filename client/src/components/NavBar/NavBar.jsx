@@ -12,29 +12,27 @@ import {
   Button,
   Form,
   FormField,
-  Menu,
-  List,
-  ListItem,
 } from 'grommet';
 
+// Grommet Icons
 import {
   UserIcon,
   SearchIcon,
   LoginIcon,
   LogoutIcon,
   MultipleIcon,
-  NotificationIcon,
   BookmarkIcon,
 } from 'grommet/components/icons/base';
 
 // Custom Imports
+import Notifications from './Notifications';
 import Modal from './Modal';
 import modalAction from './../../actions/ModalActions';
 import * as UserAction from './../../actions/UserActions';
 import { getProfile } from './../../actions/ProfileActions';
 
+// Custom Styles
 import './../../styles/NavBar.scss';
-import socket from '../../socket';
 
 class NavBar extends React.Component {
   constructor(props) {
@@ -42,7 +40,6 @@ class NavBar extends React.Component {
     this.state = {
       searchText: '',
       help: false,
-      notificationChannel: null,
     };
     this.searchHandler = this.searchHandler.bind(this);
     this.sendSearch = this.sendSearch.bind(this);
@@ -51,35 +48,9 @@ class NavBar extends React.Component {
   }
 
   componentDidMount() {
-    if (window.localStorage.token) {
-      this.props.getNotifications();
-    }
     setTimeout(() => {
       this.setState({ help: true });
     }, 500);
-  }
-
-  componentWillReceiveProps(next) {
-    const { notificationChannel } = this.state;
-
-    if (next.user) {
-      const { username } = next.user;
-
-      if (!notificationChannel || username !== notificationChannel) {
-        if (notificationChannel) {
-          // Remove previous user's event listener
-          socket.removeListener(`notification:${notificationChannel}`);
-        }
-
-        // Add new user's event listener
-        socket.on(`notification:${username}`, () => {
-          this.props.getNotifications();
-        });
-        this.setState({
-          notificationChannel: username
-        });
-      }
-    }
   }
 
   searchHandler(e) {
@@ -155,48 +126,7 @@ class NavBar extends React.Component {
                 />
               }
               { this.props.user.username &&
-                <Menu
-                  responsive={false}
-                  icon={
-                    <div>
-                      <NotificationIcon />
-                      <div className="dotDiv">
-                        {this.props.notifications.notifications.length > 0 &&
-                        this.props.notifications.notifications.length}
-                      </div>
-                    </div>
-                  }
-                  closeOnClick
-                  className={`${this.props.notifications.notifications.length ? 'dot' : ''} notifications`}
-                >
-                  <List ref={(ref) => { if (ref) ref.listRef.closest('.grommetux-drop').classList.add('droptop'); }}>
-                    {
-                      this.props.notifications.notifications.length === 0 &&
-                      <ListItem
-                        justify="start"
-                        separator="horizontal"
-                      >
-                        You have no notifications.
-                      </ListItem>
-                    }
-                    {
-                      this.props.notifications.notifications.sort((a, b) => {
-                        return a.created_at < b.created_at;
-                      }).map((notification) => {
-                        return (
-                          <ListItem
-                            key={notification.id}
-                            justify="start"
-                            separator="horizontal"
-                            onClick={() => { this.props.deleteNotification(notification.id); }}
-                          >
-                            {notification.message}
-                          </ListItem>
-                        );
-                      })
-                    }
-                  </List>
-                </Menu>
+                <Notifications />
               }
             </Box>
             <Box
@@ -258,9 +188,6 @@ NavBar.defaultProps = {
   user: {},
   help: 'off',
   modalState: 'close',
-  notifications: {
-    notifications: []
-  },
 };
 
 NavBar.propTypes = {
@@ -273,9 +200,6 @@ NavBar.propTypes = {
   goToProfile: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
   displayHelp: PropTypes.func.isRequired,
-  getNotifications: PropTypes.func.isRequired,
-  deleteNotification: PropTypes.func.isRequired,
-  notifications: PropTypes.shape({ notifications: PropTypes.array })
 };
 
 const mapStateToProps = (state) => {
@@ -283,7 +207,6 @@ const mapStateToProps = (state) => {
     user: state.currentUser.user,
     modalState: state.modalState.state,
     help: state.help.text,
-    notifications: state.notifications,
   };
 };
 
@@ -295,8 +218,6 @@ const mapDispatchToProps = (dispatch) => {
     goToProfile: (user) => { dispatch(getProfile(user)); dispatch(push(`/user/${user}`)); },
     logout: () => dispatch(UserAction.logout()),
     displayHelp: (next) => dispatch(UserAction.help(next)),
-    getNotifications: () => dispatch(UserAction.getNotifications()),
-    deleteNotification: (id) => dispatch(UserAction.deleteNotification(id)),
   };
 };
 
