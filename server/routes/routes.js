@@ -123,7 +123,13 @@ router.post('/profile', Auth.isLoggedIn, (req, res) => {
   });
 });
 
-module.exports = router;
+router.post('/bounty', Auth.isLoggedIn, (req, res) => {
+  res.send('sick route bro.');
+});
+
+router.get('/bounty', (req, res) => {
+  res.send('fucking dope route dude.');
+});
 
 router.post('/project', Auth.isLoggedIn, (req, res) => {
   const dLoad = jwt.decode(req.headers.jwt, secret);

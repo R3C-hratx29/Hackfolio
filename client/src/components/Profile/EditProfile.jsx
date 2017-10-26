@@ -26,7 +26,8 @@ import {
   SocialFacebookOptionIcon,
   SocialLinkedinIcon,
   SocialTwitterIcon,
-  DocumentUserIcon
+  DocumentUserIcon,
+  CheckmarkIcon
 } from 'grommet/components/icons/base';
 
 import Spinning from 'grommet/components/icons/Spinning';
@@ -34,6 +35,7 @@ import Spinning from 'grommet/components/icons/Spinning';
 import { changeProfile } from './../../actions/ProfileActions';
 // Component Styles
 import './../../styles/ProjectCard.scss';
+
 class EditProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -58,6 +60,9 @@ class EditProfile extends React.Component {
     this.updateTwitter = this.updateTwitter.bind(this);
     this.updateFacebook = this.updateFacebook.bind(this);
     this.updateResume = this.updateResume.bind(this);
+    this.updateProfilePic = this.updateProfilePic.bind(this);
+    this.toggleImageURL = this.toggleImageURL.bind(this);
+    this.saveProfilePic = this.saveProfilePic.bind(this);
     this.saveChanges = this.saveChanges.bind(this);
     this.onUploadStart = this.onUploadStart.bind(this);
     this.onImageUpload = this.onImageUpload.bind(this);
@@ -77,6 +82,16 @@ class EditProfile extends React.Component {
 
   onUploadStart() {
     this.setState({ uploading: true });
+  }
+
+  toggleImageURL() {
+    this.props.hideImageURL();
+  }
+
+  updateProfilePic(e) {
+    this.setState({
+      profile_pic_url: e.target.value
+    });
   }
 
   updateProfession(e) {
@@ -127,6 +142,21 @@ class EditProfile extends React.Component {
     });
   }
 
+  saveProfilePic() {
+    this.props.saveChanges({
+      profile_pic: this.state.profile_pic_url,
+      name: this.state.name,
+      profession: this.state.profession,
+      bio: this.state.bio,
+      github: this.state.github,
+      resume: this.state.resume,
+      linked_in: this.state.linked_in,
+      twitter: this.state.twitter,
+      facebook: this.state.facebook,
+    }, this.props.userProfile);
+    this.toggleImageURL()
+  }
+
   saveChanges() {
     this.props.saveChanges({
       profile_pic: this.state.profile_pic_url,
@@ -139,6 +169,7 @@ class EditProfile extends React.Component {
       twitter: this.state.twitter,
       facebook: this.state.facebook,
     }, this.props.userProfile);
+    this.props.hideModal()
   }
 
   render() {
@@ -148,6 +179,24 @@ class EditProfile extends React.Component {
         hidden={this.props.hidden}
         closer onClose={this.props.hideModal}
       >
+        <Layer
+          className="ImageURL"
+          flush={true}
+          hidden={this.props.imageURLHidden}
+          closer onClose={this.props.hideImageURL}
+        >
+        <FormField>
+          <TextInput
+            onDOMChange={this.updateProfilePic}
+            value={this.state.profile_pic}
+            placeHolder="Image URL"
+          />
+          <Anchor
+            icon={<CheckmarkIcon />}
+            onClick={this.saveProfilePic}
+          />
+        </FormField>
+        </Layer>
         <Box
           direction="row"
           pad={{ vertical: 'large' }}
@@ -167,8 +216,8 @@ class EditProfile extends React.Component {
                 reverse
                 ref={ref => { this.menuRef = ref; }}
               >
-                <Anchor>
-                  Image URL
+                <Anchor onClick={this.toggleImageURL}>
+                  ImageURL
                 </Anchor>
                 <Anchor
                   onClick={(e) => { e.stopPropagation(); }}
@@ -262,7 +311,6 @@ class EditProfile extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    hideModal: () => dispatch(modalAction('close')),
     saveChanges: (changes, profile) => dispatch(changeProfile(changes, profile))
   };
 };
