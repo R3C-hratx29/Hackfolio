@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import socket from '../../socket';
 import Message from './Message';
 
 class Messages extends React.Component {
@@ -10,9 +11,17 @@ class Messages extends React.Component {
       messages: []
     };
   }
+  componentWillMount() {
+    console.log('will mount');
+    socket.on('test', (data) => {
+      console.log('messages');
+      this.setState({ messages: data });
+    });
+  }
   componentWillReceiveProps(nextProps) {
     if (nextProps.id > 0 && nextProps.id !== this.props.id) {
-      console.log('here', nextProps.id);
+      socket.close(`conversations:${this.props.id}`);
+      console.log('here', `conversations:${nextProps.id}`);
       axios.get('/api/messages', {
         params: { conversationId: nextProps.id }
       })

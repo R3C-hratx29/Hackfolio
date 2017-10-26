@@ -83,6 +83,7 @@ class Chat extends React.Component {
       .catch((err) => {
         console.log('send message failed', err);
       });
+    this.setState({ messageText: '' });
   }
   textHandler(e) {
     this.setState({ messageText: e.target.value });
