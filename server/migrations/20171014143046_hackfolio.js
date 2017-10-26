@@ -38,9 +38,9 @@ exports.up = (knex, Promise) => {
     }),
     knex.schema.createTable('notifications', (table) => {
       table.increments('id').primary();
-      table.integer('bounty_id')
-        .references('bounty_id')
-        .inTable('bounties');
+      table.integer('conversation_id')
+        .references('conversation_id')
+        .inTable('conversations');
       table.integer('user_id')
         .references('uid')
         .inTable('users');
