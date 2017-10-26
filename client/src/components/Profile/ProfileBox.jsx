@@ -32,10 +32,12 @@ class ProfileBox extends React.Component {
     super(props);
     this.state = {
       hideModal: true,
+      hideImageURL: true,
       help: false,
     };
     this.showTip = this.showTip.bind(this);
     this.hideModal = this.hideModal.bind(this);
+    this.hideImageURL = this.hideImageURL.bind(this);
   }
   componentDidMount() {
     setTimeout(this.showTip, 500);
@@ -44,6 +46,12 @@ class ProfileBox extends React.Component {
   hideModal() {
     this.setState({
       hideModal: !this.state.hideModal
+    });
+  }
+
+  hideImageURL() {
+    this.setState({
+      hideImageURL: !this.state.hideImageURL
     });
   }
 
@@ -101,7 +109,9 @@ class ProfileBox extends React.Component {
               />
               <EditProfile
                 hideModal={this.hideModal}
+                hideImageURL={this.hideImageURL}
                 hidden={this.state.hideModal}
+                imageURLHidden={this.state.hideImageURL}
               />
               <SocialIcons />
             </Box>
