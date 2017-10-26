@@ -49,10 +49,15 @@ class NavBar extends React.Component {
     this.goProfile = this.goProfile.bind(this);
     this.goHome = this.goHome.bind(this);
   }
-  componentDidMount() {
 
-    console.log(socket);
-    
+  componentWillMount() {
+    socket.on('notification', (data) => {
+      console.log(data);
+      this.props.getNotifications();
+    });
+  }
+
+  componentDidMount() {
     if (window.localStorage.token) {
       this.props.getNotifications();
     }

@@ -28,14 +28,17 @@ Notification.deleteAllNotifications = (dLoad) => {
     });
 };
 
-Notification.createNotification = (data) => {
+Notification.createNotification = (io, data) => {
   return db('notifications').insert({
     user_id: data.user_id,
     bounty_id: data.bounty_id,
     message: data.message,
   })
     .then(() => {
-      return db('notifications').where({ user_id: data.user_id }).select('*');
+      io.emit('notification', {
+        message: data.message
+      });
+      // return db('notifications').where({ user_id: data.user_id }).select('*');
     })
     .catch(err => {
       console.error(err);

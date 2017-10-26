@@ -1,16 +1,13 @@
 /* eslint-disable no-console */
 import axios from 'axios';
 import { getProfile } from './ProfileActions';
-import { getNotifications } from './UserActions';
 
 export const saveProject = project => {
   return dispatch => {
     return axios
       .post('/api/project', project)
       .then(res => {
-        dispatch(getProfile(res.headers.username)).then(() => {
-          dispatch(getNotifications());
-        });
+        dispatch(getProfile(res.headers.username));
       })
       .catch(err => {
         console.log(err);
