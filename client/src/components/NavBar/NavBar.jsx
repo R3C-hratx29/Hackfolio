@@ -34,6 +34,7 @@ import * as UserAction from './../../actions/UserActions';
 import { getProfile } from './../../actions/ProfileActions';
 
 import './../../styles/NavBar.scss';
+
 class NavBar extends React.Component {
   constructor(props) {
     super(props);
