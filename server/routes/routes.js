@@ -127,7 +127,7 @@ router.post('/bounty', Auth.isLoggedIn, (req, res) => {
   res.send('sick route bro.');
 });
 
-router.get('/bounty', (req, res,) => {
+router.get('/bounty', (req, res) => {
   res.send('fucking dope route dude.');
 });
 
