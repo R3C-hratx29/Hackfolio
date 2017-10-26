@@ -146,8 +146,7 @@ class EditProfile extends React.Component {
       <Layer
         className="EditProfile"
         hidden={this.props.hidden}
-        closer
-        onClose={this.props.hideModal}
+        closer onClose={this.props.hideModal}
       >
         <Box
           direction="row"
@@ -263,6 +262,7 @@ class EditProfile extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    hideModal: () => dispatch(modalAction('close')),
     saveChanges: (changes, profile) => dispatch(changeProfile(changes, profile))
   };
 };
