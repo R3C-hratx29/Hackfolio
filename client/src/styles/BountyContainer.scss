@@ -1,0 +1,13 @@
+.BountyContainer {
+  & > .grommetux-tiles {
+    &:after {
+      content: '';
+      flex: 0 0 384px;
+    }
+  }
+  &.isProfileOwner {
+    .editBountyIcon {
+      display: inline-block !important;
+    }
+  }
+}

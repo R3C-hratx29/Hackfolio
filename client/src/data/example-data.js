@@ -74,6 +74,24 @@ const data = {
       },
     ],
   },
+  bounties: [
+    {
+      id: 1,
+      title: 'Make a project',
+      description: 'Make it not suck',
+      price: 1000.50,
+      images: 'https://www.cats.com, https://www.reddit.com',
+      stack: 'javascript, heroku, node'
+    },
+    {
+      id: 2,
+      title: 'Build a ecommerce app',
+      description: 'an app that allows you to buy and sell used turkey basters',
+      price: .99,
+      images: 'https://turkey.com, https://foodnetwork.com',
+      stack: 'python, apache, mithril'
+    },
+  ],
 };
 
 export default data;
