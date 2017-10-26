@@ -1,13 +1,13 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+// import { connect } from 'react-redux';
+// import PropTypes from 'prop-types';
 
 // Grommet Components
-import {
-  Tiles,
-  Box,
-  Button
-} from 'grommet';
+// import {
+//   // Tiles,
+//   // Box,
+//   // Button
+// } from 'grommet';
 
 // Custom Components
 import AddBountyTile from './AddBountyTile';
@@ -21,15 +21,14 @@ class BountyContainer extends React.Component {
     super(props);
 
     this.state = {
-      hideBountyModal: true,
-      edit: null,
+      // hideBountyModal: true,
+      // edit: null,
     };
-
   }
   componentWillMount() {
     setTimeout(() => {
       this.setState({
-        help: true,
+        // help: true,
       });
     }, 500);
   }

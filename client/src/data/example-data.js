@@ -87,7 +87,7 @@ const data = {
       id: 2,
       title: 'Build a ecommerce app',
       description: 'an app that allows you to buy and sell used turkey basters',
-      price: .99,
+      price: 0.99,
       images: 'https://turkey.com, https://foodnetwork.com',
       stack: 'python, apache, mithril'
     },

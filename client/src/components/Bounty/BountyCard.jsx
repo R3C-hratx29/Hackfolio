@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 // Grommet Components
 import {
@@ -24,8 +24,7 @@ import placeHolderImage from './../../images/placeholder.png';
 
 import './../../styles/BountyCard.scss';
 
-import data from './../../data/example-data.js';
-console.log(data)
+import data from './../../data/example-data';
 
 function httpify(value) {
   let string = value.trim();
@@ -36,7 +35,7 @@ function httpify(value) {
 }
 
 
-const BountyCard = props => {
+const BountyCard = () => {
   const images = data.bounties[0].images.split(',');
   const stack = data.bounties[0].stack.split(',');
 
@@ -90,10 +89,16 @@ const BountyCard = props => {
             </div>
             <div>
               <Value
-                value={data.bounties[0].price.toLocaleString('en-IN',
-                {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                value={data.bounties[0].price.toLocaleString(
+                    'en-IN',
+                    {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2
+                    }
+                  )
+                }
                 icon={<MoneyIcon />}
-                units='USD'
+                units="USD"
               />
             </div>
             <Anchor
@@ -114,16 +119,16 @@ BountyCard.defaultProps = {
   editBounty: () => {},
 };
 
-BountyCard.propTypes = {
-  bounty: PropTypes.shape({
-    id: PropTypes.number,
-    images: PropTypes.string,
-    title: PropTypes.string,
-    description: PropTypes.string,
-    stack: PropTypes.string,
-    price: PropTypes.number
-  }).isRequired,
-  editBounty: PropTypes.func,
-};
+// BountyCard.propTypes = {
+//   bounty: PropTypes.shape({
+//     id: PropTypes.number,
+//     images: PropTypes.string,
+//     title: PropTypes.string,
+//     description: PropTypes.string,
+//     stack: PropTypes.string,
+//     price: PropTypes.number
+//   }).isRequired,
+//   editBounty: PropTypes.func,
+// };
 
 export default BountyCard;
