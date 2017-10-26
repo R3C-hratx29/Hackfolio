@@ -104,13 +104,6 @@ export const setUser = data => {
   };
 };
 
-export const setOtherUser = (user) => {
-  return {
-    type: 'OTHER_USER',
-    payload: { user }
-  };
-};
-
 export const login = (userdata) => {
   return ((dispatch) => {
     return axios.post('/api/login', {

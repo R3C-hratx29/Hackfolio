@@ -10,18 +10,20 @@ class Messages extends React.Component {
       messages: []
     };
   }
-  componentDidMount() {
-    console.log('here');
-    axios.get('/api/messages', {
-      params: { conversationId: this.props.id }
-    })
-      .then((results) => {
-        console.log(results.data);
-        this.setState({ messages: results.data });
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.id > 0 && nextProps.id !== this.props.id) {
+      console.log('here', nextProps.id);
+      axios.get('/api/messages', {
+        params: { conversationId: nextProps.id }
       })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then((results) => {
+          console.log(results.data);
+          this.setState({ messages: results.data });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }
   render() {
     return (

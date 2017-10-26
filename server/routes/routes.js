@@ -303,6 +303,7 @@ router.get('/conversations', Auth.isLoggedIn, (req, res) => {
         delete el.password;
       });
       console.log('****', results);
+      res.send(results);
     })
     .catch((err) => {
       console.log(err);
