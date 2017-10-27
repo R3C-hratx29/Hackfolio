@@ -128,7 +128,7 @@ router.post('/profile', Auth.isLoggedIn, (req, res) => {
 router.post('/bounty', Auth.isLoggedIn, (req, res) => {
   const dLoad = jwt.decode(req.headers.jwt, secret);
   const bountyData = {
-    id: req.body.id,
+    bounty_id: req.body.bounty_id,
     title: req.body.title,
     owner_id: dLoad.user_id,
     description: req.body.description,
@@ -137,15 +137,15 @@ router.post('/bounty', Auth.isLoggedIn, (req, res) => {
     stack: req.body.stack,
   };
 
-  if (bountyData.id) {
+  if (bountyData.bounty_id) {
     Bounty.updateBounty(bountyData)
       .then(bounty => {
-        res.send(bounty);
+        res.send(bounty[0]);
       });
   } else {
     Bounty.addBounty(bountyData)
       .then(bounty => {
-        res.send(bounty);
+        res.send(bounty[bounty.length - 1]);
       });
   }
 });

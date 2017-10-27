@@ -21,7 +21,7 @@ Bounty.addBounty = (data) => {
 
 Bounty.updateBounty = (data) => {
   return db('bounties').where({
-    id: data.id
+    bounty_id: data.bounty_id
   })
     .update({
       title: data.title,
@@ -31,7 +31,7 @@ Bounty.updateBounty = (data) => {
       images: data.images
     })
     .then(() => {
-      return db('bounties').where({ id: data.id }).select('*');
+      return db('bounties').where({ bounty_id: data.bounty_id }).select('*');
     })
     .catch(err => {
       console.error(err);
@@ -40,7 +40,7 @@ Bounty.updateBounty = (data) => {
 
 Bounty.deleteBounty = (_id) => {
   return db('bounties').where({
-    id: _id
+    bounty_id: _id
   })
     .del()
     .catch(err => {
