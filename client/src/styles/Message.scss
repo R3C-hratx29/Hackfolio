@@ -1,47 +1,49 @@
 @import "./variables.scss";
 
-.leftTime {
-  text-align: left;
-}
+.Message {
+  .time {
+    margin: 10px 0 0;
+    font-size: 14px;
+    color: gray;
 
-.rightTime {
-  text-align: right;
-}
-
-
-.Main {
-  border: 2px;
-  border-style: solid;
-  width: auto;
-  margin: 10px;
-  word-wrap: break-word;  
-  padding: 10px;
-  border-radius: 10px;
-  .message {
-     
-  
+    &.sender {
+      text-align: right;
+    }
   }
 
-  .name {
-  
+
+  .Main {
+    width: auto;
+    margin: 10px 0;
+    margin-top: 0;
+    word-wrap: break-word;
+    padding: 10px;
+    padding: 5px 12px;
+
+    .message {
+
+
+    }
+
+    .name {
+
+    }
+
+    &.Sender {
+      background-color: $brand;
+      color: white;
+      margin-left: 225px;
+
+      .name {
+        text-align: right;
+      }
+
+    }
+
+    &.Reciever {
+      background-color: rgb(226, 226, 226);
+      margin-right: 255px;
+    }
   }
-}
 
-.Sender {
-  border-color: purple;
-  text-align: left;
-  margin-left: 225px;
-  box-shadow: 5px 5px 5px grey;
-
-  .name {
-    text-align: right;
-  }
-
-}
-
-.Reciever {
-  border-color: $brand;
-  text-align: left;
-  margin-right: 255px;
-  box-shadow: -5px 5px 5px grey;
 }

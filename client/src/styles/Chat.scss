@@ -1,22 +1,33 @@
+@import './variables.scss';
+
 .Chat {
   .userMenu {
-  
+    * {
+      border: 0 !important;
+      margin: 0 !important;
+      margin-left: 10px !important;
+      box-shadow: none !important;
+    }
   }
 
   .messages {
-    overflow: auto; 
+    overflow: auto;
   }
 
   .messageInput {
-    border: 5px;
-    bottom: 15px;
-    margin: 0px 50px;
-    
+
     .textarea {
+      border-radius: 0;
+      border-width: 2px;
+      border-color: $brand;
+      resize: none;
+      padding: 6px 11px 10px;
+      line-height: 1.4em;
     }
 
     .sendBtn {
-      margin: 0px 70px;
+      border-radius: 0;
+      box-shadow: none !important;
     }
   }
 }

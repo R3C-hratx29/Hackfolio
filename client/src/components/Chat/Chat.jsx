@@ -7,7 +7,8 @@ import {
   Anchor,
   Menu,
   Layer,
-  Box
+  Box,
+  Heading
 } from 'grommet';
 import SendIcon from 'grommet/components/icons/base/Send';
 import Messages from './Messages';
@@ -73,25 +74,27 @@ class Chat extends React.Component {
         <Box
           size={{ height: 'xlarge', width: 'large' }}
           className="Chat"
-          pad={{ horizantial: 'medium', vertical: 'medium', between: 'medium' }}
+          pad={{ horizantial: 'medium', vertical: 'medium', between: 'small' }}
         >
-          <Box className="userMenu" size={{ width: 'small' }}>
-            { this.state.isOwner ?
-              <Menu
-                size="small"
-                label="Users"
-                colorIndex="brand"
-              >
-                { this.props.bountyHunters.map((user) => {
-                  return (
-                    <Anchor
-                      label={user.username}
-                      onClick={() => this.pickConversation(user)}
-                      key={user.user_id}
-                    />);
-                }) }
-              </Menu> : <div />
-            }
+          <Box direction="row" justify="between">
+            <Heading>{this.props.conversation.name}</Heading>
+            <Box className="userMenu">
+              { this.state.isOwner ?
+                <Menu
+                  label="Users"
+                  colorIndex="brand"
+                >
+                  { this.props.bountyHunters.map((user) => {
+                    return (
+                      <Anchor
+                        label={user.username}
+                        onClick={() => this.pickConversation(user)}
+                        key={user.user_id}
+                      />);
+                  }) }
+                </Menu> : <div />
+              }
+            </Box>
           </Box>
           <Box
             className="messages"
@@ -102,16 +105,20 @@ class Chat extends React.Component {
           <Box
             className="messageInput"
             pad={{ between: 'small' }}
+            direction="row"
           >
-            <textarea
-              className="textarea"
-              onChange={this.textHandler}
-              value={this.state.messageText}
-            />
+            <Box flex="grow" style={{ margin: 0 }}>
+              <textarea
+                className="textarea"
+                onChange={this.textHandler}
+                value={this.state.messageText}
+              />
+            </Box>
             <Button
               className="sendBtn"
               icon={<SendIcon />}
               label="send"
+              primary
               onClick={this.sendMessage}
             />
           </Box>
