@@ -3,69 +3,39 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import {
-  Form,
-  FormField,
-  TextInput,
   Button,
-  Menu
+  Anchor,
+  Menu,
+  Layer,
+  Box
 } from 'grommet';
 import SendIcon from 'grommet/components/icons/base/Send';
-import UserIcon from 'grommet/components/icons/base/User';
 import Messages from './Messages';
-import getConversations from '../../actions/BountyActions';
-
-const hasChanged = (cono1, cono2) => {
-  let ret = false;
-  if (cono1 === undefined) {
-    if (cono2 !== undefined) {
-      return true;
-    }
-    if (cono1.length !== cono2.length) {
-      return true;
-    }
-  }
-  cono1.forEach((el, i) => {
-    Object.entries(el).forEach((key) => {
-      if (key[1] !== cono2[i][key[0]]) {
-        ret = true;
-      }
-    });
-  });
-  return ret;
-};
+import { setConversation, getConversations } from '../../actions/BountyActions';
+import '../../styles/Chat.scss';
 
 class Chat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       messageText: '',
-      isOwner: false,
-      bountyHunters: [],
-      conversation: { conversation_id: -1 }
+      isOwner: false
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.textHandler = this.textHandler.bind(this);
   }
-  componentWillReceiveProps(nextProps) {
-    if (this.props.currentUser === undefined && nextProps.currentUser !== undefined) {
-      nextProps.getConversations(this.props.bounty); // need to change to real bounties
-    } else if (this.props.currentUser.user_id !== nextProps.currentUser.user_id) {
-      nextProps.getConversations(this.props.bounty); // need to change to real bounties
+  componentWillMount() {
+    this.props.getConversations(this.props.bounty);
+  }
+  componentWillReceiveProps(next) {
+    if (this.props.bounty !== next.bounty) {
+      next.getConversations(next.bounty);
+    } else if (this.props.currentUser.user_id !== next.currentUser.user_id) {
+      next.getConversations(next.bounty);
     }
-
-    if (nextProps.conversations && hasChanged(this.props.conversations, nextProps.conversations)) {
-      const isOwner = nextProps.conversations[0].owner_id === nextProps.currentUser.user_id;
-      const bountyHunters = [];
-      if (isOwner) {
-        nextProps.conversations.forEach((el) => {
-          const user = {};
-          user.username = el.username;
-          user.user_id = el.uid;
-          bountyHunters.push(user);
-        });
-        this.setState({ isOwner, bountyHunters });
-      } else {
-        this.setState({ conversation: nextProps.conversations[0] });
+    if (this.props.conversation.owner_id !== next.conversation.owner_id) {
+      if (next.conversation.owner_id === next.currentUser.user_id) {
+        this.setState({ isOwner: true });
       }
     }
   }
@@ -74,8 +44,10 @@ class Chat extends React.Component {
     axios.post('/api/message', {
       text: this.state.messageText,
       sender: this.props.currentUser.username,
-      receiver: this.state.conversation.username,
-      conversationId: this.state.conversation.conversation_id
+      receiver: this.props.conversation.username,
+      receiverId: this.props.conversation.uid,
+      conversationId: this.props.conversation.conversation_id,
+      name: this.props.conversation.name
     })
       .then(() => {
         console.log('send mess :D');
@@ -91,49 +63,60 @@ class Chat extends React.Component {
   pickConversation(user) {
     this.props.conversations.forEach((convo) => {
       if (convo.bounty_hunter === user.user_id) {
-        this.setState({ conversation: convo });
+        this.props.setConversation(convo);
       }
     });
   }
   render() {
     return (
-      <div>
-        <Form onSubmit={this.sendMessage} >
-          <FormField label="Message">
-            <TextInput
-              onDOMChange={this.textHandler}
+      <Layer>
+        <Box
+          size={{ height: 'xlarge', width: 'large' }}
+          className="Chat"
+          pad={{ horizantial: 'medium', vertical: 'medium', between: 'medium' }}
+        >
+          <Box className="userMenu" size={{ width: 'small' }}>
+            { this.state.isOwner ?
+              <Menu
+                size="small"
+                label="Users"
+                colorIndex="brand"
+              >
+                { this.props.bountyHunters.map((user) => {
+                  return (
+                    <Anchor
+                      label={user.username}
+                      onClick={() => this.pickConversation(user)}
+                      key={user.user_id}
+                    />);
+                }) }
+              </Menu> : <div />
+            }
+          </Box>
+          <Box
+            className="messages"
+            size={{ height: 'large', width: 'large' }}
+          >
+            <Messages id={this.props.conversation.conversation_id} />
+          </Box>
+          <Box
+            className="messageInput"
+            pad={{ between: 'small' }}
+          >
+            <textarea
+              className="textarea"
+              onChange={this.textHandler}
               value={this.state.messageText}
             />
-          </FormField>
-          <Button
-            icon={<SendIcon />}
-            label="send"
-            type="submit"
-          />
-        </Form>
-
-        <div>
-          { this.state.isOwner ?
-            <Menu
-              responsive
-              label="Users"
-              icon={<UserIcon />}
-            >
-              { this.state.bountyHunters.map((user) => {
-                return (
-                  <Button
-                    label={user.username}
-                    onClick={() => this.pickConversation(user)}
-                    key={user.user_id}
-                  />);
-              }) }
-            </Menu> : <div />
-          }
-        </div>
-        <div>
-          <Messages id={this.state.conversation.conversation_id} />
-        </div>
-      </div>
+            <Button
+              className="sendBtn"
+              icon={<SendIcon />}
+              label="send"
+              onClick={this.sendMessage}
+            />
+          </Box>
+        </Box>
+      </Layer>
     );
   }
 }
@@ -144,24 +127,36 @@ Chat.propTypes = {
     user_id: PropTypes.number
   }).isRequired,
   bounty: PropTypes.number.isRequired,
-  conversations: PropTypes.arrayOf(PropTypes.shape({
-    conversations_id: PropTypes.number,
-    owner_id: PropTypes.number
+  bountyHunters: PropTypes.arrayOf(PropTypes.shape({
+    user_id: PropTypes.number,
+    username: PropTypes.username
   })).isRequired,
-  getConversations: PropTypes.func.isRequired
+  conversation: PropTypes.shape({
+    conversation_id: PropTypes.number,
+    username: PropTypes.string,
+    owner_id: PropTypes.number,
+    name: PropTypes.string,
+    uid: PropTypes.number
+  }).isRequired,
+  conversations: PropTypes.arrayOf(PropTypes.object).isRequired,
+  getConversations: PropTypes.func.isRequired,
+  setConversation: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getConversations: (id) => dispatch(getConversations(id))
+    getConversations: (id) => dispatch(getConversations(id)),
+    setConversation: (convo) => dispatch(setConversation(convo))
   };
 };
 
 const mapStateToProps = (state) => {
   return {
     currentUser: state.currentUser.user,
-    bounty: 1,
-    conversations: state.conversations.conversations
+    bounty: 2,
+    conversations: state.conversations.conversations,
+    conversation: state.conversation.conversation,
+    bountyHunters: state.bountyHunters.bountyHunters
   };
 };
 

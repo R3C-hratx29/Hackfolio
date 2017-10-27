@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-underscore-dangle */
+/* eslint-disable no-console */
 const router = require('express').Router();
 const jwt = require('jwt-simple');
 const bcrypt = require('bcrypt');
@@ -64,7 +65,7 @@ router.post('/signup', (req, res) => {
         }
       })
       .catch(err => {
-        throw err;
+        console.log(err);
       });
   } else {
     res.send('Please fill out all forms.');
@@ -177,7 +178,7 @@ router.put('/project', Auth.isLoggedIn, (req, res) => {
   const dLoad = jwt.decode(req.headers.jwt, secret);
   req.body.forEach(project => {
     Project.updateOrder(project).catch(err => {
-      throw err;
+      console.log(err);
     });
   });
   res.set({ username: dLoad.username });
@@ -207,7 +208,7 @@ router.get('/user/:id', (req, res) => {
         res.send(profile);
       })
         .catch(err => {
-          throw err;
+          console.log(err);
         });
     });
 });
@@ -226,7 +227,7 @@ router.put('/search', (req, res) => {
     })
     .catch(err => {
       res.sendStatus(402);
-      throw err;
+      console.log(err);
     });
 });
 
@@ -271,7 +272,7 @@ router.post('/message', Auth.isLoggedIn, (req, res) => {
     })
     .catch((err) => {
       res.end();
-      throw err;
+      console.log(err);
     });
 });
 
@@ -282,21 +283,19 @@ router.post('/conversations', (req, res) => {
     })
     .catch((err) => {
       res.end();
-      throw err;
+      console.log(err);
     });
 });
 
 router.get('/messages', Auth.isLoggedIn, (req, res) => {
-  console.log('in messages');
   const conversationId = parseInt(req.query.conversationId, 10);
   Message.getByConversation(conversationId)
     .then((results) => {
-      console.log(results);
       res.send(results);
     })
     .catch((err) => {
       res.sendStatus(401);
-      throw err;
+      console.log(err);
     });
 });
 
@@ -309,13 +308,11 @@ router.get('/conversations', Auth.isLoggedIn, (req, res) => {
         delete el.email;
         delete el.password;
       });
-      console.log('****', results);
       res.send(results);
     })
     .catch((err) => {
-      console.log(err);
       res.end();
-      throw err;
+      console.log(err);
     });
 });
 

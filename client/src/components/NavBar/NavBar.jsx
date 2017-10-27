@@ -73,6 +73,7 @@ class NavBar extends React.Component {
 
         // Add new user's event listener
         socket.on(`notification:${username}`, () => {
+          console.log('here');
           this.props.getNotifications();
         });
         this.setState({

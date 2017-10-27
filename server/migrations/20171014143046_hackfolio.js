@@ -59,7 +59,7 @@ exports.up = (knex, Promise) => {
       table.increments('message_id').primary();
       table.string('receiver');
       table.string('sender');
-      table.string('message');
+      table.string('message', 100000);
       table.integer('conversation_id')
         .references('conversation_id')
         .inTable('conversations');

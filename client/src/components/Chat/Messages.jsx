@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { Box } from 'grommet';
 import socket from '../../socket';
 import Message from './Message';
 
@@ -11,17 +12,16 @@ class Messages extends React.Component {
       messages: []
     };
   }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.id > 0 && nextProps.id !== this.props.id) {
+  componentWillReceiveProps(next) {
+    if (next.id > 0 && next.id !== this.props.id) {
       socket.removeListener(`conversations:${this.props.id}`);
-      socket.on(`conversation:${nextProps.id}`, (data) => {
+      socket.on(`conversation:${next.id}`, (data) => {
         this.setState({ messages: data.data });
       });
       axios.get('/api/messages', {
-        params: { conversationId: nextProps.id }
+        params: { conversationId: next.id }
       })
         .then((results) => {
-          console.log(results.data);
           this.setState({ messages: results.data });
         })
         .catch((err) => {
@@ -31,11 +31,11 @@ class Messages extends React.Component {
   }
   render() {
     return (
-      <div>
+      <Box>
         { this.state.messages.map((message) => {
           return <Message message={message} key={message.message_id} />;
         })}
-      </div>
+      </Box>
     );
   }
 }
