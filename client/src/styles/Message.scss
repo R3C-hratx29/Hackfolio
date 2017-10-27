@@ -1,0 +1,47 @@
+@import "./variables.scss";
+
+.leftTime {
+  text-align: left;
+}
+
+.rightTime {
+  text-align: right;
+}
+
+
+.Main {
+  border: 2px;
+  border-style: solid;
+  width: auto;
+  margin: 10px;
+  word-wrap: break-word;  
+  padding: 10px;
+  border-radius: 10px;
+  .message {
+     
+  
+  }
+
+  .name {
+  
+  }
+}
+
+.Sender {
+  border-color: purple;
+  text-align: left;
+  margin-left: 225px;
+  box-shadow: 5px 5px 5px grey;
+
+  .name {
+    text-align: right;
+  }
+
+}
+
+.Reciever {
+  border-color: $brand;
+  text-align: left;
+  margin-right: 255px;
+  box-shadow: -5px 5px 5px grey;
+}

@@ -1,13 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Timestamp } from 'grommet';
+import '../../styles/Message.scss';
 
 const Message = (props) => (
   <div>
-    { props.message.message }
-    <br />
-    -- from { props.message.sender }
-    <br />
+    <div className={props.message.sender === props.currentUser ? 'leftTime' : 'rightTime'} >
+      <Timestamp value={props.message.created_at} />
+    </div>
+    <div className={`Main ${props.message.sender === props.currentUser ? 'Sender' : 'Reciever'}`}>
+      <div className="message">
+        { props.message.message }
+      </div>
+      <div className="name">
+        — { props.message.sender }
+      </div>
+    </div>
   </div>
 );
 
@@ -21,9 +30,10 @@ Message.defaultProps = {
 Message.propTypes = {
   message: PropTypes.shape({
     message: PropTypes.string,
-    sender: PropTypes.string
+    sender: PropTypes.string,
+    created_at: PropTypes.string
   }),
-  // currentUser: PropTypes.string.isRequired
+  currentUser: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => {

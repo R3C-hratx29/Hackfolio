@@ -1,0 +1,22 @@
+.Chat {
+  .userMenu {
+  
+  }
+
+  .messages {
+    overflow: auto; 
+  }
+
+  .messageInput {
+    border: 5px;
+    bottom: 15px;
+    margin: 0px 50px;
+    
+    .textarea {
+    }
+
+    .sendBtn {
+      margin: 0px 70px;
+    }
+  }
+}
