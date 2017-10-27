@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 // Grommet Components
 import {
@@ -9,19 +9,22 @@ import {
   Box,
   Carousel,
   Image,
-  Heading
+  Heading,
+  Value
 } from 'grommet';
 
-// Grommet Icons
+// Grommet icons
 import {
-  LinkNextIcon,
-  SocialGithubIcon,
-  EditIcon
+  EditIcon,
+  SendIcon,
+  MoneyIcon
 } from 'grommet/components/icons/base';
 
 import placeHolderImage from './../../images/placeholder.png';
 
-import './../../styles/ProjectCard.scss';
+import './../../styles/BountyCard.scss';
+
+import data from './../../data/example-data';
 
 function httpify(value) {
   let string = value.trim();
@@ -31,9 +34,10 @@ function httpify(value) {
   return string.trim();
 }
 
-const ProjectCard = props => {
-  const images = props.project.images.split(',');
-  const stack = props.project.stack.split(',');
+
+const BountyCard = () => {
+  const images = data.bounties[0].images.split(',');
+  const stack = data.bounties[0].stack.split(',');
 
   return (
     <Tile className="ProjectCard">
@@ -65,17 +69,17 @@ const ProjectCard = props => {
         contentPad="medium"
         heading={
           <Heading strong tag="h2">
-            <span className="title">{props.project.title}</span>
+            {data.bounties[0].title}
             <EditIcon
-              className="editProjectIcon"
-              onClick={() => props.editProject(props.project)}
+              className="editBountyIcon"
+              onClick={() => console.log('weee')}
             />
           </Heading>
         }
         description={
           <div>
             <Heading tag="h3" className="description">
-              {props.project.description}
+              {data.bounties[0].description}
             </Heading>
             <div className="stack">
               {stack.map((el, index) => {
@@ -83,54 +87,48 @@ const ProjectCard = props => {
                 return el && el.trim() !== '' && <div key={i}>{el}</div>;
               })}
             </div>
+            <div>
+              <Value
+                value={data.bounties[0].price.toLocaleString(
+                    'en-IN',
+                    {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2
+                    }
+                  )
+                }
+                icon={<MoneyIcon />}
+                units="USD"
+              />
+            </div>
+            <Anchor
+              icon={<SendIcon />}
+              label="Discuss Terms"
+              onClick={() => console.log('clicked')}
+              primary
+              reverse={false}
+            />
           </div>
-        }
-        link={
-          <Box direction="row" justify="between" responsive={false}>
-            {props.project.github_link && (
-              <Anchor
-                icon={<SocialGithubIcon />}
-                label="GitHub"
-                href={httpify(props.project.github_link)}
-                primary
-                reverse={false}
-                target="blank"
-                className="githubLink"
-              />
-            )}
-            {props.project.website_link && (
-              <Anchor
-                icon={<LinkNextIcon />}
-                label="Visit Site"
-                href={httpify(props.project.website_link)}
-                primary
-                reverse={false}
-                target="blank"
-                className="websiteLink"
-              />
-            )}
-          </Box>
         }
       />
     </Tile>
   );
 };
 
-ProjectCard.defaultProps = {
-  editProject: () => {},
+BountyCard.defaultProps = {
+  editBounty: () => {},
 };
 
-ProjectCard.propTypes = {
-  project: PropTypes.shape({
-    id: PropTypes.number,
-    images: PropTypes.string,
-    title: PropTypes.string,
-    description: PropTypes.string,
-    stack: PropTypes.string,
-    github_link: PropTypes.string,
-    website_link: PropTypes.string,
-  }).isRequired,
-  editProject: PropTypes.func,
-};
+// BountyCard.propTypes = {
+//   bounty: PropTypes.shape({
+//     id: PropTypes.number,
+//     images: PropTypes.string,
+//     title: PropTypes.string,
+//     description: PropTypes.string,
+//     stack: PropTypes.string,
+//     price: PropTypes.number
+//   }).isRequired,
+//   editBounty: PropTypes.func,
+// };
 
-export default ProjectCard;
+export default BountyCard;

@@ -54,6 +54,12 @@ exports.up = (knex, Promise) => {
       table.integer('owner_id')
         .references('uid')
         .inTable('users');
+      table.string('description');
+      table.integer('price');
+      table.string('stack');
+      table.string('images', 100000);
+      table.timestamp('created_at')
+        .defaultTo(knex.fn.now());
     }),
     knex.schema.createTable('messages', (table) => {
       table.increments('message_id').primary();

@@ -45,4 +45,5 @@ export const getConversations = (bountyId) => {
       });
   });
 };
-// get bounty - here it checks to see if user is bounty hunter and then sets it type: (BOUNTY)
+
+export default getConversations;
