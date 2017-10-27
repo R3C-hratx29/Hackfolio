@@ -39,9 +39,9 @@ class AddBountyCardLayer extends React.Component {
   render() {
     return (
       <Layer
-        onClose={this.props.hideBountyLayerFunction}
         hidden={this.props.hidden}
         closer
+        onClose={this.props.hideBountyLayerFunction}
       >
         <Box
           direction="row"
