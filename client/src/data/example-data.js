@@ -77,6 +77,7 @@ const data = {
   bounties: [
     {
       id: 1,
+      owner_id: 1,
       title: 'Make a project',
       description: 'Make it not suck',
       price: 1000.50,
@@ -85,6 +86,7 @@ const data = {
     },
     {
       id: 2,
+      owner_id: 1,
       title: 'Build a ecommerce app',
       description: 'an app that allows you to buy and sell used turkey basters',
       price: 0.99,
