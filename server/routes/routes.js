@@ -155,12 +155,6 @@ router.post('/project', Auth.isLoggedIn, (req, res) => {
         Project.findById(projectData.id, projectData.profile_id).then(projects => {
           if (!projects[0].length) {
             Project.updateProject(projectData).then(project => {
-              Notification.createNotification(req.io, {
-                user_id: dLoad.user_id,
-                conversation_id: null,
-                message: `Project "${project[0].title}" has been updated.`,
-                username: dLoad.username
-              });
               res.set({ username: dLoad.username });
               res.send(project[0]);
             });
@@ -271,7 +265,7 @@ router.post('/message', Auth.isLoggedIn, (req, res) => {
       Notification.createNotification(req.io, {
         user_id: req.body.receiverId,
         conversation_id: req.body.conversationId,
-        message: `Message from ${req.body.sender} in chat ${req.body.name}`,
+        message: `Message from <b>${req.body.sender}</b> in chat <b>${req.body.name}</b>`,
         username: req.body.receiver
       });
       res.end();

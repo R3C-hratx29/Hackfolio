@@ -93,7 +93,7 @@ class Notifications extends React.Component {
                   separator="horizontal"
                   onClick={() => { this.props.deleteNotification(notification.id); }}
                 >
-                  {notification.message}
+                  <span dangerouslySetInnerHTML={{ __html: notification.message }} />
                 </ListItem>
               );
             })

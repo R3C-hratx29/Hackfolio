@@ -5,8 +5,8 @@ import { Timestamp } from 'grommet';
 import '../../styles/Message.scss';
 
 const Message = (props) => (
-  <div>
-    <div className={props.message.sender === props.currentUser ? 'leftTime' : 'rightTime'} >
+  <div className="Message">
+    <div className={`time ${props.message.sender === props.currentUser ? 'sender' : 'reciever'}`} >
       <Timestamp value={props.message.created_at} />
     </div>
     <div className={`Main ${props.message.sender === props.currentUser ? 'Sender' : 'Reciever'}`}>
