@@ -300,20 +300,31 @@ router.get('/messages', Auth.isLoggedIn, (req, res) => {
 });
 
 router.get('/conversations', Auth.isLoggedIn, (req, res) => {
-  const bountyId = parseInt(req.query.bountyId, 10);
   const dLoad = jwt.decode(req.headers.jwt, secret);
-  Conversation.getByBounty(bountyId, dLoad.user_id)
-    .then((results) => {
-      results.forEach((el) => {
-        delete el.email;
-        delete el.password;
+  if (req.query.bounyId === undefined) {
+    Conversation.getAll(dLoad.user_id)
+      .then((results) => {
+        res.send(results);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.end();
       });
-      res.send(results);
-    })
-    .catch((err) => {
-      res.end();
-      console.log(err);
-    });
+  } else {
+    const bountyId = parseInt(req.query.bountyId, 10);
+    Conversation.getByBounty(bountyId, dLoad.user_id)
+      .then((results) => {
+        results.forEach((el) => {
+          delete el.email;
+          delete el.password;
+        });
+        res.send(results);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.end();
+      });
+  }
 });
 
 module.exports = router;

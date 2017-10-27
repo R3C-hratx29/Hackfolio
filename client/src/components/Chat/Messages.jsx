@@ -12,6 +12,10 @@ class Messages extends React.Component {
     this.state = {
       messages: []
     };
+    this.getMessages = this.getMessages.bind(this);
+  }
+  componentDidMount() {
+    this.getMessages(this.props.id);
   }
   componentWillReceiveProps(next) {
     if (next.id > 0 && next.id !== this.props.id) {
@@ -32,6 +36,17 @@ class Messages extends React.Component {
           console.log(err);
         });
     }
+  }
+  getMessages(id) {
+    axios.get('/api/messages', {
+      params: { conversationId: id }
+    })
+      .then((results) => {
+        this.setState({ messages: results.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   render() {
     return (

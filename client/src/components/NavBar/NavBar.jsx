@@ -52,8 +52,6 @@ class NavBar extends React.Component {
       this.setState({ help: true });
     }, 500);
   }
-
-
   searchHandler(e) {
     this.setState({ searchText: e.target.value });
   }
