@@ -2,6 +2,10 @@ const db = require('./db');
 
 const Bounty = {};
 
+Bounty.findAll = () => {
+  return db('bounties').select('*');
+};
+
 Bounty.addBounty = (data) => {
   return db('bounties').insert({
     owner_id: data.owner_id,

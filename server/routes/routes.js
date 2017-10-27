@@ -151,7 +151,10 @@ router.post('/bounty', Auth.isLoggedIn, (req, res) => {
 });
 
 router.get('/bounty', (req, res) => {
-  res.send('response');
+  Bounty.findAll()
+    .then(bounties => {
+      res.send(bounties);
+    });
 });
 
 router.post('/project', Auth.isLoggedIn, (req, res) => {
