@@ -3,3 +3,4 @@ client/build
 client/node_modules
 package-lock.json
 env.env
+npm-debug.log*

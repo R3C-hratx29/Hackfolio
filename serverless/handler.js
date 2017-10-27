@@ -8,7 +8,8 @@ module.exports.helloWorld = (event, context, callback) => {
     },
     body: JSON.stringify({
       message: 'Go Serverless v1.0! Your function executed successfully!!',
-      input: event
+      input: event,
+      context: 'hello'.padStart(10, 'HEY')
     }),
   };
 

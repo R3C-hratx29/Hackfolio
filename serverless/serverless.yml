@@ -14,10 +14,16 @@ provider:
 
 plugins:
   - serverless-offline
+  - serverless-plugin-optimize
+
+package:
+  individually: true
 
 custom:
   serverless-offline:
     port: 3002
+  optimize:
+    presets: ['es2017']
 
 # The `functions` block defines what code to deploy
 functions:
