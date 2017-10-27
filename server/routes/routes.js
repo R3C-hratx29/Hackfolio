@@ -8,6 +8,7 @@ const bcrypt = require('bcrypt');
 const secret = process.env.SECRET;
 
 const Auth = require('./auth.js');
+const Bounty = require('../models/bounty.js');
 const User = require('../models/user.js');
 const Profile = require('../models/profile.js');
 const Project = require('../models/project.js');
@@ -124,11 +125,32 @@ router.post('/profile', Auth.isLoggedIn, (req, res) => {
 });
 
 router.post('/bounty', Auth.isLoggedIn, (req, res) => {
-  res.send('sick route bro.');
+  const dLoad = jwt.decode(req.headers.jwt, secret);
+  const bountyData = {
+    id: req.body.id,
+    title: req.body.title,
+    owner_id: dLoad.user_id,
+    description: req.body.description,
+    price: req.body.price,
+    images: req.body.images,
+    stack: req.body.stack,
+  };
+
+  if (bountyData.id) {
+    Bounty.updateBounty(bountyData)
+      .then(bounty => {
+        res.send(bounty);
+      });
+  } else {
+    Bounty.addBounty(bountyData)
+      .then(bounty => {
+        res.send(bounty);
+      });
+  }
 });
 
 router.get('/bounty', (req, res) => {
-  res.send('dope route dude.');
+  res.send('response');
 });
 
 router.post('/project', Auth.isLoggedIn, (req, res) => {
