@@ -185,17 +185,25 @@ class EditProfile extends React.Component {
           hidden={this.props.imageURLHidden}
           closer onClose={this.props.hideImageURL}
         >
-        <FormField>
-          <TextInput
-            onDOMChange={this.updateProfilePic}
-            value={this.state.profile_pic}
-            placeHolder="Image URL"
-          />
+        <Box
+          size={{width:"large"}}
+          pad={{horizontal:"medium", between:"small", vertical:"medium"}}
+        >
+          <h4>Enter your image URL below.</h4>
+          <FormField>
+              <TextInput
+                onDOMChange={this.updateProfilePic}
+                value={this.state.profile_pic}
+                placeHolder="Image URL"
+              />
+          </FormField>
           <Anchor
             icon={<CheckmarkIcon />}
+            label="Submit"
+            align="center"
             onClick={this.saveProfilePic}
           />
-        </FormField>
+        </Box>
         </Layer>
         <Box
           direction="row"

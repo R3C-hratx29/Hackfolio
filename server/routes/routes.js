@@ -129,7 +129,7 @@ router.post('/bounty', Auth.isLoggedIn, (req, res) => {
 });
 
 router.get('/bounty', (req, res) => {
-  res.send('fucking dope route dude.');
+  res.send('dope route dude.');
 });
 
 router.post('/project', Auth.isLoggedIn, (req, res) => {
