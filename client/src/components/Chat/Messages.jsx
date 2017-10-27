@@ -11,23 +11,30 @@ class Messages extends React.Component {
     this.state = {
       messages: []
     };
+    this.getMessages = this.getMessages.bind(this);
+  }
+  componentDidMount() {
+    this.getMessages(this.props.id);
   }
   componentWillReceiveProps(next) {
     if (next.id > 0 && next.id !== this.props.id) {
-      socket.removeListener(`conversations:${this.props.id}`);
+      socket.removeListener(`conversation:${this.props.id}`);
       socket.on(`conversation:${next.id}`, (data) => {
         this.setState({ messages: data.data });
       });
-      axios.get('/api/messages', {
-        params: { conversationId: next.id }
-      })
-        .then((results) => {
-          this.setState({ messages: results.data });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      this.getMessages(next.id);
     }
+  }
+  getMessages(id) {
+    axios.get('/api/messages', {
+      params: { conversationId: id }
+    })
+      .then((results) => {
+        this.setState({ messages: results.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   render() {
     return (

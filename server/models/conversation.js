@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 const db = require('./db');
 
 const Conversation = {};
@@ -31,6 +32,28 @@ Conversation.getByBounty = (bountyId, userId) => {
     })
     .catch((err) => {
       throw err;
+    });
+};
+
+Conversation.getAll = (userId) => {
+  return db.from('users')
+    .where({ 'conversations.owner_id': userId })
+    .orWhere({ 'conversations.bounty_hunter': userId })
+    .join('conversations', (function () {
+      this.on(function () {
+        this.on('conversations.owner_id', '=', 'users.uid');
+        this.orOn('conversations.bounty_hunter', '=', 'users.uid');
+      });
+    }))
+    .select('username', 'uid', 'conversation_id', 'name', 'bounty_id')
+    .then((results) => {
+      const ret = [];
+      results.forEach((row) => {
+        if (row.uid !== userId) {
+          ret.push(row);
+        }
+      });
+      return ret;
     });
 };
 
