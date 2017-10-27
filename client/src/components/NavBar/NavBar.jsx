@@ -52,30 +52,8 @@ class NavBar extends React.Component {
       this.setState({ help: true });
     }, 500);
   }
-  
-  componentWillReceiveProps(next) {
-    const { notificationChannel } = this.state;
 
-    if (next.user) {
-      const { username } = next.user;
 
-      if (!notificationChannel || username !== notificationChannel) {
-        if (notificationChannel) {
-          // Remove previous user's event listener
-          socket.removeListener(`notification:${notificationChannel}`);
-        }
-
-        // Add new user's event listener
-        socket.on(`notification:${username}`, () => {
-          console.log('here');
-          this.props.getNotifications();
-        });
-        this.setState({
-          notificationChannel: username
-        });
-      }
-    }
-  }
   searchHandler(e) {
     this.setState({ searchText: e.target.value });
   }
