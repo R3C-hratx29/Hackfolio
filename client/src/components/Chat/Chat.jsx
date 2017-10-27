@@ -78,10 +78,9 @@ class Chat extends React.Component {
         >
           <Box direction="row" justify="between">
             <Heading>{this.props.conversation.name}</Heading>
-            <Box className="userMenu" size={{ width: 'small' }}>
+            <Box className="userMenu">
               { this.state.isOwner ?
                 <Menu
-                  size="small"
                   label="Users"
                   colorIndex="brand"
                 >

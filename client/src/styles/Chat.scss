@@ -2,7 +2,12 @@
 
 .Chat {
   .userMenu {
-
+    * {
+      border: 0 !important;
+      margin: 0 !important;
+      margin-left: 10px !important;
+      box-shadow: none !important;
+    }
   }
 
   .messages {
