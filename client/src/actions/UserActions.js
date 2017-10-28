@@ -15,7 +15,6 @@ export const getNotifications = () => {
     return axios
       .get('/api/notifications')
       .then(res => {
-        console.log(res.data);
         dispatch(setNotifications(res.data));
       })
       .catch(err => {

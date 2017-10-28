@@ -9,18 +9,23 @@ import {
   Box,
   Menu,
   Anchor,
-  Split
+  Split,
+  Heading,
+  Button
 } from 'grommet';
 
 import { setConversation, getConversations } from '../../actions/BountyActions';
 import socket from '../../socket';
 import Messages from '../Chat/Messages';
+import InputMessage from './InputMessage';
+import '../../styles/ConversationPage.scss';
 
 class ConversationPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      conversation: this.props.conversations[0] // TODO
+      conversation: this.props.conversations[0], // TODO
+      convoName: ''
     };
   }
   componentDidMount() {
@@ -42,6 +47,7 @@ class ConversationPage extends React.Component {
       }
     });
     this.setState({ conversation: picked.conversation_id });
+    this.setState({ convoName: picked.name });
   }
   render() {
     return (
@@ -51,7 +57,7 @@ class ConversationPage extends React.Component {
           flex="right"
         >
           <Sidebar
-            colorIndex="unknown"
+            className="sidebar"
             full={false}
           >
             <Header
@@ -64,17 +70,30 @@ class ConversationPage extends React.Component {
             </Header>
             <Box
               justify="start"
+              pad={{ horizontal: 'medium', vertical: 'medium' }}
             >
               <Menu
                 primary
+                pad={{ between: 'medium' }}
               >
                 { this.props.conversations.map((convo) => {
                   return (
-                    <Anchor
-                      label={convo.name}
-                      onClick={() => this.pickConversation(convo)}
-                      key={convo.conversation_id}
-                    />);
+                    <Box
+                      direction="row"
+                      justify="between"
+                    >
+                      <Anchor
+                        label={convo.name}
+                        onClick={() => this.pickConversation(convo)}
+                        key={convo.conversation_id}
+                      />
+                      <Button
+                        primary
+                        label="Bounty"
+                        onClick={() => console.log('picked', convo.bounty_id)}
+                        key={convo.conversation_id + convo.bounty_hunter + convo.owner_id}
+                      />
+                    </Box>);
                 }) }
               </Menu>
             </Box>
@@ -82,7 +101,11 @@ class ConversationPage extends React.Component {
           <Box
             pad={{ horizontal: 'large', vertical: 'small' }}
           >
+            <Heading align="center" strong >
+              {this.state.convoName}
+            </Heading>
             <Messages id={this.state.conversation} />
+            <InputMessage />
           </Box>
         </Split>
       </App>
