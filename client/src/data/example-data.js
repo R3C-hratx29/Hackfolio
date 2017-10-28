@@ -76,7 +76,7 @@ const data = {
   },
   bounties: [
     {
-      id: 1,
+      bounty_id: 1,
       owner_id: 1,
       title: 'Make a project',
       description: 'Make it not suck',
@@ -85,7 +85,7 @@ const data = {
       stack: 'javascript, heroku, node'
     },
     {
-      id: 2,
+      bounty_id: 2,
       owner_id: 1,
       title: 'Build a ecommerce app',
       description: 'an app that allows you to buy and sell used turkey basters',

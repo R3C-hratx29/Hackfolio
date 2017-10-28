@@ -3,11 +3,26 @@ const db = require('./db');
 
 const Profile = {};
 
+const randomPic = () => {
+  const pics = [
+    'https://tinyurl.com/yc4ucapz',
+    'https://tinyurl.com/y88wr4kc',
+    'https://tinyurl.com/y7mjm4ne',
+    'https://tinyurl.com/yddrmj2f',
+    'https://tinyurl.com/yb5bl8g7',
+    'https://tinyurl.com/yd6xmxoe',
+    'https://tinyurl.com/y985tjmj',
+    'https://tinyurl.com/y9kc6lvc'
+  ];
+
+  return pics[Math.floor(Math.random() * pics.length)];
+};
+
 Profile.init = (data) => {
   db('profiles').insert({
     user_id: data.uid,
     bio: data.bio || 'Edit your bio here...',
-    profile_pic: data.profile_pic || 'https://tinyurl.com/ybny9zhw',
+    profile_pic: data.profile_pic || randomPic(),
     profession: 'Edit your profession here...',
     name: data.name || data.username,
     github: data.github || null,

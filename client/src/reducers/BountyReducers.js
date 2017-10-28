@@ -21,6 +21,17 @@ export const bountyReducer = (state = { bounty: { bounty_id: -1 } }, action) => 
   }
 };
 
+export const bountiesReducer = (state = { bounties: [] }, action) => {
+  switch (action.type) {
+    case 'SET_BOUNTIES': {
+      return Object.assign({}, action.payload);
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
 export const conversationsReducer = (state = { conversations: [] }, action) => {
   switch (action.type) {
     case 'CONVERSATIONS': {

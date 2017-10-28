@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 // Grommet Components
 import {
@@ -35,9 +35,10 @@ function httpify(value) {
 }
 
 
-const BountyCard = () => {
-  const images = data.bounties[0].images.split(',');
-  const stack = data.bounties[0].stack.split(',');
+const BountyCard = props => {
+  console.log(props)
+  const images = props.bounty.images.split(',');
+  const stack = props.bounty.stack.split(',');
 
   return (
     <Tile className="ProjectCard">
@@ -69,7 +70,7 @@ const BountyCard = () => {
         contentPad="medium"
         heading={
           <Heading strong tag="h2">
-            {data.bounties[0].title}
+            {props.bounty.title}
             <EditIcon
               className="editBountyIcon"
               onClick={() => console.log('weee')}
@@ -79,7 +80,7 @@ const BountyCard = () => {
         description={
           <div>
             <Heading tag="h3" className="description">
-              {data.bounties[0].description}
+              {props.bounty.description}
             </Heading>
             <div className="stack">
               {stack.map((el, index) => {
@@ -89,7 +90,7 @@ const BountyCard = () => {
             </div>
             <div>
               <Value
-                value={data.bounties[0].price.toLocaleString(
+                value={props.bounty.price.toLocaleString(
                     'en-IN',
                     {
                       minimumFractionDigits: 2,
@@ -115,20 +116,15 @@ const BountyCard = () => {
   );
 };
 
-BountyCard.defaultProps = {
-  editBounty: () => {},
+BountyCard.propTypes = {
+  bounty: PropTypes.shape({
+    bounty_id: PropTypes.nuber,
+    price: PropTypes.number,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    images: PropTypes.string,
+    stack: PropTypes.string
+  }).isRequired,
 };
-
-// BountyCard.propTypes = {
-//   bounty: PropTypes.shape({
-//     id: PropTypes.number,
-//     images: PropTypes.string,
-//     title: PropTypes.string,
-//     description: PropTypes.string,
-//     stack: PropTypes.string,
-//     price: PropTypes.number
-//   }).isRequired,
-//   editBounty: PropTypes.func,
-// };
 
 export default BountyCard;
