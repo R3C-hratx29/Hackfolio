@@ -1,0 +1,12 @@
+{
+  "plugins": ["transform-runtime"],
+  "presets": [
+    [
+      "cordial",
+      {
+        "version": "es2017",
+        "modules": "commonjs"
+      }
+    ]
+  ]
+}

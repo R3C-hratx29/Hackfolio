@@ -7,9 +7,9 @@ module.exports.helloWorld = (event, context, callback) => {
       'Access-Control-Allow-Origin': '*', // Required for CORS support to work
     },
     body: JSON.stringify({
-      message: 'Go Serverless v1.0! Your function executed successfully!!',
+      message: 'Go Serverless v1.0! Your function executed successfully!',
       input: event,
-      context: 'hello'.padStart(10, 'HEY')
+      thanks2webpack: 'es2017!'.padStart(16, 'oh look, ') //
     }),
   };
 
