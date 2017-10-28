@@ -1,13 +1,15 @@
 import React from 'react';
-// import { connect } from 'react-redux';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import * as BountyAction from '../../actions/BountyActions';
 
 // Grommet Components
-// import {
-//   // Tiles,
-//   // Box,
-//   // Button
-// } from 'grommet';
+import {
+  Tiles,
+  Box,
+  Button
+} from 'grommet';
 
 // Custom Components
 import AddBountyTile from './AddBountyTile';
@@ -19,18 +21,14 @@ import './../../styles/BountyContainer.scss';
 class BountyContainer extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      // hideBountyModal: true,
-      // edit: null,
+      hideBountyModal: true,
+      edit: null,
     };
   }
-  componentWillMount() {
-    setTimeout(() => {
-      this.setState({
-        // help: true,
-      });
-    }, 500);
+
+  componentDidMount() {
+    this.props.getBounties();
   }
 
   editBounty(bounty) {
@@ -41,10 +39,16 @@ class BountyContainer extends React.Component {
   }
 
   render() {
+    const bounties = this.props.bounties.bounties
+      .map((bounty, i) => {
+        return <BountyCard key={i} bounty={bounty} />;
+      });
     return (
       <div>
         BountyContainer
-        <BountyCard />
+        <Tiles flush={false} justify="between">
+          {bounties}
+        </Tiles>
         <AddBountyTile />
         <EditBountyCardLayer />
       </div>
@@ -52,4 +56,26 @@ class BountyContainer extends React.Component {
   }
 }
 
-export default BountyContainer;
+BountyContainer.defaultProps = {
+  bounties: {
+    bounties: []
+  },
+};
+
+BountyContainer.propTypes = {
+  bounties: PropTypes.shape({ bounties: PropTypes.array }),
+  getBounties: PropTypes.func.isRequired,
+}
+
+const mapStateToProps = (state) => {
+  return {
+    bounties: state.bounties
+  };
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getBounties: () => dispatch(BountyAction.getBounties())
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(BountyContainer);

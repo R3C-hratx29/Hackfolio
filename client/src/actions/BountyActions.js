@@ -1,5 +1,12 @@
 import axios from 'axios';
 
+const setBounties = (bounties) => {
+  return {
+    type: 'SET_BOUNTIES',
+    payload: { bounties }
+  };
+};
+
 const setBountyHunters = (bountyHunters) => {
   return {
     type: 'BOUNTY_HUNTERS',
@@ -19,6 +26,18 @@ export const setConversation = (conversation) => {
     type: 'CONVERSATION',
     payload: { conversation }
   };
+};
+
+export const getBounties = () => {
+  return (dispatch => {
+    return axios.get('/api/bounty')
+      .then(res => {
+        dispatch(setBounties(res.data));
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
 };
 
 export const getConversations = (bountyId) => {
