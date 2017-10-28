@@ -1,20 +1,6 @@
 @import './variables.scss';
 
-.Chat {
-  .userMenu {
-    * {
-      border: 0 !important;
-      margin: 0 !important;
-      margin-left: 10px !important;
-      box-shadow: none !important;
-    }
-  }
-
-  .messages {
-    overflow: auto;
-  }
-
-  .messageInput {
+.InputMessage {
 
     .textarea {
       border-radius: 0;
@@ -30,4 +16,4 @@
       box-shadow: none !important;
     }
   }
-}
+

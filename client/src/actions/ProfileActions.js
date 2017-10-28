@@ -12,7 +12,6 @@ export const getProfile = (id) => {
   return ((dispatch) => {
     return axios.get(`/api/user/${id}`)
       .then((res) => {
-        console.log('getProfile', res.data);
         dispatch(setProfile(res.data));
       })
       .catch((err) => {
@@ -23,7 +22,6 @@ export const getProfile = (id) => {
 
 export const changeProfile = (data, profile) => {
   const newProfile = {};
-  console.log('Profile:', data);
   Object.entries(profile).forEach((el) => {
     const key = el[0];
     newProfile[key] = data[key] ? data[key] : profile[key];

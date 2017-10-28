@@ -30,8 +30,7 @@
     }
 
     &.Sender {
-      background-color: $brand;
-      color: white;
+      background-color: rgb(226, 226, 226);
       margin-left: 225px;
 
       .name {
@@ -41,7 +40,8 @@
     }
 
     &.Reciever {
-      background-color: rgb(226, 226, 226);
+      background-color: $brand;
+      color: white;
       margin-right: 255px;
     }
   }
