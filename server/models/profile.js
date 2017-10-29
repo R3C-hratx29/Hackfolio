@@ -5,14 +5,11 @@ const Profile = {};
 
 const randomPic = () => {
   const pics = [
-    'https://tinyurl.com/yc4ucapz',
-    'https://tinyurl.com/y88wr4kc',
-    'https://tinyurl.com/y7mjm4ne',
-    'https://tinyurl.com/yddrmj2f',
-    'https://tinyurl.com/yb5bl8g7',
-    'https://tinyurl.com/yd6xmxoe',
-    'https://tinyurl.com/y985tjmj',
-    'https://tinyurl.com/y9kc6lvc'
+    'https://tinyurl.com/yd7an2k4',
+    'https://tinyurl.com/opt3o9q',
+    'https://tinyurl.com/y8omrbe5',
+    'https://tinyurl.com/y8r55obv',
+    'https://tinyurl.com/ycrg5o7k'
   ];
 
   return pics[Math.floor(Math.random() * pics.length)];

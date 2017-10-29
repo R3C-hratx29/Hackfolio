@@ -14,7 +14,7 @@ const reducers = combineReducers({
   checkUser: checkUserReducer,
   searchResults: searchReducer,
   notifications: notificationReducer,
-  bounties: bountiesReducer, 
+  bounties: bountiesReducer,
   bounty: bountyReducer,
   bountyHunters: bountyHunterReducer,
   conversations: conversationsReducer,

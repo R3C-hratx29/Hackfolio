@@ -24,8 +24,6 @@ import placeHolderImage from './../../images/placeholder.png';
 
 import './../../styles/BountyCard.scss';
 
-import data from './../../data/example-data';
-
 function httpify(value) {
   let string = value.trim();
   if (!/^((http|https):\/\/)/.test(value.trim())) {
@@ -36,7 +34,6 @@ function httpify(value) {
 
 
 const BountyCard = props => {
-  console.log(props)
   const images = props.bounty.images.split(',');
   const stack = props.bounty.stack.split(',');
 

@@ -2,16 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import * as BountyAction from '../../actions/BountyActions';
 
 // Grommet Components
 import {
   Tiles,
-  Box,
-  Button
 } from 'grommet';
 
 // Custom Components
+import * as BountyAction from '../../actions/BountyActions';
 import AddBountyTile from './AddBountyTile';
 import EditBountyCardLayer from './EditBountyCardLayer';
 import BountyCard from './BountyCard';
@@ -22,8 +20,8 @@ class BountyContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hideBountyModal: true,
-      edit: null,
+      // hideBountyModal: true,
+      // edit: null,
     };
   }
 
@@ -31,16 +29,17 @@ class BountyContainer extends React.Component {
     this.props.getBounties();
   }
 
-  editBounty(bounty) {
-    this.setStat({
-      hideBountyModal: false,
-      edit: bounty,
-    });
-  }
+  // editBounty(bounty) {
+  //   this.setState({
+  //     // hideBountyModal: false,
+  //     // edit: bounty,
+  //   });
+  // }
 
   render() {
     const bounties = this.props.bounties.bounties
-      .map((bounty, i) => {
+      .map((bounty, index) => {
+        const i = index;
         return <BountyCard key={i} bounty={bounty} />;
       });
     return (
@@ -65,13 +64,13 @@ BountyContainer.defaultProps = {
 BountyContainer.propTypes = {
   bounties: PropTypes.shape({ bounties: PropTypes.array }),
   getBounties: PropTypes.func.isRequired,
-}
+};
 
 const mapStateToProps = (state) => {
   return {
     bounties: state.bounties
   };
-}
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
