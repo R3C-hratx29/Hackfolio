@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 // Grommet Components
 import {
   Tile,
@@ -20,6 +21,7 @@ import {
   MoneyIcon
 } from 'grommet/components/icons/base';
 
+import { setBounty } from '../../actions/BountyActions';
 import placeHolderImage from './../../images/placeholder.png';
 
 import './../../styles/BountyCard.scss';
@@ -34,7 +36,7 @@ function httpify(value) {
 
 
 const BountyCard = props => {
-  const images = props.bounty.images.split(',');
+  const images = props.bounty.images ? props.bounty.images.split(',') : [];
   const stack = props.bounty.stack.split(',');
 
   return (
@@ -102,7 +104,7 @@ const BountyCard = props => {
             <Anchor
               icon={<SendIcon />}
               label="Discuss Terms"
-              onClick={() => console.log('clicked')}
+              onClick={() => props.setBounty(props.bounty)}
               primary
               reverse={false}
             />
@@ -122,6 +124,16 @@ BountyCard.propTypes = {
     images: PropTypes.string,
     stack: PropTypes.string
   }).isRequired,
+  setBounty: PropTypes.func.isRequired
 };
 
-export default BountyCard;
+const mapStateToProps = () => {
+  return {};
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setBounty: (id) => { dispatch(setBounty(id)); dispatch(push('/chat')); }
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(BountyCard);

@@ -21,7 +21,7 @@ class ChatModal extends React.Component {
     };
   }
   componentWillMount() {
-    this.props.getConversations(this.props.bounty, this.state.isOwner, this.props.currentUser);
+    this.props.getConversations(this.props.bounty, this.state.isOwner);
   }
   componentWillReceiveProps(next) {
     let { isOwner } = this.state;
@@ -32,7 +32,7 @@ class ChatModal extends React.Component {
       }
     }
     if (this.props.bounty !== next.bounty || this.props.currentUser !== next.currentUser) {
-      next.getConversations(next.bounty, isOwner, next.currentUser);
+      next.getConversations(next.bounty, isOwner);
     }
   }
   pickConversation(user) {
@@ -112,7 +112,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     currentUser: state.currentUser.user.user_id,
-    bounty: 7,
+    bounty: state.bounty.bounty,
     conversations: state.conversations.conversations,
     conversation: state.conversation.conversation,
     bountyHunters: state.bountyHunters.bountyHunters

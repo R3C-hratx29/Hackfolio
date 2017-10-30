@@ -4,7 +4,7 @@ const db = require('./db');
 const Conversation = {};
 
 Conversation.post = (bountyId, bountyHunter, ownerId, name) => {
-  return db('messages').insert({
+  return db('conversations').insert({
     bounty_id: bountyId,
     owner_id: ownerId,
     bounty_hunter: bountyHunter,
