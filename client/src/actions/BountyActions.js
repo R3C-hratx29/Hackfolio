@@ -21,6 +21,7 @@ const setConversations = (conversations) => {
   };
 };
 
+
 export const setConversation = (conversation) => {
   return {
     type: 'CONVERSATION',
@@ -40,22 +41,41 @@ export const getBounties = () => {
   });
 };
 
-export const getConversations = (bountyId) => {
+const postConversation = (bounty, currentUser) => {
   return ((dispatch) => {
-    return axios.get('/api/conversations', {
-      params: { bountyId }
+    return axios.post('/api/converstion', {
+      bounty_hunter: currentUser,
+      bounty_id: bounty.bounty_id,
+      bounty_title: bounty.bounty_title,
+      bounty_owner: bounty.bounty_owner
     })
       .then((results) => {
-        const bountyHunters = [];
-        results.data.forEach((convo) => {
-          const user = {};
-          user.username = convo.username;
-          user.user_id = convo.uid;
-          bountyHunters.push(user);
-        });
-        dispatch(setBountyHunters(bountyHunters));
-        dispatch(setConversations(results.data));
-        if (results.data.length > 0) {
+        dispatch(setConversation(results.data));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+};
+
+export const getConversations = (bounty, isOwner, currentUser) => {
+  return ((dispatch) => {
+    return axios.get('/api/conversations', {
+      params: { bounty: bounty.bountyId }
+    })
+      .then((results) => {
+        if (results.data.length < 1 && !isOwner) {
+          dispatch(postConversation(bounty, currentUser));
+        } else {
+          const bountyHunters = [];
+          results.data.forEach((convo) => {
+            const user = {};
+            user.username = convo.username;
+            user.user_id = convo.uid;
+            bountyHunters.push(user);
+          });
+          dispatch(setBountyHunters(bountyHunters));
+          dispatch(setConversations(results.data));
           dispatch(setConversation(results.data[0]));
         }
       })

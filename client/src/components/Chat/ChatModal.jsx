@@ -17,22 +17,22 @@ class ChatModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOwner: false
+      isOwner: this.props.currentUser === this.props.bounty.owner_id
     };
   }
   componentWillMount() {
-    this.props.getConversations(this.props.bounty);
+    this.props.getConversations(this.props.bounty, this.state.isOwner, this.props.currentUser);
   }
   componentWillReceiveProps(next) {
-    if (this.props.bounty !== next.bounty) {
-      next.getConversations(next.bounty);
-    } else if (this.props.currentUser !== next.currentUser) {
-      next.getConversations(next.bounty);
-    }
+    let { isOwner } = this.state;
     if (this.props.conversation.owner_id !== next.conversation.owner_id) {
       if (next.conversation.owner_id === next.currentUser) {
+        isOwner = true;
         this.setState({ isOwner: true });
       }
+    }
+    if (this.props.bounty !== next.bounty || this.props.currentUser !== next.currentUser) {
+      next.getConversations(next.bounty, isOwner, next.currentUser);
     }
   }
   pickConversation(user) {
