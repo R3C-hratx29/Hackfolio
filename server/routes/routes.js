@@ -193,7 +193,6 @@ router.delete('/favorite', Auth.isLoggedIn, (req, res) => {
   const dLoad = jwt.decode(req.headers.jwt, secret);
   const userId = dLoad.user_id;
   const bountyId = req.body.bounty_id;
-  console.log(userId);
 
   Favorite.deleteFavorite(userId, bountyId)
     .then(() => {
