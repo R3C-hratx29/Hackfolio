@@ -55,7 +55,7 @@ exports.up = (knex, Promise) => {
         .references('uid')
         .inTable('users');
       table.string('description');
-      table.integer('price');
+      table.decimal('price', 14, 2);
       table.string('stack');
       table.string('images', 100000);
       table.timestamp('created_at')
@@ -86,7 +86,7 @@ exports.up = (knex, Promise) => {
         .inTable('users');
     }),
     knex.schema.createTable('favorites', (table) => {
-      table.increments('favorites_id').primary();
+      table.increments('favorite_id').primary();
       table.integer('bounty_id')
         .references('bounty_id')
         .inTable('bounties');
