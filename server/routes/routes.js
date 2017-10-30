@@ -192,9 +192,10 @@ router.get('/favorite', Auth.isLoggedIn, (req, res) => {
 router.delete('/favorite', Auth.isLoggedIn, (req, res) => {
   const dLoad = jwt.decode(req.headers.jwt, secret);
   const userId = dLoad.user_id;
-  const favoriteId = req.body.favorite_id;
+  const bountyId = req.body.bounty_id;
+  console.log(userId);
 
-  Favorite.deleteFavorite(favoriteId)
+  Favorite.deleteFavorite(userId, bountyId)
     .then(() => {
       Favorite.getAllByUserId(userId)
         .then(favorites => {
