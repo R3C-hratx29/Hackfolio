@@ -84,6 +84,15 @@ exports.up = (knex, Promise) => {
       table.integer('owner_id')
         .references('uid')
         .inTable('users');
+    }),
+    knex.schema.createTable('favorites', (table) => {
+      table.increments('favorites_id').primary();
+      table.integer('bounty_id')
+        .references('bounty_id')
+        .inTable('bounties');
+      table.integer('owner_id')
+        .references('uid')
+        .inTable('users');
     })
   ]);
 };
@@ -93,6 +102,7 @@ exports.down = (knex, Promise) => {
     knex.schema.dropTable('notifications'),
     knex.schema.dropTable('messages'),
     knex.schema.dropTable('conversations'),
+    knex.schema.dropTable('favorites'),
     knex.schema.dropTable('bounties'),
     knex.schema.dropTable('projects'),
     knex.schema.dropTable('profiles'),
