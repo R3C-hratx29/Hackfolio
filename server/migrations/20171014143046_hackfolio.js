@@ -90,7 +90,7 @@ exports.up = (knex, Promise) => {
       table.integer('bounty_id')
         .references('bounty_id')
         .inTable('bounties');
-      table.integer('owner_id')
+      table.integer('user_id')
         .references('uid')
         .inTable('users');
     })
