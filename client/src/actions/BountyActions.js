@@ -64,7 +64,6 @@ const postConversation = (bounty) => {
 };
 
 export const getConversations = (bounty, isOwner) => {
-  console.log(bounty, 'in get');
   return ((dispatch) => {
     return axios.get('/api/conversations', {
       params: { bountyId: bounty.bounty_id }
@@ -91,4 +90,49 @@ export const getConversations = (bounty, isOwner) => {
   });
 };
 
-export default getConversations;
+export const setFavorite = (bountyIds) => {
+  const fave = [];
+  bountyIds.forEach((el) => {
+    fave.push(el.bounty_id);
+  });
+  return {
+    type: 'SET_FAVORITE',
+    payload: { favorite: fave }
+  };
+};
+
+export const changeFavorite = (bountyId, isFave) => {
+  if (isFave) {
+    return ((dispatch) => {
+      return axios.delete('/api/favorite', { bountyId })
+        .then((results) => {
+          dispatch(setFavorite(results.data));
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    });
+  }
+  return ((dispatch) => {
+    return axios.post('/api/favorite', { bountyId })
+      .then((results) => {
+        dispatch(setFavorite(results.data));
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
+};
+
+export const getFavorites = () => {
+  return ((dispatch) => {
+    return axios.get('/api/favorite')
+      .then((results) => {
+        dispatch(setFavorite(results.data));
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
+};
+

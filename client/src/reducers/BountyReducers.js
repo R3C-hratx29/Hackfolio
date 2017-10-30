@@ -53,3 +53,14 @@ export const conversationReducer = (state = { conversation: { conversation_id: -
     }
   }
 };
+
+export const favoritesReducer = (state = { favorites: [] }, action) => {
+  switch (action.type) {
+    case 'SET_FAVORITE': {
+      return Object.assign({}, action.payload);
+    }
+    default: {
+      return state;
+    }
+  }
+};

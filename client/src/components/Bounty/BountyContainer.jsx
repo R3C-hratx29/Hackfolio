@@ -27,6 +27,7 @@ class BountyContainer extends React.Component {
 
   componentDidMount() {
     this.props.getBounties();
+    this.props.getFavorites();
   }
 
   // editBounty(bounty) {
@@ -64,6 +65,7 @@ BountyContainer.defaultProps = {
 BountyContainer.propTypes = {
   bounties: PropTypes.shape({ bounties: PropTypes.array }),
   getBounties: PropTypes.func.isRequired,
+  getFavorites: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -74,7 +76,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getBounties: () => dispatch(BountyAction.getBounties())
+    getBounties: () => dispatch(BountyAction.getBounties()),
+    getFavorites: () => dispatch(BountyAction.getFavorites())
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(BountyContainer);

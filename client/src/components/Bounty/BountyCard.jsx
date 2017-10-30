@@ -18,10 +18,11 @@ import {
 import {
   EditIcon,
   SendIcon,
-  MoneyIcon
+  MoneyIcon,
+  StarIcon
 } from 'grommet/components/icons/base';
 
-import { setBounty } from '../../actions/BountyActions';
+import { setBounty, changeFavorite } from '../../actions/BountyActions';
 import placeHolderImage from './../../images/placeholder.png';
 
 import './../../styles/BountyCard.scss';
@@ -39,6 +40,8 @@ const BountyCard = props => {
   const images = props.bounty.images ? props.bounty.images.split(',') : [];
   const stack = props.bounty.stack.split(',');
   const price = Number(props.bounty.price);
+  const color = props.favorites.includes(props.bounty.bounty_id) ? 'warning' : 'unknown';
+  const isFave = props.favorites.includes(props.bounty.bounty_id);
 
   return (
     <Tile className="ProjectCard">
@@ -109,6 +112,10 @@ const BountyCard = props => {
               primary
               reverse={false}
             />
+            <Anchor
+              icon={<StarIcon colorIndex={color} />}
+              onClick={() => props.changeFavorite(props.bounty.bounty_id, isFave)}
+            />
           </div>
         }
       />
@@ -125,16 +132,21 @@ BountyCard.propTypes = {
     images: PropTypes.string,
     stack: PropTypes.string
   }).isRequired,
-  setBounty: PropTypes.func.isRequired
+  favorites: PropTypes.arrayOf(PropTypes.number).isRequired,
+  setBounty: PropTypes.func.isRequired,
+  changeFavorite: PropTypes.func.isRequired
 };
 
-const mapStateToProps = () => {
-  return {};
+const mapStateToProps = (state) => {
+  return {
+    favorites: state.favorites.favorites
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setBounty: (id) => { dispatch(setBounty(id)); dispatch(push('/chat')); }
+    setBounty: (id) => { dispatch(setBounty(id)); dispatch(push('/chat')); },
+    changeFavorite: (id, isFave) => dispatch(changeFavorite(id, isFave))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(BountyCard);
