@@ -33,10 +33,11 @@ Favorite.addFavorite = (userId, bountyId) => {
     });
 };
 
-Favorite.deleteFavorite = (favoriteId) => {
+Favorite.deleteFavorite = (userId, bountyId) => {
   return db('favorites')
     .where({
-      favorite_id: favoriteId
+      owner_id: userId,
+      bounty_id: bountyId
     })
     .del()
     .catch(err => {
