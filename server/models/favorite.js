@@ -10,6 +10,15 @@ Favorite.getAllByUserId = (userId) => {
     .select('*');
 };
 
+Favorite.getByUserAndBountyId = (userId, bountyId) => {
+  return db('favorites')
+    .where({
+      owner_id: userId,
+      bounty_id: bountyId
+    })
+    .select('*');
+};
+
 Favorite.addFavorite = (userId, bountyId) => {
   return db('favorites')
     .insert({
@@ -27,7 +36,7 @@ Favorite.addFavorite = (userId, bountyId) => {
 Favorite.deleteFavorite = (favoriteId) => {
   return db('favorites')
     .where({
-      id: favoriteId
+      favorite_id: favoriteId
     })
     .del()
     .catch(err => {

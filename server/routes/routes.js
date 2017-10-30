@@ -10,12 +10,13 @@ const secret = process.env.SECRET;
 
 const Auth = require('./auth.js');
 const Bounty = require('../models/bounty.js');
-const User = require('../models/user.js');
+const Conversation = require('../models/conversation.js');
+const Favorite = require('../models/favorite.js');
+const Message = require('../models/message.js');
+const Notification = require('../models/notification.js');
 const Profile = require('../models/profile.js');
 const Project = require('../models/project.js');
-const Notification = require('../models/notification.js');
-const Message = require('../models/message.js');
-const Conversation = require('../models/conversation.js');
+const User = require('../models/user.js');
 
 
 // TODO: Refactor routes into seperate files.
@@ -154,6 +155,57 @@ router.get('/bounty', (req, res) => {
   Bounty.findAll()
     .then(bounties => {
       res.send(bounties);
+    });
+});
+
+router.post('/favorite', Auth.isLoggedIn, (req, res) => {
+  const dLoad = jwt.decode(req.headers.jwt, secret);
+  const userId = dLoad.user_id;
+  const bountyId = req.body.bounty_id;
+
+  Favorite.getByUserAndBountyId(userId, bountyId)
+    .then(favorites => {
+      if (!favorites.length) {
+        Favorite.addFavorite(userId, bountyId)
+          .then(favorite => {
+            res.send(favorite[0]);
+          });
+      } else {
+        res.send('Favorite already exists.');
+      }
+    });
+});
+
+router.get('/favorite', Auth.isLoggedIn, (req, res) => {
+  const dLoad = jwt.decode(req.headers.jwt, secret);
+  const userId = dLoad.user_id;
+
+  Favorite.getAllByUserId(userId)
+    .then(favorites => {
+      res.send(favorites);
+    })
+    .catch(err => {
+      console.error(err);
+    });
+});
+
+router.delete('/favorite', Auth.isLoggedIn, (req, res) => {
+  const dLoad = jwt.decode(req.headers.jwt, secret);
+  const userId = dLoad.user_id;
+  const favoriteId = req.body.favorite_id;
+
+  Favorite.deleteFavorite(favoriteId)
+    .then(() => {
+      Favorite.getAllByUserId(userId)
+        .then(favorites => {
+          res.send(favorites);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    })
+    .catch(err => {
+      console.error(err);
     });
 });
 

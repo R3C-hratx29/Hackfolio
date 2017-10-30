@@ -36,6 +36,7 @@ function httpify(value) {
 const BountyCard = props => {
   const images = props.bounty.images.split(',');
   const stack = props.bounty.stack.split(',');
+  const price = Number(props.bounty.price);
 
   return (
     <Tile className="ProjectCard">
@@ -87,7 +88,7 @@ const BountyCard = props => {
             </div>
             <div>
               <Value
-                value={props.bounty.price.toLocaleString(
+                value={price.toLocaleString(
                     'en-IN',
                     {
                       minimumFractionDigits: 2,
