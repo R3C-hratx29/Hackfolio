@@ -1,9 +1,11 @@
 /* eslint-disable prefer-destructuring */
-const db = require('./db');
+const Project = require('./project.js');
 
 const Profile = {};
 
-Profile.init = (data) => {
+const response = require('../response.js');
+
+Profile.init = (db, data) => {
   db('profiles').insert({
     user_id: data.uid,
     bio: data.bio || 'Edit your bio here...',
@@ -24,16 +26,19 @@ Profile.init = (data) => {
     });
 };
 
-Profile.findByUsername = (_username) => {
+Profile.findByUsername = (db, _username) => {
   return db('users').where({ username: _username })
     .join('profiles', 'users.uid', 'profiles.user_id')
     .select('*')
     .then(profile => {
-      return profile[0];
+      return new Promise((resolve, reject) => {
+        if (profile[0]) {
+          resolve(profile[0]);
+        } else {
+          reject(Error('User not found'));
+        }
+      });
     })
-    .catch(err => {
-      console.error(err);
-    });
 };
 
 Profile.findAllByUserId = (userId) => {
@@ -89,6 +94,30 @@ Profile.search = (text) => {
     .orWhere('profession', 'like', string)
     .orWhere('name', 'like', string);
   // .orWhere('email', 'like', string);
+};
+
+Profile.getUser = (db, username) => {
+  let userProfile;
+  return Profile.findByUsername(db, username)
+    .then(profile => {
+      userProfile = profile;
+      // Shape data to match example data.
+      delete userProfile.password;
+      delete userProfile.email;
+      delete userProfile.uid;
+      return Project.findByProfileId(db, userProfile.id);
+    })
+    .then(projects => {
+      userProfile.projects = projects;
+      return response({
+        userProfile
+      });
+    })
+    .catch((err) => {
+      return response({
+        error: err.message
+      }, 404);
+    });
 };
 
 module.exports = Profile;

@@ -1,55 +1,75 @@
-'use strict';
-const db = require('./models/db');
+/* eslint-disable prefer-promise-reject-errors */
+
+const jwt = require('jwt-simple');
+
+const response = require('./response.js');
+const dbInit = require('./models/db');
 const Profile = require('./models/profile.js');
-const Project = require('./models/project.js');
+const User = require('./models/user.js');
 
-module.exports.helloWorld = (event, context, callback) => {
-  const response = {
-    statusCode: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*', // Required for CORS support to work
-    },
-    body: JSON.stringify({
-      message: 'Go Serverless v1.0! Your function executed successfully!',
-      input: event,
-      thanks2webpack: 'es2017!'.padStart(16, 'oh look, ') //
-    }),
-  };
 
-  callback(null, response);
+const SECRET = 'shakeweight';
+
+const isLoggedIn = (event) => {
+  const token = event.headers.jwt;
+
+  return new Promise((resolve, reject) => {
+    try {
+      const user = jwt.decode(token, SECRET);
+      user.jwt = token;
+      resolve(user);
+    } catch (err) {
+      if (err.message.includes('Unexpected')) {
+        reject('Invalid token.');
+      } else {
+        reject(err.message);
+      }
+    }
+  });
 };
 
-module.exports.profile = (event, context, callback) => {
-  const { username } = event.queryStringParameters;
+// GET - https://2yks6utfgk.execute-api.us-east-1.amazonaws.com/dev/user/{username}
+module.exports.user = (event, context, callback) => {
+  const db = dbInit();
+  const { username } = event.pathParameters;
 
-  Profile.findByUsername(username)
-    .then(profile => {
-      const userProfile = profile || {};
-      // Shape data to match example data.
-      delete userProfile.password;
-      delete userProfile.email;
-      delete userProfile.uid;
-      userProfile.projects = [];
-      Project.findByProfileId(userProfile.id)
-        .then(projects => {
-          userProfile.projects = projects;
+  Profile.getUser(db, username)
+    .then(res => {
+      callback(null, res);
+    })
+    .then(() => {
+      db.destroy();
+    });
+};
 
-          const response = {
-            statusCode: 200,
-            headers: {
-              'Access-Control-Allow-Origin': '*', // Required for CORS support to work
-            },
-            body: JSON.stringify({
-              userProfile
-            }),
-          };
+// GET - https://2yks6utfgk.execute-api.us-east-1.amazonaws.com/dev/me
+// Must have a `jwt` header
+module.exports.me = (event, context, callback) => {
+  isLoggedIn(event)
+    .then((user) => {
+      callback(null, response(user, 200, user));
+    })
+    .catch((err) => {
+      callback(null, response({
+        error: err
+      }, 201));
+    });
+};
 
-          db.destroy();
-          callback(null, response);
-        })
-        .catch(err => {
-          db.destroy();
-          callback(err);
-        });
+// POST - https://2yks6utfgk.execute-api.us-east-1.amazonaws.com/dev/signup
+// {username: string, password: string, email: string}
+module.exports.signup = (event, context, callback) => {
+  const db = dbInit();
+  const { username, password, email } = JSON.parse(event.body);
+
+  User.signup(db, username, password, email)
+    .then(res => {
+      callback(null, res);
+    })
+    .catch((res) => {
+      callback(null, res);
+    })
+    .then(() => {
+      db.destroy();
     });
 };

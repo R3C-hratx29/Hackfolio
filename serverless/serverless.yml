@@ -30,19 +30,29 @@ custom:
 
 # The `functions` block defines what code to deploy
 functions:
-  helloWorld:
-    handler: handler.helloWorld
-    # The `events` block defines how to trigger the handler.helloWorld code
+  user:
+    handler: handler.user
     events:
       - http:
-          path: hello-world
+          path: user/{username}
           method: get
           cors: true
-  profile:
-    handler: handler.profile
-    # The `events` block defines how to trigger the handler.helloWorld code
+          request:
+            parameters:
+              paths:
+                username: true
+  me:
+    handler: handler.me
     events:
       - http:
-          path: profile
+          path: me
           method: get
+          cors: true
+
+  signup:
+    handler: handler.signup
+    events:
+      - http:
+          path: signup
+          method: post
           cors: true

@@ -1,4 +1,4 @@
-const db = require('./db');
+const dbGen = require('./db');
 
 const Project = {};
 
@@ -16,7 +16,7 @@ Project.findById = (_id, profileId) => {
     });
 };
 
-Project.findByProfileId = (profileId) => {
+Project.findByProfileId = (db, profileId) => {
   return db('projects').where({
     profile_id: profileId
   })
