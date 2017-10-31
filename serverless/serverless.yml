@@ -14,24 +14,45 @@ provider:
 
 plugins:
   - serverless-offline
-  - serverless-plugin-optimize
+  - serverless-webpack
+  # - serverless-plugin-optimize
 
 package:
   individually: true
 
 custom:
+  webpackIncludeModules:
+    packagePath: './package.json'
   serverless-offline:
     port: 3002
-  optimize:
-    presets: ['es2017']
+  # optimize:
+  #   minify: false
 
 # The `functions` block defines what code to deploy
 functions:
-  helloWorld:
-    handler: handler.helloWorld
-    # The `events` block defines how to trigger the handler.helloWorld code
+  user:
+    handler: handler.user
     events:
       - http:
-          path: hello-world
+          path: user/{username}
           method: get
+          cors: true
+          request:
+            parameters:
+              paths:
+                username: true
+  me:
+    handler: handler.me
+    events:
+      - http:
+          path: me
+          method: get
+          cors: true
+
+  signup:
+    handler: handler.signup
+    events:
+      - http:
+          path: signup
+          method: post
           cors: true
