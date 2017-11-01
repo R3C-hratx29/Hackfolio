@@ -24,19 +24,19 @@ class ConversationPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      conversation: this.props.conversations[0], // TODO
+      conversation: this.props.conversations[0].conversation_id, // TODO
       convoName: ''
     };
   }
   componentDidMount() {
-    this.props.getConversations(this.props.currentUser.user_id);
+    this.props.getConversations(this.props.bounty, this.props.currentUser.user_id);
   }
   componentWillReciveProps(next) {
     if (next.currentUser.user_id !== this.props.currentUser.user_id) {
       this.props.getConversations(next.currentUser.user_id);
       socket.removeListener(`conversations:${this.props.currentUser.user_id}`);
       socket.on(`conversation:${next.currentUser.user_id}`, () => {
-        this.props.getConversations(next.user_id);
+        this.props.getConversations(this.props.bounty, next.user_id);
       });
     }
   }
@@ -81,6 +81,7 @@ class ConversationPage extends React.Component {
                     <Box
                       direction="row"
                       justify="between"
+                      key={convo.conversation_id}
                     >
                       <Anchor
                         label={convo.name}
@@ -118,6 +119,7 @@ ConversationPage.propTypes = {
     username: PropTypes.string,
     user_id: PropTypes.number
   }).isRequired,
+  bounty: PropTypes.shape({}).isRequired,
   conversations: PropTypes.arrayOf(PropTypes.object).isRequired,
   getConversations: PropTypes.func.isRequired,
   setConversation: PropTypes.func.isRequired
@@ -132,6 +134,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
+    bounty: state.bounty,
     currentUser: state.currentUser,
     conversations: state.conversations
   };

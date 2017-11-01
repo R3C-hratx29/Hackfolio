@@ -44,7 +44,6 @@ class Notifications extends React.Component {
           // Remove previous user's event listener
           socket.removeListener(`notification:${notificationChannel}`);
         }
-
         // Add new user's event listener
         socket.on(`notification:${username}`, () => {
           this.props.getNotifications();
@@ -64,17 +63,17 @@ class Notifications extends React.Component {
           <div>
             <NotificationIcon />
             <div className="dotDiv">
-              {this.props.notifications.notifications.length > 0 &&
-              this.props.notifications.notifications.length}
+              {this.props.notifications.length > 0 &&
+              this.props.notifications.length}
             </div>
           </div>
         }
         closeOnClick
-        className={`${this.props.notifications.notifications.length ? 'dot' : ''} Notifications`}
+        className={`${this.props.notifications.length ? 'dot' : ''} Notifications`}
       >
         <List ref={(ref) => { if (ref) ref.listRef.closest('.grommetux-drop').classList.add('droptop'); }}>
           {
-            this.props.notifications.notifications.length === 0 &&
+            this.props.notifications.length === 0 &&
             <ListItem
               justify="start"
               separator="horizontal"
@@ -83,7 +82,7 @@ class Notifications extends React.Component {
             </ListItem>
           }
           {
-            this.props.notifications.notifications.sort((a, b) => {
+            this.props.notifications.sort((a, b) => {
               return a.created_at < b.created_at;
             }).map((notification) => {
               return (
@@ -105,13 +104,11 @@ class Notifications extends React.Component {
 }
 
 Notifications.defaultProps = {
-  notifications: {
-    notifications: []
-  },
+  notifications: []
 };
 
 Notifications.propTypes = {
-  notifications: PropTypes.shape({ notifications: PropTypes.array }),
+  notifications: PropTypes.arrayOf(PropTypes.object),
   getNotifications: PropTypes.func.isRequired,
   deleteNotification: PropTypes.func.isRequired,
 };

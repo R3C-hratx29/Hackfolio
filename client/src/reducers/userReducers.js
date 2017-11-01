@@ -1,4 +1,4 @@
-const currentUserReducer = (state = { user: { username: '', user_id: -1 } }, action) => {
+const currentUserReducer = (state = { username: '', user_id: -1 }, action) => {
   switch (action.type) {
     case 'SET_CURRENT_USER': {
       return Object.assign({}, action.user);
@@ -56,10 +56,10 @@ const searchReducer = (state = [], action) => {
   }
 };
 
-const notificationReducer = (state = [], action) => {
+const notificationsReducer = (state = [], action) => {
   switch (action.type) {
     case 'SET_NOTIFICATIONS': {
-      return Object.assign([], action.notification);
+      return Object.assign([], action.notifications);
     }
     default: {
       return state;
@@ -73,7 +73,7 @@ const userReducers = {
   help: helpReducer,
   checkUser: checkUserReducer,
   search: searchReducer,
-  notification: notificationReducer
+  notifications: notificationsReducer
 };
 
 export default userReducers;
