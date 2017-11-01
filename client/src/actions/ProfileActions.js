@@ -2,6 +2,12 @@
 import axios from 'axios';
 
 const setProfile = (data) => {
+  if (data.length < 1) {
+    return {
+      type: 'SET_USER_PROFILE',
+      profile: { id: -1 }
+    };
+  }
   return {
     type: 'SET_USER_PROFILE',
     profile: data

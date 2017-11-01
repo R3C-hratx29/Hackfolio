@@ -9,7 +9,7 @@ const currentUserReducer = (state = { username: '', user_id: -1 }, action) => {
   }
 };
 
-const userProfileReducer = (state = {}, action) => {
+const userProfileReducer = (state = { id: -1 }, action) => {
   switch (action.type) {
     case 'SET_USER_PROFILE': {
       return Object.assign({}, action.profile);

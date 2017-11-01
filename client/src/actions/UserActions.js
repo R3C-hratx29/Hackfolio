@@ -145,7 +145,7 @@ export const logout = () => {
     return axios
       .get('/api/logout')
       .then(() => {
-        dispatch(setUser({ username: undefined, jwt: undefined }));
+        dispatch(setUser({ username: '', user_id: -1, jwt: undefined }));
         dispatch(push('/'));
       })
       .catch(err => {
