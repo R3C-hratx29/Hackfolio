@@ -1,8 +1,7 @@
-
-export const currentUserReducer = (state = { user: { username: '', user_id: -1 } }, action) => {
+const currentUserReducer = (state = { user: { username: '', user_id: -1 } }, action) => {
   switch (action.type) {
     case 'SET_CURRENT_USER': {
-      return Object.assign({}, action.payload);
+      return Object.assign({}, action.user);
     }
     default: {
       return state;
@@ -10,15 +9,13 @@ export const currentUserReducer = (state = { user: { username: '', user_id: -1 }
   }
 };
 
-export const userProfileReducer = (state = {}, action) => {
+const userProfileReducer = (state = {}, action) => {
   switch (action.type) {
     case 'SET_USER_PROFILE': {
-      return Object.assign({}, action.payload);
+      return Object.assign({}, action.profile);
     }
     case 'SET_USER_PROJECTS': {
-      return Object.assign({}, state, {
-        projects: action.payload
-      });
+      return Object.assign({}, state, action.projects);
     }
     default: {
       return state;
@@ -26,10 +23,10 @@ export const userProfileReducer = (state = {}, action) => {
   }
 };
 
-export const helpReducer = (state = {}, action) => {
+const helpReducer = (state = '', action) => {
   switch (action.type) {
     case 'HELP_USER': {
-      return Object.assign({}, action.payload);
+      return Object.assign('', action.help);
     }
     default: {
       return state;
@@ -37,10 +34,10 @@ export const helpReducer = (state = {}, action) => {
   }
 };
 
-export const checkUserReducer = (state = {}, action) => {
+const checkUserReducer = (state = '', action) => {
   switch (action.type) {
     case 'ERROR_SET_USER': {
-      return Object.assign({}, action.payload);
+      return Object.assign('', action.check);
     }
     default: {
       return state;
@@ -48,10 +45,10 @@ export const checkUserReducer = (state = {}, action) => {
   }
 };
 
-export const searchReducer = (state = { results: [] }, action) => {
+const searchReducer = (state = [], action) => {
   switch (action.type) {
     case 'SET_SEARCH': {
-      return Object.assign({}, action.payload);
+      return Object.assign([], action.results);
     }
     default: {
       return state;
@@ -59,13 +56,24 @@ export const searchReducer = (state = { results: [] }, action) => {
   }
 };
 
-export const notificationReducer = (state = { notifications: [] }, action) => {
+const notificationReducer = (state = [], action) => {
   switch (action.type) {
     case 'SET_NOTIFICATIONS': {
-      return Object.assign({}, action.payload);
+      return Object.assign([], action.notification);
     }
     default: {
       return state;
     }
   }
 };
+
+const userReducers = {
+  currentUser: currentUserReducer,
+  userProfile: userProfileReducer,
+  help: helpReducer,
+  checkUser: checkUserReducer,
+  search: searchReducer,
+  notification: notificationReducer
+};
+
+export default userReducers;

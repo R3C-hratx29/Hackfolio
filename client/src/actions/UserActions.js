@@ -1,12 +1,11 @@
 /* eslint-disable no-console,no-undef */
 import { push } from 'react-router-redux';
 import axios from 'axios';
-import modalAction from './ModalActions';
 
 const setNotifications = (notifications) => {
   return {
     type: 'SET_NOTIFICATIONS',
-    payload: { notifications }
+    notifications
   };
 };
 
@@ -52,16 +51,14 @@ export const deleteAllNotifications = () => {
 export const help = (state) => {
   return {
     type: 'HELP_USER',
-    payload: {
-      text: state
-    }
+    text: state
   };
 };
 
 export const clearError = () => {
   return {
     type: 'ERROR_SET_USER',
-    payload: { error: '' }
+    error: ''
   };
 };
 
@@ -80,7 +77,7 @@ export const setError = (err) => {
   }
   return {
     type: 'ERROR_SET_USER',
-    payload: { error }
+    error
   };
 };
 
@@ -94,13 +91,11 @@ export const setUser = data => {
   }
   return {
     type: 'SET_CURRENT_USER',
-    payload: {
-      user: {
-        username: data.username,
-        user_id: data.user_id,
-        jwt: data.jwt
-      },
-    },
+    user: {
+      username: data.username,
+      user_id: parseInt(data.user_id, 10),
+      jwt: data.jwt
+    }
   };
 };
 
@@ -115,7 +110,6 @@ export const login = (userdata) => {
         dispatch(setUser(res.headers));
         dispatch(getNotifications());
         dispatch(push(`/user/${res.headers.username}`));
-        dispatch(modalAction('close'));
       })
       .catch(err => {
         console.log(err);
@@ -137,7 +131,6 @@ export const signup = userdata => {
         dispatch(setUser(res.headers));
         dispatch(getNotifications());
         dispatch(push(`/user/${res.headers.username}`));
-        dispatch(modalAction('close'));
         dispatch(help('Profile'));
       })
       .catch((err) => {
@@ -156,7 +149,7 @@ export const logout = () => {
         dispatch(push('/'));
       })
       .catch(err => {
-        throw err;
+        console.log(err);
       });
   };
 };
@@ -164,7 +157,7 @@ export const logout = () => {
 const sendSearch = (results) => {
   return {
     type: 'SET_SEARCH',
-    payload: { results }
+    results
   };
 };
 

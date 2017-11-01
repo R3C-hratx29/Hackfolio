@@ -88,7 +88,7 @@ const BountyCard = props => {
             <div className="stack">
               {stack.map((el, index) => {
                 const i = index;
-                return el && el.trim() !== '' && <div key={i}>{el}</div>;
+                return el && el.trim() !== '' && <div key={parseInt(el, 10) * i}>{el}</div>;
               })}
             </div>
             <div>
@@ -126,7 +126,7 @@ const BountyCard = props => {
 BountyCard.propTypes = {
   bounty: PropTypes.shape({
     bounty_id: PropTypes.nuber,
-    price: PropTypes.number,
+    price: PropTypes.sting,
     title: PropTypes.string,
     description: PropTypes.string,
     images: PropTypes.string,
@@ -139,13 +139,13 @@ BountyCard.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    favorites: state.favorites.favorites
+    favorites: state.favorites
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setBounty: (id) => { dispatch(setBounty(id)); dispatch(push('/chat')); },
+    setBounty: (bounty) => { dispatch(setBounty(bounty)); dispatch(push(`/chat/${bounty.bounty_id}`)); },
     changeFavorite: (id, isFave) => dispatch(changeFavorite(id, isFave))
   };
 };

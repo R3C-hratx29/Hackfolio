@@ -132,8 +132,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    currentUser: state.currentUser.user,
-    conversations: state.conversations.conversations
+    currentUser: state.currentUser,
+    conversations: state.conversations
   };
 };
 

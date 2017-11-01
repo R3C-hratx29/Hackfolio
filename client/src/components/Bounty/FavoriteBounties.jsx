@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-
 // Grommet Components
 import {
   Tiles,
@@ -10,45 +9,28 @@ import {
 
 // Custom Components
 import * as BountyAction from '../../actions/BountyActions';
-import AddBountyTile from './AddBountyTile';
-import EditBountyCardLayer from './EditBountyCardLayer';
 import BountyCard from './BountyCard';
 
 import './../../styles/BountyContainer.scss';
 
 class BountyContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      // hideBountyModal: true,
-      // edit: null,
-    };
-  }
-
   componentDidMount() {
     this.props.getBounties();
     this.props.getFavorites();
   }
-
-  // editBounty(bounty) {
-  //   this.setState({
-  //     // hideBountyModal: false,
-  //     // edit: bounty,
-  //   });
-  // }
-
   render() {
-    const bounties = this.props.bounties.map((bounty) => {
-      return <BountyCard key={bounty.bounty_id} bounty={bounty} />;
-    });
+    const bounties = this.props.bounties.bounties
+      .map((bounty) => {
+        if (this.props.favorites.includes(bounty.bounty_id)) {
+          return <BountyCard key={bounty.bounty_id} bounty={bounty} />;
+        }
+        return <div key={bounty.bounty_id} />;
+      });
     return (
       <div>
-        BountyContainer
         <Tiles flush={false} justify="between">
           {bounties}
         </Tiles>
-        <AddBountyTile />
-        <EditBountyCardLayer />
       </div>
     );
   }
@@ -61,21 +43,23 @@ BountyContainer.defaultProps = {
 };
 
 BountyContainer.propTypes = {
-  bounties: PropTypes.arrayOf(PropTypes.object),
+  bounties: PropTypes.shape({ bounties: PropTypes.array }),
+  favorites: PropTypes.arrayOf(PropTypes.number).isRequired,
   getBounties: PropTypes.func.isRequired,
   getFavorites: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
   return {
-    bounties: state.bounties
+    bounties: state.bounties,
+    favorites: state.favorites
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    getFavorites: () => dispatch(BountyAction.getFavorites()),
     getBounties: () => dispatch(BountyAction.getBounties()),
-    getFavorites: () => dispatch(BountyAction.getFavorites())
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(BountyContainer);

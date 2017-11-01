@@ -4,7 +4,7 @@ import axios from 'axios';
 const setProfile = (data) => {
   return {
     type: 'SET_USER_PROFILE',
-    payload: data
+    profile: data
   };
 };
 

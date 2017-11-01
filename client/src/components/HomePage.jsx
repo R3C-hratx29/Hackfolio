@@ -46,7 +46,7 @@ HomePage.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    help: state.help.text
+    help: state.help
   };
 };
 

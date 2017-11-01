@@ -17,7 +17,6 @@ import BriefcaseIcon from 'grommet/components/icons/base/Briefcase';
 import './../../styles/NavBar.scss';
 
 // Custom Imports
-import modalAction from './../../actions/ModalActions';
 import * as UserAction from './../../actions/UserActions';
 
 class Modal extends React.Component {
@@ -70,6 +69,7 @@ class Modal extends React.Component {
       };
       this.props.signup(objSign);
     }
+    this.props.func();
   }
 
   render() {
@@ -81,7 +81,7 @@ class Modal extends React.Component {
     usernameError = this.state.page && this.props.valid === 'user' ? 'Username not found' : '';
     usernameError = this.props.valid === 'user' && usernameError === '' ? 'User already exists' : usernameError;
     return (
-      <Layer className="LoginBox" closer onClose={this.props.closeModal}>
+      <Layer className="LoginBox" closer onClose={this.props.func}>
         <Box size={{ height: 'large', width: 'medium' }} justify="center" align="center">
           <Box margin={{ bottom: 'medium' }} alignContent="end" direction="row">
             <Box margin={{ right: 'medium' }}>
@@ -149,20 +149,19 @@ Modal.defaultProps = {
 
 Modal.propTypes = {
   valid: PropTypes.string,
-  closeModal: PropTypes.func.isRequired,
+  func: PropTypes.func.isRequired,
   signup: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
 };
 
 const mapStateToprops = (state) => {
   return {
-    valid: state.checkUser.error
+    valid: state.checkUser
   };
 };
 
 const mapDispatchToprops = dispatch => {
   return {
-    closeModal: () => dispatch(modalAction('close')),
     signup: (e) => dispatch(UserAction.signup(e)),
     login: (e) => dispatch(UserAction.login(e)),
   };
