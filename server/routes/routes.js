@@ -30,6 +30,7 @@ router.get('/logout', (req, res) => {
   res.send('true');
 });
 
+// Checks the database to see if user already exists, if not adds user to db.
 router.post('/signup', (req, res) => {
   const { username, password, email } = req.body;
 
