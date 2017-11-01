@@ -18,8 +18,6 @@ const Profile = require('../models/profile.js');
 const Project = require('../models/project.js');
 const User = require('../models/user.js');
 
-
-// TODO: Refactor routes into seperate files.
 router.get('/me', (req, res) => {
   const headers = jwt.decode(req.headers.jwt, secret);
   res.status(201);
@@ -36,40 +34,46 @@ router.post('/signup', (req, res) => {
   const { username, password, email } = req.body;
 
   if (username && password && email) {
-    User.findByUsername(username, email)
+    User.findByUsername(username)
       .then(user => {
         if (user.length) {
           res.status(409);
           if (user[0].username === username) {
             res.send('User already exists.');
-          } else if (user[0].email === email) {
-            res.send('Email already exists.');
-          } else {
-            res.send('unknown error');
           }
-        }
-
-        if (!user.length) {
-          bcrypt.hash(password, 10, (err, hash) => {
-            User.createNewUser(username, hash, email).then(data => {
-              const payload = { username: data[0].username, user_id: data[0].uid };
-              const token = jwt.encode(payload, secret);
-              Profile.init(data[0]);
-              res.status(201);
-              res.set({
-                username: data[0].username,
-                jwt: token,
-                user_id: data[0].uid
-              });
-              res.send({ username: data[0].username, jwt: token });
+        } else {
+          User.findByUsername(email)
+            .then(user2 => {
+              if (user2.length) {
+                if (user2[0].email === email) {
+                  res.status(409);
+                  res.send('Email already exists.');
+                }
+              } else {
+                bcrypt.hash(password, 10, (err, hash) => {
+                  User.createNewUser(username, hash, email)
+                    .then(data => {
+                      const payload = { username: data[0].username, user_id: data[0].uid };
+                      const token = jwt.encode(payload, secret);
+                      Profile.init(data[0]);
+                      res.status(201);
+                      res.set({
+                        username: data[0].username,
+                        jwt: token,
+                        user_id: data[0].uid
+                      });
+                      res.send({ username: data[0].username, jwt: token });
+                    });
+                });
+              }
             });
-          });
         }
       })
       .catch(err => {
         console.log(err);
       });
   } else {
+    res.status(409);
     res.send('Please fill out all forms.');
   }
 });
@@ -325,7 +329,6 @@ router.get('/notifications', Auth.isLoggedIn, (req, res) => {
   res.set(headers);
   Notification.findByUserId(headers.user_id)
     .then((notifications) => {
-      console.log(notifications);
       res.send(notifications);
     });
 });

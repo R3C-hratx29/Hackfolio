@@ -24,7 +24,7 @@ Message.post = (io, conversationId, receiver, sender, message) => {
         });
     })
     .catch((err) => {
-      throw err;
+      console.log(err);
     });
 };
 

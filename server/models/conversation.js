@@ -31,7 +31,7 @@ Conversation.getByBounty = (bountyId, userId) => {
       return [];
     })
     .catch((err) => {
-      throw err;
+      console.log(err);
     });
 };
 

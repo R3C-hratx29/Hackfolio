@@ -42,7 +42,6 @@ const BountyCard = props => {
   const price = Number(props.bounty.price);
   const color = props.favorites.includes(props.bounty.bounty_id) ? 'warning' : 'unknown';
   const isFave = props.favorites.includes(props.bounty.bounty_id);
-
   return (
     <Tile className="ProjectCard">
       {images.length === 1 &&
@@ -105,17 +104,22 @@ const BountyCard = props => {
                 units="USD"
               />
             </div>
-            <Anchor
-              icon={<SendIcon />}
-              label="Discuss Terms"
-              onClick={() => props.setBounty(props.bounty)}
-              primary
-              reverse={false}
-            />
-            <Anchor
-              icon={<StarIcon colorIndex={color} />}
-              onClick={() => props.changeFavorite(props.bounty.bounty_id, isFave)}
-            />
+            { props.isLoggedIn ?
+              <div>
+                <Anchor
+                  icon={<SendIcon />}
+                  label="Discuss Terms"
+                  onClick={() => props.setBounty(props.bounty)}
+                  primary
+                  reverse={false}
+                />
+                <Anchor
+                  icon={<StarIcon colorIndex={color} />}
+                  onClick={() => props.changeFavorite(props.bounty.bounty_id, isFave)}
+                />
+              </div>
+              : <div />
+            }
           </div>
         }
       />
@@ -132,6 +136,7 @@ BountyCard.propTypes = {
     images: PropTypes.string,
     stack: PropTypes.string
   }).isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
   favorites: PropTypes.arrayOf(PropTypes.number).isRequired,
   setBounty: PropTypes.func.isRequired,
   changeFavorite: PropTypes.func.isRequired
@@ -139,7 +144,8 @@ BountyCard.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    favorites: state.favorites
+    favorites: state.favorites,
+    isLoggedIn: state.currentUser.user_id > 0
   };
 };
 

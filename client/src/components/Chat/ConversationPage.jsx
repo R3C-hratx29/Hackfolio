@@ -31,7 +31,7 @@ class ConversationPage extends React.Component {
   componentDidMount() {
     this.props.getConversations(this.props.bounty, this.props.currentUser.user_id);
   }
-  componentWillReciveProps(next) {
+  componentWillReceiveProps(next) {
     if (next.currentUser.user_id !== this.props.currentUser.user_id) {
       this.props.getConversations(next.currentUser.user_id);
       socket.removeListener(`conversations:${this.props.currentUser.user_id}`);
