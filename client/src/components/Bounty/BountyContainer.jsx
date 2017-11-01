@@ -27,7 +27,9 @@ class BountyContainer extends React.Component {
 
   componentDidMount() {
     this.props.getBounties();
-    this.props.getFavorites();
+    if (window.localStorage.token) {
+      this.props.getFavorites();
+    }
   }
 
   // editBounty(bounty) {
