@@ -26,7 +26,7 @@ const userProfileReducer = (state = { id: -1 }, action) => {
 const helpReducer = (state = '', action) => {
   switch (action.type) {
     case 'HELP_USER': {
-      return Object.assign('', action.help);
+      return action.text;
     }
     default: {
       return state;
@@ -34,10 +34,10 @@ const helpReducer = (state = '', action) => {
   }
 };
 
-const checkUserReducer = (state = '', action) => {
+const checkUserReducer = (state = 'start', action) => {
   switch (action.type) {
     case 'ERROR_SET_USER': {
-      return Object.assign('', action.check);
+      return action.error;
     }
     default: {
       return state;

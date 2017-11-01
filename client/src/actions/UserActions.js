@@ -55,10 +55,17 @@ export const help = (state) => {
   };
 };
 
-export const clearError = () => {
+export const endError = () => {
   return {
     type: 'ERROR_SET_USER',
-    error: ''
+    error: 'end'
+  };
+};
+
+export const startError = () => {
+  return {
+    type: 'ERROR_SET_USER',
+    error: 'start'
   };
 };
 
@@ -106,13 +113,12 @@ export const login = (userdata) => {
       password: userdata.password
     })
       .then((res) => {
-        dispatch(clearError());
+        dispatch(endError());
         dispatch(setUser(res.headers));
         dispatch(getNotifications());
         dispatch(push(`/user/${res.headers.username}`));
       })
       .catch(err => {
-        console.log(err);
         dispatch(setError(err.response.data));
       });
   });
@@ -127,14 +133,13 @@ export const signup = userdata => {
         email: userdata.email,
       })
       .then(res => {
-        dispatch(clearError());
+        dispatch(endError());
         dispatch(setUser(res.headers));
         dispatch(getNotifications());
         dispatch(push(`/user/${res.headers.username}`));
         dispatch(help('Profile'));
       })
       .catch((err) => {
-        console.log(err);
         dispatch(setError(err.response.data));
       });
   };
@@ -145,6 +150,7 @@ export const logout = () => {
     return axios
       .get('/api/logout')
       .then(() => {
+        dispatch(startError());
         dispatch(setUser({ username: '', user_id: -1, jwt: undefined }));
         dispatch(push('/'));
       })

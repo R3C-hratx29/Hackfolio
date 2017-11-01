@@ -39,9 +39,17 @@ class Modal extends React.Component {
       username: '',
       password: '',
       email: '',
-      page: true
+      page: true,
     });
+    this.props.startError();
   }
+
+  componentWillReceiveProps(next) {
+    if (next.valid === 'end') {
+      this.props.func();
+    }
+  }
+
   toggle() {
     this.setState({ page: !this.state.page });
   }
@@ -69,7 +77,6 @@ class Modal extends React.Component {
       };
       this.props.signup(objSign);
     }
-    this.props.func();
   }
 
   render() {
@@ -138,33 +145,33 @@ class Modal extends React.Component {
           <Anchor onClick={this.toggle} label={changeLink} />
           <Anchor className="inactiveLink" label="or" />
           <Anchor href="http://hackfolio.herokuapp.com/api/auth/github" label={githubOauth} />
+          { this.props.valid === 'form' ? <div>Please fill out all of the form </div> : <div /> }
         </Box>
       </Layer>
     );
   }
 }
-Modal.defaultProps = {
-  valid: ''
-};
 
 Modal.propTypes = {
-  valid: PropTypes.string,
+  valid: PropTypes.string.isRequired,
   func: PropTypes.func.isRequired,
   signup: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
+  startError: PropTypes.func.isRequired
 };
 
-const mapStateToprops = (state) => {
+const mapStateToProps = (state) => {
   return {
     valid: state.checkUser
   };
 };
 
-const mapDispatchToprops = dispatch => {
+const mapDispatchToProps = dispatch => {
   return {
     signup: (e) => dispatch(UserAction.signup(e)),
     login: (e) => dispatch(UserAction.login(e)),
+    startError: () => dispatch(UserAction.startError())
   };
 };
 
-export default connect(mapStateToprops, mapDispatchToprops)(Modal);
+export default connect(mapStateToProps, mapDispatchToProps)(Modal);
