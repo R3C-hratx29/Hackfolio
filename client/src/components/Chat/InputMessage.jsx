@@ -74,8 +74,8 @@ InputMessage.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    currentUser: state.currentUser.user.username,
-    conversation: state.conversation.conversation,
+    currentUser: state.currentUser.username,
+    conversation: state.conversation,
   };
 };
 

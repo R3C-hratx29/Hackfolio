@@ -1,37 +1,41 @@
 import axios from 'axios';
 
+export const setFavorite = (bountyIds) => {
+  const fave = [];
+  bountyIds.forEach((el) => {
+    fave.push(el.bounty_id);
+  });
+  return {
+    type: 'SET_FAVORITE',
+    favorites: fave
+  };
+};
+
 export const setBounty = (bounty) => {
   return {
     type: 'SET_BOUNTY',
-    payload: { bounty }
+    bounty
   };
 };
 
 const setBounties = (bounties) => {
   return {
     type: 'SET_BOUNTIES',
-    payload: { bounties }
-  };
-};
-
-const setBountyHunters = (bountyHunters) => {
-  return {
-    type: 'BOUNTY_HUNTERS',
-    payload: { bountyHunters }
+    bounties
   };
 };
 
 const setConversations = (conversations) => {
   return {
     type: 'CONVERSATIONS',
-    payload: { conversations }
+    conversations
   };
 };
 
 export const setConversation = (conversation) => {
   return {
     type: 'CONVERSATION',
-    payload: { conversation }
+    conversation
   };
 };
 
@@ -42,7 +46,7 @@ export const getBounties = () => {
         dispatch(setBounties(res.data));
       })
       .catch(err => {
-        console.log(err);
+        console.log(err); // eslint-disable-line no-console
       });
   });
 };
@@ -58,37 +62,78 @@ const postConversation = (bounty) => {
         dispatch(setConversation(results.data[0]));
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err); // eslint-disable-line no-console
       });
   });
 };
 
 export const getConversations = (bounty, isOwner) => {
-  console.log(bounty, 'in get');
   return ((dispatch) => {
     return axios.get('/api/conversations', {
       params: { bountyId: bounty.bounty_id }
     })
       .then((results) => {
-        if (results.data.length < 1 && !isOwner) {
+        if (results.data.length < 1 && isOwner === 'false') {
           dispatch(postConversation(bounty));
+        } else if (results.data.length < 1) {
+          dispatch(setConversations([{ conversation_id: -1, owner_id: -1, name: 'No conversations yet' }]));
+          dispatch(setConversation({ conversation_id: -1, owner_id: -1, name: 'No conversations yet' }));
         } else {
-          const bountyHunters = [];
-          results.data.forEach((convo) => {
-            const user = {};
-            user.username = convo.username;
-            user.user_id = convo.uid;
-            bountyHunters.push(user);
-          });
-          dispatch(setBountyHunters(bountyHunters));
           dispatch(setConversations(results.data));
           dispatch(setConversation(results.data[0]));
         }
       })
       .catch((err) => {
-        throw err;
+        console.log(err); // eslint-disable-line no-console
       });
   });
 };
 
-export default getConversations;
+
+export const changeFavorite = (bountyId, isFave) => {
+  if (isFave) {
+    return ((dispatch) => {
+      return axios.delete('/api/favorite', { params: { bounty_id: bountyId } })
+        .then((results) => {
+          dispatch(setFavorite(results.data));
+        })
+        .catch(err => {
+          console.log(err); // eslint-disable-line no-console
+        });
+    });
+  }
+  return ((dispatch) => {
+    return axios.post('/api/favorite', { bounty_id: bountyId })
+      .then((results) => {
+        dispatch(setFavorite(results.data));
+      })
+      .catch(err => {
+        console.log(err); // eslint-disable-line no-console
+      });
+  });
+};
+
+export const getFavorites = () => {
+  return ((dispatch) => {
+    return axios.get('/api/favorite')
+      .then((results) => {
+        dispatch(setFavorite(results.data));
+      })
+      .catch(err => {
+        console.log(err); // eslint-disable-line no-console
+      });
+  });
+};
+
+export const resetChat = (id) => {
+  return (dispatch => {
+    return axios.get('/api/bountyById', { params: { id } })
+      .then(res => {
+        dispatch(setBounty(res.data.bounty));
+        dispatch(getConversations(res.data.bounty, res.headers.is_owner));
+      })
+      .catch((err) => {
+        console.log(err); // eslint-disable-line no-console
+      });
+  });
+};

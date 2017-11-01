@@ -40,7 +40,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.currentUser.user,
+    user: state.currentUser,
     userProfile: state.userProfile.username
   };
 };

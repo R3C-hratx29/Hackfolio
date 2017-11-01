@@ -158,17 +158,29 @@ router.get('/bounty', (req, res) => {
     });
 });
 
+router.get('/bountyById', (req, res) => {
+  const dLoad = jwt.decode(req.headers.jwt, secret);
+  Bounty.findById(parseInt(req.query.id, 10))
+    .then(bounty => {
+      const isOwner = dLoad.user_id === bounty[0].owner_id;
+      res.set({ is_owner: isOwner });
+      res.send({ bounty: bounty[0] });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 router.post('/favorite', Auth.isLoggedIn, (req, res) => {
   const dLoad = jwt.decode(req.headers.jwt, secret);
   const userId = dLoad.user_id;
   const bountyId = req.body.bounty_id;
-
   Favorite.getByUserAndBountyId(userId, bountyId)
     .then(favorites => {
       if (!favorites.length) {
         Favorite.addFavorite(userId, bountyId)
           .then(favorite => {
-            res.send(favorite[0]);
+            res.send(favorite);
           });
       } else {
         res.send('Favorite already exists.');
@@ -192,8 +204,7 @@ router.get('/favorite', Auth.isLoggedIn, (req, res) => {
 router.delete('/favorite', Auth.isLoggedIn, (req, res) => {
   const dLoad = jwt.decode(req.headers.jwt, secret);
   const userId = dLoad.user_id;
-  const bountyId = req.body.bounty_id;
-
+  const bountyId = req.query.bounty_id;
   Favorite.deleteFavorite(userId, bountyId)
     .then(() => {
       Favorite.getAllByUserId(userId)
@@ -376,7 +387,6 @@ router.post('/converstion', Auth.isLoggedIn, (req, res) => {
               delete el.email;
               delete el.password;
             });
-            console.log('conversation', results);
             res.send(results);
           });
       })
@@ -391,7 +401,7 @@ router.post('/converstion', Auth.isLoggedIn, (req, res) => {
 
 router.get('/conversations', Auth.isLoggedIn, (req, res) => {
   const dLoad = jwt.decode(req.headers.jwt, secret);
-  if (req.query.bountyId === undefined || req.query.bountyId < 0) {
+  if (req.query.bountyId === undefined || parseInt(req.query.bountyId, 10) < 0) {
     Conversation.getAll(dLoad.user_id)
       .then((results) => {
         res.send(results);
@@ -408,6 +418,7 @@ router.get('/conversations', Auth.isLoggedIn, (req, res) => {
           delete el.email;
           delete el.password;
         });
+        console.log(results);
         res.send(results);
       })
       .catch((err) => {

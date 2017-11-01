@@ -13,6 +13,13 @@ Bounty.findByUserId = (userId) => {
     .select('*');
 };
 
+Bounty.findById = (id) => {
+  return db('bounties').where({
+    bounty_id: id
+  })
+    .select('*');
+};
+
 Bounty.addBounty = (data) => {
   return db('bounties').insert({
     owner_id: data.owner_id,

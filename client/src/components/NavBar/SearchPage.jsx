@@ -25,7 +25,7 @@ SearchPage.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    searchResults: state.searchResults.results
+    searchResults: state.search
   };
 }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 import {
   Anchor,
   Menu,
@@ -10,41 +11,36 @@ import {
 } from 'grommet';
 import Messages from './Messages';
 import InputMessage from './InputMessage';
-import { setConversation, getConversations } from '../../actions/BountyActions';
+import { setConversation, resetChat } from '../../actions/BountyActions';
 import '../../styles/ChatModal.scss';
 
 class ChatModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOwner: this.props.currentUser === this.props.bounty.owner_id
+      isOwner: this.props.currentUser === this.props.conversation.owner_id
     };
   }
   componentWillMount() {
-    this.props.getConversations(this.props.bounty, this.state.isOwner);
+    this.props.resetChat(parseInt(this.props.match.params.id, 10));
   }
   componentWillReceiveProps(next) {
-    let { isOwner } = this.state;
+    if (this.props.currentUser !== next.currentUser) {
+      this.props.resetChat(parseInt(this.props.match.params.id, 10));
+      const isOwner = next.currentUser === next.conversation.owner_id;
+      this.setState({ isOwner });
+    }
     if (this.props.conversation.owner_id !== next.conversation.owner_id) {
-      if (next.conversation.owner_id === next.currentUser) {
-        isOwner = true;
-        this.setState({ isOwner: true });
-      }
+      const isOwner = next.currentUser === next.conversation.owner_id;
+      this.setState({ isOwner });
     }
-    if (this.props.bounty !== next.bounty || this.props.currentUser !== next.currentUser) {
-      next.getConversations(next.bounty, isOwner);
-    }
-  }
-  pickConversation(user) {
-    this.props.conversations.forEach((convo) => {
-      if (convo.bounty_hunter === user.user_id) {
-        this.props.setConversation(convo);
-      }
-    });
   }
   render() {
     return (
-      <Layer>
+      <Layer
+        closer
+        onClose={this.props.goToBounties}
+      >
         <Box
           size={{ height: 'xlarge', width: 'large' }}
           className="ChatModal"
@@ -58,12 +54,15 @@ class ChatModal extends React.Component {
                   label="Users"
                   colorIndex="brand"
                 >
-                  { this.props.bountyHunters.map((user) => {
+                  { this.props.conversations.map((convo) => {
+                    if (convo.uid === this.props.currentUser) {
+                      return (<div key={convo.conversation_id} />);
+                    }
                     return (
                       <Anchor
-                        label={user.username}
-                        onClick={() => this.pickConversation(user)}
-                        key={user.user_id}
+                        label={convo.username}
+                        onClick={() => this.props.setConversation(convo)}
+                        key={convo.conversation_id}
                       />);
                   }) }
                 </Menu> : <div />
@@ -74,7 +73,10 @@ class ChatModal extends React.Component {
             className="messages"
             size={{ height: 'large', width: 'large' }}
           >
-            <Messages id={this.props.conversation.conversation_id} />
+            { this.props.conversation.conversation_id < 1 ?
+              <div> Sorry no one has tried to contact you </div> :
+              <Messages id={this.props.conversation.conversation_id} />
+            }
           </Box>
           <Box>
             <InputMessage />
@@ -86,36 +88,37 @@ class ChatModal extends React.Component {
 }
 
 ChatModal.propTypes = {
-  currentUser: PropTypes.string.isRequired,
-  bounty: PropTypes.number.isRequired,
-  bountyHunters: PropTypes.arrayOf(PropTypes.shape({
-    user_id: PropTypes.number,
-    username: PropTypes.username
-  })).isRequired,
+  currentUser: PropTypes.number.isRequired,
   conversation: PropTypes.shape({
     conversation_id: PropTypes.number,
     owner_id: PropTypes.number,
     name: PropTypes.string
   }).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string
+    })
+  }).isRequired,
   conversations: PropTypes.arrayOf(PropTypes.object).isRequired,
-  getConversations: PropTypes.func.isRequired,
-  setConversation: PropTypes.func.isRequired
+  setConversation: PropTypes.func.isRequired,
+  goToBounties: PropTypes.func.isRequired,
+  resetChat: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getConversations: (id) => dispatch(getConversations(id)),
-    setConversation: (convo) => dispatch(setConversation(convo))
+    setConversation: (convo) => dispatch(setConversation(convo)),
+    goToBounties: () => { dispatch(setConversation({ conversations_id: -1, owner_id: -1, name: '' })); dispatch(push('/')); },
+    resetChat: (id) => dispatch(resetChat(id))
   };
 };
 
 const mapStateToProps = (state) => {
   return {
-    currentUser: state.currentUser.user.user_id,
-    bounty: state.bounty.bounty,
-    conversations: state.conversations.conversations,
-    conversation: state.conversation.conversation,
-    bountyHunters: state.bountyHunters.bountyHunters
+    currentUser: state.currentUser.user_id,
+    conversations: state.conversations,
+    conversation: state.conversation,
+    bounty: state.bounty
   };
 };
 

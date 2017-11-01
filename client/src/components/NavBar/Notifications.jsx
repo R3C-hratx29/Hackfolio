@@ -118,7 +118,7 @@ Notifications.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.currentUser.user,
+    user: state.currentUser,
     notifications: state.notifications,
   };
 };

@@ -38,7 +38,7 @@ Message.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    currentUser: state.currentUser.user.username
+    currentUser: state.currentUser.username
   };
 };
 

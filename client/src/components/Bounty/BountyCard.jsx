@@ -18,10 +18,11 @@ import {
 import {
   EditIcon,
   SendIcon,
-  MoneyIcon
+  MoneyIcon,
+  StarIcon
 } from 'grommet/components/icons/base';
 
-import { setBounty } from '../../actions/BountyActions';
+import { setBounty, changeFavorite } from '../../actions/BountyActions';
 import placeHolderImage from './../../images/placeholder.png';
 
 import './../../styles/BountyCard.scss';
@@ -39,6 +40,8 @@ const BountyCard = props => {
   const images = props.bounty.images ? props.bounty.images.split(',') : [];
   const stack = props.bounty.stack.split(',');
   const price = Number(props.bounty.price);
+  const color = props.favorites.includes(props.bounty.bounty_id) ? 'warning' : 'unknown';
+  const isFave = props.favorites.includes(props.bounty.bounty_id);
 
   return (
     <Tile className="ProjectCard">
@@ -85,7 +88,7 @@ const BountyCard = props => {
             <div className="stack">
               {stack.map((el, index) => {
                 const i = index;
-                return el && el.trim() !== '' && <div key={i}>{el}</div>;
+                return el && el.trim() !== '' && <div key={parseInt(el, 10) * i}>{el}</div>;
               })}
             </div>
             <div>
@@ -109,6 +112,10 @@ const BountyCard = props => {
               primary
               reverse={false}
             />
+            <Anchor
+              icon={<StarIcon colorIndex={color} />}
+              onClick={() => props.changeFavorite(props.bounty.bounty_id, isFave)}
+            />
           </div>
         }
       />
@@ -119,22 +126,27 @@ const BountyCard = props => {
 BountyCard.propTypes = {
   bounty: PropTypes.shape({
     bounty_id: PropTypes.nuber,
-    price: PropTypes.number,
+    price: PropTypes.sting,
     title: PropTypes.string,
     description: PropTypes.string,
     images: PropTypes.string,
     stack: PropTypes.string
   }).isRequired,
-  setBounty: PropTypes.func.isRequired
+  favorites: PropTypes.arrayOf(PropTypes.number).isRequired,
+  setBounty: PropTypes.func.isRequired,
+  changeFavorite: PropTypes.func.isRequired
 };
 
-const mapStateToProps = () => {
-  return {};
+const mapStateToProps = (state) => {
+  return {
+    favorites: state.favorites
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setBounty: (id) => { dispatch(setBounty(id)); dispatch(push('/chat')); }
+    setBounty: (bounty) => { dispatch(setBounty(bounty)); dispatch(push(`/chat/${bounty.bounty_id}`)); },
+    changeFavorite: (id, isFave) => dispatch(changeFavorite(id, isFave))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(BountyCard);

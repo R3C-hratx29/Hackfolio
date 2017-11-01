@@ -131,7 +131,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    help: state.help.text,
+    help: state.help,
     userProfile: state.userProfile
   };
 };

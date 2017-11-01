@@ -26,7 +26,7 @@ Favorite.addFavorite = (userId, bountyId) => {
       user_id: userId
     })
     .then(() => {
-      return db('favorites').where({ owner_id: userId }).select('*');
+      return db('favorites').where({ user_id: userId }).select('*');
     })
     .catch(err => {
       console.error(err);

@@ -12,6 +12,7 @@ import HomePage from './HomePage';
 import SearchPage from './NavBar/SearchPage';
 import ChatModal from './Chat/ChatModal';
 import ConversationPage from './Chat/ConversationPage';
+import FavoriteBounties from './Bounty/FavoriteBounties';
 
 export const history = createHistory();
 
@@ -24,14 +25,11 @@ class Hackfolio extends React.Component {
         .then(res => {
           this.props.store.dispatch({
             type: 'SET_CURRENT_USER',
-            payload: {
-              user: {
-                username: res.headers.username,
-                jwt: window.localStorage.token,
-                user_id: parseInt(res.headers.user_id, 10)
-              }
+            user: {
+              username: res.headers.username,
+              jwt: window.localStorage.token,
+              user_id: parseInt(res.headers.user_id, 10)
             }
-
           });
         })
         .catch((err) => {
@@ -49,8 +47,9 @@ class Hackfolio extends React.Component {
             <Route path="/github/:token/:username" component={Github} />
             <Route path="/user/:id" component={Profile} />
             <Route path="/search" component={SearchPage} />
-            <Route path="/chat" component={ChatModal} />
+            <Route path="/chat/:id" component={ChatModal} />
             <Route path="/conversations" component={ConversationPage} />
+            <Route path="/favoriteBounties" component={FavoriteBounties} />
             <Route path="*" component={() => <div>Not Found</div>} />
           </Switch>
         </ConnectedRouter>

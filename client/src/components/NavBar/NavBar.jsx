@@ -12,6 +12,8 @@ import {
   Button,
   Form,
   FormField,
+  Menu,
+  Anchor
 } from 'grommet';
 
 // Grommet Icons
@@ -27,7 +29,6 @@ import {
 // Custom Imports
 import Notifications from './Notifications';
 import Modal from './Modal';
-import modalAction from './../../actions/ModalActions';
 import * as UserAction from './../../actions/UserActions';
 import { getProfile } from './../../actions/ProfileActions';
 
@@ -40,11 +41,13 @@ class NavBar extends React.Component {
     this.state = {
       searchText: '',
       help: false,
+      modalState: false
     };
     this.searchHandler = this.searchHandler.bind(this);
     this.sendSearch = this.sendSearch.bind(this);
     this.goProfile = this.goProfile.bind(this);
     this.goHome = this.goHome.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
   componentDidMount() {
@@ -70,6 +73,11 @@ class NavBar extends React.Component {
 
   goHome() {
     this.props.goToHome('/');
+  }
+
+  toggleModal() {
+    const temp = this.state.modalState;
+    this.setState({ modalState: !temp });
   }
 
   render() {
@@ -117,12 +125,23 @@ class NavBar extends React.Component {
                 onClick={this.goHome}
               />
               { this.props.user.username &&
-                <Button
-                  icon={<UserIcon />}
+                <Menu
                   label="Profile"
-                  plain
-                  onClick={this.goProfile}
-                />
+                  icon={<UserIcon />}
+                >
+                  <Anchor
+                    onClick={this.goProfile}
+                    label="Your Profile"
+                  />
+                  <Anchor
+                    onClick={this.props.goToConversations}
+                    label="Your Conversations"
+                  />
+                  <Anchor
+                    onClick={this.props.goToFave}
+                    label="Your favorite Bounties"
+                  />
+                </Menu>
               }
               { this.props.user.username &&
                 <Notifications />
@@ -155,13 +174,13 @@ class NavBar extends React.Component {
             </Box>
             <Box>
               { this.props.user === undefined || this.props.user.jwt === undefined ?
-                <Button label="Login" plain icon={<LoginIcon />} onClick={this.props.openModal} /> :
+                <Button label="Login" plain icon={<LoginIcon />} onClick={this.toggleModal} /> :
                 <Button label="Logout" plain icon={<LogoutIcon />} onClick={this.props.logout} />
               }
             </Box>
           </Box>
         </Header>
-        {this.props.modalState === 'open' ? <Modal /> : <div />}
+        {this.state.modalState ? <Modal func={this.toggleModal} /> : <div />}
         { this.state.help && this.props.help === 'Search' ?
           <Tip
             target="SearchBar"
@@ -185,36 +204,35 @@ class NavBar extends React.Component {
 
 NavBar.defaultProps = {
   user: {},
-  help: 'off',
-  modalState: 'close',
+  help: 'off'
 };
 
 NavBar.propTypes = {
   user: PropTypes.shape({ jwt: PropTypes.string, username: PropTypes.string }),
   help: PropTypes.string,
-  modalState: PropTypes.string,
-  openModal: PropTypes.func.isRequired,
   search: PropTypes.func.isRequired,
   goToHome: PropTypes.func.isRequired,
   goToProfile: PropTypes.func.isRequired,
+  goToFave: PropTypes.func.isRequired,
+  goToConversations: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
   displayHelp: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
   return {
-    user: state.currentUser.user,
-    modalState: state.modalState.state,
-    help: state.help.text,
+    user: state.currentUser,
+    help: state.help
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    openModal: () => dispatch(modalAction('open')),
     search: (text) => { dispatch(UserAction.search(text)); dispatch(push('/search')); },
     goToHome: (path) => dispatch(push(path)),
     goToProfile: (user) => { dispatch(getProfile(user)); dispatch(push(`/user/${user}`)); },
+    goToFave: () => dispatch(push('/FavoriteBounties')),
+    goToConversations: () => dispatch(push('/Conversations')),
     logout: () => dispatch(UserAction.logout()),
     displayHelp: (next) => dispatch(UserAction.help(next)),
   };
