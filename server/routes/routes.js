@@ -325,6 +325,7 @@ router.get('/notifications', Auth.isLoggedIn, (req, res) => {
   res.set(headers);
   Notification.findByUserId(headers.user_id)
     .then((notifications) => {
+      console.log(notifications);
       res.send(notifications);
     });
 });
@@ -418,7 +419,6 @@ router.get('/conversations', Auth.isLoggedIn, (req, res) => {
           delete el.email;
           delete el.password;
         });
-        console.log(results);
         res.send(results);
       })
       .catch((err) => {

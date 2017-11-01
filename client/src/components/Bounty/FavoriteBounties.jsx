@@ -19,13 +19,12 @@ class BountyContainer extends React.Component {
     this.props.getFavorites();
   }
   render() {
-    const bounties = this.props.bounties.bounties
-      .map((bounty) => {
-        if (this.props.favorites.includes(bounty.bounty_id)) {
-          return <BountyCard key={bounty.bounty_id} bounty={bounty} />;
-        }
-        return <div key={bounty.bounty_id} />;
-      });
+    const bounties = this.props.bounties.map((bounty) => {
+      if (this.props.favorites.includes(bounty.bounty_id)) {
+        return <BountyCard key={bounty.bounty_id} bounty={bounty} />;
+      }
+      return <div key={bounty.bounty_id} />;
+    });
     return (
       <div>
         <Tiles flush={false} justify="between">
@@ -37,13 +36,11 @@ class BountyContainer extends React.Component {
 }
 
 BountyContainer.defaultProps = {
-  bounties: {
-    bounties: []
-  },
+  bounties: [],
 };
 
 BountyContainer.propTypes = {
-  bounties: PropTypes.shape({ bounties: PropTypes.array }),
+  bounties: PropTypes.arrayOf(PropTypes.object),
   favorites: PropTypes.arrayOf(PropTypes.number).isRequired,
   getBounties: PropTypes.func.isRequired,
   getFavorites: PropTypes.func.isRequired
