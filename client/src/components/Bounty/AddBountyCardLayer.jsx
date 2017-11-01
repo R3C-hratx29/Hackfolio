@@ -1,5 +1,10 @@
 /* eslint-disable react/prop-types */
+/* eslint-disable */
 import React from 'react';
+import FileUploader from 'react-firebase-file-uploader';
+import { connect } from 'react-redux';
+
+// Grommet Components
 import {
   Box,
   Layer,
@@ -8,8 +13,17 @@ import {
   TextInput,
   Header,
   Heading,
-  Button
+  Button,
+  Anchor,
 } from 'grommet';
+
+import CheckmarkIcon from 'grommet/components/icons/base';
+
+// Custom Actions
+import { setBounty } from './../../actions/BountyActions';
+
+// Firebase
+import firebase from './../../data/firebase';
 
 class AddBountyCardLayer extends React.Component {
   constructor(props) {
@@ -22,28 +36,41 @@ class AddBountyCardLayer extends React.Component {
         price: '',
         tech_stack: '',
         github: '',
-        website: '',
         images: [],
-      }
+      },
+      uploading: false
     };
 
     this.saveChanges = this.saveChanges.bind(this);
     this.updateBounty = this.updateBounty.bind(this);
+    this.onUploadStart = this.onUploadStart.bind(this);
+    this.onImageUpload = this.onImageUpload.bind(this);
+    this.toggleImageURL = this.toggleImageURL.bind(this);
   }
 
-  saveChanges() { this.props.saveChanges(this.state.bounty); }
-  /* saveChanges() {
-   *   this.props.saveChanges({
-   *     bounty_title: this.state.bounty.bounty_title,
-   *     description: this.state.bounty.description,
-   *     price: this.state.bounty.price,
-   *     tech_stack: this.state.bounty.tech_stack,
-   *     github: this.state.bounty.github,
-   *     website: this.state.bounty.website,
-   *     images: this.state.bounty.images
-   *   });
-   * }
-   */
+  onImageUpload(file) {
+    this.menuRef.setState({ state: 'collapsed' });
+    firebase
+      .storage()
+      .ref('images')
+      .child(file)
+      .getDownloadURL()
+      .then(url => {
+        this.setState({ uploading: false, profile_pic_url: url });
+      });
+  }
+
+  onUploadStart() {
+    this.setState({ uploading: true });
+  }
+
+  toggleImageURL() {
+    this.props.hideImageURL();
+  }
+
+  saveChanges() {
+    this.props.setBounty(this.state.bounty);
+  }
 
   updateBounty(state) {
     this.setState({
@@ -59,6 +86,33 @@ class AddBountyCardLayer extends React.Component {
         onClose={this.props.hideBountyLayerFunction}
         hidden={this.props.hidden}
       >
+        <Layer
+          className="ImageURL"
+          flush
+          hidden={this.props.imageURLHidden}
+          closer
+          onClose={this.props.hideImageURL}
+        >
+          <Box
+            size={{ width: 'large' }}
+            pad={{ horizontal: 'medium', between: 'small', vertical: 'medium' }}
+          >
+            <h4>Enter your image URL below.</h4>
+            <FormField>
+              <TextInput
+                onDOMChange={this.updateProfilePic}
+                value={this.state.profile_pic}
+                placeHolder="Image URL"
+              />
+            </FormField>
+            <Anchor
+              icon={<CheckmarkIcon />}
+              label="Submit"
+              align="center"
+              onClick={this.saveProfilePic}
+            />
+          </Box>
+        </Layer>
         <Box direction="row" pad={{ vertical: 'large' }}>
           <Form>
             <Header
@@ -113,15 +167,6 @@ class AddBountyCardLayer extends React.Component {
                 placeholder="github link"
               />
             </FormField>
-            <FormField label="Link to your website">
-              <TextInput
-                value={this.state.bounty.website}
-                onDOMChange={e => {
-                    this.updateBounty({ website: e.target.value });
-                }}
-                placeholder="website link"
-              />
-            </FormField>
             <Box>
               <Button primary fill onClick={this.saveChanges} label="Save Bounty" />
             </Box>
@@ -132,4 +177,16 @@ class AddBountyCardLayer extends React.Component {
   }
 }
 
-export default AddBountyCardLayer;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    saveChanges: (changes, bounty) => dispatch(setBounty(changes, bounty))
+  };
+};
+
+const mapStateToProps = (state) => {
+  return {
+    bounty: state.bounty
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddBountyCardLayer);
