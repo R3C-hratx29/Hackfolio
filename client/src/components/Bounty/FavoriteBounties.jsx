@@ -22,7 +22,6 @@ class BountyContainer extends React.Component {
       .map(bounty => {
         return <BountyCard key={bounty.bounty_id} bounty={bounty} />;
       });
-    console.log(bounties);
     return (
       <div>
         <Tiles flush={false} justify="start">

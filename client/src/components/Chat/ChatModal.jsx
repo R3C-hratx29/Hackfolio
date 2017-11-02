@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import { goBack } from 'react-router-redux';
 import {
   Anchor,
   Menu,
@@ -108,7 +108,7 @@ ChatModal.propTypes = {
 const mapDispatchToProps = (dispatch) => {
   return {
     setConversation: (convo) => dispatch(setConversation(convo)),
-    goToBounties: () => { dispatch(setConversation({ conversations_id: -1, owner_id: -1, name: '' })); dispatch(push('/')); },
+    goToBounties: () => { dispatch(setConversation({ conversations_id: -1, owner_id: -1, name: '' })); dispatch(goBack()); },
     resetChat: (id) => dispatch(resetChat(id))
   };
 };
