@@ -143,8 +143,8 @@ export const resetChat = (id) => {
   return (dispatch => {
     return axios.get('/api/bountyById', { params: { id } })
       .then(res => {
-        dispatch(setBounty(res.data.bounty));
-        dispatch(getConversations(res.data.bounty, res.headers.is_owner));
+        dispatch(setBounty(res.data));
+        dispatch(getConversations(res.data, res.headers.is_owner));
       })
       .catch((err) => {
         console.log(err); // eslint-disable-line no-console
