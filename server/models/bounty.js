@@ -26,6 +26,7 @@ Bounty.addBounty = (data) => {
     title: data.title,
     description: data.description,
     price: data.price,
+    github: data.github,
     stack: data.stack,
     images: data.images
   })
@@ -45,6 +46,7 @@ Bounty.updateBounty = (data) => {
       title: data.title,
       description: data.description,
       price: data.price,
+      github: data.github,
       stack: data.stack,
       images: data.images
     })

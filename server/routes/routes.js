@@ -140,17 +140,20 @@ router.post('/bounty', Auth.isLoggedIn, (req, res) => {
     description: req.body.description,
     price: req.body.price,
     images: req.body.images,
+    github: req.body.github,
     stack: req.body.stack,
   };
 
   if (bountyData.bounty_id) {
     Bounty.updateBounty(bountyData)
       .then(bounty => {
+        res.set({ username: dLoad.username });
         res.send(bounty[0]);
       });
   } else {
     Bounty.addBounty(bountyData)
       .then(bounty => {
+        res.set({ username: dLoad.username });
         res.send(bounty[bounty.length - 1]);
       });
   }
