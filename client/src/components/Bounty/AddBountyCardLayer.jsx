@@ -234,7 +234,7 @@ class AddBountyCardLayer extends React.Component {
               </FormField>
               <FormField label="Name your price: how much are you offering to complete this task?">
                 <TextInput
-                  value={this.state.bounty.price}
+                  value={this.state.bounty.price.toString()}
                   onDOMChange={e => {
                     this.updateBounty({ price: e.target.value });
                 }}
