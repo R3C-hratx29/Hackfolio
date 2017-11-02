@@ -124,7 +124,8 @@ class AddBountyCardLayer extends React.Component {
       <Layer
         className="AddBounty"
         closer
-        onClose={this.props.hideBountyLayer} hidden={this.props.hidden}
+        onClose={this.props.hideBountyLayer}
+        hidden={this.props.hidden}
       >
         <Layer
           className="ImageURL"
@@ -164,7 +165,7 @@ class AddBountyCardLayer extends React.Component {
                 inline={false}
                 reverse
                 ref={ref => {
-                    this.menuRef = ref
+                    this.menuRef = ref;
                 }}
               >
                 <Anchor onClick={() => this.addImageURL('')}>Image URL</Anchor>
@@ -194,52 +195,52 @@ class AddBountyCardLayer extends React.Component {
                   this.formScrollRef = ref;
               }}
             >
-            <FormField label="Give your bounty a name">
-              <TextInput
-                value={this.state.bounty.title}
-                onDOMChange={e => {
+              <FormField label="Give your bounty a name">
+                <TextInput
+                  value={this.state.bounty.title}
+                  onDOMChange={e => {
                     this.updateBounty({ title: e.target.value });
                 }}
-                placeholder="bounty name"
-              />
-            </FormField>
-            <FormField label="Describe the task you want help completing">
-              <TextInput
-                value={this.state.bounty.description}
-                onDOMChange={e => {
+                  placeholder="bounty name"
+                />
+              </FormField>
+              <FormField label="Describe the task you want help completing">
+                <TextInput
+                  value={this.state.bounty.description}
+                  onDOMChange={e => {
                     this.updateBounty({ description: e.target.value });
                 }}
-                placeholder="bounty description"
-              />
-            </FormField>
-            <FormField label="Name your price: how much are you offering to complete this task?">
-              <TextInput
-                value={this.state.bounty.price}
-                onDOMChange={e => {
+                  placeholder="bounty description"
+                />
+              </FormField>
+              <FormField label="Name your price: how much are you offering to complete this task?">
+                <TextInput
+                  value={this.state.bounty.price}
+                  onDOMChange={e => {
                     this.updateBounty({ price: e.target.value });
                 }}
-              />
-            </FormField>
-            <FormField label="List the tech stack that developers will need to complete the task">
-              <TextInput
-                value={this.state.bounty.stack}
-                onDOMChange={e => {
+                />
+              </FormField>
+              <FormField label="List the tech stack that developers will need to complete the task">
+                <TextInput
+                  value={this.state.bounty.stack}
+                  onDOMChange={e => {
                     this.updateBounty({ stack: e.target.value });
                 }}
-                placeholder="tech stack"
-              />
-            </FormField>
-            <FormField label="Link to your github if this isn't a brand new project">
-              <TextInput
-                value={this.state.bounty.github}
-                onDOMChange={e => {
+                  placeholder="tech stack"
+                />
+              </FormField>
+              <FormField label="Link to your github if this isn't a brand new project">
+                <TextInput
+                  value={this.state.bounty.github}
+                  onDOMChange={e => {
                     this.updateBounty({ github: e.target.value });
                 }}
-                placeholder="github link"
-              />
-            </FormField>
-            <FormField>
-              {this.state.bounty.images.split(',').map((image, index) => {
+                  placeholder="github link"
+                />
+              </FormField>
+              <FormField>
+                {this.state.bounty.images.split(',').map((image, index) => {
                  const i = index;
                  return (
                    <FormField
@@ -258,7 +259,7 @@ class AddBountyCardLayer extends React.Component {
                          </span>
                        </div>
                      }
-                    >
+                   >
                      <TextInput
                        value={image}
                        onDOMChange={e => {
@@ -268,7 +269,7 @@ class AddBountyCardLayer extends React.Component {
                    </FormField>
                  );
               })}
-            </FormField>
+              </FormField>
             </div>
             <Box>
               <Button primary fill onClick={this.saveChanges} label="Save Bounty" />

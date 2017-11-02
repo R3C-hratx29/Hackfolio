@@ -66,15 +66,15 @@ export const getBounties = () => {
 };
 
 export const postBounty = (bounty) => {
-    return ((dispatch) => {
-        return axios.post('/api/bounty', bounty)
-            .then(res => {
-                dispatch(getBounties(res.data));
-            })
-            .catch(err => {
-                console.log(err); // eslint-disable-line no-console
-            });
-    });
+  return ((dispatch) => {
+    return axios.post('/api/bounty', bounty)
+      .then(res => {
+        dispatch(getBounties(res.data));
+      })
+      .catch(err => {
+        console.log(err); // eslint-disable-line no-console
+      });
+  });
 };
 
 const postConversation = (bounty) => {
