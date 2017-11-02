@@ -1,8 +1,8 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
 import FileUploader from 'react-firebase-file-uploader';
 import $ from 'jquery';
 import { connect } from 'react-redux';
+import propTypes from 'prop-types';
 
 // Grommet Components
 import {
@@ -58,6 +58,25 @@ class AddBountyCardLayer extends React.Component {
     this.onImageUpload = this.onImageUpload.bind(this);
     this.addImageURL = this.addImageURL.bind(this);
     this.toggleImageURL = this.toggleImageURL.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.edit) {
+      this.setState({
+        bounty: nextProps.edit,
+      });
+    } else {
+      this.setState({
+        bounty: {
+          title: '',
+          description: '',
+          price: 0,
+          stack: '',
+          github: '',
+          images: '',
+        }
+      });
+    }
   }
 
   onImageUpload(file) {
@@ -157,7 +176,7 @@ class AddBountyCardLayer extends React.Component {
         <Box direction="row" pad={{ vertical: 'large' }}>
           <Form>
             <Header justify="between">
-              <Heading>Add a bounty</Heading>
+              <Heading>{this.props.edit ? 'Edit Bounty' : 'Add Bounty'}</Heading>
               <Menu
                 responsive
                 icon={<ImageIcon />}
@@ -271,7 +290,10 @@ class AddBountyCardLayer extends React.Component {
               })}
               </FormField>
             </div>
-            <Box>
+            <Box direction="row">
+              {this.props.edit && (
+              <Button critical fill onClick={this.onDelete} label="Delete Bounty" />
+              )}
               <Button primary fill onClick={this.saveChanges} label="Save Bounty" />
             </Box>
           </Form>
@@ -281,6 +303,19 @@ class AddBountyCardLayer extends React.Component {
   }
 }
 
+AddBountyCardLayer.defaultProps = {
+  edit: null,
+};
+
+AddBountyCardLayer.propTypes = {
+  edit: propTypes.shape({}),
+  hideImageURL: propTypes.func.isRequired,
+  imageURLHidden: propTypes.func.isRequired,
+  postBounty: propTypes.func.isRequired,
+  hideBountyLayer: propTypes.func.isRequired,
+  hidden: propTypes.func.isRequired,
+
+};
 const mapDispatchToProps = (dispatch) => {
   return {
     postBounty: bounty => dispatch(postBounty(bounty))

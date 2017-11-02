@@ -12,7 +12,7 @@ import {
 // Custom Components
 import * as BountyAction from '../../actions/BountyActions';
 import AddBountyTile from './AddBountyTile';
-import EditBountyCardLayer from './EditBountyCardLayer';
+import AddBountyCardLayer from './AddBountyCardLayer';
 import BountyCard from './BountyCard';
 
 import './../../styles/BountyContainer.scss';
@@ -21,10 +21,12 @@ class BountyContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hideBountyModal: true,
+      hideBountyLayer: true,
       hideImageURL: true,
       edit: null,
     };
+    this.editBounty = this.editBounty.bind(this);
+    this.toggleBountyToEdit = this.toggleBountyToEdit.bind(this);
   }
 
   componentDidMount() {
@@ -34,16 +36,33 @@ class BountyContainer extends React.Component {
     }
   }
 
+  toggleBountyToEdit() {
+    if (this.state.hideBountyLayer) {
+      this.setState({
+        edit: null,
+      })
+    }
+    this.setState({
+      hideBountyLayer: !this.state.hideBountyLayer
+    });
+  }
+
   editBounty(bounty) {
     this.setState({
-      hideBountyModal: false,
+      hideBountyLayer: false,
       edit: bounty,
     });
   }
 
   render() {
     const bounties = this.props.bounties.map((bounty) => {
-      return <BountyCard key={bounty.bounty_id} bounty={bounty} showSend />;
+      return <BountyCard
+               key={bounty.bounty_id}
+               bounty={bounty}
+               showSend
+               editBounty={this.editBounty}
+               toggleEditLayer={this.toggleBountyToEdit}
+             />;
     });
     return (
       <div>
@@ -51,8 +70,10 @@ class BountyContainer extends React.Component {
         <Tiles flush={false} justify="between">
           {bounties}
         </Tiles>
-        <AddBountyTile imageURLHidden={this.state.hideImageURL} />
-        <EditBountyCardLayer imageURLHidden={this.state.hideImageURL} />
+        <AddBountyTile
+          edit={this.state.edit}
+          imageURLHidden={this.state.hideImageURL}
+        />
       </div>
     );
   }
