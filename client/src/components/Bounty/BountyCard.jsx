@@ -75,7 +75,7 @@ const BountyCard = props => {
             {props.bounty.title}
             <EditIcon
               className="editBountyIcon"
-              onClick={() => console.log('weee')}
+              onClick={() => props.editBounty(props.bounty)}
             />
           </Heading>
         }
@@ -129,6 +129,10 @@ const BountyCard = props => {
   );
 };
 
+BountyCard.defaultProps = {
+  editBounty: () => {},
+};
+
 BountyCard.propTypes = {
   bounty: PropTypes.shape({
     bounty_id: PropTypes.nuber,
@@ -142,7 +146,8 @@ BountyCard.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   favorites: PropTypes.arrayOf(PropTypes.number).isRequired,
   setBounty: PropTypes.func.isRequired,
-  changeFavorite: PropTypes.func.isRequired
+  changeFavorite: PropTypes.func.isRequired,
+  editBounty: PropTypes.func,
 };
 
 const mapStateToProps = (state) => {

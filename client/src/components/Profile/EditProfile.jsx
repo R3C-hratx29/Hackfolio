@@ -15,7 +15,8 @@ import {
   Menu,
   Anchor,
   Header,
-  Heading
+  Heading,
+  Button
 } from 'grommet';
 
 // Grommet Icons
@@ -305,11 +306,9 @@ class EditProfile extends React.Component {
                 placeholder="Résumé"
               />
             </FormField>
-            <Anchor
-              icon={<SaveIcon />}
-              primary
-              onClick={this.saveChanges}
-            />
+            <Box direction="row">
+              <Button primary fill onClick={this.saveChanges} label="Save Profile" />
+            </Box>
           </Form>
         </Box>
       </Layer>

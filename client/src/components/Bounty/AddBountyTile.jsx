@@ -50,6 +50,7 @@ class AddBountyTile extends React.Component {
           }
         />
         <AddBountyCardLayer
+          edit={this.props.edit}
           hideBountyLayer={this.hideBountyLayerFunction}
           hidden={this.state.hideBountyLayer}
           imageURLHidden={this.props.imageURLHidden}
