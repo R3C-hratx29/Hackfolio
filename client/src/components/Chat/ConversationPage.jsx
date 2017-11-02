@@ -109,6 +109,9 @@ class ConversationPage extends React.Component {
                         onClick={() => this.pickConversation(convo)}
                         key={convo.conversation_id}
                       />
+                      <span className="bountyName">
+                        {convo.name}
+                      </span>
                       <Button
                         primary
                         label="Bounty"
