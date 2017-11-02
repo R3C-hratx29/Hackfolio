@@ -84,7 +84,7 @@ class ConversationPage extends React.Component {
                       key={convo.conversation_id}
                     >
                       <Anchor
-                        label={convo.name}
+                        label={convo.username}
                         onClick={() => this.pickConversation(convo)}
                         key={convo.conversation_id}
                       />
