@@ -106,13 +106,15 @@ const BountyCard = props => {
             </div>
             { props.isLoggedIn ?
               <div>
-                <Anchor
-                  icon={<SendIcon />}
-                  label="Discuss Terms"
-                  onClick={() => props.setBounty(props.bounty)}
-                  primary
-                  reverse={false}
-                />
+                { props.showSend ?
+                  <Anchor
+                    icon={<SendIcon />}
+                    label="Discuss Terms"
+                    onClick={() => props.setBounty(props.bounty)}
+                    primary
+                    reverse={false}
+                  /> : <div />
+                }
                 <Anchor
                   icon={<StarIcon colorIndex={color} />}
                   onClick={() => props.changeFavorite(props.bounty.bounty_id, isFave)}
@@ -136,6 +138,7 @@ BountyCard.propTypes = {
     images: PropTypes.string,
     stack: PropTypes.string
   }).isRequired,
+  showSend: PropTypes.bool.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   favorites: PropTypes.arrayOf(PropTypes.number).isRequired,
   setBounty: PropTypes.func.isRequired,

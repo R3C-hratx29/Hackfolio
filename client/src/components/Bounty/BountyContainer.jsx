@@ -41,7 +41,7 @@ class BountyContainer extends React.Component {
 
   render() {
     const bounties = this.props.bounties.map((bounty) => {
-      return <BountyCard key={bounty.bounty_id} bounty={bounty} />;
+      return <BountyCard key={bounty.bounty_id} bounty={bounty} showSend />;
     });
     return (
       <div>
