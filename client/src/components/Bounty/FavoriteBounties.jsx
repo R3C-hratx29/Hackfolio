@@ -21,7 +21,7 @@ class BountyContainer extends React.Component {
   render() {
     const bounties = this.props.bounties.map((bounty) => {
       if (this.props.favorites.includes(bounty.bounty_id)) {
-        return <BountyCard key={bounty.bounty_id} bounty={bounty} />;
+        return <BountyCard key={bounty.bounty_id} bounty={bounty} showSend />;
       }
       return <div key={bounty.bounty_id} />;
     });
