@@ -56,6 +56,7 @@ exports.up = (knex, Promise) => {
         .inTable('users');
       table.string('description');
       table.decimal('price', 14, 2);
+      table.string('github');
       table.string('stack');
       table.string('images', 100000);
       table.timestamp('created_at')

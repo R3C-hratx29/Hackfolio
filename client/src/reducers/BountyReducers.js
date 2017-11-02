@@ -63,4 +63,3 @@ const bountyReducers = {
 };
 
 export default bountyReducers;
-
