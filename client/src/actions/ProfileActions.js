@@ -44,5 +44,4 @@ export const changeProfile = (data, profile) => {
   });
 };
 
-
 export default getProfile;

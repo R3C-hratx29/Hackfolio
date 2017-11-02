@@ -48,7 +48,7 @@ export const getBounty = (id) => {
         dispatch(setBounty(res.data));
       })
       .catch(err => {
-        console.log(err);
+        console.log(err); // eslint-disable-line no-console
       });
   });
 };
@@ -65,11 +65,23 @@ export const getBounties = () => {
   });
 };
 
+export const postBounty = (bounty) => {
+  return ((dispatch) => {
+    return axios.post('/api/bounty', bounty)
+      .then(res => {
+        dispatch(getBounties(res.data));
+      })
+      .catch(err => {
+        console.log(err); // eslint-disable-line no-console
+      });
+  });
+};
+
 const postConversation = (bounty) => {
   return ((dispatch) => {
     return axios.post('/api/converstion', {
       bountyId: bounty.bounty_id,
-      title: bounty.title,
+      title: bounty.titlei,
       ownerId: bounty.owner_id
     })
       .then((results) => {
