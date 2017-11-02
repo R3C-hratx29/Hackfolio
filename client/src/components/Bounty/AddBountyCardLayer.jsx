@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable */
 import React from 'react';
 import FileUploader from 'react-firebase-file-uploader';
 import $ from 'jquery';
@@ -16,15 +15,25 @@ import {
   Heading,
   Button,
   Anchor,
+  Menu,
 } from 'grommet';
 
-import CheckmarkIcon from 'grommet/components/icons/base/Checkmark';
+// Grommet Icons
+import {
+  CheckmarkIcon,
+  ImageIcon,
+} from 'grommet/components/icons/base';
+
+import Spinning from 'grommet/components/icons/Spinning';
 
 // Custom Actions
 import { postBounty } from './../../actions/BountyActions';
 
 // Firebase
 import firebase from './../../data/firebase';
+
+// Component Styles
+import './../../styles/ProjectCard.scss';
 
 class AddBountyCardLayer extends React.Component {
   constructor(props) {
@@ -59,7 +68,8 @@ class AddBountyCardLayer extends React.Component {
       .child(file)
       .getDownloadURL()
       .then(url => {
-        this.setState({ uploading: false, profile_pic_url: url });
+        this.addImageURL(url);
+        this.setState({ uploading: false });
       });
   }
 
@@ -100,6 +110,7 @@ class AddBountyCardLayer extends React.Component {
 
   saveChanges() {
     this.props.postBounty(this.state.bounty);
+    this.props.hideBountyLayer();
   }
 
   updateBounty(state) {
@@ -113,8 +124,7 @@ class AddBountyCardLayer extends React.Component {
       <Layer
         className="AddBounty"
         closer
-        onClose={() => (console.log('closer'))}
-        hidden={this.props.hidden}
+        onClose={this.props.hideBountyLayer} hidden={this.props.hidden}
       >
         <Layer
           className="ImageURL"
@@ -145,13 +155,45 @@ class AddBountyCardLayer extends React.Component {
         </Layer>
         <Box direction="row" pad={{ vertical: 'large' }}>
           <Form>
-            <Header
-              justify="between"
-            >
-              <Heading>
-                Add a bounty
-              </Heading>
+            <Header justify="between">
+              <Heading>Add a bounty</Heading>
+              <Menu
+                responsive
+                icon={<ImageIcon />}
+                label="Add Image"
+                inline={false}
+                reverse
+                ref={ref => {
+                    this.menuRef = ref
+                }}
+              >
+                <Anchor onClick={() => this.addImageURL('')}>Image URL</Anchor>
+                <Anchor onClick={e => {
+                    e.stopPropagation();
+                }}
+                >
+                  <label htmlFor="firebaseUpload" style={{ cursor: 'pointer' }}>
+                    {this.state.uploading && <Spinning />} Upload Image
+                    <FileUploader
+                      style={{ display: 'none' }}
+                      hidden
+                      id="firebaseUpload"
+                      accept="image/*"
+                      randomizeFilename
+                      storageRef={firebase.storage().ref('images')}
+                      onUploadStart={this.onUploadStart}
+                      onUploadSuccess={this.onImageUpload}
+                    />
+                  </label>
+                </Anchor>
+              </Menu>
             </Header>
+            <div
+              className="formScroll"
+              ref={ref => {
+                  this.formScrollRef = ref;
+              }}
+            >
             <FormField label="Give your bounty a name">
               <TextInput
                 value={this.state.bounty.title}
@@ -198,35 +240,36 @@ class AddBountyCardLayer extends React.Component {
             </FormField>
             <FormField>
               {this.state.bounty.images.split(',').map((image, index) => {
-                const i = index;
-                  return (
-                    <FormField
-                      key={i}
-                      label={
-                        <div>
-                          <span>Image #{index + 1}</span>
-                          <span
-                            tabIndex={0}
-                            className="deleteImage"
-                            onClick={() => this.removeImage(index)}
-                            onKeyPress={() => {}}
-                            role="button"
-                          >
-                            Delete
-                          </span>
-                        </div>
-                      }
+                 const i = index;
+                 return (
+                   <FormField
+                     key={i}
+                     label={
+                       <div>
+                         <span>Image #{index + 1}</span>
+                         <span
+                           tabIndex={0}
+                           className="deleteImage"
+                           onClick={() => this.removeImage(index)}
+                           onKeyPress={() => {}}
+                           role="button"
+                         >
+                           Delete
+                         </span>
+                       </div>
+                     }
                     >
-                      <TextInput
-                        value={image}
-                        onDOMChange={e => {
-                          this.updateImages(index, e.target.value);
-                        }}
-                      />
-                    </FormField>
-                  );
+                     <TextInput
+                       value={image}
+                       onDOMChange={e => {
+                           this.updateImages(index, e.target.value);
+                       }}
+                     />
+                   </FormField>
+                 );
               })}
             </FormField>
+            </div>
             <Box>
               <Button primary fill onClick={this.saveChanges} label="Save Bounty" />
             </Box>

@@ -39,18 +39,6 @@ export const setConversation = (conversation) => {
   };
 };
 
-export const postBounty = (bounty) => {
-  return ((dispatch) => {
-    return axios.post('/api/bounty', bounty)
-      .then(res => {
-        dispatch(this.getBounties(res.data));
-      })
-      .catch(err => {
-        console.log(err); // eslint-disable-line no-console
-      });
-  });
-};
-
 export const getBounty = (id) => {
   return (dispatch => {
     return axios.get('/api/bountyById', {
@@ -75,6 +63,18 @@ export const getBounties = () => {
         console.log(err); // eslint-disable-line no-console
       });
   });
+};
+
+export const postBounty = (bounty) => {
+    return ((dispatch) => {
+        return axios.post('/api/bounty', bounty)
+            .then(res => {
+                dispatch(getBounties(res.data));
+            })
+            .catch(err => {
+                console.log(err); // eslint-disable-line no-console
+            });
+    });
 };
 
 const postConversation = (bounty) => {
