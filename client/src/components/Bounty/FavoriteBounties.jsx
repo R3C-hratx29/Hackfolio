@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // Grommet Components
-import {
-  Tiles,
-} from 'grommet';
+import { Tiles } from 'grommet';
 
 // Custom Components
 import * as BountyAction from '../../actions/BountyActions';
@@ -19,15 +17,15 @@ class BountyContainer extends React.Component {
     this.props.getFavorites();
   }
   render() {
-    const bounties = this.props.bounties.map((bounty) => {
-      if (this.props.favorites.includes(bounty.bounty_id)) {
+    const bounties = this.props.bounties
+      .filter(bounty => this.props.favorites.includes(bounty.bounty_id))
+      .map(bounty => {
         return <BountyCard key={bounty.bounty_id} bounty={bounty} />;
-      }
-      return <div key={bounty.bounty_id} />;
-    });
+      });
+    console.log(bounties);
     return (
       <div>
-        <Tiles flush={false} justify="between">
+        <Tiles flush={false} justify="start">
           {bounties}
         </Tiles>
       </div>
@@ -43,17 +41,17 @@ BountyContainer.propTypes = {
   bounties: PropTypes.arrayOf(PropTypes.object),
   favorites: PropTypes.arrayOf(PropTypes.number).isRequired,
   getBounties: PropTypes.func.isRequired,
-  getFavorites: PropTypes.func.isRequired
+  getFavorites: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     bounties: state.bounties,
-    favorites: state.favorites
+    favorites: state.favorites,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     getFavorites: () => dispatch(BountyAction.getFavorites()),
     getBounties: () => dispatch(BountyAction.getBounties()),
