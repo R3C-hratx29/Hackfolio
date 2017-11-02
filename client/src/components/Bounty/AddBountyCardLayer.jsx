@@ -2,6 +2,7 @@
 /* eslint-disable */
 import React from 'react';
 import FileUploader from 'react-firebase-file-uploader';
+import $ from 'jquery';
 import { connect } from 'react-redux';
 
 // Grommet Components
@@ -20,7 +21,7 @@ import {
 import CheckmarkIcon from 'grommet/components/icons/base/Checkmark';
 
 // Custom Actions
-import { setBounty } from './../../actions/BountyActions';
+import { postBounty } from './../../actions/BountyActions';
 
 // Firebase
 import firebase from './../../data/firebase';
@@ -31,12 +32,12 @@ class AddBountyCardLayer extends React.Component {
 
     this.state = {
       bounty: {
-        bounty_title: '',
+        title: '',
         description: '',
-        price: '',
-        tech_stack: '',
+        price: 0,
+        stack: '',
         github: '',
-        images: [],
+        images: '',
       },
       uploading: false
     };
@@ -44,7 +45,9 @@ class AddBountyCardLayer extends React.Component {
     this.saveChanges = this.saveChanges.bind(this);
     this.updateBounty = this.updateBounty.bind(this);
     this.onUploadStart = this.onUploadStart.bind(this);
+    this.updateImages = this.updateImages.bind(this);
     this.onImageUpload = this.onImageUpload.bind(this);
+    this.addImageURL = this.addImageURL.bind(this);
     this.toggleImageURL = this.toggleImageURL.bind(this);
   }
 
@@ -64,12 +67,39 @@ class AddBountyCardLayer extends React.Component {
     this.setState({ uploading: true });
   }
 
+  addImageURL(url = '') {
+    const array = this.state.bounty.images.split(',');
+    array.push(url);
+    this.updateBounty({
+      images: array.join(','),
+    });
+    setTimeout(() => {
+      $(this.formScrollRef).animate({ scrollTop: this.formScrollRef.scrollHeight });
+    }, 10);
+  }
+
+  removeImage(index) {
+    const array = this.state.bounty.images.split(',');
+    array.splice(index, 1);
+    this.updateBounty({
+      images: array.join(','),
+    });
+  }
+
+  updateImages(index, url) {
+    const array = this.state.bounty.images.split(',');
+    array[index] = url;
+    this.updateBounty({
+      images: array.join(','),
+    });
+  }
+
   toggleImageURL() {
     this.props.hideImageURL();
   }
 
   saveChanges() {
-    this.props.setBounty(this.state.bounty);
+    this.props.postBounty(this.state.bounty);
   }
 
   updateBounty(state) {
@@ -83,7 +113,7 @@ class AddBountyCardLayer extends React.Component {
       <Layer
         className="AddBounty"
         closer
-        onClose={this.props.hideBountyLayerFunction}
+        onClose={() => (console.log('closer'))}
         hidden={this.props.hidden}
       >
         <Layer
@@ -124,9 +154,9 @@ class AddBountyCardLayer extends React.Component {
             </Header>
             <FormField label="Give your bounty a name">
               <TextInput
-                value={this.state.bounty.bounty_title}
+                value={this.state.bounty.title}
                 onDOMChange={e => {
-                    this.updateBounty({ bounty_title: e.target.value });
+                    this.updateBounty({ title: e.target.value });
                 }}
                 placeholder="bounty name"
               />
@@ -146,14 +176,13 @@ class AddBountyCardLayer extends React.Component {
                 onDOMChange={e => {
                     this.updateBounty({ price: e.target.value });
                 }}
-                placeholder="$$$"
               />
             </FormField>
             <FormField label="List the tech stack that developers will need to complete the task">
               <TextInput
-                value={this.state.bounty.tech_stack}
+                value={this.state.bounty.stack}
                 onDOMChange={e => {
-                    this.updateBounty({ tech_stack: e.target.value });
+                    this.updateBounty({ stack: e.target.value });
                 }}
                 placeholder="tech stack"
               />
@@ -167,6 +196,37 @@ class AddBountyCardLayer extends React.Component {
                 placeholder="github link"
               />
             </FormField>
+            <FormField>
+              {this.state.bounty.images.split(',').map((image, index) => {
+                const i = index;
+                  return (
+                    <FormField
+                      key={i}
+                      label={
+                        <div>
+                          <span>Image #{index + 1}</span>
+                          <span
+                            tabIndex={0}
+                            className="deleteImage"
+                            onClick={() => this.removeImage(index)}
+                            onKeyPress={() => {}}
+                            role="button"
+                          >
+                            Delete
+                          </span>
+                        </div>
+                      }
+                    >
+                      <TextInput
+                        value={image}
+                        onDOMChange={e => {
+                          this.updateImages(index, e.target.value);
+                        }}
+                      />
+                    </FormField>
+                  );
+              })}
+            </FormField>
             <Box>
               <Button primary fill onClick={this.saveChanges} label="Save Bounty" />
             </Box>
@@ -179,7 +239,7 @@ class AddBountyCardLayer extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    saveChanges: (changes, bounty) => dispatch(setBounty(changes, bounty))
+    postBounty: bounty => dispatch(postBounty(bounty))
   };
 };
 

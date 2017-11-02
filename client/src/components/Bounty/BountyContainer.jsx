@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -20,9 +21,9 @@ class BountyContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      /* hideBountyModal: true, */
-      /* hideImageURL: true,
-       * edit: null, */
+      hideBountyModal: true,
+      hideImageURL: true,
+      edit: null,
     };
   }
 
@@ -33,10 +34,10 @@ class BountyContainer extends React.Component {
     }
   }
 
-  editBounty() {
+  editBounty(bounty) {
     this.setState({
-      /* hideBountyModal: false,
-       * edit: bounty, */
+      hideBountyModal: false,
+      edit: bounty,
     });
   }
 

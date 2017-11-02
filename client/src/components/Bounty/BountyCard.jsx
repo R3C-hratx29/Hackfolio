@@ -37,8 +37,8 @@ function httpify(value) {
 
 
 const BountyCard = props => {
-  const images = props.bounty.images ? props.bounty.images.split(',') : [];
-  const stack = props.bounty.stack.split(',');
+  const images = props.bounty.images ? props.bounty.images.split(',') : '';
+  const stack = props.bounty.stack.length ? props.bounty.stack.split(',') : '';
   const price = Number(props.bounty.price);
   const color = props.favorites.includes(props.bounty.bounty_id) ? 'warning' : 'unknown';
   const isFave = props.favorites.includes(props.bounty.bounty_id);
