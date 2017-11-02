@@ -1,4 +1,10 @@
 .sidebar {
   background-color: rgb(226, 226, 226);
   text-align: center;
+  width: 425px !important;
+
+  .bountyName {
+    text-align: right;
+    font-weight: bold;
+  }
 }
