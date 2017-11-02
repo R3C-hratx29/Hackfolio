@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import _ from 'underscore';
 import {
   App,
   Sidebar,
@@ -35,6 +36,13 @@ class ConversationPage extends React.Component {
     this.props.getConversations(this.props.bounty, this.props.currentUser.user_id);
   }
   componentWillReceiveProps(next) {
+    if (!_.isEqual(next.conversations, this.props.conversations)) {
+      this.props.getConversations(next.currentUser.user_id);
+      socket.removeListener(`conversations:${this.props.currentUser.user_id}`);
+      socket.on(`conversation:${next.currentUser.user_id}`, () => {
+        this.props.getConversations(this.props.bounty, next.user_id);
+      });
+    }
     if (next.currentUser.user_id !== this.props.currentUser.user_id) {
       this.props.getConversations(next.currentUser.user_id);
       socket.removeListener(`conversations:${this.props.currentUser.user_id}`);
@@ -87,6 +95,9 @@ class ConversationPage extends React.Component {
                 pad={{ between: 'medium' }}
               >
                 { this.props.conversations.map((convo) => {
+                  if (convo.conversation_id < 1) {
+                    return <Box key={convo.conversation_id} />;
+                  }
                   return (
                     <Box
                       direction="row"

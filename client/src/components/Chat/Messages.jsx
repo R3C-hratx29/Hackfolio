@@ -13,10 +13,13 @@ class Messages extends React.Component {
       messages: []
     };
     this.getMessages = this.getMessages.bind(this);
+    this.setupSocket = this.setupSocket.bind(this);
   }
   componentDidMount() {
-    this.getMessages(this.props.id);
-    this.setupSocket(this.props.id);
+    if (this.props.id > 0) {
+      this.getMessages(this.props.id);
+      this.setupSocket(this.props.id);
+    }
   }
   componentWillReceiveProps(next) {
     if (next.id > 0 && next.id !== this.props.id) {

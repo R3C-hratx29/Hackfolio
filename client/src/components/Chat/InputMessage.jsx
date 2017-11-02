@@ -26,12 +26,13 @@ class InputMessage extends React.Component {
       name: this.props.conversation.name
     })
       .then(() => {
+        this.setState({ messageText: '' });
         console.log('send mess :D');
       })
       .catch((err) => {
+        this.setState({ messageText: '' });
         console.log('send message failed', err);
       });
-    this.setState({ messageText: '' });
   }
   textHandler(e) {
     this.setState({ messageText: e.target.value });
