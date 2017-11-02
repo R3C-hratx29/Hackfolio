@@ -139,7 +139,7 @@ class NavBar extends React.Component {
                   />
                   <Anchor
                     onClick={this.props.goToFave}
-                    label="Your favorite Bounties"
+                    label="Your Favorite Bounties"
                   />
                 </Menu>
               }
