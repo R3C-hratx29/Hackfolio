@@ -14,10 +14,11 @@ import {
   Button
 } from 'grommet';
 
-import { setConversation, getConversations } from '../../actions/BountyActions';
+import { setConversation, getConversations, getBounty } from '../../actions/BountyActions';
 import socket from '../../socket';
 import Messages from '../Chat/Messages';
 import InputMessage from './InputMessage';
+import BountyModal from '../Bounty/BountyModal';
 import '../../styles/ConversationPage.scss';
 
 class ConversationPage extends React.Component {
@@ -25,8 +26,10 @@ class ConversationPage extends React.Component {
     super(props);
     this.state = {
       conversation: this.props.conversations[0].conversation_id, // TODO
-      convoName: ''
+      convoName: '',
+      showBounty: false
     };
+    this.closeBounty = this.closeBounty.bind(this);
   }
   componentDidMount() {
     this.props.getConversations(this.props.bounty, this.props.currentUser.user_id);
@@ -48,6 +51,13 @@ class ConversationPage extends React.Component {
     });
     this.setState({ conversation: picked.conversation_id });
     this.setState({ convoName: picked.name });
+  }
+  showBounty(bountyId) {
+    this.props.getBounty(bountyId);
+    this.setState({ showBounty: true });
+  }
+  closeBounty() {
+    this.setState({ showBounty: false });
   }
   render() {
     return (
@@ -91,7 +101,7 @@ class ConversationPage extends React.Component {
                       <Button
                         primary
                         label="Bounty"
-                        onClick={() => console.log('picked', convo.bounty_id)}
+                        onClick={() => this.showBounty(convo.bounty_id)}
                         key={convo.conversation_id + convo.bounty_hunter + convo.owner_id}
                       />
                     </Box>);
@@ -109,6 +119,9 @@ class ConversationPage extends React.Component {
             <InputMessage />
           </Box>
         </Split>
+        { this.state.showBounty ?
+          <BountyModal close={this.closeBounty} showSend={false} /> : <div />
+        }
       </App>
     );
   }
@@ -122,13 +135,15 @@ ConversationPage.propTypes = {
   bounty: PropTypes.shape({}).isRequired,
   conversations: PropTypes.arrayOf(PropTypes.object).isRequired,
   getConversations: PropTypes.func.isRequired,
-  setConversation: PropTypes.func.isRequired
+  setConversation: PropTypes.func.isRequired,
+  getBounty: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getConversations: (id) => dispatch(getConversations(id)),
-    setConversation: (convo) => dispatch(setConversation(convo))
+    setConversation: (convo) => dispatch(setConversation(convo)),
+    getBounty: (id) => dispatch(getBounty(id))
   };
 };
 

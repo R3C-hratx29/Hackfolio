@@ -169,7 +169,7 @@ router.get('/bountyById', (req, res) => {
     .then(bounty => {
       const isOwner = dLoad.user_id === bounty[0].owner_id;
       res.set({ is_owner: isOwner });
-      res.send({ bounty: bounty[0] });
+      res.send(bounty[0]);
     })
     .catch((err) => {
       console.log(err);

@@ -39,6 +39,20 @@ export const setConversation = (conversation) => {
   };
 };
 
+export const getBounty = (id) => {
+  return (dispatch => {
+    return axios.get('/api/bountyById', {
+      params: { id }
+    })
+      .then(res => {
+        dispatch(setBounty(res.data));
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
+};
+
 export const getBounties = () => {
   return (dispatch => {
     return axios.get('/api/bounty')
