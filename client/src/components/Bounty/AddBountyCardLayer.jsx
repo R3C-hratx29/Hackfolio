@@ -17,7 +17,7 @@ import {
   Anchor,
 } from 'grommet';
 
-import CheckmarkIcon from 'grommet/components/icons/base';
+import CheckmarkIcon from 'grommet/components/icons/base/Checkmark';
 
 // Custom Actions
 import { setBounty } from './../../actions/BountyActions';

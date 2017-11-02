@@ -20,8 +20,9 @@ class BountyContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // hideBountyModal: true,
-      // edit: null,
+      /* hideBountyModal: true, */
+      /* hideImageURL: true,
+       * edit: null, */
     };
   }
 
@@ -32,12 +33,12 @@ class BountyContainer extends React.Component {
     }
   }
 
-  // editBounty(bounty) {
-  //   this.setState({
-  //     // hideBountyModal: false,
-  //     // edit: bounty,
-  //   });
-  // }
+  editBounty() {
+    this.setState({
+      /* hideBountyModal: false,
+       * edit: bounty, */
+    });
+  }
 
   render() {
     const bounties = this.props.bounties.map((bounty) => {
@@ -49,8 +50,8 @@ class BountyContainer extends React.Component {
         <Tiles flush={false} justify="between">
           {bounties}
         </Tiles>
-        <AddBountyTile />
-        <EditBountyCardLayer />
+        <AddBountyTile imageURLHidden={this.state.hideImageURL} />
+        <EditBountyCardLayer imageURLHidden={this.state.hideImageURL} />
       </div>
     );
   }
