@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 // Grommet Components
 import {
   Tiles,
-  Tip,
   Box,
   Button
 } from 'grommet';
@@ -14,7 +13,6 @@ import {
 import ProjectCard from './ProjectCard';
 import AddProject from './AddProject';
 import ProfileBox from './../Profile/ProfileBox';
-import * as UserAction from './../../actions/UserActions';
 import AddProjectTile from './AddProjectTile';
 import ReorderProjects from './ReorderProjects';
 
@@ -27,19 +25,11 @@ class Projects extends React.Component {
     this.state = {
       hideProjectModal: true,
       hideReorderModal: true,
-      help: false,
       edit: null,
     };
     this.toggleProjectModal = this.toggleProjectModal.bind(this);
     this.toggleReorderModal = this.toggleReorderModal.bind(this);
     this.editProject = this.editProject.bind(this);
-  }
-  componentWillMount() {
-    setTimeout(() => {
-      this.setState({
-        help: true,
-      });
-    }, 500);
   }
 
   toggleProjectModal() {
@@ -111,13 +101,6 @@ class Projects extends React.Component {
           toggleReorderModal={this.toggleReorderModal}
           hideReorderModal={this.state.hideReorderModal}
         />
-        {this.props.help === 'Project' && this.state.help ? (
-          <Tip target="AddProjectBtn" onClose={this.props.displayHelp}>
-            You can add projects to show off here
-          </Tip>
-        ) : (
-          <div />
-        )}
       </div>
     );
   }
@@ -125,28 +108,21 @@ class Projects extends React.Component {
 
 Projects.defaultProps = {
   userProfile: {},
-  help: 'off',
-  displayHelp: () => {},
 };
 
 Projects.propTypes = {
   userProfile: PropTypes.shape({ projects: PropTypes.array }),
-  help: PropTypes.string,
-  displayHelp: PropTypes.func,
   isProfileOwner: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     userProfile: state.userProfile,
-    help: state.help.text,
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    displayHelp: () => { dispatch(UserAction.help('Tabs')); }
-  };
+function mapDispatchToProps() {
+  return {};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Projects);

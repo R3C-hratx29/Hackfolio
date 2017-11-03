@@ -7,6 +7,8 @@ import { connect } from 'react-redux';
 // Grommet Components
 import {
   Tiles,
+  Heading,
+  Box
 } from 'grommet';
 
 // Custom Components
@@ -66,7 +68,14 @@ class BountyContainer extends React.Component {
     });
     return (
       <div>
-        BountyContainer
+        <Box separator="bottom">
+          <Heading align="center" strong={true}>
+            Bounty Board
+          </Heading>
+          <Heading tag="h3" align="center">
+            Connecting Freelace Engineers to Employers
+          </Heading>
+        </Box>
         <Tiles flush={false} justify="between">
           {bounties}
         </Tiles>

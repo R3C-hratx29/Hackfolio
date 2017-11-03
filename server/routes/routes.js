@@ -87,9 +87,7 @@ router.post('/login', (req, res) => {
       if (!user.length) {
         res.status(401);
         res.send('User does not exist.');
-      }
-
-      if (user.length) {
+      } else {
         bcrypt.compare(password, user[0].password, (err, match) => {
           if (match) {
             const payload = { username: user[0].username, user_id: user[0].uid };
@@ -101,13 +99,17 @@ router.post('/login', (req, res) => {
               user_id: user[0].uid
             });
             res.send({ username: user[0].username, Jwt: token });
-          }
-          if (!match) {
+          } else {
             res.status(401);
             res.send('Incorrect password');
           }
         });
       }
+    })
+    .catch(err => {
+      console.log('in catch');
+      res.status(401);
+      res.send(err);
     });
 });
 
