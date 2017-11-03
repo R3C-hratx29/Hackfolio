@@ -8,11 +8,11 @@ import createHistory from 'history/createBrowserHistory';
 import Profile from './Profile/Profile';
 import NavBar from './NavBar/NavBar';
 import Github from './Github';
-import HomePage from './HomePage';
 import SearchPage from './NavBar/SearchPage';
 import ChatModal from './Chat/ChatModal';
 import ConversationPage from './Chat/ConversationPage';
 import FavoriteBounties from './Bounty/FavoriteBounties';
+import BountyContainer from './Bounty/BountyContainer';
 
 export const history = createHistory();
 
@@ -43,7 +43,7 @@ class Hackfolio extends React.Component {
         <NavBar />
         <ConnectedRouter history={history}>
           <Switch>
-            <Route exact path="/" component={HomePage} />
+            <Route exact path="/" component={BountyContainer} />
             <Route path="/github/:token/:username" component={Github} />
             <Route path="/user/:id" component={Profile} />
             <Route path="/search" component={SearchPage} />

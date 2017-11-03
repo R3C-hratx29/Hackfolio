@@ -15,7 +15,6 @@ import {
   Tile,
   Image,
   Anchor,
-  Tip
 } from 'grommet';
 
 // Grommet Icons
@@ -25,7 +24,6 @@ import EditIcon from 'grommet/components/icons/base/Edit';
 import EditProfile from './EditProfile';
 import SocialIcons from './SocialIcons';
 import { changeProfile } from './../../actions/ProfileActions';
-import * as UserAction from './../../actions/UserActions';
 
 class ProfileBox extends React.Component {
   constructor(props) {
@@ -33,14 +31,9 @@ class ProfileBox extends React.Component {
     this.state = {
       hideModal: true,
       hideImageURL: true,
-      help: false,
     };
-    this.showTip = this.showTip.bind(this);
     this.hideModal = this.hideModal.bind(this);
     this.hideImageURL = this.hideImageURL.bind(this);
-  }
-  componentDidMount() {
-    setTimeout(this.showTip, 500);
   }
 
   hideModal() {
@@ -53,10 +46,6 @@ class ProfileBox extends React.Component {
     this.setState({
       hideImageURL: !this.state.hideImageURL
     });
-  }
-
-  showTip() {
-    this.setState({ help: true });
   }
 
   render() {
@@ -75,14 +64,6 @@ class ProfileBox extends React.Component {
         align="center"
         style={{ boxShadow: '0px 0px 13px 8px rgba(0, 0, 0, 0.1)' }}
       >
-        { this.state.help && this.props.help === 'Profile' ?
-          <Tip
-            onClose={this.props.displayHelp}
-            target="edit"
-          >
-            Click here to edit your profile
-          </Tip> : <div />
-        }
         <Image
           size="medium"
           style={{ maxWidth: 384, maxHeight: 280, objectFit: 'cover' }}
@@ -125,13 +106,11 @@ class ProfileBox extends React.Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     saveChanges: (changes, profile) => dispatch(changeProfile(changes, profile)),
-    displayHelp: () => dispatch(UserAction.help('Project'))
   };
 };
 
 const mapStateToProps = (state) => {
   return {
-    help: state.help,
     userProfile: state.userProfile
   };
 };

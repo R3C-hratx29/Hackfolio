@@ -48,13 +48,6 @@ export const deleteAllNotifications = () => {
   };
 };
 
-export const help = (state) => {
-  return {
-    type: 'HELP_USER',
-    text: state
-  };
-};
-
 export const endError = () => {
   return {
     type: 'ERROR_SET_USER',
@@ -137,7 +130,6 @@ export const signup = userdata => {
         dispatch(setUser(res.headers));
         dispatch(getNotifications());
         dispatch(push(`/user/${res.headers.username}`));
-        dispatch(help('Profile'));
       })
       .catch((err) => {
         dispatch(setError(err.response.data));

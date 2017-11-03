@@ -41,7 +41,6 @@ class Modal extends React.Component {
       email: '',
       page: true,
     });
-    this.props.startError();
   }
 
   componentWillReceiveProps(next) {
@@ -88,7 +87,7 @@ class Modal extends React.Component {
     usernameError = this.state.page && this.props.valid === 'user' ? 'Username not found' : '';
     usernameError = this.props.valid === 'user' && usernameError === '' ? 'User already exists' : usernameError;
     return (
-      <Layer className="LoginBox" closer onClose={this.props.func}>
+      <Layer className="LoginBox" closer onClose={this.props.func} hidden={this.props.hide}>
         <Box size={{ height: 'large', width: 'medium' }} justify="center" align="center">
           <Box margin={{ bottom: 'medium' }} alignContent="end" direction="row">
             <Box margin={{ right: 'medium' }}>
@@ -157,7 +156,7 @@ Modal.propTypes = {
   func: PropTypes.func.isRequired,
   signup: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
-  startError: PropTypes.func.isRequired
+  hide: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {

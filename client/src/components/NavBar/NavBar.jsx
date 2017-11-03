@@ -5,7 +5,16 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 
 // Grommet Imports
-import { Header, Box, Tip, TextInput, Button, Form, FormField, Menu, Anchor } from 'grommet';
+import {
+  Header,
+  Box,
+  TextInput,
+  Button,
+  Form,
+  FormField,
+  Menu,
+  Anchor
+} from 'grommet';
 
 // Grommet Icons
 import {
@@ -30,21 +39,14 @@ class NavBar extends React.Component {
     super(props);
     this.state = {
       searchText: '',
-      help: false,
-      modalState: false,
+      modalState: true,
     };
     this.searchHandler = this.searchHandler.bind(this);
     this.sendSearch = this.sendSearch.bind(this);
     this.goProfile = this.goProfile.bind(this);
-    this.goHome = this.goHome.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
   }
 
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({ help: true });
-    }, 500);
-  }
   searchHandler(e) {
     this.setState({ searchText: e.target.value });
   }
@@ -61,11 +63,8 @@ class NavBar extends React.Component {
     this.props.goToProfile(user);
   }
 
-  goHome() {
-    this.props.goToHome('/');
-  }
-
   toggleModal() {
+    this.props.startError();
     const temp = this.state.modalState;
     this.setState({ modalState: !temp });
   }
@@ -87,12 +86,17 @@ class NavBar extends React.Component {
               <Box
                 style={{ fontSize: 28, fontWeight: 'bold', margin: '0 15px' }}
                 direction="row"
-                onClick={this.goHome}
+                onClick={this.props.goToHome}
               >
                 <Box justify="center">{this.props.user.username && <Notifications />}</Box>
                 <Box justify="center">Hackfolio</Box>
               </Box>
-              <Button icon={<MultipleIcon />} label="Bounty Board" plain onClick={this.goHome} />
+              <Button
+                icon={<MultipleIcon />}
+                label="Bounty Board"
+                plain
+                onClick={this.props.goToHome}
+              />
               {this.props.user.username && (
                 <Menu
                   label={
@@ -131,21 +135,7 @@ class NavBar extends React.Component {
             </Box>
           </Box>
         </Header>
-        {this.state.modalState ? <Modal func={this.toggleModal} /> : <div />}
-        {this.state.help && this.props.help === 'Search' ? (
-          <Tip target="SearchBar" onClose={() => this.props.displayHelp('Home')}>
-            Here you can search for other users
-          </Tip>
-        ) : (
-          <div />
-        )}
-        {this.state.help && this.props.help === 'Tabs' ? (
-          <Tip target="tabs" onClose={() => this.props.displayHelp('Search')}>
-            These will take you to the varies pages of Hackfolio
-          </Tip>
-        ) : (
-          <div />
-        )}
+        <Modal func={this.toggleModal} hide={this.state.modalState} />
       </div>
     );
   }
@@ -153,19 +143,17 @@ class NavBar extends React.Component {
 
 NavBar.defaultProps = {
   user: {},
-  help: 'off',
 };
 
 NavBar.propTypes = {
   user: PropTypes.shape({ jwt: PropTypes.string, username: PropTypes.string }),
-  help: PropTypes.string,
   search: PropTypes.func.isRequired,
   goToHome: PropTypes.func.isRequired,
   goToProfile: PropTypes.func.isRequired,
   goToFave: PropTypes.func.isRequired,
   goToConversations: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
-  displayHelp: PropTypes.func.isRequired,
+  startError: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -181,7 +169,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(UserAction.search(text));
       dispatch(push('/search'));
     },
-    goToHome: path => dispatch(push(path)),
+    goToHome: () => dispatch(push('/')),
     goToProfile: user => {
       dispatch(getProfile(user));
       dispatch(push(`/user/${user}`));
@@ -189,7 +177,7 @@ const mapDispatchToProps = dispatch => {
     goToFave: () => dispatch(push('/FavoriteBounties')),
     goToConversations: () => dispatch(push('/Conversations')),
     logout: () => dispatch(UserAction.logout()),
-    displayHelp: next => dispatch(UserAction.help(next)),
+    startError: () => dispatch(UserAction.startError()),
   };
 };
 

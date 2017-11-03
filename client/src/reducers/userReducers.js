@@ -23,17 +23,6 @@ const userProfileReducer = (state = { id: -1 }, action) => {
   }
 };
 
-const helpReducer = (state = '', action) => {
-  switch (action.type) {
-    case 'HELP_USER': {
-      return action.text;
-    }
-    default: {
-      return state;
-    }
-  }
-};
-
 const checkUserReducer = (state = 'start', action) => {
   switch (action.type) {
     case 'ERROR_SET_USER': {
@@ -70,7 +59,6 @@ const notificationsReducer = (state = [], action) => {
 const userReducers = {
   currentUser: currentUserReducer,
   userProfile: userProfileReducer,
-  help: helpReducer,
   checkUser: checkUserReducer,
   search: searchReducer,
   notifications: notificationsReducer
