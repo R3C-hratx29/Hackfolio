@@ -73,10 +73,12 @@ const BountyCard = props => {
         heading={
           <Heading strong tag="h2">
             {props.bounty.title}
-            <EditIcon
-              className="editBountyIcon"
-              onClick={() => props.editBounty(props.bounty)}
-            />
+            {props.currentUser === props.bounty.owner_id ?
+              <EditIcon
+                className="editBountyIcon"
+                onClick={() => props.editBounty(props.bounty)}
+              /> : <div />
+              }
           </Heading>
         }
         description={
@@ -140,8 +142,10 @@ BountyCard.propTypes = {
     title: PropTypes.string,
     description: PropTypes.string,
     images: PropTypes.string,
-    stack: PropTypes.string
+    stack: PropTypes.string,
+    owner_id: PropTypes.number
   }).isRequired,
+  currentUser: PropTypes.number.isRequired,
   showSend: PropTypes.bool.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   favorites: PropTypes.arrayOf(PropTypes.number).isRequired,
@@ -152,6 +156,7 @@ BountyCard.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
+    currentUser: state.currentUser.user_id,
     favorites: state.favorites,
     isLoggedIn: state.currentUser.user_id > 0
   };
