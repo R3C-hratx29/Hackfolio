@@ -80,10 +80,14 @@ class ProfileBox extends React.Component {
           style={{ minWidth: 384 }}
           size="medium"
           responsive={false}
+          pad="small"
+          flex="grow"
+          align="end"
         >
+
           {
-            this.props.isProfileOwner &&
-            <Box>
+              this.props.isProfileOwner &&
+            <span>
               <Anchor
                 icon={<EditIcon id="edit" />}
                 onClick={this.hideModal}
@@ -94,9 +98,10 @@ class ProfileBox extends React.Component {
                 hidden={this.state.hideModal}
                 imageURLHidden={this.state.hideImageURL}
               />
-              <SocialIcons />
-            </Box>
+            </span>
           }
+          <SocialIcons />
+
         </Box>
       </Tile>
     );
