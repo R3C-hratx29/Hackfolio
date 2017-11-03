@@ -1,3 +1,4 @@
+/* eslint-disable no-console,no-useless-return */
 const db = require('./db');
 
 const Bounty = {};
@@ -58,14 +59,60 @@ Bounty.updateBounty = (data) => {
     });
 };
 
-Bounty.deleteBounty = (_id) => {
-  return db('bounties').where({
-    bounty_id: _id
-  })
-    .del()
+Bounty.deleteBounty = (id) => {
+  return db('conversations').where({ bounty_id: id })
+    .then(conversations => {
+      if (conversations.length > 0) {
+        conversations.forEach((convo) => {
+          db('messages').where({ conversation_id: convo.conversation_id })
+            .then(() => {
+              db('notifications').where({ conversation_id: convo.conversation_id })
+                .del()
+                .then(() => {
+                  console.log('deleted notifications');
+                  return;
+                });
+              return;
+            })
+            .then(() => {
+              db('messages').where({ conversation_id: convo.conversation_id })
+                .del()
+                .then(() => {
+                  console.log('deleted messages');
+                  return;
+                });
+              return;
+            })
+            .then(() => {
+              db('conversations').where({ bounty_id: id })
+                .del()
+                .then(() => {
+                  console.log('deleted conversations');
+                  return;
+                });
+              return;
+            })
+            .then(() => {
+              db('bounties').where({ bounty_id: id })
+                .del()
+                .then(() => {
+                  console.log('deleted bounty', id);
+                  return;
+                });
+              return;
+            });
+        });
+      } else {
+        db('bounties').where({ bounty_id: id })
+          .del()
+          .then(() => {
+            console.log('deleted bounty', id);
+            return;
+          });
+      }
+    })
     .catch(err => {
       console.error(err);
     });
 };
-
 module.exports = Bounty;
