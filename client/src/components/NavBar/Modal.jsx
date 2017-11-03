@@ -28,6 +28,7 @@ class Modal extends React.Component {
       password: '',
       email: '',
     };
+    this.close = this.close.bind(this);
     this.toggle = this.toggle.bind(this);
     this.addUsername = this.addUsername.bind(this);
     this.addPassword = this.addPassword.bind(this);
@@ -45,8 +46,18 @@ class Modal extends React.Component {
 
   componentWillReceiveProps(next) {
     if (next.valid === 'end') {
-      this.props.func();
+      this.close();
     }
+  }
+
+  close() {
+    this.props.func();
+    this.setState({
+      username: '',
+      password: '',
+      email: '',
+      page: true,
+    });
   }
 
   toggle() {
@@ -87,7 +98,7 @@ class Modal extends React.Component {
     usernameError = this.state.page && this.props.valid === 'user' ? 'Username not found' : '';
     usernameError = this.props.valid === 'user' && usernameError === '' ? 'User already exists' : usernameError;
     return (
-      <Layer className="LoginBox" closer onClose={this.props.func} hidden={this.props.hide}>
+      <Layer className="LoginBox" closer onClose={this.close} hidden={this.props.hide}>
         <Box size={{ height: 'large', width: 'medium' }} justify="center" align="center">
           <Box margin={{ bottom: 'medium' }} alignContent="end" direction="row">
             <Box margin={{ right: 'medium' }}>
