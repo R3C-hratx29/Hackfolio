@@ -93,7 +93,7 @@ const postConversation = (bounty) => {
   return ((dispatch) => {
     return axios.post('/api/converstion', {
       bountyId: bounty.bounty_id,
-      title: bounty.titlei,
+      title: bounty.title,
       ownerId: bounty.owner_id
     })
       .then((results) => {

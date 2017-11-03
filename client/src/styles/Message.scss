@@ -25,16 +25,13 @@
 
     }
 
-    .name {
-
-    }
-
     &.Sender {
       background-color: rgb(226, 226, 226);
       margin-left: 225px;
 
       .name {
         text-align: right;
+        color: black;
       }
 
     }
@@ -43,6 +40,10 @@
       background-color: $brand;
       color: white;
       margin-right: 255px;
+
+      .name {
+        color: white;
+      }
     }
   }
 
