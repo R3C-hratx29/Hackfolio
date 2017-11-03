@@ -75,12 +75,13 @@ class BountyContainer extends React.Component {
       <div>
         <Tiles flush={false} justify="between">
           {bounties}
-        </Tiles>
+
         <AddBountyTile
           edit={{}}
           imageURLHidden={this.state.hideImageURL}
           hideBountyLayerFunction={this.toggleBountyToEdit}
         />
+        </Tiles>
         <AddBountyCardLayer
           edit={this.state.edit}
           hideBountyLayer={this.toggleBountyToEdit}
