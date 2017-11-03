@@ -20,7 +20,6 @@ import {
 
 // Grommet Icons
 import {
-  CheckmarkIcon,
   ImageIcon,
 } from 'grommet/components/icons/base';
 
@@ -132,7 +131,7 @@ class AddBountyCardLayer extends React.Component {
       $(this.formScrollRef).animate({ scrollTop: this.formScrollRef.scrollHeight });
     }, 10);
   }
-        
+
   updateBounty(state) {
     this.setState({
       bounty: Object.assign({}, this.state.bounty, state)

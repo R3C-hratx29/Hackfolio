@@ -11,36 +11,28 @@ import {
 
 import newProjectImage from './../../images/newProject.png';
 
-class AddBountyTile extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <Tile
-        className="AddProjectTile"
-        size="medium"
-        onClick={this.props.hideBountyLayer}
-      >
-        <Image
-          size="medium"
-          style={{ maxWidth: 384, maxHeight: 280 }}
-          src={newProjectImage}
+const AddBountyTile = (props) => (
+  <Tile
+    className="AddProjectTile"
+    size="medium"
+    onClick={props.hideBountyLayer}
+  >
+    <Image
+      size="medium"
+      style={{ maxWidth: 384, maxHeight: 280 }}
+      src={newProjectImage}
+    />
+    <Card
+      contentPad="medium"
+      heading={
+        <Button
+          primary
+          label="Add New Bounty"
+          onClick={props.hideBountyLayerFunction}
         />
-        <Card
-          contentPad="medium"
-          heading={
-            <Button
-              primary
-              label="Add New Bounty"
-              onClick={this.props.hideBountyLayerFunction}
-            />
-          }
-        />
-      </Tile>
-    );
-  }
-}
+      }
+    />
+  </Tile>
+);
 
 export default AddBountyTile;
