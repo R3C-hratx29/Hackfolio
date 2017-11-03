@@ -14,11 +14,9 @@ import newProjectImage from './../../images/newProject.png';
 class AddBountyTile extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
   }
 
-    render() {
+  render() {
     return (
       <Tile
         className="AddProjectTile"
@@ -36,7 +34,7 @@ class AddBountyTile extends React.Component {
             <Button
               primary
               label="Add New Bounty"
-              onClick={this.props.hideBountyLayer}
+              onClick={this.props.hideBountyLayerFunction}
             />
           }
         />

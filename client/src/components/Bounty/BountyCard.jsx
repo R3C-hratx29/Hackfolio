@@ -36,8 +36,8 @@ function httpify(value) {
 }
 
 const BountyCard = props => {
-  const images = props.bounty.images ? props.bounty.images.split(',') : '';
-  const stack = props.bounty.stack.length ? props.bounty.stack.split(',') : [];
+  const images = props.bounty.images ? props.bounty.images.split(',') : [];
+  const stack = props.bounty.stack.split(',');
   const price = Number(props.bounty.price);
   const color = props.favorites.includes(props.bounty.bounty_id) ? 'warning' : 'unknown';
   const isFave = props.favorites.includes(props.bounty.bounty_id);
@@ -72,10 +72,12 @@ const BountyCard = props => {
         heading={
           <Heading strong tag="h2">
             {props.bounty.title}
-            <EditIcon
-              className="editBountyIcon"
-              onClick={() => props.editBounty(props.bounty)}
-            />
+            {props.currentUser === props.bounty.owner_id ?
+              <EditIcon
+                className="editBountyIcon"
+                onClick={() => props.editBounty(props.bounty)}
+              /> : <div />
+              }
           </Heading>
         }
         description={
@@ -86,7 +88,7 @@ const BountyCard = props => {
             <div className="stack">
               {stack.map((el, index) => {
                 const i = index;
-                return el && el.trim() !== '' && <div key={parseInt(el, 10) * i}>{el}</div>;
+                return el && el.trim() !== '' && <div key={i}>{el}</div>;
               })}
             </div>
             <div>
@@ -139,8 +141,10 @@ BountyCard.propTypes = {
     title: PropTypes.string,
     description: PropTypes.string,
     images: PropTypes.string,
-    stack: PropTypes.string
+    stack: PropTypes.string,
+    owner_id: PropTypes.number
   }).isRequired,
+  currentUser: PropTypes.number.isRequired,
   showSend: PropTypes.bool.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   favorites: PropTypes.arrayOf(PropTypes.number).isRequired,
@@ -151,6 +155,7 @@ BountyCard.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
+    currentUser: state.currentUser.user_id,
     favorites: state.favorites,
     isLoggedIn: state.currentUser.user_id > 0
   };

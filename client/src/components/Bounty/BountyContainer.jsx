@@ -79,11 +79,11 @@ class BountyContainer extends React.Component {
         <AddBountyTile
           edit={{}}
           imageURLHidden={this.state.hideImageURL}
-          hideBountyLayer={this.toggleBountyToEdit}
+          hideBountyLayerFunction={this.toggleBountyToEdit}
         />
-      <AddBountyCardLayer
+        <AddBountyCardLayer
           edit={this.state.edit}
-          hideBountyLayer={this.hideBountyLayerFunction}
+          hideBountyLayer={this.toggleBountyToEdit}
           hidden={this.state.hideBountyLayer}
           imageURLHidden={this.props.imageURLHidden}
         />

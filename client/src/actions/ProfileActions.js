@@ -32,7 +32,6 @@ export const changeProfile = (data, profile) => {
     const key = el[0];
     newProfile[key] = data[key] ? data[key] : profile[key];
   });
-  console.log(newProfile);
   return ((dispatch) => {
     return axios.post('/api/profile', newProfile)
       .then(() => {
