@@ -58,7 +58,6 @@ class AddBountyCardLayer extends React.Component {
     this.onImageUpload = this.onImageUpload.bind(this);
     this.addImageURL = this.addImageURL.bind(this);
     this.onDelete = this.onDelete.bind(this);
-    this.toggleImageURL = this.toggleImageURL.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -111,10 +110,6 @@ class AddBountyCardLayer extends React.Component {
     this.updateBounty({
       images: array.join(','),
     });
-  }
-
-  toggleImageURL() {
-    this.props.hideImageURL();
   }
 
   saveChanges() {
@@ -286,12 +281,10 @@ AddBountyCardLayer.defaultProps = {
 
 AddBountyCardLayer.propTypes = {
   edit: propTypes.shape({}),
-  hideImageURL: propTypes.func.isRequired,
-  imageURLHidden: propTypes.func.isRequired,
   postBounty: propTypes.func.isRequired,
   deleteBounty: propTypes.func.isRequired,
   hideBountyLayer: propTypes.func.isRequired,
-  hidden: propTypes.func.isRequired,
+  hidden: propTypes.bool.isRequired,
 
 };
 const mapDispatchToProps = (dispatch) => {
