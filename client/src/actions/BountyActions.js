@@ -77,6 +77,18 @@ export const postBounty = (bounty) => {
   });
 };
 
+export const deleteBounty = (id) => {
+  return ((dispatch) => {
+    return axios.delete(`/api/bounty/${id}`)
+      .then(() => {
+        dispatch(getBounties());
+      })
+      .catch(err => {
+        console.log(err); // eslint-disable-line no-console
+      });
+  });
+};
+
 const postConversation = (bounty) => {
   return ((dispatch) => {
     return axios.post('/api/converstion', {

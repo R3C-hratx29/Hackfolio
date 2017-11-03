@@ -161,6 +161,15 @@ router.post('/bounty', Auth.isLoggedIn, (req, res) => {
   }
 });
 
+router.delete('/bounty/:id', Auth.isLoggedIn, (req, res) => {
+  const bountyId = req.params.id;
+  Bounty.deleteBounty(bountyId)
+    .then(() => {
+      res.status(201);
+      res.send('Bounty successfully deleted.');
+    });
+});
+
 router.get('/bounty', (req, res) => {
   Bounty.findAll()
     .then(bounties => {
