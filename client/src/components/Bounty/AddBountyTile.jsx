@@ -10,29 +10,20 @@ import {
 } from 'grommet';
 
 import newProjectImage from './../../images/newProject.png';
-import AddBountyCardLayer from './AddBountyCardLayer';
 
 class AddBountyTile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hideBountyLayer: true
     };
-    this.hideBountyLayerFunction = this.hideBountyLayerFunction.bind(this);
   }
 
-  hideBountyLayerFunction() {
-    this.setState({
-      hideBountyLayer: !this.state.hideBountyLayer
-    });
-  }
-
-  render() {
+    render() {
     return (
       <Tile
         className="AddProjectTile"
         size="medium"
-        onClick={this.hideBountyLayerFunction}
+        onClick={this.props.hideBountyLayer}
       >
         <Image
           size="medium"
@@ -45,15 +36,9 @@ class AddBountyTile extends React.Component {
             <Button
               primary
               label="Add New Bounty"
-              onClick={this.hideBountyLayerFunction}
+              onClick={this.props.hideBountyLayer}
             />
           }
-        />
-        <AddBountyCardLayer
-          edit={this.props.edit}
-          hideBountyLayer={this.hideBountyLayerFunction}
-          hidden={this.state.hideBountyLayer}
-          imageURLHidden={this.props.imageURLHidden}
         />
       </Tile>
     );

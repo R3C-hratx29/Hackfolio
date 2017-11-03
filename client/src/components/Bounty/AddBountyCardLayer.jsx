@@ -33,7 +33,7 @@ import { postBounty } from './../../actions/BountyActions';
 import firebase from './../../data/firebase';
 
 // Component Styles
-import './../../styles/ProjectCard.scss';
+import './../../styles/AddProject.scss';
 
 class AddBountyCardLayer extends React.Component {
   constructor(props) {
@@ -132,6 +132,11 @@ class AddBountyCardLayer extends React.Component {
     this.props.hideBountyLayer();
   }
 
+  /* onDelete() {
+   *   this.props.deleteBounty(this.state.bounty.id);
+   *   this.props.toggleBountyLayer();
+   * }
+   */
   updateBounty(state) {
     this.setState({
       bounty: Object.assign({}, this.state.bounty, state)
@@ -141,38 +146,11 @@ class AddBountyCardLayer extends React.Component {
   render() {
     return (
       <Layer
-        className="AddBounty"
+        className="AddProject"
         closer
         onClose={this.props.hideBountyLayer}
         hidden={this.props.hidden}
       >
-        <Layer
-          className="ImageURL"
-          flush
-          hidden={this.props.imageURLHidden}
-          closer
-          onClose={this.props.hideImageURL}
-        >
-          <Box
-            size={{ width: 'large' }}
-            pad={{ horizontal: 'medium', between: 'small', vertical: 'medium' }}
-          >
-            <h4>Enter your image URL below.</h4>
-            <FormField>
-              <TextInput
-                onDOMChange={this.updateProfilePic}
-                value={this.state.profile_pic}
-                placeHolder="Image URL"
-              />
-            </FormField>
-            <Anchor
-              icon={<CheckmarkIcon />}
-              label="Submit"
-              align="center"
-              onClick={this.saveProfilePic}
-            />
-          </Box>
-        </Layer>
         <Box direction="row" pad={{ vertical: 'large' }}>
           <Form>
             <Header justify="between">

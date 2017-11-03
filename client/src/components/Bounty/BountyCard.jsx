@@ -35,7 +35,6 @@ function httpify(value) {
   return string.trim();
 }
 
-
 const BountyCard = props => {
   const images = props.bounty.images ? props.bounty.images.split(',') : '';
   const stack = props.bounty.stack.length ? props.bounty.stack.split(',') : [];
