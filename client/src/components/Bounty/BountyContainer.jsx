@@ -73,7 +73,6 @@ class BountyContainer extends React.Component {
     });
     return (
       <div>
-        BountyContainer
         <Tiles flush={false} justify="between">
           {bounties}
         </Tiles>

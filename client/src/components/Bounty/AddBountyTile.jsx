@@ -21,7 +21,7 @@ class AddBountyTile extends React.Component {
       <Tile
         className="AddProjectTile"
         size="medium"
-        onClick={this.hideBountyLayerFunction}
+        onClick={this.props.hideBountyLayer}
       >
         <Image
           size="medium"
@@ -38,7 +38,6 @@ class AddBountyTile extends React.Component {
             />
           }
         />
-
       </Tile>
     );
   }

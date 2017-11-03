@@ -137,7 +137,7 @@ class AddBountyCardLayer extends React.Component {
       $(this.formScrollRef).animate({ scrollTop: this.formScrollRef.scrollHeight });
     }, 10);
   }
-
+        
   updateBounty(state) {
     this.setState({
       bounty: Object.assign({}, this.state.bounty, state)
@@ -147,7 +147,7 @@ class AddBountyCardLayer extends React.Component {
   render() {
     return (
       <Layer
-        className="AddBounty"
+        className="AddProject"
         closer
         onClose={this.props.hideBountyLayer}
         hidden={this.props.hidden}
