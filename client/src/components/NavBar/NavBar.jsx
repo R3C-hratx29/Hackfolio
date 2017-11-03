@@ -95,7 +95,14 @@ class NavBar extends React.Component {
               </Box>
               <Button icon={<MultipleIcon />} label="Bounty Board" plain onClick={this.goHome} />
               {this.props.user.username && (
-                <Menu label="Profile" icon={<UserIcon />}>
+                <Menu
+                  label={
+                    <div style={{ marginBottom: -3 }}>
+                      <UserIcon style={{ marginBottom: -6, marginRight: 6 }} /> Profile
+                    </div>
+                  }
+                  icon=" "
+                >
                   <Anchor onClick={this.goProfile} label="Your Profile" />
                   <Anchor onClick={this.props.goToConversations} label="Your Conversations" />
                   <Anchor onClick={this.props.goToFave} label="Your Favorite Bounties" />
