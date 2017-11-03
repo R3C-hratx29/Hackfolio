@@ -20,7 +20,6 @@ class HomePage extends React.Component {
   render() {
     return (
       <div>
-        On home
         { this.props.help === 'Home' && this.state.help ?
           <Tip
             target="Home"

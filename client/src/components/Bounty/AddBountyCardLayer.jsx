@@ -33,7 +33,7 @@ import { postBounty } from './../../actions/BountyActions';
 import firebase from './../../data/firebase';
 
 // Component Styles
-import './../../styles/ProjectCard.scss';
+import './../../styles/AddProject.scss';
 
 class AddBountyCardLayer extends React.Component {
   constructor(props) {
@@ -132,6 +132,11 @@ class AddBountyCardLayer extends React.Component {
     this.props.hideBountyLayer();
   }
 
+  /* onDelete() {
+   *   this.props.deleteBounty(this.state.bounty.id);
+   *   this.props.toggleBountyLayer();
+   * }
+   */
   updateBounty(state) {
     this.setState({
       bounty: Object.assign({}, this.state.bounty, state)
@@ -141,7 +146,7 @@ class AddBountyCardLayer extends React.Component {
   render() {
     return (
       <Layer
-        className="AddBounty"
+        className="AddProject"
         closer
         onClose={this.props.hideBountyLayer}
         hidden={this.props.hidden}
