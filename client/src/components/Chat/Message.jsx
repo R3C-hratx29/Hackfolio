@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Timestamp } from 'grommet';
+import { Timestamp, Anchor } from 'grommet';
 import '../../styles/Message.scss';
 
 const Message = (props) => (
@@ -14,7 +14,12 @@ const Message = (props) => (
         { props.message.message }
       </div>
       <div className="name">
-        — { props.message.sender }
+        <Anchor
+          className={`name ${props.message.sender === props.currentUser ? 'Sender' : 'Recievers'}`}
+          path={`/user/${props.message.sender}`}
+        >
+          — { props.message.sender }
+        </Anchor>
       </div>
     </div>
   </div>
