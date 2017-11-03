@@ -146,33 +146,6 @@ class AddBountyCardLayer extends React.Component {
         onClose={this.props.hideBountyLayer}
         hidden={this.props.hidden}
       >
-        <Layer
-          className="ImageURL"
-          flush
-          hidden={this.props.imageURLHidden}
-          closer
-          onClose={this.props.hideImageURL}
-        >
-          <Box
-            size={{ width: 'large' }}
-            pad={{ horizontal: 'medium', between: 'small', vertical: 'medium' }}
-          >
-            <h4>Enter your image URL below.</h4>
-            <FormField>
-              <TextInput
-                onDOMChange={this.updateProfilePic}
-                value={this.state.profile_pic}
-                placeHolder="Image URL"
-              />
-            </FormField>
-            <Anchor
-              icon={<CheckmarkIcon />}
-              label="Submit"
-              align="center"
-              onClick={this.saveProfilePic}
-            />
-          </Box>
-        </Layer>
         <Box direction="row" pad={{ vertical: 'large' }}>
           <Form>
             <Header justify="between">

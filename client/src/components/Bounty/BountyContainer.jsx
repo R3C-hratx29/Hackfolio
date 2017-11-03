@@ -27,6 +27,7 @@ class BountyContainer extends React.Component {
     };
     this.editBounty = this.editBounty.bind(this);
     this.toggleBountyToEdit = this.toggleBountyToEdit.bind(this);
+    this.hideBountyLayerFunction = this.hideBountyLayerFunction.bind(this);
   }
 
   componentDidMount() {
@@ -34,6 +35,12 @@ class BountyContainer extends React.Component {
     if (window.localStorage.token) {
       this.props.getFavorites();
     }
+  }
+
+  hideBountyLayerFunction() {
+    this.setState({
+      hideBountyLayer: !this.state.hideBountyLayer
+    });
   }
 
   toggleBountyToEdit() {
@@ -71,8 +78,15 @@ class BountyContainer extends React.Component {
           {bounties}
         </Tiles>
         <AddBountyTile
-          edit={this.state.edit}
+          edit={{}}
           imageURLHidden={this.state.hideImageURL}
+          hideBountyLayerFunction={this.toggleBountyToEdit}
+        />
+        <AddBountyCardLayer
+          edit={this.state.edit}
+          hideBountyLayer={this.toggleBountyToEdit}
+          hidden={this.state.hideBountyLayer}
+          imageURLHidden={this.props.imageURLHidden}
         />
       </div>
     );
