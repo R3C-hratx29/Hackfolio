@@ -5,13 +5,21 @@ A platform for creating a portfolio, aimed at software engineers.
 ## Getting Started
 
 1: Fork and clone the repo to your local machine. 
+
 2: Open up and run these commands in seperate terminals.. 
+
    2.1: ``` npm run setup ```
+   
    2.2: ``` npm run start ```
+   
    2.3: To connect to the database: ``` heroku pg:psql | (Windows) winpty heroku pg:psql ```
+   
 3: To push your code add, commit, push to your forked version.
+
 4: Make a pull request from your fork to the master branch of the app. 
+
 5: To deploy to the live server, contact ctbwilhite@gmail.com for the Heroku connection prerequesites.
+
 6: Once your CLI is connected to the Heroku services run ``` git push heroku master ``` to deploy to the live server.
 
 ## Built With
