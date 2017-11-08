@@ -35,7 +35,7 @@ A platform for creating a portfolio, aimed at software engineers.
 * **Rihannon LeParmentier** - *Initial work* - [rhiroy](https://github.com/rhiroy)
 * **Ross Waycaster** - *Initial work* - [rosswaycaster](https://github.com/rosswaycaster)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/r3c-hratx29/Hackfolio/contributors) who participated in this project.
 
 ## License
 
