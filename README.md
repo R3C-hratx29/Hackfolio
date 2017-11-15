@@ -4,7 +4,7 @@ A platform for creating a portfolio, aimed at software engineers.
 
 ## Getting Started
 
-1: Fork and clone the repo to your local machine. 
+1: Fork and clone the repo to your local machine.
 
 2: Open up and run these commands in seperate terminals.. 
 
