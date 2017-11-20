@@ -28,8 +28,10 @@ passport.use(new GitHubStrategy(
   }
 ));
 
+// Pinging the Github API for user data.
 router.get('/auth/github', passport.authenticate('github', { scope: ['user:email'] }));
 router.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/' }), (req, res) => {
+  // Parsing the data into a JSON object that we want to work with.
   const data = {
     username: res.req.user._json.login,
     email: res.req.user._json.email,
@@ -38,7 +40,8 @@ router.get('/auth/github/callback', passport.authenticate('github', { failureRed
     profile_pic: res.req.user._json.avatar_url,
     github: res.req.user.profileUrl
   };
-
+  
+  // If the username exists in our database then do not save any information to the DB. Log in with github username.
   User.findByUsername(data.username, data.email)
     .then(users => {
       if (!users.length) {
